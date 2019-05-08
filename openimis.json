@@ -1,0 +1,12 @@
+{
+    "modules": [
+        {
+            "name": "CoreModule",
+            "npm": "@openimis/fe-core@0.0.1"
+        },
+        {
+            "name": "ClaimModule",
+            "npm": "@openimis/fe-claim@0.0.1"
+        }        
+    ]
+}
