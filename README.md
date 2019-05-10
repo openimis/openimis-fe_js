@@ -36,8 +36,10 @@ In developement mode, the frontend connects to the backend via a proxy configura
 * from `openimis-fe_js`
   * uninstall the packaged module you want to work on (example @openimis/fe-claim): `yarn remove @openimis/fe-claim`  
   * link the local version of the module: `yarn link "@openimis/fe-claim"`
-    Note: this command should add an entry in your `package.json - dependencies section`. If not, add manually `"@openimis/fe-claim": "../openimis-fe-claim_js"` in the package.sjon and run `yarn install` to create the link.
 
+Note: 
+* It is not necessary to register a linked module in the package.json file
+* To unlink a previously linked package: `yarn unlink "@openimis/fe-claim"`
 [OPTIONAL]
 To enable live reload of the module, from `openimis-fe-claim_js`, activate the watch: `yarn watch` (if configured into the `package.json` of the module)
 [----------]
