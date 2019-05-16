@@ -3,6 +3,6 @@
         {
             "name": "CoreModule",
             "npm": "@openimis/fe-core@0.0.1"
-        }
+        }        
     ]
 }
