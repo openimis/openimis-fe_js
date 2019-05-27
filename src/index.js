@@ -1,23 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
-import history from "./history";
 import * as serviceWorker from "./serviceWorker";
 import store from "./store";
 import App from "./App";
 import { MuiThemeProvider } from "@material-ui/core";
-import themeColors from "./helpers/themeColors";
+import theme from "./helpers/theme";
 import modules from "./modules";
 
 import "./index.css";
 
 const app = (
-  <MuiThemeProvider theme={themeColors}>
+  <MuiThemeProvider theme={theme}>
     <Provider store={store}>
-      <Router history={history}>
-        <App modules={modules}/>
-      </Router>
+      <App modules={modules} />
     </Provider>
   </MuiThemeProvider>
 );

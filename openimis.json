@@ -2,7 +2,15 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@0.0.1"
+            "npm": "@openimis/fe-core@0.0.2"
+        },
+        {
+            "name": "InsureeModule",
+            "npm": "@openimis/fe-insuree@0.0.1"
+        },
+        {
+            "name": "ClaimModule",
+            "npm": "@openimis/fe-claim@0.0.2"
         }        
     ]
 }

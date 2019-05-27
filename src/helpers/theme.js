@@ -11,6 +11,7 @@ const theme = createMuiTheme({
       fontSize: 20,
       fontWeight: 300,
     },
+    color: "#006273",
   },
   palette: {
     primary: { main: "#006273" },
@@ -18,7 +19,7 @@ const theme = createMuiTheme({
     text: {
       primary: { main: "#006273" },
       secondary: { main: "#fff" },  
-    }
+    }    
   },
 });
 

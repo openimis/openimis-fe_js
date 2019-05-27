@@ -9,7 +9,7 @@ fs.readFile('./openimis.json', 'utf8', function read(err, data) {
 
     config['modules'].forEach((module) => {        
         let lib = module.npm.substring(0, module.npm.lastIndexOf('@'));
-        srcModules.write(`import ${module.name} from '${lib}';\n`);
+        srcModules.write(`import { ${module.name} } from '${lib}';\n`);
         modulesInstalls.write(`yarn remove ${lib}\n`);
         modulesInstalls.write(`yarn add ${module.npm}\n`);
     })

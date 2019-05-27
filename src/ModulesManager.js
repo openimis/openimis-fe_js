@@ -9,15 +9,15 @@ class ModulesManager {
     if (this.contributionsCache[key]) {
       return this.contributionsCache[key];
     }
-    let contribs = this.modules.reduce((contributions, module) => {
-      const contribution = (module.contributions || {})[key];
-      if (contribution) {
-        contributions.push(contribution);
+    let res = this.modules.reduce((contributions, module) => {
+      const contribs = (module || {})[key];
+      if (contribs) {
+        contributions.push(...contribs);
       }
       return contributions;
     }, []);
-    this.contributionsCache[key] = contribs;
-    return contribs;
+    this.contributionsCache[key] = res;
+    return res;
   }
 }
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router";
 import './App.css';
 import { CssBaseline } from '@material-ui/core';
 import ModulesManager from './ModulesManager';
@@ -34,5 +33,5 @@ App.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withRouter(withStyles(styles, { withTheme: true })(App));
+export default withStyles(styles, { withTheme: true })(App);
 
