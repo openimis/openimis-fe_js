@@ -13,7 +13,7 @@ In case of troubles, please consult/contact our service desk via our [ticketing 
 ## Developers setup
 
 ### To start working in openIMIS as a (module) developer:
-<table align="center"><tr><td>When programming for openIMIS frontend, the shared (with openimis-fe_js) dependencies (react,...) must be declared as *peerDependencies* in your package.json file. You are also highly encouraged to used the features provided in the openimis-fe-core module. This includes (but is not limited to) date handling, user info,...</td></tr></table>
+<table align="center"><tr><td>When programming for openIMIS frontend, the shared (with openimis-fe_js) dependencies (react,...) must be declared as *peerDependencies* in your package.json file. You are also highly encouraged to used the features provided in the openimis-fe-core module. This includes (but is not limited to) main menu entries, date handling, user info,...</td></tr></table>
 
 * clone this repo (creates the `openimis-fe_js` directory)
 * install node (version 10)
@@ -41,7 +41,7 @@ Note:
 * It is not necessary to register a linked module in the package.json file
 * To unlink a previously linked package: `yarn unlink "@openimis/fe-claim"`
 [OPTIONAL]
-To enable live reload of the module, from `openimis-fe-claim_js`, activate the watch: `yarn watch` (if configured into the `package.json` of the module)
+To enable live reload of the module, from `openimis-fe-claim_js`, activate the watch: `yarn start` (if configured into the `package.json` of the module)
 [----------]
 ### To create a new openIMIS module (e.g. `@openimis/fe-mymodule`)
 * create a (git-enabled) directory next to the other modules: `/openimis-fe-mymodule_js`.
@@ -51,7 +51,7 @@ To enable live reload of the module, from `openimis-fe-claim_js`, activate the w
 * from /openimis-fe_js:
   * install the linkable version of your package: `yarn link @openimis/fe-mymodule`
   * add your module (name and entry entiry) in `openimis.json` and regenerate the modules import script: `node module-requirements.js`
-Note: to ease development lifecycle, please consider using the 'watch' mechanism (see @openimis/fe-core for an example)
+Note: to ease development lifecycle, please consider using the 'rollup' mechanism (see @openimis/fe-core for an example)
 
 ### To create a distinct implementation of an existing openIMIS module (e.g. `@openimis/fe-location-dhis2`)
 Unlike backend modules, there is 'shared logical name' between distinct implementations of a same 'module'.

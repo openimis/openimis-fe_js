@@ -1,27 +1,24 @@
-import modules from "./modules";
-import flatten from "lodash/flatten";
-import compact from "lodash/compact";
+class ModulesManager {
 
-export default class ModulesManager {
-  static modules = modules;
-
-  static contributionsCache = {};
-
-  static getMenuItems() {
-    return compact(this.modules.map(module => module.menu));
+  constructor(modules) {
+    this.modules = modules;
+    this.contributionsCache = {};
   }
 
-  static getRoutes() {
-    return compact(flatten(this.modules.map(module => module.routes)));
-  }
-
-  static getContributions(key) {
-    if (!this.contributionCaches.hasOwnProperty(key)) {
-      this.contributionsCache[key] = this.modules.reduce((contributions, module) => {
-        const contribution = (module.contributions || {})[key];
-        return [...contributions, contribution];
-      }, []);      
+  getContributions(key) {
+    if (this.contributionsCache[key]) {
+      return this.contributionsCache[key];
     }
-    return this.contributionCaches[key];
+    let res = this.modules.reduce((contributions, module) => {
+      const contribs = (module || {})[key];
+      if (contribs) {
+        contributions.push(...contribs);
+      }
+      return contributions;
+    }, []);
+    this.contributionsCache[key] = res;
+    return res;
   }
 }
+
+export default ModulesManager;
