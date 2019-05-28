@@ -14,7 +14,7 @@
         },
         {
             "name": "AdminModule",
-            "npm": "@openimis/fe-admin@0.0.3"
+            "npm": "@openimis/fe-admin@0.0.4"
         },
         {
             "name": "ToolsModule",
