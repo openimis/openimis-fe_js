@@ -2,7 +2,7 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@0.0.2"
+            "npm": "@openimis/fe-core@0.0.5"
         },
         {
             "name": "InsureeModule",
@@ -10,7 +10,19 @@
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@0.0.2"
-        }        
+            "npm": "@openimis/fe-claim@0.0.3"
+        },
+        {
+            "name": "AdminModule",
+            "npm": "@openimis/fe-admin@0.0.3"
+        },
+        {
+            "name": "ToolsModule",
+            "npm": "@openimis/fe-tools@0.0.2"
+        },
+        {
+            "name": "ProfileModule",
+            "npm": "@openimis/fe-profile@0.0.2"
+        }         
     ]
 }
