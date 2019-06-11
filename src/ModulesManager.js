@@ -1,6 +1,7 @@
+import modules from "./modules";
 class ModulesManager {
 
-  constructor(modules) {
+  constructor() {
     this.modules = modules;
     this.contributionsCache = {};
   }
