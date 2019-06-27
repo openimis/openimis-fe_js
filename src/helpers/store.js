@@ -1,9 +1,7 @@
 import thunk from "redux-thunk";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
-import { saveState, loadState } from "./helpers/localStorage";
+import { loadState } from "./localStorage";
 import { apiMiddleware } from "redux-api-middleware";
-
-import rootReducer from "./reducers/index";
 
 const persistedState = loadState();
 
@@ -18,16 +16,10 @@ const composeEnhancers =
       })
     : compose;
 
-const store = createStore(
-  combineReducers({ ...rootReducer }),
+const store = reducers => createStore(
+  combineReducers({ ...reducers }),
   persistedState,
   composeEnhancers(applyMiddleware(...middlewares)),
 );
-
-store.subscribe(() => {
-  saveState({
-    auth: store.getState().auth,
-  });
-});
 
 export default store;

@@ -1,27 +1,44 @@
+<<<<<<< HEAD
+import modules, { versions } from "./modules";
+import pkg from "../package.json";
+
+class ModulesManager {
+
+=======
 import modules from "./modules";
-import flatten from "lodash/flatten";
-import compact from "lodash/compact";
+class ModulesManager {
 
-export default class ModulesManager {
-  static modules = modules;
-
-  static contributionsCache = {};
-
-  static getMenuItems() {
-    return compact(this.modules.map(module => module.menu));
+>>>>>>> develop
+  constructor() {
+    this.modules = modules;
+    this.contributionsCache = {};
   }
 
-  static getRoutes() {
-    return compact(flatten(this.modules.map(module => module.routes)));
+<<<<<<< HEAD
+  getOpenIMISVersion() {
+    return pkg.version;
+  }
+  
+  getModulesVersions() {
+    return versions;
   }
 
-  static getContributions(key) {
-    if (!this.contributionCaches.hasOwnProperty(key)) {
-      this.contributionsCache[key] = this.modules.reduce((contributions, module) => {
-        const contribution = (module.contributions || {})[key];
-        return [...contributions, contribution];
-      }, []);      
+=======
+>>>>>>> develop
+  getContributions(key) {
+    if (this.contributionsCache[key]) {
+      return this.contributionsCache[key];
     }
-    return this.contributionCaches[key];
+    let res = this.modules.reduce((contributions, module) => {
+      const contribs = (module || {})[key];
+      if (contribs) {
+        contributions.push(...contribs);
+      }
+      return contributions;
+    }, []);
+    this.contributionsCache[key] = res;
+    return res;
   }
 }
+
+export default ModulesManager;

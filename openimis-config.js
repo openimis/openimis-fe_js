@@ -1,0 +1,46 @@
+const fs = require('fs');
+
+function processLocales(config) {
+    var locales = fs.createWriteStream('./src/locales.js');
+    let localeByLang = config['locales'].reduce(
+        (lcs, lc) => {
+            lc.languages.forEach((lg) => lcs[lg] = lc.intl);
+            return lcs
+        },
+        {}
+    );
+    locales.write(`export const locales = ${JSON.stringify(config['locales'].map((lc) => lc.intl))}\n`);
+    locales.write(`\nexport default ${JSON.stringify(localeByLang)}`);
+}
+
+function processModules(config) {
+    var srcModules = fs.createWriteStream('./src/modules.js');
+    var modulesInstalls = fs.createWriteStream('./modules-installs.txt');
+    var modulesRemoves = fs.createWriteStream('./modules-removes.txt');
+    var modulesLinks = fs.createWriteStream('./modules-links.txt');
+    var modulesUnlinks = fs.createWriteStream('./modules-unlinks.txt');
+
+    config['modules'].forEach((module) => {
+        let lib = module.npm.substring(0, module.npm.lastIndexOf('@'));
+        srcModules.write(`import { ${module.name} } from '${lib}';\n`);
+        modulesInstalls.write(`yarn remove ${lib}\n`);
+        modulesInstalls.write(`yarn add ${module.npm}\n`);
+        modulesRemoves.write(`yarn remove ${lib}\n`);
+        modulesLinks.write(`yarn link ${lib}\n`);
+        modulesUnlinks.write(`yarn unlink ${lib}\n`);
+    })
+    srcModules.write("\nexport const versions = [\n\t")
+    srcModules.write(config['modules'].map((module) => `"${module.npm}"`).join(",\n\t"));
+    srcModules.write("\n];\nexport default [\n\t")
+    srcModules.write(config['modules'].map((module) => module.name).join(",\n\t"));
+    srcModules.write("\n];");
+    srcModules.end();
+    modulesInstalls.end();
+}
+
+fs.readFile('./openimis.json', 'utf8', function read(err, data) {
+    if (err) throw err;
+    config = JSON.parse(data);
+    processLocales(config);
+    processModules(config);
+});

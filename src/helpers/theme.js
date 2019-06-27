@@ -1,6 +1,16 @@
 import { createMuiTheme } from "@material-ui/core";
 
 const theme = createMuiTheme({
+  menu: {
+    variant: 'AppBar',
+    drawer: {
+      width: 300,
+      fontSize: 16,
+    },    
+    appBar: {
+      fontSize: 16,
+    },    
+  },  
   typography: {
     useNextVariants: true,
     fontFamily: ["Rubik", "Roboto", '"Helvetica Neue"', "sans-serif"].join(","),
@@ -15,10 +25,12 @@ const theme = createMuiTheme({
   palette: {
     primary: { main: "#006273" },
     secondary: { main: "#fff" },
+    error: { main: "#801a00" },
     text: {
-      primary: { main: "#006273" },
-      secondary: { main: "#fff" },  
-    }
+      primary: "#006273",
+      secondary: "#fff",
+      error: "#801a00"
+    }    
   },
 });
 
