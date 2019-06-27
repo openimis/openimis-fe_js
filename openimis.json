@@ -1,28 +1,33 @@
 {
+    "locales": [{"intl": "en", "languages":["en"]}],
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@0.0.6"
+            "npm": "@openimis/fe-core@0.0.8"
         },
         {
+            "name": "HomeModule",
+            "npm": "@openimis/fe-home@0.0.2"
+        },        
+        {
             "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@0.0.2"
+            "npm": "@openimis/fe-insuree@0.0.3"
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@0.0.4"
+            "npm": "@openimis/fe-claim@0.0.5"
         },
         {
             "name": "AdminModule",
-            "npm": "@openimis/fe-admin@0.0.5"
+            "npm": "@openimis/fe-admin@0.0.6"
         },
         {
             "name": "ToolsModule",
-            "npm": "@openimis/fe-tools@0.0.3"
+            "npm": "@openimis/fe-tools@0.0.4"
         },
         {
             "name": "ProfileModule",
-            "npm": "@openimis/fe-profile@0.0.3"
+            "npm": "@openimis/fe-profile@0.0.4"
         }         
     ]
 }

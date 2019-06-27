@@ -1,9 +1,19 @@
-import modules from "./modules";
+import modules, { versions } from "./modules";
+import pkg from "../package.json";
+
 class ModulesManager {
 
   constructor() {
     this.modules = modules;
     this.contributionsCache = {};
+  }
+
+  getOpenIMISVersion() {
+    return pkg.version;
+  }
+  
+  getModulesVersions() {
+    return versions;
   }
 
   getContributions(key) {
