@@ -3,7 +3,7 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@0.0.8"
+            "npm": "@openimis/fe-core@0.0.9"
         },
         {
             "name": "HomeModule",
