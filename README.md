@@ -42,14 +42,8 @@ In developement mode, the frontend connects to the backend via a proxy configura
 Note: 
 * It is not necessary to register a linked module in the package.json file
 * To unlink a previously linked package: `yarn unlink "@openimis/fe-claim"`
-<<<<<<< HEAD
 * [OPTIONAL] To enable live reload of the module, from `openimis-fe-claim_js`, activate the watch: `yarn start` (if configured into the `package.json` of the module)
 
-=======
-[OPTIONAL]
-To enable live reload of the module, from `openimis-fe-claim_js`, activate the watch: `yarn start` (if configured into the `package.json` of the module)
-[----------]
->>>>>>> develop
 ### To create a new openIMIS module (e.g. `@openimis/fe-mymodule`)
 * create a (git-enabled) directory next to the other modules: `/openimis-fe-mymodule_js`.
   Note: the module name can be different from the directory/github repo. The npm repo has an @openimis scope to group all openIMIS modules
