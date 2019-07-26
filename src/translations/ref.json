@@ -1,3 +1,4 @@
 {
-    "appName": "openIMIS"
+    "appName": "openIMIS",
+    "close": "close"
 }
