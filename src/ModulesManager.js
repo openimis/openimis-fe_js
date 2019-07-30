@@ -6,14 +6,26 @@ class ModulesManager {
   constructor(cfg) {
     this.modules = modules(cfg);
     this.contributionsCache = {};
+    this.componentsCache = null;
   }
 
   getOpenIMISVersion() {
     return pkg.version;
   }
-  
+
   getModulesVersions() {
     return versions;
+  }
+
+  getComponent(key) {
+    if (!this.componentsCache) {
+      this.componentsCache = this.getContributions("components")
+        .reduce((comps, comp) => {
+          comps[comp.key] = comp.component;
+          return comps
+        }, {});
+    }
+    return this.componentsCache[key];
   }
 
   getContributions(key) {
@@ -29,6 +41,11 @@ class ModulesManager {
     }, []);
     this.contributionsCache[key] = res;
     return res;
+  }
+
+  getConfiguration(module, key, defaultValue = null) {
+    let moduleCfg = this.cfg[module] || {};
+    return moduleCfg[key] !== undefined ? moduleCfg[key] : defaultValue;
   }
 }
 
