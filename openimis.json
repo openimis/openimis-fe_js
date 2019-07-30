@@ -3,16 +3,20 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@0.0.9"
+            "npm": "@openimis/fe-core@0.0.10"
         },
         {
             "name": "HomeModule",
-            "npm": "@openimis/fe-home@0.0.2"
+            "npm": "@openimis/fe-home@0.0.3"
         },        
         {
             "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@0.0.3"
+            "npm": "@openimis/fe-insuree@0.0.4"
         },
+        {
+            "name": "MedicalModule",
+            "npm": "@openimis/fe-medical@0.0.1"
+        },        
         {
             "name": "PolicyModule",
             "npm": "@openimis/fe-policy@0.0.1"
