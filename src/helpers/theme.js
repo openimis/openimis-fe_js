@@ -26,6 +26,11 @@ const theme = createMuiTheme({
     },
   },
   table: {
+    title: {
+      padding: 10,
+      fontWeight: 500,
+      color: "grey",
+    },
     header: {
       color: "#006273",
       align: "center",
@@ -34,7 +39,7 @@ const theme = createMuiTheme({
       color: "#006273",
       align: "center",
     }
-  },  
+  },
   palette: {
     primary: { main: "#006273" },
     secondary: { main: "#fff" },

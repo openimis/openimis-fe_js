@@ -4,6 +4,7 @@ import pkg from "../package.json";
 class ModulesManager {
 
   constructor(cfg) {
+    this.cfg = cfg;
     this.modules = modules(cfg);
     this.contributionsCache = {};
     this.componentsCache = null;
