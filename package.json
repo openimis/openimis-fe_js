@@ -4,12 +4,12 @@
   "license": "AGPL-3.0-only",
   "proxy": "http://localhost:8000",
   "homepage": "http://localhost/front",
-  
   "dependencies": {
     "@babel/core": "^7.4.4",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@material-ui/core": "^4.1.2",
     "@material-ui/icons": "^4.2.1",
+    "@openimis/fe-home": "0.0.2",
     "classnames": "^2.2.6",
     "express": "^4.16.4",
     "history": "^4.9.0",

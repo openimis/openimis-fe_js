@@ -31,8 +31,8 @@ function processModules(config) {
     })
     srcModules.write("\nexport const versions = [\n\t")
     srcModules.write(config['modules'].map((module) => `"${module.npm}"`).join(",\n\t"));
-    srcModules.write("\n];\nexport default [\n\t")
-    srcModules.write(config['modules'].map((module) => module.name).join(",\n\t"));
+    srcModules.write("\n];\nexport const modules = (cfg) => [\n\t")
+    srcModules.write(config['modules'].map((module) => `${module.name}(cfg)`).join(",\n\t"));
     srcModules.write("\n];");
     srcModules.end();
     modulesInstalls.end();

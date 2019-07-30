@@ -1,10 +1,10 @@
-import modules, { versions } from "./modules";
+import { modules, versions } from "./modules";
 import pkg from "../package.json";
 
 class ModulesManager {
 
-  constructor() {
-    this.modules = modules;
+  constructor(cfg) {
+    this.modules = modules(cfg);
     this.contributionsCache = {};
   }
 

@@ -21,7 +21,20 @@ const theme = createMuiTheme({
       fontSize: 20,
       fontWeight: 300,
     },
+    label: {
+      color: "grey",
+    },
   },
+  table: {
+    header: {
+      color: "#006273",
+      align: "center",
+    },
+    row: {
+      color: "#006273",
+      align: "center",
+    }
+  },  
   palette: {
     primary: { main: "#006273" },
     secondary: { main: "#fff" },
