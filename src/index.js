@@ -26,7 +26,10 @@ const fatalError = (resp) => {
 }
 
 const bootApp = (cfg) => {
-    const cfgs = cfg.data.moduleConfigurations.reduce((cfgs, c) => { cfgs[c.module] = JSON.parse(c.config); return cfgs }, []);
+    const cfgs = cfg.data.coreModuleConfigurations.reduce((cfgs, c) => { 
+        cfgs[c.module] = { controls: c.controls,...JSON.parse(c.config)};
+        return cfgs 
+    }, []);
     const localesManager = new LocalesManager();
     const modulesManager = new ModulesManager(cfgs);
     const reducers = modulesManager
@@ -37,7 +40,7 @@ const bootApp = (cfg) => {
             <Provider store={store(reducers)}>
                 <ModulesManagerProvider modulesManager={modulesManager}>
                     <App
-                        localesManager={localesManager}                        
+                        localesManager={localesManager}
                         messages={messages_ref}
                         logo={logo}
                     />
@@ -48,9 +51,11 @@ const bootApp = (cfg) => {
     ReactDOM.render(app, document.getElementById("root"));
 }
 
+
+
 let payload = `
 {
-    moduleConfigurations { module, config}
+    coreModuleConfigurations { module, config, controls{fieldName, usage}}
 }
 `;
 fetch(`${baseApiUrl}/graphql`,

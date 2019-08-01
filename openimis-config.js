@@ -28,11 +28,14 @@ function processModules(config) {
         modulesRemoves.write(`yarn remove ${lib}\n`);
         modulesLinks.write(`yarn link ${lib}\n`);
         modulesUnlinks.write(`yarn unlink ${lib}\n`);
-    })
+    });
+    srcModules.write("\nfunction logicalName(npmName) {\n\t");
+    srcModules.write("return [...npmName.match(/([^/]*)\\/([^@]*).*/)][2];\n");
+    srcModules.write("}\n");
     srcModules.write("\nexport const versions = [\n\t")
     srcModules.write(config['modules'].map((module) => `"${module.npm}"`).join(",\n\t"));
     srcModules.write("\n];\nexport const modules = (cfg) => [\n\t")
-    srcModules.write(config['modules'].map((module) => `${module.name}(cfg)`).join(",\n\t"));
+    srcModules.write(config['modules'].map((module) => `${module.name}((cfg && cfg[logicalName('${module.npm}')]) || {})`).join(",\n\t"));
     srcModules.write("\n];");
     srcModules.end();
     modulesInstalls.end();

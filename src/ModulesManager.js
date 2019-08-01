@@ -7,7 +7,26 @@ class ModulesManager {
     this.cfg = cfg;
     this.modules = modules(cfg);
     this.contributionsCache = {};
-    this.componentsCache = null;
+    this.controlsCache = this.buildControlsCache();
+    this.componentsCache = this.buildComponentsCache();
+  }
+
+  buildControlsCache() {
+    let ctrls = {};
+    for (var k in this.cfg) {
+      if (!!this.cfg[k].controls) {
+        this.cfg[k].controls.forEach(c => ctrls[c['fieldName']] = c['usage']);
+      }
+    }
+    return ctrls;
+  }
+
+  buildComponentsCache() {
+    return this.getContributions("components")
+      .reduce((comps, comp) => {
+        comps[comp.key] = comp.component;
+        return comps
+      }, {});
   }
 
   getOpenIMISVersion() {
@@ -18,14 +37,11 @@ class ModulesManager {
     return versions;
   }
 
+  skipControl(module, key) {
+    return this.controlsCache['fe-'+module+"."+key] === "S";
+  }
+
   getComponent(key) {
-    if (!this.componentsCache) {
-      this.componentsCache = this.getContributions("components")
-        .reduce((comps, comp) => {
-          comps[comp.key] = comp.component;
-          return comps
-        }, {});
-    }
     return this.componentsCache[key];
   }
 
