@@ -25,6 +25,22 @@ const theme = createMuiTheme({
       color: "grey",
     },
   },
+  paper: {
+    header: {
+      padding: 10,
+    },
+    title: {
+      fontSize: 24,
+      color: "#006273",
+    },
+    action: {
+      padding: 10,
+    },
+    divider: {
+      padding: 0,
+      margin: 0,
+    },
+  },
   table: {
     title: {
       padding: 10,
@@ -38,6 +54,15 @@ const theme = createMuiTheme({
     row: {
       color: "#006273",
       align: "center",
+    }
+  },
+  dialog: {
+    title: {
+      fontWeight: 500,
+      color: "grey",
+    },
+    content: {
+      padding: 0,
     }
   },
   palette: {

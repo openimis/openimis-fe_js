@@ -1,4 +1,7 @@
 {
     "appName": "openIMIS",
-    "close": "close"
+    "close": "Close",
+    "apply": "Apply",
+    "searchCriteria.title": "Search Criteria",
+    "searchCriteria.dialog.title": "Adapt Search Criteria"
 }
