@@ -27,9 +27,10 @@ const theme = createMuiTheme({
   },
   paper: {
     header: {
-      padding: 10,
+      padding: 0,
     },
     title: {
+      padding: 10,
       fontSize: 24,
       color: "#006273",
     },

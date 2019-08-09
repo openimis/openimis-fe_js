@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { MuiThemeProvider, LinearProgress } from "@material-ui/core";
 import { Provider } from "react-redux";
+import MomentUtils from "@date-io/moment";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import * as serviceWorker from "./serviceWorker";
 import theme from "./helpers/theme";
 import store from "./helpers/store";
@@ -26,9 +28,9 @@ const fatalError = (resp) => {
 }
 
 const bootApp = (cfg) => {
-    const cfgs = cfg.data.coreModuleConfigurations.reduce((cfgs, c) => { 
-        cfgs[c.module] = { controls: c.controls,...JSON.parse(c.config)};
-        return cfgs 
+    const cfgs = cfg.data.coreModuleConfigurations.reduce((cfgs, c) => {
+        cfgs[c.module] = { controls: c.controls, ...JSON.parse(c.config) };
+        return cfgs
     }, []);
     const localesManager = new LocalesManager();
     const modulesManager = new ModulesManager(cfgs);
@@ -38,13 +40,15 @@ const bootApp = (cfg) => {
     const app = (
         <MuiThemeProvider theme={theme}>
             <Provider store={store(reducers)}>
-                <ModulesManagerProvider modulesManager={modulesManager}>
-                    <App
-                        localesManager={localesManager}
-                        messages={messages_ref}
-                        logo={logo}
-                    />
-                </ModulesManagerProvider>
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                    <ModulesManagerProvider modulesManager={modulesManager}>
+                        <App
+                            localesManager={localesManager}
+                            messages={messages_ref}
+                            logo={logo}
+                        />
+                    </ModulesManagerProvider>
+                </MuiPickersUtilsProvider>
             </Provider>
         </MuiThemeProvider>
     );
