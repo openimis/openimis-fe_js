@@ -1,8 +1,8 @@
 {
     "appName": "openIMIS",
     "close": "Close",
-    "apply": "Apply",
     "currency": "$",
-    "searchCriteria.title": "Search Criteria",
-    "searchCriteria.dialog.title": "Adapt Search Criteria"
+    "search.title": "Search Criteria",
+    "search.apply": "Apply",
+    "search.dialog.title": "Adapt Search Criteria"
 }

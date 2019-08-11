@@ -35,7 +35,7 @@ const bootApp = (cfg) => {
     const localesManager = new LocalesManager();
     const modulesManager = new ModulesManager(cfgs);
     const reducers = modulesManager
-        .getContributions('reducers')
+        .getContribs('reducers')
         .reduce((reds, red) => { reds[red.key] = red.reducer; return reds }, []);
     const app = (
         <MuiThemeProvider theme={theme}>

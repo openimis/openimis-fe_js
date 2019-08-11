@@ -8,7 +8,7 @@ class ModulesManager {
     this.modules = modules(cfg);
     this.contributionsCache = {};
     this.controlsCache = this.buildControlsCache();
-    this.componentsCache = this.buildComponentsCache();
+    this.refsCache = this.buildRefsCache();
   }
 
   buildControlsCache() {
@@ -21,11 +21,11 @@ class ModulesManager {
     return ctrls;
   }
 
-  buildComponentsCache() {
-    return this.getContributions("components")
-      .reduce((comps, comp) => {
-        comps[comp.key] = comp.component;
-        return comps
+  buildRefsCache() {
+    return this.getContribs("refs")
+      .reduce((refs, r) => {
+        refs[r.key] = r.ref;
+        return refs
       }, {});
   }
 
@@ -41,11 +41,11 @@ class ModulesManager {
     return this.controlsCache['fe-'+module+"."+key] === "S";
   }
 
-  getComponent(key) {
-    return this.componentsCache[key];
+  getRef(key) {
+    return this.refsCache[key];
   }
 
-  getContributions(key) {
+  getContribs(key) {
     if (this.contributionsCache[key]) {
       return this.contributionsCache[key];
     }
@@ -60,7 +60,7 @@ class ModulesManager {
     return res;
   }
 
-  getConfiguration(module, key, defaultValue = null) {
+  getConf(module, key, defaultValue = null) {
     let moduleCfg = this.cfg[module] || {};
     return moduleCfg[key] !== undefined ? moduleCfg[key] : defaultValue;
   }
