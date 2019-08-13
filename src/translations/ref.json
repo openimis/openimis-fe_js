@@ -2,6 +2,10 @@
     "appName": "openIMIS",
     "close": "Close",
     "currency": "$",
+    "rowsPerPage": "Rows Per Page",
+    "ofPages": "of",
+    "selectAll": "Select All",
+    "clearSelected": "Clear Selection",
     "search.title": "Search Criteria",
     "search.apply": "Apply",
     "search.dialog.title": "Adapt Search Criteria"

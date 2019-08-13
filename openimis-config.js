@@ -20,15 +20,16 @@ function processModules(config) {
     var modulesLinks = fs.createWriteStream('./modules-links.txt');
     var modulesUnlinks = fs.createWriteStream('./modules-unlinks.txt');
 
+    modulesInstalls.write('yarn add')
     config['modules'].forEach((module) => {
         let lib = module.npm.substring(0, module.npm.lastIndexOf('@'));
         srcModules.write(`import { ${module.name} } from '${lib}';\n`);
-        modulesInstalls.write(`yarn remove ${lib}\n`);
-        modulesInstalls.write(`yarn add ${module.npm}\n`);
+        modulesInstalls.write(`${module.npm}`);
         modulesRemoves.write(`yarn remove ${lib}\n`);
         modulesLinks.write(`yarn link ${lib}\n`);
         modulesUnlinks.write(`yarn unlink ${lib}\n`);
     });
+    modulesInstalls.write('\n')
     srcModules.write("\nfunction logicalName(npmName) {\n\t");
     srcModules.write("return [...npmName.match(/([^/]*)\\/([^@]*).*/)][2];\n");
     srcModules.write("}\n");

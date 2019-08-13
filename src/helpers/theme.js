@@ -55,7 +55,13 @@ const theme = createMuiTheme({
     row: {
       color: "#006273",
       align: "center",
-    }
+    },
+    footer: {
+      color: "#006273",
+    },
+    pager: {
+      color: "#006273",
+    },
   },
   dialog: {
     title: {
