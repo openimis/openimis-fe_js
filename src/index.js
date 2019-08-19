@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import MomentUtils from "@date-io/moment";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import * as serviceWorker from "./serviceWorker";
+import history from './helpers/history';
 import theme from "./helpers/theme";
 import store from "./helpers/store";
 import LocalesManager from "./LocalesManager";
@@ -14,6 +15,7 @@ import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
 import messages_ref from "./translations/ref.json";
 import "./index.css";
 import logo from "../public/openIMIS.png";
+import HistoryProvider from "./HistoryProvider";
 
 const fatalError = (resp) => {
     const app = (
@@ -41,13 +43,15 @@ const bootApp = (cfg) => {
         <MuiThemeProvider theme={theme}>
             <Provider store={store(reducers)}>
                 <MuiPickersUtilsProvider utils={MomentUtils}>
-                    <ModulesManagerProvider modulesManager={modulesManager}>
-                        <App
-                            localesManager={localesManager}
-                            messages={messages_ref}
-                            logo={logo}
-                        />
-                    </ModulesManagerProvider>
+                    <HistoryProvider history={history}>
+                        <ModulesManagerProvider modulesManager={modulesManager}>
+                            <App
+                                localesManager={localesManager}
+                                messages={messages_ref}
+                                logo={logo}
+                            />
+                        </ModulesManagerProvider>
+                    </HistoryProvider>
                 </MuiPickersUtilsProvider>
             </Provider>
         </MuiThemeProvider>

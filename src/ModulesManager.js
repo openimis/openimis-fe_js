@@ -12,7 +12,7 @@ class ModulesManager {
   }
 
   buildControlsCache() {
-    let ctrls = {};
+    const ctrls = {};
     for (var k in this.cfg) {
       if (!!this.cfg[k].controls) {
         this.cfg[k].controls.forEach(c => ctrls[c['fieldName']] = c['usage']);
@@ -45,11 +45,16 @@ class ModulesManager {
     return this.refsCache[key];
   }
 
+  getProjection(key) {
+    const proj = this.getRef(key);
+    return !!proj ? `{${proj.join(", ")}}` : "";
+  }
+
   getContribs(key) {
     if (this.contributionsCache[key]) {
       return this.contributionsCache[key];
     }
-    let res = this.modules.reduce((contributions, module) => {
+    const res = this.modules.reduce((contributions, module) => {
       const contribs = (module || {})[key];
       if (contribs) {
         contributions.push(...contribs);
@@ -61,7 +66,7 @@ class ModulesManager {
   }
 
   getConf(module, key, defaultValue = null) {
-    let moduleCfg = this.cfg[module] || {};
+    const moduleCfg = this.cfg[module] || {};
     return moduleCfg[key] !== undefined ? moduleCfg[key] : defaultValue;
   }
 }

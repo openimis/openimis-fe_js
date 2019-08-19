@@ -1,15 +1,16 @@
 import { createMuiTheme } from "@material-ui/core";
 
 const theme = createMuiTheme({
-  menu: {
-    variant: 'AppBar',
-    drawer: {
-      width: 300,
-      fontSize: 16,
-    },
-    appBar: {
-      fontSize: 16,
-    },
+  palette: {
+    primary: { main: "#006273" },
+    secondary: { main: "#fff" },
+    error: { main: "#801a00" },
+    text: {
+      primary: "#006273",
+      secondary: "#006273", // HACK FOR material-table hardcoded toolbar!,
+      second: "#fff",
+      error: "#801a00"
+    }
   },
   typography: {
     useNextVariants: true,
@@ -25,9 +26,22 @@ const theme = createMuiTheme({
       color: "grey",
     },
   },
+  menu: {
+    variant: 'AppBar',
+    drawer: {
+      width: 300,
+      fontSize: 16,
+    },
+    appBar: {
+      fontSize: 16,
+    },
+  },
   paper: {
+    paper: {
+      margin: 10,
+    },
     header: {
-      padding: 0,
+      padding: 10,
     },
     title: {
       padding: 10,
@@ -35,12 +49,18 @@ const theme = createMuiTheme({
       color: "#006273",
     },
     action: {
-      padding: 10,
+
     },
     divider: {
       padding: 0,
       margin: 0,
     },
+    body: {
+      marginTop: 10,
+    },
+    item: {
+      padding: 10,
+    }
   },
   table: {
     title: {
@@ -63,6 +83,21 @@ const theme = createMuiTheme({
       color: "#006273",
     },
   },
+  form: {
+    spacing: 10,
+  },
+  formTable: {
+    table: {
+      color: "#006273",
+    },
+    actions: {
+      color: "#006273",
+    },
+    header: {
+      color: "#006273",
+      align: "center",      
+    }
+  },
   dialog: {
     title: {
       fontWeight: 500,
@@ -72,15 +107,11 @@ const theme = createMuiTheme({
       padding: 0,
     }
   },
-  palette: {
-    primary: { main: "#006273" },
-    secondary: { main: "#fff" },
-    error: { main: "#801a00" },
-    text: {
-      primary: "#006273",
-      secondary: "#fff",
-      error: "#801a00"
-    }
+  fab: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    zIndex: 2000,
   },
   bigAvatar: {
     margin: 10,

@@ -17,6 +17,7 @@
     "express": "^4.16.4",
     "history": "^4.9.0",
     "lodash": "^4.17.11",
+    "material-table": "^1.50.0",
     "moment": "^2.24.0",
     "prop-types": "^15.5.4",
     "react": "^16.8.6",

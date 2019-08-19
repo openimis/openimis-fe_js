@@ -6,7 +6,12 @@
     "ofPages": "of",
     "selectAll": "Select All",
     "clearSelected": "Clear Selection",
-    "search.title": "Search Criteria",
+    "search.title": "Search Criteria",    
     "search.apply": "Apply",
-    "search.dialog.title": "Adapt Search Criteria"
+    "search.dialog.title": "Adapt Search Criteria",
+    "picker.close": "Close",
+    "picker.select": "Select",
+    "noRecord": "No Record To Display",
+    "row.actions": "Actions",
+    "row.delete": "Are you sure delete this row?"
 }
