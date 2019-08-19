@@ -42,6 +42,7 @@ const theme = createMuiTheme({
     },
     header: {
       padding: 10,
+      color: "#006273",
     },
     title: {
       padding: 10,
@@ -66,7 +67,7 @@ const theme = createMuiTheme({
     title: {
       padding: 10,
       fontWeight: 500,
-      color: "grey",
+      color: "#006273",
     },
     header: {
       color: "#006273",
