@@ -26,6 +26,15 @@ const theme = createMuiTheme({
       color: "grey",
     },
   },
+  jrnlDrawer: {
+    open: {
+      width: 200,
+    },
+    close: {
+      width: 80,
+    },
+    iconSize: 24,
+  },  
   menu: {
     variant: 'AppBar',
     drawer: {
@@ -111,7 +120,7 @@ const theme = createMuiTheme({
   fab: {
     position: "absolute",
     bottom: 20,
-    right: 20,
+    right: 5,
     zIndex: 2000,
   },
   bigAvatar: {

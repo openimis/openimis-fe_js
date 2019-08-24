@@ -61,7 +61,7 @@ const bootApp = (cfg) => {
 
 
 
-let payload = `
+const payload = `
 {
     coreModuleConfigurations { module, config, controls{fieldName, usage}}
 }
