@@ -10,7 +10,8 @@ const theme = createMuiTheme({
       secondary: "#006273", // HACK FOR material-table hardcoded toolbar!,
       second: "#fff",
       error: "#801a00"
-    }
+    },
+    toggledButton: "#999999",
   },
   typography: {
     useNextVariants: true,
