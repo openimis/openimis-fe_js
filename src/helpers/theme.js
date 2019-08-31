@@ -29,7 +29,7 @@ const theme = createMuiTheme({
   },
   jrnlDrawer: {
     open: {
-      width: 200,
+      width: 500,
     },
     close: {
       width: 80,
@@ -121,7 +121,7 @@ const theme = createMuiTheme({
   fab: {
     position: "absolute",
     bottom: 20,
-    right: 5,
+    right: 8,
     zIndex: 2000,
   },
   bigAvatar: {
