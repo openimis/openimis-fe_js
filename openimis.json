@@ -10,51 +10,51 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@0.0.15"
+            "npm": "@openimis/fe-core@0.0.17"
         },
         {
             "name": "HomeModule",
-            "npm": "@openimis/fe-home@0.0.7"
+            "npm": "@openimis/fe-home@0.0.9"
         },
         {
             "name": "LocationModule",
-            "npm": "@openimis/fe-location@0.0.5"
+            "npm": "@openimis/fe-location@0.0.6"
         },
         {
             "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@0.0.10"
+            "npm": "@openimis/fe-insuree@0.0.12"
         },
         {
             "name": "MedicalModule",
-            "npm": "@openimis/fe-medical@0.0.5"
+            "npm": "@openimis/fe-medical@0.0.6"
         },
         {
             "name": "ProductModule",
-            "npm": "@openimis/fe-product@0.0.1"
+            "npm": "@openimis/fe-product@0.0.2"
         },
         {
             "name": "PolicyModule",
-            "npm": "@openimis/fe-policy@0.0.8"
+            "npm": "@openimis/fe-policy@0.0.9"
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@0.0.12"
+            "npm": "@openimis/fe-claim@0.0.14"
         },
         {
             "name": "ClaimBatchModule",
-            "npm": "@openimis/fe-claim_batch@0.0.1"
+            "npm": "@openimis/fe-claim_batch@0.0.2"
         },
         {
             "name": "AdminModule",
-            "npm": "@openimis/fe-admin@0.0.11"
+            "npm": "@openimis/fe-admin@0.0.13"
         },
         {
             "name": "ToolsModule",
-            "npm": "@openimis/fe-tools@0.0.9"
+            "npm": "@openimis/fe-tools@0.0.10"
         },
         {
             "name": "ProfileModule",
-            "npm": "@openimis/fe-profile@0.0.9"
+            "npm": "@openimis/fe-profile@0.0.10"
         }
     ]
 }
