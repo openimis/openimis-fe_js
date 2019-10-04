@@ -6,15 +6,11 @@
   "homepage": "http://localhost/front",
   "dependencies": {
     "@babel/core": "^7.4.4",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@date-io/core": "^1.3.9",
     "@date-io/moment": "^1.3.9",
     "@material-ui/core": "^4.3.3",
     "@material-ui/icons": "^4.2.1",
     "@material-ui/pickers": "^3.2.2",
-    "@openimis/fe-core": ">=0.0.21",
-    "@openimis/fe-home": "^0.0.9",
-    "@openimis/fe-location": "^0.0.6",
     "classnames": "^2.2.6",
     "express": "^4.16.4",
     "history": "^4.9.0",
@@ -61,6 +57,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "react-app-rewired": "^2.1.3"
   }
 }
