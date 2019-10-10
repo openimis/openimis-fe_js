@@ -63,7 +63,7 @@ const bootApp = (cfg) => {
 
 const payload = `
 {
-    coreModuleConfigurations { module, config, controls{fieldName, usage}}
+    coreModuleConfigurations { module, config, controls{field, usage}}
 }
 `;
 fetch(`${baseApiUrl}/graphql`,

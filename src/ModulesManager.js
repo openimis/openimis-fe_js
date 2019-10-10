@@ -15,7 +15,10 @@ class ModulesManager {
     const ctrls = {};
     for (var k in this.cfg) {
       if (!!this.cfg[k].controls) {
-        this.cfg[k].controls.forEach(c => ctrls[c['fieldName']] = c['usage']);
+        for (var i in this.cfg[k].controls) {
+          var c = this.cfg[k].controls[i];
+          ctrls[k+'.'+c['field']] = c['usage'];
+        }
       }
     }
     return ctrls;
@@ -37,8 +40,8 @@ class ModulesManager {
     return versions;
   }
 
-  skipControl(module, key) {
-    return this.controlsCache['fe-'+module+"."+key] === "S";
+  hideField(module, key) {
+    return this.controlsCache['fe-'+module+"."+key] & 1;
   }
 
   getRef(key) {

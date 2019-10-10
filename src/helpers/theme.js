@@ -35,7 +35,7 @@ const theme = createMuiTheme({
       width: 80,
     },
     iconSize: 24,
-  },  
+  },
   menu: {
     variant: 'AppBar',
     drawer: {
@@ -87,6 +87,14 @@ const theme = createMuiTheme({
       color: "#006273",
       align: "center",
     },
+    highlightedRow: {
+      fontWeight: 500,
+      align: "center",
+    },
+    highlightedAltRow: {
+      fontStyle: "italic",
+      align: "center",
+    },
     footer: {
       color: "#006273",
     },
@@ -106,7 +114,7 @@ const theme = createMuiTheme({
     },
     header: {
       color: "#006273",
-      align: "center",      
+      align: "center",
     }
   },
   dialog: {
