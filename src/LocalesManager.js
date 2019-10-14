@@ -1,5 +1,5 @@
 import { addLocaleData } from "react-intl";
-import localeByLang, { locales } from "./locales";
+import localeByLang, { locales, fileNamesByLang } from "./locales";
 
 class LocalesManager {
 
@@ -9,6 +9,10 @@ class LocalesManager {
 
   getLocale(lang) {
     return localeByLang[lang];
+  }
+
+  getFileNameByLang(lang) {
+    return fileNamesByLang[lang];
   }
 
 }

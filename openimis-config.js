@@ -9,7 +9,15 @@ function processLocales(config) {
         },
         {}
     );
-    locales.write(`export const locales = ${JSON.stringify(config['locales'].map((lc) => lc.intl))}\n`);
+    let filesByLang = config['locales'].reduce(
+        (fls, lc) => {
+            lc.languages.forEach((lg) => fls[lg] = lc.fileNames);
+            return fls
+        },
+        {}
+    );
+    locales.write(`export const locales = ${JSON.stringify(config['locales'].map((lc) => lc.intl))}`);
+    locales.write(`\nexport const fileNamesByLang = ${JSON.stringify(filesByLang)}`);
     locales.write(`\nexport default ${JSON.stringify(localeByLang)}`);
 }
 

@@ -1,10 +1,11 @@
 {
     "locales": [
         {
-            "intl": "en-GB",
             "languages": [
-                "en"
-            ]
+                "en", "en-GB"
+            ],
+            "intl": "en-GB",
+            "fileNames": "en"
         }
     ],
     "modules": [
