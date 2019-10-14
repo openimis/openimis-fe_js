@@ -2,7 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { MuiThemeProvider, LinearProgress } from "@material-ui/core";
 import { Provider } from "react-redux";
+import MomentUtils from "@date-io/moment";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import * as serviceWorker from "./serviceWorker";
+import history from './helpers/history';
 import theme from "./helpers/theme";
 import store from "./helpers/store";
 import LocalesManager from "./LocalesManager";
@@ -12,6 +15,7 @@ import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
 import messages_ref from "./translations/ref.json";
 import "./index.css";
 import logo from "../public/openIMIS.png";
+import HistoryProvider from "./HistoryProvider";
 
 const fatalError = (resp) => {
     const app = (
@@ -26,25 +30,29 @@ const fatalError = (resp) => {
 }
 
 const bootApp = (cfg) => {
-    const cfgs = cfg.data.coreModuleConfigurations.reduce((cfgs, c) => { 
-        cfgs[c.module] = { controls: c.controls,...JSON.parse(c.config)};
-        return cfgs 
+    const cfgs = cfg.data.coreModuleConfigurations.reduce((cfgs, c) => {
+        cfgs[c.module] = { controls: c.controls, ...JSON.parse(c.config) };
+        return cfgs
     }, []);
     const localesManager = new LocalesManager();
     const modulesManager = new ModulesManager(cfgs);
     const reducers = modulesManager
-        .getContributions('reducers')
+        .getContribs('reducers')
         .reduce((reds, red) => { reds[red.key] = red.reducer; return reds }, []);
     const app = (
         <MuiThemeProvider theme={theme}>
             <Provider store={store(reducers)}>
-                <ModulesManagerProvider modulesManager={modulesManager}>
-                    <App
-                        localesManager={localesManager}
-                        messages={messages_ref}
-                        logo={logo}
-                    />
-                </ModulesManagerProvider>
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                    <HistoryProvider history={history}>
+                        <ModulesManagerProvider modulesManager={modulesManager}>
+                            <App
+                                localesManager={localesManager}
+                                messages={messages_ref}
+                                logo={logo}
+                            />
+                        </ModulesManagerProvider>
+                    </HistoryProvider>
+                </MuiPickersUtilsProvider>
             </Provider>
         </MuiThemeProvider>
     );
@@ -53,9 +61,9 @@ const bootApp = (cfg) => {
 
 
 
-let payload = `
+const payload = `
 {
-    coreModuleConfigurations { module, config, controls{fieldName, usage}}
+    coreModuleConfigurations { module, config, controls{field, usage}}
 }
 `;
 fetch(`${baseApiUrl}/graphql`,

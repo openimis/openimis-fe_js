@@ -8,24 +8,27 @@ class ModulesManager {
     this.modules = modules(cfg);
     this.contributionsCache = {};
     this.controlsCache = this.buildControlsCache();
-    this.componentsCache = this.buildComponentsCache();
+    this.refsCache = this.buildRefsCache();
   }
 
   buildControlsCache() {
-    let ctrls = {};
+    const ctrls = {};
     for (var k in this.cfg) {
       if (!!this.cfg[k].controls) {
-        this.cfg[k].controls.forEach(c => ctrls[c['fieldName']] = c['usage']);
+        for (var i in this.cfg[k].controls) {
+          var c = this.cfg[k].controls[i];
+          ctrls[k+'.'+c['field']] = c['usage'];
+        }
       }
     }
     return ctrls;
   }
 
-  buildComponentsCache() {
-    return this.getContributions("components")
-      .reduce((comps, comp) => {
-        comps[comp.key] = comp.component;
-        return comps
+  buildRefsCache() {
+    return this.getContribs("refs")
+      .reduce((refs, r) => {
+        refs[r.key] = r.ref;
+        return refs
       }, {});
   }
 
@@ -37,19 +40,24 @@ class ModulesManager {
     return versions;
   }
 
-  skipControl(module, key) {
-    return this.controlsCache['fe-'+module+"."+key] === "S";
+  hideField(module, key) {
+    return this.controlsCache['fe-'+module+"."+key] & 1;
   }
 
-  getComponent(key) {
-    return this.componentsCache[key];
+  getRef(key) {
+    return this.refsCache[key];
   }
 
-  getContributions(key) {
+  getProjection(key) {
+    const proj = this.getRef(key);
+    return !!proj ? `{${proj.join(", ")}}` : "";
+  }
+
+  getContribs(key) {
     if (this.contributionsCache[key]) {
       return this.contributionsCache[key];
     }
-    let res = this.modules.reduce((contributions, module) => {
+    const res = this.modules.reduce((contributions, module) => {
       const contribs = (module || {})[key];
       if (contribs) {
         contributions.push(...contribs);
@@ -60,8 +68,8 @@ class ModulesManager {
     return res;
   }
 
-  getConfiguration(module, key, defaultValue = null) {
-    let moduleCfg = this.cfg[module] || {};
+  getConf(module, key, defaultValue = null) {
+    const moduleCfg = this.cfg[module] || {};
     return moduleCfg[key] !== undefined ? moduleCfg[key] : defaultValue;
   }
 }

@@ -1,15 +1,17 @@
 import { createMuiTheme } from "@material-ui/core";
 
 const theme = createMuiTheme({
-  menu: {
-    variant: 'AppBar',
-    drawer: {
-      width: 300,
-      fontSize: 16,
+  palette: {
+    primary: { main: "#006273" },
+    secondary: { main: "#fff" },
+    error: { main: "#801a00" },
+    text: {
+      primary: "#006273",
+      secondary: "#006273", // HACK FOR material-table hardcoded toolbar!,
+      second: "#fff",
+      error: "#801a00"
     },
-    appBar: {
-      fontSize: 16,
-    },
+    toggledButton: "#999999",
   },
   typography: {
     useNextVariants: true,
@@ -25,33 +27,93 @@ const theme = createMuiTheme({
       color: "grey",
     },
   },
+  jrnlDrawer: {
+    open: {
+      width: 500,
+    },
+    close: {
+      width: 80,
+    },
+    iconSize: 24,
+  },
+  menu: {
+    variant: 'AppBar',
+    drawer: {
+      width: 300,
+      fontSize: 16,
+    },
+    appBar: {
+      fontSize: 16,
+    },
+  },
   paper: {
+    paper: {
+      margin: 10,
+    },
     header: {
       padding: 10,
+      color: "#006273",
     },
     title: {
+      padding: 10,
       fontSize: 24,
       color: "#006273",
     },
     action: {
-      padding: 10,
+
     },
     divider: {
       padding: 0,
       margin: 0,
     },
+    body: {
+      marginTop: 10,
+    },
+    item: {
+      padding: 10,
+    }
   },
   table: {
     title: {
       padding: 10,
       fontWeight: 500,
-      color: "grey",
+      color: "#006273",
     },
     header: {
       color: "#006273",
-      align: "center",
+    },
+    headerAction: {
     },
     row: {
+      color: "#006273",
+      align: "center",
+    },
+    highlightedRow: {
+      fontWeight: 500,
+      align: "center",
+    },
+    highlightedAltRow: {
+      fontStyle: "italic",
+      align: "center",
+    },
+    footer: {
+      color: "#006273",
+    },
+    pager: {
+      color: "#006273",
+    },
+  },
+  form: {
+    spacing: 10,
+  },
+  formTable: {
+    table: {
+      color: "#006273",
+    },
+    actions: {
+      color: "#006273",
+    },
+    header: {
       color: "#006273",
       align: "center",
     }
@@ -65,15 +127,11 @@ const theme = createMuiTheme({
       padding: 0,
     }
   },
-  palette: {
-    primary: { main: "#006273" },
-    secondary: { main: "#fff" },
-    error: { main: "#801a00" },
-    text: {
-      primary: "#006273",
-      secondary: "#fff",
-      error: "#801a00"
-    }
+  fab: {
+    position: "absolute",
+    bottom: 20,
+    right: 8,
+    zIndex: 2000,
   },
   bigAvatar: {
     margin: 10,
