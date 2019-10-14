@@ -83,8 +83,6 @@ const theme = createMuiTheme({
       color: "#006273",
     },
     headerAction: {
-      marginTop: 10,
-      marginLeft: 10,
     },
     row: {
       color: "#006273",
