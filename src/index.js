@@ -30,7 +30,7 @@ const fatalError = (resp) => {
 }
 
 const bootApp = (cfg) => {
-    const cfgs = cfg.data.coreModuleConfigurations.reduce((cfgs, c) => {
+    const cfgs = cfg.data.moduleConfigurations.reduce((cfgs, c) => {
         cfgs[c.module] = { controls: c.controls, ...JSON.parse(c.config) };
         return cfgs
     }, []);
@@ -63,7 +63,7 @@ const bootApp = (cfg) => {
 
 const payload = `
 {
-    coreModuleConfigurations { module, config, controls{field, usage}}
+    moduleConfigurations { module, config, controls{field, usage}}
 }
 `;
 fetch(`${baseApiUrl}/graphql`,
