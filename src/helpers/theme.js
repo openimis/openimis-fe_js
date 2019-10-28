@@ -133,6 +133,9 @@ const theme = createMuiTheme({
     right: 8,
     zIndex: 2000,
   },
+  fakeInput: {
+
+  },
   bigAvatar: {
     margin: 10,
     width: 120,
