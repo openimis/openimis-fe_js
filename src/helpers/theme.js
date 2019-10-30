@@ -88,11 +88,20 @@ const theme = createMuiTheme({
       color: "#006273",
       align: "center",
     },
+    lockedRow: {
+      background: "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px);"
+    },
+    lockedCell: {
+    },
     highlightedRow: {
+    },
+    highlightedCell: {
       fontWeight: 500,
       align: "center",
     },
     highlightedAltRow: {
+    },
+    highlightedAltCell: {
       fontStyle: "italic",
       align: "center",
     },
