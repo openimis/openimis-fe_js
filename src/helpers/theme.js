@@ -34,6 +34,9 @@ const theme = createMuiTheme({
     close: {
       width: 80,
     },
+    itemDetail: {
+      marginLeft: 8,
+    },
     iconSize: 24,
   },
   menu: {
@@ -45,6 +48,9 @@ const theme = createMuiTheme({
     appBar: {
       fontSize: 16,
     },
+  },
+  page: {
+    padding: 8,
   },
   paper: {
     paper: {
