@@ -11,55 +11,55 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@1.0.0"
+            "npm": "@openimis/fe-core@1.0.2"
         },
         {
             "name": "HomeModule",
-            "npm": "@openimis/fe-home@1.0.0"
+            "npm": "@openimis/fe-home@1.0.2"
         },
         {
             "name": "LocationModule",
-            "npm": "@openimis/fe-location@1.0.0"
+            "npm": "@openimis/fe-location@1.0.2"
         },
         {
             "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@1.0.0"
+            "npm": "@openimis/fe-insuree@1.0.2"
         },
         {
             "name": "MedicalModule",
-            "npm": "@openimis/fe-medical@1.0.0"
+            "npm": "@openimis/fe-medical@1.0.2"
         },
         {
             "name": "MedicalPriceListModule",
-            "npm": "@openimis/fe-medical_pricelist@1.0.0"
+            "npm": "@openimis/fe-medical_pricelist@1.0.2"
         },
         {
             "name": "ProductModule",
-            "npm": "@openimis/fe-product@1.0.0"
+            "npm": "@openimis/fe-product@1.0.2"
         },
         {
             "name": "PolicyModule",
-            "npm": "@openimis/fe-policy@1.0.0"
+            "npm": "@openimis/fe-policy@1.0.2"
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@1.0.0"
+            "npm": "@openimis/fe-claim@1.0.2"
         },
         {
             "name": "ClaimBatchModule",
-            "npm": "@openimis/fe-claim_batch@1.0.0"
+            "npm": "@openimis/fe-claim_batch@1.0.2"
         },
         {
             "name": "AdminModule",
-            "npm": "@openimis/fe-admin@1.0.0"
+            "npm": "@openimis/fe-admin@1.0.2"
         },
         {
             "name": "ToolsModule",
-            "npm": "@openimis/fe-tools@1.0.0"
+            "npm": "@openimis/fe-tools@1.0.2"
         },
         {
             "name": "ProfileModule",
-            "npm": "@openimis/fe-profile@1.0.0"
+            "npm": "@openimis/fe-profile@1.0.3"
         }
     ]
 }

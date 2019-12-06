@@ -3,6 +3,8 @@
     "close": "Close",
     "ok": "Ok",
     "cancel": "Cancel",
+    "FatalError.title": "Fatal Error",
+    "FatalError.message": "Requested action can't be executed, please check your internet connection,...",
     "currency": "$",
     "rowsPerPage": "Rows Per Page",
     "ofPages": "of",
