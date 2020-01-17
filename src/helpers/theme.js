@@ -111,6 +111,13 @@ const theme = createMuiTheme({
       fontStyle: "italic",
       align: "center",
     },
+    disabledRow: {
+    },
+    disabledCell: {
+      // textDecoration: "line-through",
+      color: "grey",
+      align: "center",
+    },
     footer: {
       color: "#006273",
     },
