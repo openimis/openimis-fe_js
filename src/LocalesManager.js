@@ -4,11 +4,12 @@ import localeByLang, { locales, fileNamesByLang } from "./locales";
 class LocalesManager {
 
   constructor() {
-    locales.forEach((lc) => { addLocaleData(lc.key) });
+    locales.forEach((lc) => { addLocaleData(lc) });
   }
 
   getLocale(lang) {
-    return localeByLang[lang];
+    // messages in requested language are injected as the default 'en' locale
+    return "en";
   }
 
   getFileNameByLang(lang) {
