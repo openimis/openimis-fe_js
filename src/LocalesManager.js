@@ -1,11 +1,6 @@
-import { addLocaleData } from "react-intl";
-import localeByLang, { locales, fileNamesByLang } from "./locales";
+import { fileNamesByLang } from "./locales";
 
 class LocalesManager {
-
-  constructor() {
-    locales.forEach((lc) => { addLocaleData(lc) });
-  }
 
   getLocale(lang) {
     // messages in requested language are injected as the default 'en' locale
