@@ -11,7 +11,7 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@1.0.3"
+            "npm": "@openimis/fe-core@1.0.4"
         },
         {
             "name": "HomeModule",
@@ -19,15 +19,15 @@
         },
         {
             "name": "LocationModule",
-            "npm": "@openimis/fe-location@1.0.3"
+            "npm": "@openimis/fe-location@1.0.4"
         },
         {
             "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@1.0.3"
+            "npm": "@openimis/fe-insuree@1.0.4"
         },
         {
             "name": "MedicalModule",
-            "npm": "@openimis/fe-medical@1.0.3"
+            "npm": "@openimis/fe-medical@1.0.4"
         },
         {
             "name": "MedicalPriceListModule",
@@ -39,15 +39,15 @@
         },
         {
             "name": "PolicyModule",
-            "npm": "@openimis/fe-policy@1.0.3"
+            "npm": "@openimis/fe-policy@1.0.4"
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@1.0.3"
+            "npm": "@openimis/fe-claim@1.0.4"
         },
         {
             "name": "ClaimBatchModule",
-            "npm": "@openimis/fe-claim_batch@1.0.3"
+            "npm": "@openimis/fe-claim_batch@1.0.4"
         },
         {
             "name": "AdminModule",
