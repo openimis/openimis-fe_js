@@ -2,7 +2,8 @@
     "locales": [
         {
             "languages": [
-                "en", "en-GB"
+                "en",
+                "en-GB"
             ],
             "intl": "en-GB",
             "fileNames": "en"
@@ -23,7 +24,7 @@
         },
         {
             "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@1.0.4"
+            "npm": "@openimis/fe-insuree@1.0.5"
         },
         {
             "name": "MedicalModule",
