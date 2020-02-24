@@ -12,7 +12,7 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@1.0.4"
+            "npm": "@openimis/fe-core@1.0.6"
         },
         {
             "name": "HomeModule",
@@ -44,7 +44,7 @@
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@1.0.5"
+            "npm": "@openimis/fe-claim@1.0.6"
         },
         {
             "name": "ClaimBatchModule",
