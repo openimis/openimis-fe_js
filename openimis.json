@@ -7,6 +7,14 @@
             ],
             "intl": "en-GB",
             "fileNames": "en"
+        },
+        {
+            "languages": [
+                "fr",
+                "fr-FR"
+            ],
+            "intl": "fr-FR",
+            "fileNames": "fr"
         }
     ],
     "modules": [
@@ -61,6 +69,10 @@
         {
             "name": "ProfileModule",
             "npm": "@openimis/fe-profile@1.0.3"
+        },
+        {
+            "name": "LanguageFrModule",
+            "npm": "@openimis/fe-language_fr@1.0.1"
         }
     ]
 }
