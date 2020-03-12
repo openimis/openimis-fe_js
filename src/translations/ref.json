@@ -11,6 +11,7 @@
     "ofPages": "of",
     "selectAll": "Select All",
     "clearSelected": "Clear Selection",
+    "autosuggest.more": "... other options matching search, please refine",
     "search.title": "Search Criteria",
     "search.apply": "Apply",
     "search.dialog.title": "Adapt Search Criteria",
