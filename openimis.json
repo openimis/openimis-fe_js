@@ -28,7 +28,7 @@
         },
         {
             "name": "LocationModule",
-            "npm": "@openimis/fe-location@1.0.7"
+            "npm": "@openimis/fe-location@1.0.8"
         },
         {
             "name": "InsureeModule",
@@ -40,7 +40,7 @@
         },
         {
             "name": "MedicalPriceListModule",
-            "npm": "@openimis/fe-medical_pricelist@1.0.3"
+            "npm": "@openimis/fe-medical_pricelist@1.0.4"
         },
         {
             "name": "ProductModule",
