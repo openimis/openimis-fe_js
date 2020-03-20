@@ -48,11 +48,11 @@
         },
         {
             "name": "PolicyModule",
-            "npm": "@openimis/fe-policy@1.0.4"
+            "npm": "@openimis/fe-policy@1.0.5"
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@1.0.14"
+            "npm": "@openimis/fe-claim@1.0.15"
         },
         {
             "name": "ClaimBatchModule",
