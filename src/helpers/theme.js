@@ -94,6 +94,12 @@ const theme = createMuiTheme({
       color: "#006273",
       align: "center",
     },
+    cell: {
+      paddingTop: 5,
+      paddingBottom: 5,
+      paddingLeft: 10,
+      paddingRight: 10,
+    },
     lockedRow: {
       background: "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px);"
     },
@@ -169,3 +175,4 @@ const theme = createMuiTheme({
 });
 
 export default theme;
+
