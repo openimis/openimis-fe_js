@@ -52,7 +52,7 @@
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@1.0.17"
+            "npm": "@openimis/fe-claim@1.0.18"
         },
         {
             "name": "ClaimBatchModule",
