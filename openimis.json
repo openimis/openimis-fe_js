@@ -20,7 +20,7 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@1.0.16"
+            "npm": "@openimis/fe-core@1.0.17"
         },
         {
             "name": "HomeModule",
@@ -28,7 +28,7 @@
         },
         {
             "name": "LocationModule",
-            "npm": "@openimis/fe-location@1.0.11"
+            "npm": "@openimis/fe-location@1.0.12"
         },
         {
             "name": "InsureeModule",
@@ -52,11 +52,11 @@
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@1.0.18"
+            "npm": "@openimis/fe-claim@1.0.19"
         },
         {
             "name": "ClaimBatchModule",
-            "npm": "@openimis/fe-claim_batch@1.0.8"
+            "npm": "@openimis/fe-claim_batch@1.0.9"
         },
         {
             "name": "AdminModule",
