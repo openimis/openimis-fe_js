@@ -20,7 +20,7 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@1.0.17"
+            "npm": "@openimis/fe-core@1.0.18"
         },
         {
             "name": "HomeModule",
@@ -28,7 +28,7 @@
         },
         {
             "name": "LocationModule",
-            "npm": "@openimis/fe-location@1.0.12"
+            "npm": "@openimis/fe-location@1.0.13"
         },
         {
             "name": "InsureeModule",
