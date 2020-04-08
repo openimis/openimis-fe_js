@@ -1,0 +1,89 @@
+# Dockerfile - Windows
+# https://github.com/openresty/docker-openresty
+
+ARG RESTY_INSTALL_BASE="microsoft/windowsservercore"
+ARG RESTY_INSTALL_TAG="ltsc2016"
+ARG RESTY_IMAGE_BASE="microsoft/nanoserver"
+ARG RESTY_IMAGE_TAG="sac2016"
+
+FROM "${RESTY_INSTALL_BASE}:${RESTY_INSTALL_TAG}" AS downloader
+ARG NEW_OPENIMIS_HOST
+ENV NPM_CONFIG_LOGLEVEL info
+ARG NODE_VERSION="10.19.0"
+ARG ARCH="64"
+ARG RESTY_VERSION="1.15.8.3"
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+WORKDIR C:/dl
+ARG NODE_URL="https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-x${ARCH}.msi"
+ARG OPENRESTY_URL="https://openresty.org/download/openresty-${RESTY_VERSION}-win${ARCH}.zip"
+# Download Perl and OpenResty
+RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;\
+	Invoke-WebRequest -Uri "https://chocolatey.org/install.ps1" -UseBasicParsing | iex ;\
+	choco install strawberryperl -y --no-progress ; \
+    mv C:\strawberry C:\dl\strawberry ; \
+	Write-Host "Downloading OpenResty.." ; \
+    Invoke-WebRequest $env:OPENRESTY_URL -OutFile C:\openresty.zip ; \
+    Expand-Archive C:\openresty.zip . ; \
+    mv .\openresty-*\ C:\dl\openresty ;
+#RUN	mkdir C:\dl\openresty\ssl\certs;\
+#	New-SelfSignedCertificate -DNSName $env:NEW_OPENIMIS_HOST -CertStoreLocation Cert:\LocalMachine;\
+#	Set-Location -Path "cert:\LocalMachine\My" | Export-Certificate  -FilePath c:\openresty\ssl\certs\$($Env:NEW_OPENIMIS_HOST).cer;\
+#	choco install lua -y --no-progress ; \
+#	choco install win-acme -y --no-progress ;\
+#    mv C:\ProgramData\chocolatey\lib\win-acme C:\dl\win-acme;\
+
+	
+# download node and build the front end 
+RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;\
+    Invoke-WebRequest -Uri $Env:NODE_URL -OutFile nodejs.msi -UseBasicParsing;\
+	Start-Process msiexec.exe -Wait -ArgumentList '/q /i nodejs.msi';
+#RUN    Invoke-WebRequest -Uri https://classic.yarnpkg.com/latest.msi -OutFile yarn.msi -UseBasicParsing;\
+#	Start-Process msiexec.exe -Wait -ArgumentList '/q /i yarn.msi';
+
+COPY ./app C:/dl/app/
+
+WORKDIR C:/dl/app
+RUN node openimis-config.js
+RUN ./modules-installs.txt 
+
+RUN 	choco install vim -y;\
+    mv C:\ProgramData\chocolatey\lib\vim C:\dl\vim;
+
+
+
+ARG OPENIMIS_VERSION="1.4.1" 
+
+FROM "${RESTY_IMAGE_BASE}:${RESTY_IMAGE_TAG}"
+
+LABEL vendor="openIMIS"\
+      maintainer="Patrick Delcroix <patrick.delcroix@swisspth.ch>"\
+	  org.openimis.fe.is-beta= \
+      org.openimis.fe.is-production="" \
+      org.openimis.fe.version="${OPENIMIS_VERSION}" 
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+#RUN cp C:/dl/openresty C:/openresty;\
+#cp C:/dl/Strawberry C:/Strawberry;
+COPY --from=downloader C:/dl/ C:/
+#COPY --from=downloader ["C:/Program Files (x86)/Lua/5.1", "C:/lua"]
+COPY script /openresty
+COPY conf/openimis_win.conf /openresty/conf.d/openIMIS.conf.default
+COPY conf/nginx.conf /openresty/conf/nginx.conf
+WORKDIR C:/openresty
+COPY lua C:/openresty/lua
+# nginx config is not overwritten as paths in the Windows distribution are already fine
+
+ARG TZ=Europe/Brussels
+ENV TZ=$TZ
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+ARG NEW_OPENIMIS_HOST
+ARG LEGACY_OPENIMIS_HOST
+RUN Write-Output ('Hosting on https://'+$Env:NEW_OPENIMIS_HOST);\
+	$env:PATH = 'C:\Strawberry\perl\bin;C:\openresty;' + $env:PATH; \
+    setx PATH $env:path /M; \
+	cp /openresty/conf.d/openIMIS.conf.default /openresty/conf.d/openIMIS.conf;\
+	(Get-Content  -Encoding UTF8 -Path /openresty/conf.d/openIMIS.conf) -replace 'NEW_OPENIMIS_HOST',$env:NEW_OPENIMIS_HOST  -replace 'LEGACY_OPENIMIS_HOST',$env:LEGACY_OPENIMIS_HOST | Out-File -Encoding UTF8 /openresty/conf.d/openIMIS.conf;\
+	Write-Output ('Pointing to legacy openIMIS on https://'+$Env:LEGACY_OPENIMIS_HOST);
+
+ENTRYPOINT ["powershell","-Command","/openresty/entrypoint.ps1"]
+CMD ["'ibackend'","8000","5"]
