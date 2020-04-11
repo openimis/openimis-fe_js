@@ -1,89 +1,56 @@
-# Dockerfile - Windows
-# https://github.com/openresty/docker-openresty
+ARG INSTALL_BASE="mcr.microsoft.com/windows/servercore"
+ARG INSTALL_TAG="ltsc2016"
+ARG WINDOWS_VERSION="4.8-windowsservercore-ltsc2016"
+ARG WINDOWS_BASE="mcr.microsoft.com/dotnet/framework/aspnet"
 
-ARG RESTY_INSTALL_BASE="microsoft/windowsservercore"
-ARG RESTY_INSTALL_TAG="ltsc2016"
-ARG RESTY_IMAGE_BASE="microsoft/nanoserver"
-ARG RESTY_IMAGE_TAG="sac2016"
-
-FROM "${RESTY_INSTALL_BASE}:${RESTY_INSTALL_TAG}" AS downloader
+FROM "${INSTALL_BASE}:${INSTALL_TAG}" AS downloader
 ARG NEW_OPENIMIS_HOST
 ENV NPM_CONFIG_LOGLEVEL info
 ARG NODE_VERSION="10.19.0"
 ARG ARCH="64"
-ARG RESTY_VERSION="1.15.8.3"
+
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 WORKDIR C:/dl
 ARG NODE_URL="https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-x${ARCH}.msi"
-ARG OPENRESTY_URL="https://openresty.org/download/openresty-${RESTY_VERSION}-win${ARCH}.zip"
-# Download Perl and OpenResty
-RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;\
-	Invoke-WebRequest -Uri "https://chocolatey.org/install.ps1" -UseBasicParsing | iex ;\
-	choco install strawberryperl -y --no-progress ; \
-    mv C:\strawberry C:\dl\strawberry ; \
-	Write-Host "Downloading OpenResty.." ; \
-    Invoke-WebRequest $env:OPENRESTY_URL -OutFile C:\openresty.zip ; \
-    Expand-Archive C:\openresty.zip . ; \
-    mv .\openresty-*\ C:\dl\openresty ;
-#RUN	mkdir C:\dl\openresty\ssl\certs;\
-#	New-SelfSignedCertificate -DNSName $env:NEW_OPENIMIS_HOST -CertStoreLocation Cert:\LocalMachine;\
-#	Set-Location -Path "cert:\LocalMachine\My" | Export-Certificate  -FilePath c:\openresty\ssl\certs\$($Env:NEW_OPENIMIS_HOST).cer;\
-#	choco install lua -y --no-progress ; \
-#	choco install win-acme -y --no-progress ;\
-#    mv C:\ProgramData\chocolatey\lib\win-acme C:\dl\win-acme;\
 
-	
 # download node and build the front end 
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;\
     Invoke-WebRequest -Uri $Env:NODE_URL -OutFile nodejs.msi -UseBasicParsing;\
 	Start-Process msiexec.exe -Wait -ArgumentList '/q /i nodejs.msi';
-#RUN    Invoke-WebRequest -Uri https://classic.yarnpkg.com/latest.msi -OutFile yarn.msi -UseBasicParsing;\
-#	Start-Process msiexec.exe -Wait -ArgumentList '/q /i yarn.msi';
+RUN   [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;\
+       Invoke-WebRequest -Uri https://classic.yarnpkg.com/latest.msi -OutFile yarn.msi -UseBasicParsing;\
+	Start-Process msiexec.exe -Wait -ArgumentList '/q /i yarn.msi';
 
-COPY ./app C:/dl/app/
+COPY ./app C:/app
 
-WORKDIR C:/dl/app
+WORKDIR C:/app
 RUN node openimis-config.js
-RUN ./modules-installs.txt 
-
-RUN 	choco install vim -y;\
-    mv C:\ProgramData\chocolatey\lib\vim C:\dl\vim;
-
+RUN ./modules-installs.txt;
+RUN yarn install --network-timeout 1000000
+RUN yarn build
 
 
-ARG OPENIMIS_VERSION="1.4.1" 
 
-FROM "${RESTY_IMAGE_BASE}:${RESTY_IMAGE_TAG}"
-
+FROM "${WINDOWS_BASE}:${WINDOWS_VERSION}"
+ARG OPENIMIS_VERSION="1.4.0" 
 LABEL vendor="openIMIS"\
       maintainer="Patrick Delcroix <patrick.delcroix@swisspth.ch>"\
-	  org.openimis.fe.is-beta= \
-      org.openimis.fe.is-production="" \
-      org.openimis.fe.version="${OPENIMIS_VERSION}" 
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
-#RUN cp C:/dl/openresty C:/openresty;\
-#cp C:/dl/Strawberry C:/Strawberry;
-COPY --from=downloader C:/dl/ C:/
-#COPY --from=downloader ["C:/Program Files (x86)/Lua/5.1", "C:/lua"]
-COPY script /openresty
-COPY conf/openimis_win.conf /openresty/conf.d/openIMIS.conf.default
-COPY conf/nginx.conf /openresty/conf/nginx.conf
-WORKDIR C:/openresty
-COPY lua C:/openresty/lua
-# nginx config is not overwritten as paths in the Windows distribution are already fine
-
-ARG TZ=Europe/Brussels
-ENV TZ=$TZ
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
-ARG NEW_OPENIMIS_HOST
-ARG LEGACY_OPENIMIS_HOST
-RUN Write-Output ('Hosting on https://'+$Env:NEW_OPENIMIS_HOST);\
-	$env:PATH = 'C:\Strawberry\perl\bin;C:\openresty;' + $env:PATH; \
-    setx PATH $env:path /M; \
-	cp /openresty/conf.d/openIMIS.conf.default /openresty/conf.d/openIMIS.conf;\
-	(Get-Content  -Encoding UTF8 -Path /openresty/conf.d/openIMIS.conf) -replace 'NEW_OPENIMIS_HOST',$env:NEW_OPENIMIS_HOST  -replace 'LEGACY_OPENIMIS_HOST',$env:LEGACY_OPENIMIS_HOST | Out-File -Encoding UTF8 /openresty/conf.d/openIMIS.conf;\
-	Write-Output ('Pointing to legacy openIMIS on https://'+$Env:LEGACY_OPENIMIS_HOST);
-
-ENTRYPOINT ["powershell","-Command","/openresty/entrypoint.ps1"]
-CMD ["'ibackend'","8000","5"]
+	  org.openimis.webapp.is-beta= \
+      org.openimis.webapp.is-production="" \
+      org.openimis.webapp.version="${OPENIMIS_VERSION}" 
+ADD https://github.com/openimis/web_app_vb/releases/download/v${OPENIMIS_VERSION}/openIMIS_Web_App_x64_v${OPENIMIS_VERSION}.zip /temp/openIMIS.zip
+ADD "https://github.com/openimis/web_service_vb/releases/download/v1.2.1/openIMIS_Web_Services_v1.2.1.zip" /temp/Service.zip
+# ADD "https://github.com/openimis/policy_renewal_service_vb/releases/download/v1.2.0/ImisPolicyRenewalSetup.zip" /temp/Renewal.zip
+# ADD "https://github.com/openimis/assign_photo_service_vb/releases/download/v1.2.0/AssignPhotosSetup.zip" /temp/photo.zip
+# ADD "https://github.com/openimis/feedback_prompt_service_vb/releases/download/v1.2.0/ImisFeedbackPromptSetup.zip" /temp/feedback.zip
+ADD "https://github.com/shibayan/iislua/releases/download/v0.6.1/iislua_x64.msi" /temp/iislua_x64.msi
+ADD "https://go.microsoft.com/fwlink/?LinkID=615136" /temp/ARS.mis
+COPY script/configureConnectionStr.ps1 /temp/configureConnectionStr.ps1
+COPY script/InstallopenIMIS.ps1 /temp/InstallopenIMIS.ps1
+RUN powershell -Command /temp/InstallopenIMIS.ps1 $env:username;\
+	Start-Process msiexec.exe -Wait -ArgumentList '/q /i /temp/iislua_x64.msi';
+RUN Start-Process msiexec.exe -Wait -ArgumentList '/q /i /temp/ars.msi';
+WORKDIR "/inetpub/wwwroot"
+COPY --from=downloader /app/build /inetpub/wwwroot/openIMIS/front 
+ENTRYPOINT ["powershell","-Command","C:\\temp\\configureConnectionStr.ps1"]
