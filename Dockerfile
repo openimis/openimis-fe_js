@@ -7,3 +7,4 @@ RUN . ./modules-installs.txt
 RUN yarn install --network-timeout 1000000
 RUN yarn build
 RUN yarn global add serve
+CMD ["serve","-s","build"]
