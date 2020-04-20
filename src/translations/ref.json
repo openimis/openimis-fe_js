@@ -3,6 +3,7 @@
     "close": "Close",
     "ok": "Ok",
     "cancel": "Cancel",
+    "empty": " ",
     "FatalError.title": "Fatal Error",
     "FatalError.message": "Requested action can't be executed, please check your internet connection,...",
     "currency": "$",
@@ -10,7 +11,8 @@
     "ofPages": "of",
     "selectAll": "Select All",
     "clearSelected": "Clear Selection",
-    "search.title": "Search Criteria",    
+    "autosuggest.more": "... other options matching search, please refine",
+    "search.title": "Search Criteria",
     "search.apply": "Apply",
     "search.dialog.title": "Adapt Search Criteria",
     "picker.close": "Close",
@@ -33,5 +35,7 @@
     "month.9": "September",
     "month.10": "October",
     "month.11": "November",
-    "month.12": "December"
+    "month.12": "December",
+    "validation.minValue": "{value} under allowed {min}",
+    "validation.maxValue": "{value} above allowed {max}"
 }

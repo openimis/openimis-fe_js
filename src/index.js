@@ -1,3 +1,5 @@
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
 import React from "react";
 import ReactDOM from "react-dom";
 import { MuiThemeProvider, LinearProgress } from "@material-ui/core";
@@ -31,7 +33,12 @@ const fatalError = (resp) => {
 
 const bootApp = (cfg) => {
     const cfgs = cfg.data.moduleConfigurations.reduce((cfgs, c) => {
-        cfgs[c.module] = { controls: c.controls, ...JSON.parse(c.config) };
+        try {
+            cfg = JSON.parse(c.config)
+            cfgs[c.module] = { controls: c.controls, ...cfg };
+        } catch (error) {
+            console.error(`Failed to parse module ${c.module} config`, error);
+        }
         return cfgs
     }, []);
     const localesManager = new LocalesManager();

@@ -2,64 +2,77 @@
     "locales": [
         {
             "languages": [
-                "en", "en-GB"
+                "en",
+                "en-GB"
             ],
             "intl": "en-GB",
             "fileNames": "en"
+        },
+        {
+            "languages": [
+                "fr",
+                "fr-FR"
+            ],
+            "intl": "fr-FR",
+            "fileNames": "fr"
         }
     ],
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@1.0.2"
+            "npm": "@openimis/fe-core@1.1.0"
         },
         {
             "name": "HomeModule",
-            "npm": "@openimis/fe-home@1.0.2"
+            "npm": "@openimis/fe-home@1.1.0"
         },
         {
             "name": "LocationModule",
-            "npm": "@openimis/fe-location@1.0.2"
+            "npm": "@openimis/fe-location@1.1.0"
         },
         {
             "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@1.0.2"
+            "npm": "@openimis/fe-insuree@1.1.0"
         },
         {
             "name": "MedicalModule",
-            "npm": "@openimis/fe-medical@1.0.2"
+            "npm": "@openimis/fe-medical@1.1.0"
         },
         {
             "name": "MedicalPriceListModule",
-            "npm": "@openimis/fe-medical_pricelist@1.0.2"
+            "npm": "@openimis/fe-medical_pricelist@1.1.0"
         },
         {
             "name": "ProductModule",
-            "npm": "@openimis/fe-product@1.0.2"
+            "npm": "@openimis/fe-product@1.1.0"
         },
         {
             "name": "PolicyModule",
-            "npm": "@openimis/fe-policy@1.0.2"
+            "npm": "@openimis/fe-policy@1.1.0"
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@1.0.2"
+            "npm": "@openimis/fe-claim@1.1.0"
         },
         {
             "name": "ClaimBatchModule",
-            "npm": "@openimis/fe-claim_batch@1.0.2"
+            "npm": "@openimis/fe-claim_batch@1.1.0"
         },
         {
             "name": "AdminModule",
-            "npm": "@openimis/fe-admin@1.0.2"
+            "npm": "@openimis/fe-admin@1.1.0"
         },
         {
             "name": "ToolsModule",
-            "npm": "@openimis/fe-tools@1.0.2"
+            "npm": "@openimis/fe-tools@1.1.0"
         },
         {
             "name": "ProfileModule",
-            "npm": "@openimis/fe-profile@1.0.3"
+            "npm": "@openimis/fe-profile@1.1.0"
+        },
+        {
+            "name": "LanguageFrModule",
+            "npm": "@openimis/fe-language_fr@1.1.0"
         }
     ]
 }
