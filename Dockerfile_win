@@ -3,32 +3,32 @@ ARG INSTALL_TAG="ltsc2016"
 ARG WINDOWS_VERSION="4.8-windowsservercore-ltsc2016"
 ARG WINDOWS_BASE="mcr.microsoft.com/dotnet/framework/aspnet"
 
-FROM "${INSTALL_BASE}:${INSTALL_TAG}" AS downloader
-ARG NEW_OPENIMIS_HOST
-ENV NPM_CONFIG_LOGLEVEL info
-ARG NODE_VERSION="10.19.0"
-ARG ARCH="64"
+#FROM "${INSTALL_BASE}:${INSTALL_TAG}" AS downloader
+#ARG NEW_OPENIMIS_HOST
+#ENV NPM_CONFIG_LOGLEVEL info
+#ARG NODE_VERSION="10.16.3"
+#ARG ARCH="64"
 
 
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
-WORKDIR C:/dl
-ARG NODE_URL="https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-x${ARCH}.msi"
+#SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+#WORKDIR C:/dl
+#ARG NODE_URL="https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-x${ARCH}.msi"
 
-# download node and build the front end 
-RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;\
-    Invoke-WebRequest -Uri $Env:NODE_URL -OutFile nodejs.msi -UseBasicParsing;\
-	Start-Process msiexec.exe -Wait -ArgumentList '/q /i nodejs.msi';
-RUN   [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;\
-       Invoke-WebRequest -Uri https://classic.yarnpkg.com/latest.msi -OutFile yarn.msi -UseBasicParsing;\
-	Start-Process msiexec.exe -Wait -ArgumentList '/q /i yarn.msi';
+## download node and build the front end 
+#RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;\
+#    Invoke-WebRequest -Uri $Env:NODE_URL -OutFile nodejs.msi -UseBasicParsing;\
+#	Start-Process msiexec.exe -Wait -ArgumentList '/q /i nodejs.msi';
+#RUN   [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;\
+#       Invoke-WebRequest -Uri https://classic.yarnpkg.com/latest.msi -OutFile yarn.msi -UseBasicParsing;\
+#	Start-Process msiexec.exe -Wait -ArgumentList '/q /i yarn.msi';
 
-COPY ./app C:/app
+#COPY ./app C:/app
 
-WORKDIR C:/app
-RUN node openimis-config.js
-RUN ./modules-installs.txt;
-RUN yarn install --network-timeout 1000000
-RUN yarn build
+#WORKDIR C:/app
+#RUN node openimis-config.js
+#RUN ./modules-installs.txt;
+#RUN yarn install --network-timeout 1000000
+#RUN yarn build
 
 
 
@@ -51,6 +51,10 @@ COPY script/InstallopenIMIS.ps1 /temp/InstallopenIMIS.ps1
 RUN powershell -Command /temp/InstallopenIMIS.ps1 $env:username;\
 	Start-Process msiexec.exe -Wait -ArgumentList '/q /i /temp/iislua_x64.msi';
 RUN Start-Process msiexec.exe -Wait -ArgumentList '/q /i /temp/ars.msi';
+#COPY ./build.zip C:/temp
+#RUN Expand-Archive -Path C:/temp/build.zip -DestinationPath C:/inetpub/wwwroot/openIMIS/front
+
 WORKDIR "/inetpub/wwwroot"
-COPY --from=downloader /app/build /inetpub/wwwroot/openIMIS/front 
+#COPY --from=downloader /app/build /inetpub/wwwroot/openIMIS/front 
+
 ENTRYPOINT ["powershell","-Command","C:\\temp\\configureConnectionStr.ps1"]
