@@ -1,6 +1,6 @@
 FROM node:10 AS react-build
 RUN mkdir app
-COPY ./app /app
+COPY ./ /app
 WORKDIR /app
 RUN node openimis-config.js
 RUN . ./modules-installs.txt

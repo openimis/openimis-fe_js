@@ -22,7 +22,7 @@ ARG WINDOWS_BASE="mcr.microsoft.com/dotnet/framework/aspnet"
 #       Invoke-WebRequest -Uri https://classic.yarnpkg.com/latest.msi -OutFile yarn.msi -UseBasicParsing;\
 #	Start-Process msiexec.exe -Wait -ArgumentList '/q /i yarn.msi';
 
-#COPY ./app C:/app
+#COPY ./ C:/app
 
 #WORKDIR C:/app
 #RUN node openimis-config.js
