@@ -33,7 +33,7 @@ ARG WINDOWS_BASE="mcr.microsoft.com/dotnet/framework/aspnet"
 
 
 FROM "${WINDOWS_BASE}:${WINDOWS_VERSION}"
-ARG OPENIMIS_VERSION="1.4.0" 
+ARG OPENIMIS_VERSION="1.4.1" 
 LABEL vendor="openIMIS"\
       maintainer="Patrick Delcroix <patrick.delcroix@swisspth.ch>"\
 	  org.openimis.webapp.is-beta= \
@@ -51,7 +51,7 @@ COPY script/InstallopenIMIS.ps1 /temp/InstallopenIMIS.ps1
 RUN powershell -Command /temp/InstallopenIMIS.ps1 $env:username;\
 	Start-Process msiexec.exe -Wait -ArgumentList '/q /i /temp/iislua_x64.msi';
 RUN Start-Process msiexec.exe -Wait -ArgumentList '/q /i /temp/ars.msi';
-#COPY ./build.zip C:/temp
+#ADD https://github.com/openimis/openimis-fe_js/releases/download/v1.1.0/openIMIS_FE_v1.1.0.zip C:/temp/build.zip
 #RUN Expand-Archive -Path C:/temp/build.zip -DestinationPath C:/inetpub/wwwroot/openIMIS/front
 
 WORKDIR "/inetpub/wwwroot"
