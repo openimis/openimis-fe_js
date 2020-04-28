@@ -1,0 +1,60 @@
+ARG INSTALL_BASE="mcr.microsoft.com/windows/servercore"
+ARG INSTALL_TAG="ltsc2016"
+ARG WINDOWS_VERSION="4.8-windowsservercore-ltsc2016"
+ARG WINDOWS_BASE="mcr.microsoft.com/dotnet/framework/aspnet"
+
+#FROM "${INSTALL_BASE}:${INSTALL_TAG}" AS downloader
+#ARG NEW_OPENIMIS_HOST
+#ENV NPM_CONFIG_LOGLEVEL info
+#ARG NODE_VERSION="10.16.3"
+#ARG ARCH="64"
+
+
+#SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+#WORKDIR C:/dl
+#ARG NODE_URL="https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-x${ARCH}.msi"
+
+## download node and build the front end 
+#RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;\
+#    Invoke-WebRequest -Uri $Env:NODE_URL -OutFile nodejs.msi -UseBasicParsing;\
+#	Start-Process msiexec.exe -Wait -ArgumentList '/q /i nodejs.msi';
+#RUN   [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;\
+#       Invoke-WebRequest -Uri https://classic.yarnpkg.com/latest.msi -OutFile yarn.msi -UseBasicParsing;\
+#	Start-Process msiexec.exe -Wait -ArgumentList '/q /i yarn.msi';
+
+#COPY ./ C:/app
+
+#WORKDIR C:/app
+#RUN node openimis-config.js
+#RUN ./modules-installs.txt;
+#RUN yarn install --network-timeout 1000000
+#RUN yarn build
+
+
+
+FROM "${WINDOWS_BASE}:${WINDOWS_VERSION}"
+ARG OPENIMIS_VERSION="1.4.1" 
+LABEL vendor="openIMIS"\
+      maintainer="Patrick Delcroix <patrick.delcroix@swisspth.ch>"\
+	  org.openimis.webapp.is-beta= \
+      org.openimis.webapp.is-production="" \
+      org.openimis.webapp.version="${OPENIMIS_VERSION}" 
+ADD https://github.com/openimis/web_app_vb/releases/download/v${OPENIMIS_VERSION}/openIMIS_Web_App_x64_v${OPENIMIS_VERSION}.zip /temp/openIMIS.zip
+ADD "https://github.com/openimis/web_service_vb/releases/download/v1.2.1/openIMIS_Web_Services_v1.2.1.zip" /temp/Service.zip
+# ADD "https://github.com/openimis/policy_renewal_service_vb/releases/download/v1.2.0/ImisPolicyRenewalSetup.zip" /temp/Renewal.zip
+# ADD "https://github.com/openimis/assign_photo_service_vb/releases/download/v1.2.0/AssignPhotosSetup.zip" /temp/photo.zip
+# ADD "https://github.com/openimis/feedback_prompt_service_vb/releases/download/v1.2.0/ImisFeedbackPromptSetup.zip" /temp/feedback.zip
+ADD "https://github.com/shibayan/iislua/releases/download/v0.6.1/iislua_x64.msi" /temp/iislua_x64.msi
+ADD "https://go.microsoft.com/fwlink/?LinkID=615136" /temp/ARS.mis
+COPY script/configureConnectionStr.ps1 /temp/configureConnectionStr.ps1
+COPY script/InstallopenIMIS.ps1 /temp/InstallopenIMIS.ps1
+RUN powershell -Command /temp/InstallopenIMIS.ps1 $env:username;\
+	Start-Process msiexec.exe -Wait -ArgumentList '/q /i /temp/iislua_x64.msi';
+RUN Start-Process msiexec.exe -Wait -ArgumentList '/q /i /temp/ars.msi';
+#ADD https://github.com/openimis/openimis-fe_js/releases/download/v1.1.0/openIMIS_FE_v1.1.0.zip C:/temp/build.zip
+#RUN Expand-Archive -Path C:/temp/build.zip -DestinationPath C:/inetpub/wwwroot/openIMIS/front
+
+WORKDIR "/inetpub/wwwroot"
+#COPY --from=downloader /app/build /inetpub/wwwroot/openIMIS/front 
+
+ENTRYPOINT ["powershell","-Command","C:\\temp\\configureConnectionStr.ps1"]
