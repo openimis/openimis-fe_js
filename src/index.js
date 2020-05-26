@@ -16,7 +16,7 @@ import ModulesManagerProvider from "./ModulesManagerProvider";
 import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
 import messages_ref from "./translations/ref.json";
 import "./index.css";
-import logo from "../public/openIMIS.png";
+import logo from "./openIMIS.png";
 import HistoryProvider from "./HistoryProvider";
 
 const fatalError = (resp) => {
