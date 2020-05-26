@@ -156,7 +156,7 @@ const theme = createMuiTheme({
     }
   },
   fab: {
-    position: "absolute",
+    position: "fixed",
     bottom: 20,
     right: 8,
     zIndex: 2000,
