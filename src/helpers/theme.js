@@ -1,6 +1,15 @@
 import { createMuiTheme } from "@material-ui/core";
 
 const theme = createMuiTheme({
+  overrides: {
+    MuiTableRow: {
+      root: {
+        "&$selected": {
+          backgroundColor: 'rgba(0, 0, 0, 0.04)'
+        },
+      },
+    },
+  },
   palette: {
     primary: { main: "#006273" },
     secondary: { main: "#fff" },
