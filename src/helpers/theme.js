@@ -5,7 +5,7 @@ const theme = createMuiTheme({
     MuiTableRow: {
       root: {
         "&$selected": {
-          backgroundColor: 'rgba(0, 0, 0, 0.04)'
+          backgroundColor: 'rgba(0, 0, 0, 0.08)'
         },
       },
     },
@@ -102,6 +102,9 @@ const theme = createMuiTheme({
     row: {
       color: "#006273",
       align: "center",
+      '&:hover': {
+        background: 'rgba(0, 0, 0, 0.12) !important'
+      }
     },
     cell: {
       paddingTop: 5,
