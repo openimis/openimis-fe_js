@@ -48,7 +48,7 @@
         },
         {
             "name": "PolicyModule",
-            "npm": "@openimis/fe-policy@1.1.0"
+            "npm": "@openimis/fe-policy@1.1.1"
         },
         {
             "name": "ClaimModule",
