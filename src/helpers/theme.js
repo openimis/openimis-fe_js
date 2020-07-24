@@ -64,18 +64,23 @@ const theme = createMuiTheme({
   paper: {
     paper: {
       margin: 10,
+      backgroundColor: "#dbeef0",
     },
     header: {
-      padding: 10,
       color: "#006273",
+      backgroundColor: "#b7d4d8",
+    },
+    message: {
+      backgroundColor: "#b7d4d8",
     },
     title: {
       padding: 10,
       fontSize: 24,
       color: "#006273",
+      backgroundColor: "#b7d4d8",
     },
     action: {
-
+      padding: 5,
     },
     divider: {
       padding: 0,
@@ -83,6 +88,7 @@ const theme = createMuiTheme({
     },
     body: {
       marginTop: 10,
+      backgroundColor: "#dbeef0",
     },
     item: {
       padding: 10,
@@ -93,11 +99,13 @@ const theme = createMuiTheme({
       padding: 10,
       fontWeight: 500,
       color: "#006273",
+      backgroundColor: "#b7d4d8",
     },
     header: {
       color: "#006273",
     },
     headerAction: {
+      padding: 5,
     },
     row: {
       color: "#006273",
@@ -107,10 +115,7 @@ const theme = createMuiTheme({
       }
     },
     cell: {
-      paddingTop: 5,
-      paddingBottom: 5,
-      paddingLeft: 10,
-      paddingRight: 10,
+      padding:5
     },
     lockedRow: {
       background: "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px);"
@@ -177,12 +182,8 @@ const theme = createMuiTheme({
 
   },
   bigAvatar: {
-    margin: 10,
     width: 120,
     height: 120,
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)"
   },
 });
 

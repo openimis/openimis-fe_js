@@ -51,6 +51,18 @@
             "npm": "@openimis/fe-policy@1.2.0-rc2"
         },
         {
+            "name": "PayerModule",
+            "npm": "@openimis/fe-payer@1.2.0-rc1"
+        },
+        {
+            "name": "ContributionModule",
+            "npm": "@openimis/fe-contribution@1.2.0-rc1"
+        },
+        {
+            "name": "PaymentModule",
+            "npm": "@openimis/fe-payment@1.2.0-rc1"
+        },
+        {
             "name": "ClaimModule",
             "npm": "@openimis/fe-claim@1.2.0-rc4"
         },
