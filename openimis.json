@@ -36,11 +36,11 @@
         },
         {
             "name": "MedicalModule",
-            "npm": "@openimis/fe-medical@1.1.0"
+            "npm": "@openimis/fe-medical@1.1.1"
         },
         {
             "name": "MedicalPriceListModule",
-            "npm": "@openimis/fe-medical_pricelist@1.1.1"
+            "npm": "@openimis/fe-medical_pricelist@1.1.2"
         },
         {
             "name": "ProductModule",
@@ -52,7 +52,7 @@
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@1.1.4"
+            "npm": "@openimis/fe-claim@1.1.5"
         },
         {
             "name": "ClaimBatchModule",
