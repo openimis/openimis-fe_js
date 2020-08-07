@@ -60,6 +60,9 @@ const theme = createMuiTheme({
   },
   page: {
     padding: 8,
+    locked: {
+      background: "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px);"
+    },
   },
   paper: {
     paper: {
