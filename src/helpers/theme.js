@@ -185,8 +185,8 @@ const theme = createMuiTheme({
 
   },
   bigAvatar: {
-    width: 120,
-    height: 120,
+    width: 160,
+    height: 160,
   },
 });
 
