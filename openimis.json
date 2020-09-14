@@ -85,10 +85,6 @@
         {
             "name": "LanguageFrModule",
             "npm": "@openimis/fe-language_fr@1.2.0-rc2"
-        },
-        {
-            "name": "MyModule",
-            "npm": "@openimis/fe-my_module@1.0.0-rc1"
         }
     ]
 }
