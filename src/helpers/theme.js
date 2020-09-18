@@ -1,4 +1,6 @@
 import { createMuiTheme } from "@material-ui/core";
+import { fade } from "@material-ui/core/styles/colorManipulator";
+
 
 const theme = createMuiTheme({
   overrides: {
@@ -173,7 +175,18 @@ const theme = createMuiTheme({
     },
     content: {
       padding: 0,
-    }
+    },
+    primaryButton: {
+      backgroundColor: "#006273",
+      color: "#fff",
+      fontWeight: "bold",
+      "&:hover": {
+        backgroundColor: fade("#006273", 0.50),
+        color: "#006273",
+      },
+    },
+    secondaryButton: {
+    },    
   },
   fab: {
     position: "fixed",
