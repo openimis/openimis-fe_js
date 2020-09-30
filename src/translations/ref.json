@@ -37,5 +37,7 @@
     "month.11": "November",
     "month.12": "December",
     "validation.minValue": "{value} under allowed {min}",
-    "validation.maxValue": "{value} above allowed {max}"
+    "validation.maxValue": "{value} above allowed {max}",
+    "addTooltip": "Create new",
+    "saveTooltip": "Save changes"
 }
