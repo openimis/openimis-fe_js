@@ -39,5 +39,7 @@
     "validation.minValue": "{value} under allowed {min}",
     "validation.maxValue": "{value} above allowed {max}",
     "addTooltip": "Create new",
-    "saveTooltip": "Save changes"
+    "saveTooltip": "Save changes",
+    "resetFilterTooltip": "Reset search criteria",
+    "refreshFilterTooltip": "Search again"
 }
