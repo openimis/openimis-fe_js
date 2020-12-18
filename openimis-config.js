@@ -49,8 +49,12 @@ function processModules(config) {
     srcModules.end();
     modulesInstalls.end();
 }
-
-fs.readFile('./openimis.json', 'utf8', function read(err, data) {
+var configFile = process.argv[2];
+if (configFile == null){
+    configFile = './openimis.json';
+}
+fs.readFile(configFile, 'utf8', function read(err, data) {
+	
     if (err) throw err;
     config = JSON.parse(data);
     processLocales(config);
