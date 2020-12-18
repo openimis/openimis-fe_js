@@ -32,7 +32,15 @@ function processModules(config) {
     config['modules'].forEach((module) => {
         let lib = module.npm.substring(0, module.npm.lastIndexOf('@'));
         srcModules.write(`import { ${module.name} } from '${lib}';\n`);
-        modulesInstalls.write(` ${module.npm}`);
+        if(module.file !== null && module.file !== '' && module.file !==  undefined){
+			modulesInstalls.write(` file:${module.file}`);
+			modulesRemoves.write(`yarn remove ${lib}\n`);
+			modulesLinks.write(`yarn link ${lib}\n`);
+			modulesUnlinks.write(`yarn unlink ${lib}\n`);
+		}else{
+			modulesInstalls.write(` ${module.npm}`);
+		}
+			
         modulesRemoves.write(`yarn remove ${lib}\n`);
         modulesLinks.write(`yarn link ${lib}\n`);
         modulesUnlinks.write(`yarn unlink ${lib}\n`);
