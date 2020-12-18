@@ -40,10 +40,8 @@ function processModules(config) {
 		}else{
 			modulesInstalls.write(` ${module.npm}`);
 		}
-			
-        modulesRemoves.write(`yarn remove ${lib}\n`);
-        modulesLinks.write(`yarn link ${lib}\n`);
-        modulesUnlinks.write(`yarn unlink ${lib}\n`);
+		
+        
     });
     modulesInstalls.write('\n')
     srcModules.write("\nfunction logicalName(npmName) {\n\t");
@@ -57,10 +55,12 @@ function processModules(config) {
     srcModules.end();
     modulesInstalls.end();
 }
+
 var configFile = process.argv[2];
-if (configFile !== null && configFile !== '' && configFile !==  undefined){
+if (configFile === null || configFile === '' | configFile ===  undefined){
     configFile = './openimis.json';
 }
+
 fs.readFile(configFile, 'utf8', function read(err, data) {
 	
     if (err) throw err;
