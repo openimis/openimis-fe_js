@@ -37,6 +37,15 @@ function processModules(config) {
 			modulesRemoves.write(`yarn remove ${lib}\n`);
 			modulesLinks.write(`yarn link ${lib}\n`);
 			modulesUnlinks.write(`yarn unlink ${lib}\n`);
+		}else if(module.git !== null && module.git !== '' && module.git !==  undefined){
+			modulesInstalls.write(` git+${module.git}`);
+			modulesRemoves.write(`yarn remove ${lib}\n`);
+		}else if(module.ssh !== null && module.ssh !== '' && module.ssh !==  undefined){
+			modulesInstalls.write(` ssh:${module.ssh}`);
+			modulesRemoves.write(`yarn remove ${lib}\n`);
+		}else if(module.url !== null && module.url !== '' && module.url !==  undefined){
+			modulesInstalls.write(` ${module.url}`);
+			modulesRemoves.write(`yarn remove ${lib}\n`);
 		}else{
 			modulesInstalls.write(` ${module.npm}`);
 		}
