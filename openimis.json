@@ -48,19 +48,19 @@
         },
         {
             "name": "PolicyModule",
-            "npm": "@openimis/fe-policy@1.2.1-rc4"
+            "npm": "@openimis/fe-policy@1.2.1-rc5"
         },
         {
             "name": "PayerModule",
-            "npm": "@openimis/fe-payer@1.2.0-rc2"
+            "npm": "@openimis/fe-payer@1.2.1-rc5"
         },
         {
             "name": "ContributionModule",
-            "npm": "@openimis/fe-contribution@1.2.1-rc4"
+            "npm": "@openimis/fe-contribution@1.2.1-rc5"
         },
         {
             "name": "PaymentModule",
-            "npm": "@openimis/fe-payment@1.2.1-rc4"
+            "npm": "@openimis/fe-payment@1.2.1-rc5"
         },
         {
             "name": "ClaimModule",
@@ -84,7 +84,7 @@
         },
         {
             "name": "LanguageFrModule",
-            "npm": "@openimis/fe-language_fr@1.2.0-rc4"
+            "npm": "@openimis/fe-language_fr@1.2.1-rc5"
         }
     ]
 }
