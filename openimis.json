@@ -32,7 +32,7 @@
         },
         {
             "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@1.1.0"
+            "npm": "@openimis/fe-insuree@1.1.1"
         },
         {
             "name": "MedicalModule",
