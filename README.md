@@ -1,6 +1,6 @@
-# openIMIS Frontent Reference Implementation : Windows Docker
+# openIMIS Frontend Reference Implementation : Windows Docker
 This repository holds the configuration files for the openIMIS Frontend Reference Implementation:
-- Legacy web applictation
+- Legacy web application
 - Modular front end
 
 Please look for the direction on the openIMIS Wiki: https://openimis.atlassian.net/wiki/spaces/OP/pages/963182705/MO1.1+Install+the+modular+openIMIS+using+Docker
@@ -13,7 +13,7 @@ This repo branches, tags,... are maintained by openIMIS official delivery team w
 
 In case of troubles, please consult/contact our service desk via our [ticketing site](https://openimis.atlassian.net/servicedesk/customer).
 
-# openIMIS Frontent Reference Implementation : Linux
+# openIMIS Frontend Reference Implementation : Linux
 This repository holds the configuration files for the openIMIS Frontend Reference Implementation.
 It serves 2 distinct use cases:
 - developers who want to implement new modules or modify existing frontend modules of openIMIS
@@ -51,10 +51,10 @@ In developement mode, the frontend connects to the backend via a proxy configura
   * build current (dev) version of the module: `yarn build`
   * prepare a linkable version of your local package: `yarn link`
 * from `openimis-fe_js`
-  * uninstall the packaged module you want to work on (example @openimis/fe-claim): `yarn remove @openimis/fe-claim`  
+  * uninstall the packaged module you want to work on (example @openimis/fe-claim): `yarn remove @openimis/fe-claim`
   * link the local version of the module: `yarn link "@openimis/fe-claim"`
 
-Note: 
+Note:
 * It is not necessary to register a linked module in the package.json file
 * To unlink a previously linked package: `yarn unlink "@openimis/fe-claim"`
 * [OPTIONAL] To enable live reload of the module, from `openimis-fe-claim_js`, activate the watch: `yarn start` (if configured into the `package.json` of the module)
@@ -78,7 +78,7 @@ If you want to provide an distinct implementation for locations (example), just 
 * commit your changes to the git repo and merge to master
 * tag the git repo according to your new version number
 * publish to npm central repo: `npm publish` (from within `/openimis-fe-mymodule_js`)
-  Note: you'll need to login,... (cfr. https://docs.npmjs.com/cli/publish) 
+  Note: you'll need to login,... (cfr. https://docs.npmjs.com/cli/publish)
 
 ## Distributor setup
 Note:
