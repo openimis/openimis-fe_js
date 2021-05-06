@@ -1,6 +1,17 @@
 import { createMuiTheme } from "@material-ui/core";
+import { fade } from "@material-ui/core/styles/colorManipulator";
+
 
 const theme = createMuiTheme({
+  overrides: {
+    MuiTableRow: {
+      root: {
+        "&$selected": {
+          backgroundColor: 'rgba(0, 0, 0, 0.08)'
+        },
+      },
+    },
+  },
   palette: {
     primary: { main: "#006273" },
     secondary: { main: "#fff" },
@@ -51,22 +62,30 @@ const theme = createMuiTheme({
   },
   page: {
     padding: 8,
+    locked: {
+      background: "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px);"
+    },
   },
   paper: {
     paper: {
       margin: 10,
+      backgroundColor: "#dbeef0",
     },
     header: {
-      padding: 10,
       color: "#006273",
+      backgroundColor: "#b7d4d8",
+    },
+    message: {
+      backgroundColor: "#b7d4d8",
     },
     title: {
       padding: 10,
       fontSize: 24,
       color: "#006273",
+      backgroundColor: "#b7d4d8",
     },
     action: {
-
+      padding: 5,
     },
     divider: {
       padding: 0,
@@ -74,6 +93,7 @@ const theme = createMuiTheme({
     },
     body: {
       marginTop: 10,
+      backgroundColor: "#dbeef0",
     },
     item: {
       padding: 10,
@@ -84,21 +104,23 @@ const theme = createMuiTheme({
       padding: 10,
       fontWeight: 500,
       color: "#006273",
+      backgroundColor: "#b7d4d8",
     },
     header: {
       color: "#006273",
     },
     headerAction: {
+      padding: 5,
     },
     row: {
       color: "#006273",
       align: "center",
+      '&:hover': {
+        background: 'rgba(0, 0, 0, 0.12) !important'
+      }
     },
     cell: {
-      paddingTop: 5,
-      paddingBottom: 5,
-      paddingLeft: 10,
-      paddingRight: 10,
+      padding:5
     },
     lockedRow: {
       background: "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px);"
@@ -153,10 +175,21 @@ const theme = createMuiTheme({
     },
     content: {
       padding: 0,
-    }
+    },
+    primaryButton: {
+      backgroundColor: "#006273",
+      color: "#fff",
+      fontWeight: "bold",
+      "&:hover": {
+        backgroundColor: fade("#006273", 0.50),
+        color: "#006273",
+      },
+    },
+    secondaryButton: {
+    },    
   },
   fab: {
-    position: "absolute",
+    position: "fixed",
     bottom: 20,
     right: 8,
     zIndex: 2000,
@@ -165,12 +198,8 @@ const theme = createMuiTheme({
 
   },
   bigAvatar: {
-    margin: 10,
-    width: 120,
-    height: 120,
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)"
+    width: 160,
+    height: 160,
   },
 });
 

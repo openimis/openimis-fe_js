@@ -7,3 +7,5 @@ modules-removes.txt
 modules-unlinks.txt
 src/modules.js
 src/locales.js
+.idea
+package-lock.json
