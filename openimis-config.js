@@ -73,7 +73,8 @@ function applyConfig(config) {
 
 
 try {
-JSON.parse(process.env.OPENIMIS_CONF_JSON);
+	JSON.parse(process.env.OPENIMIS_CONF_JSON);
+	applyConfig(JSON.parse(process.env.OPENIMIS_CONF_JSON));
 } catch (e) {
 	var configFile = process.argv[2];
 	if (configFile === null || configFile === '' | configFile ===  undefined){
@@ -85,5 +86,5 @@ JSON.parse(process.env.OPENIMIS_CONF_JSON);
 		applyConfig(config);
 	});
 }
-applyConfig(JSON.parse(process.env.OPENIMIS_CONF_JSON));
+
 	
