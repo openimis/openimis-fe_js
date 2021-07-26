@@ -24,37 +24,16 @@ function processLocales(config) {
 function processModules(config) {
     var srcModules = fs.createWriteStream('./src/modules.js');
     var modulesInstalls = fs.createWriteStream('./modules-installs.txt');
-    var modulesRemoves = fs.createWriteStream('./modules-removes.txt');
-    var modulesLinks = fs.createWriteStream('./modules-links.txt');
-    var modulesUnlinks = fs.createWriteStream('./modules-unlinks.txt');
+    var modulesAdds = fs.createWriteStream('./modules-add.txt');
 
-    modulesInstalls.write('yarn add')
+
+    modulesAdds.write('yarn add')
+    modulesInstalls.write('npm install')
     config['modules'].forEach((module) => {
         let lib = module.npm.substring(0, module.npm.lastIndexOf('@'));
         srcModules.write(`import { ${module.name} } from '${lib}';\n`);
-	modulesInstalls.write(` ${module.npm}`);
-        modulesRemoves.write(`yarn remove ${lib}\n`);
-        modulesLinks.write(`yarn link ${lib}\n`);
-        modulesUnlinks.write(`yarn unlink ${lib}\n`);
-        /*if(module.file !== null && module.file !== '' && module.file !==  undefined){
-			modulesInstalls.write(` file:${module.file}`);
-			modulesRemoves.write(`yarn remove ${lib}\n`);
-			modulesLinks.write(`yarn link ${lib}\n`);
-			modulesUnlinks.write(`yarn unlink ${lib}\n`);
-		}else if(module.git !== null && module.git !== '' && module.git !==  undefined){
-			modulesInstalls.write(` git+${module.git}`);
-			modulesRemoves.write(`yarn remove ${lib}\n`);
-		}else if(module.ssh !== null && module.ssh !== '' && module.ssh !==  undefined){
-			modulesInstalls.write(` ssh:${module.ssh}`);
-			modulesRemoves.write(`yarn remove ${lib}\n`);
-		}else if(module.url !== null && module.url !== '' && module.url !==  undefined){
-			modulesInstalls.write(` ${module.url}`);
-			modulesRemoves.write(`yarn remove ${lib}\n`);
-		}else{
-			modulesInstalls.write(` ${module.npm}`);
-		}*/
-		
-        
+	modulesInstalls.write(` ${module.npm}`); 
+        modulesAdds.write(` ${module.npm}`);
     });
     modulesInstalls.write('\n')
     srcModules.write("\nfunction logicalName(npmName) {\n\t");
