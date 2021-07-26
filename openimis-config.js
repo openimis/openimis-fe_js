@@ -25,7 +25,7 @@ function processModules(config, packageConfig) {
     var srcModules = fs.createWriteStream('./src/modules.js');
     config['modules'].forEach((module) => {
         let lib = module.npm.substring(0, module.npm.lastIndexOf('@'));
-		let version = module.npm.substring( module.npm.lastIndexOf('@'));
+		let version = module.npm.substring( module.npm.lastIndexOf('@')+1);
         srcModules.write(`import { ${module.name} } from '${lib}';\n`);
 		packageConfig.dependencies[lib]=version;
     });
