@@ -24,7 +24,7 @@ function processLocales(config) {
 function processModules(config) {
     var srcModules = fs.createWriteStream('./src/modules.js');
     var modulesInstalls = fs.createWriteStream('./modules-installs.txt');
-    var modulesAdds = fs.createWriteStream('./modules-add.txt');
+    var modulesAdds = fs.createWriteStream('./modules-adds.txt');
 
 
     modulesAdds.write('yarn add')
