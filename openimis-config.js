@@ -85,5 +85,5 @@ JSON.parse(process.env.OPENIMIS_CONF_JSON);
 		applyConfig(config);
 	});
 }
-applyConfig(process.env.OPENIMIS_CONF_JSON)
+applyConfig(JSON.parse(process.env.OPENIMIS_CONF_JSON));
 	
