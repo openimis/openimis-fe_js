@@ -21,21 +21,14 @@ function processLocales(config) {
     locales.write(`\nexport default ${JSON.stringify(localeByLang)}`);
 }
 
-function processModules(config) {
+function processModules(config, packageConfig) {
     var srcModules = fs.createWriteStream('./src/modules.js');
-    var modulesInstalls = fs.createWriteStream('./modules-installs.txt');
-    var modulesAdds = fs.createWriteStream('./modules-adds.txt');
-
-
-    modulesAdds.write('yarn global add')
-    modulesInstalls.write('npm install')
     config['modules'].forEach((module) => {
         let lib = module.npm.substring(0, module.npm.lastIndexOf('@'));
+		let version = module.npm.substring( module.npm.lastIndexOf('@'));
         srcModules.write(`import { ${module.name} } from '${lib}';\n`);
-	modulesInstalls.write(` ${module.npm}`); 
-        modulesAdds.write(` ${module.npm}`);
+		packageConfig.dependencies[lib]=version;
     });
-    modulesInstalls.write('\n')
     srcModules.write("\nfunction logicalName(npmName) {\n\t");
     srcModules.write("return [...npmName.match(/([^/]*)\\/([^@]*).*/)][2];\n");
     srcModules.write("}\n");
@@ -45,31 +38,43 @@ function processModules(config) {
     srcModules.write(config['modules'].map((module) => `${module.name}((cfg && cfg[logicalName('${module.npm}')]) || {})`).join(",\n\t"));
     srcModules.write("\n];");
     srcModules.end();
-    modulesInstalls.end();
+    return packageConfig;
+	
 }
 
-function applyConfig(config) {
+function applyConfig(config, packageConfig) {
 	processLocales(config);
-    	processModules(config);
+	packageConfig = processModules(config, packageConfig);
+	fs.writeFileSync('package.json', JSON.stringify(packageConfig,null,2),{encoding:'utf8',flag:'w'});
 }
 // Configuration load 
 
-
-try {
-	JSON.parse(process.env.OPENIMIS_CONF_JSON);
-	applyConfig(JSON.parse(process.env.OPENIMIS_CONF_JSON));
-} catch (e) {
-	
-	var configFile = process.argv[2];
-	if (configFile === null || configFile === '' | configFile ===  undefined){
-	    configFile = './openimis.json';
+function cleanDeps(packageConfig){
+	for (const key in packageConfig.dependencies) {
+		if (key.startsWith('@openimis')) delete packageConfig.dependencies[key];
 	}
-	console.log("Using file %s, Env variable OPENIMIS_CONF_JSON not valid: %s", configFile, process.env.OPENIMIS_CONF_JSON)
-	fs.readFile(configFile, 'utf8', function read(err, data) {
-    		if (err) throw err;
-    		config = JSON.parse(data);
-		applyConfig(config);
-	});
+	return packageConfig;
 }
 
-	
+fs.readFile('package.json', 'utf8', function read(err, data) {
+	if (err) throw err;
+	let packageConfig = cleanDeps(JSON.parse(data));
+	try {
+        if(!process.env.OPENIMIS_CONF_JSON)throw 'OPENIMIS_CONF_JSON not set !'; 
+        JSON.parse(process.env.OPENIMIS_CONF_JSON);
+		applyConfig(JSON.parse(process.env.OPENIMIS_CONF_JSON), packageConfig);
+	} catch (e) {
+
+        
+		var configFile = process.argv[2];
+		if (configFile === null || configFile === '' | configFile ===  undefined){
+			configFile = './openimis.json';
+		}
+		console.log("Using file %s, Env variable OPENIMIS_CONF_JSON not valid: %s", configFile, process.env.OPENIMIS_CONF_JSON)
+		fs.readFile(configFile, 'utf8', function read(err, data) {
+			if (err) throw err;
+			config = JSON.parse(data);
+			applyConfig(config, packageConfig);
+		});
+	}
+});
