@@ -27,7 +27,7 @@ function processModules(config) {
     var modulesAdds = fs.createWriteStream('./modules-adds.txt');
 
 
-    modulesAdds.write('yarn add')
+    modulesAdds.write('yarn global add')
     modulesInstalls.write('npm install')
     config['modules'].forEach((module) => {
         let lib = module.npm.substring(0, module.npm.lastIndexOf('@'));
