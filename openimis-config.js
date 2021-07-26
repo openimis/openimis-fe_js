@@ -76,10 +76,12 @@ try {
 	JSON.parse(process.env.OPENIMIS_CONF_JSON);
 	applyConfig(JSON.parse(process.env.OPENIMIS_CONF_JSON));
 } catch (e) {
+	
 	var configFile = process.argv[2];
 	if (configFile === null || configFile === '' | configFile ===  undefined){
 	    configFile = './openimis.json';
 	}
+	console.log("Using file %s, Env variable OPENIMIS_CONF_JSON not valid: %s", configFile, process.env.OPENIMIS_CONF_JSON)
 	fs.readFile(configFile, 'utf8', function read(err, data) {
     		if (err) throw err;
     		config = JSON.parse(data);
