@@ -65,15 +65,25 @@ function processModules(config) {
     modulesInstalls.end();
 }
 
-var configFile = process.argv[2];
-if (configFile === null || configFile === '' | configFile ===  undefined){
-    configFile = './openimis.json';
+function applyConfig(config) {
+	processLocales(config);
+    	processModules(config);
 }
+// Configuration load 
 
-fs.readFile(configFile, 'utf8', function read(err, data) {
+
+try {
+JSON.parse(process.env.OPENIMIS_CONF_JSON);
+} catch (e) {
+	var configFile = process.argv[2];
+	if (configFile === null || configFile === '' | configFile ===  undefined){
+	    configFile = './openimis.json';
+	}
+	fs.readFile(configFile, 'utf8', function read(err, data) {
+    		if (err) throw err;
+    		config = JSON.parse(data);
+		applyConfig(config);
+	});
+}
+applyConfig(process.env.OPENIMIS_CONF_JSON)
 	
-    if (err) throw err;
-    config = JSON.parse(data);
-    processLocales(config);
-    processModules(config);
-});
