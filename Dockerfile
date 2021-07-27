@@ -8,6 +8,6 @@ RUN node openimis-config.js
 #RUN . ./modules-adds.txt
 #RUN . ./modules-installs.txt
 RUN yarn install
-RUN yarn build
+#RUN yarn build
 RUN yarn global add serve
 CMD ["serve"]
