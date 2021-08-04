@@ -31,7 +31,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postinstall": "node clean_packages.js"
+    "postinstall": "node script/postinstall.js"
   },
   "eslintConfig": {
     "extends": "react-app"
