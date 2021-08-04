@@ -31,7 +31,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "postinstall": "node script/postinstall.js"
   },
   "eslintConfig": {
     "extends": "react-app"
