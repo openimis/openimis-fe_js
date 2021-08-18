@@ -1,8 +1,8 @@
-import { createMuiTheme } from "@material-ui/core";
-import { fade } from "@material-ui/core/styles/colorManipulator";
+import { createTheme } from "@material-ui/core";
+import { alpha } from "@material-ui/core/styles/colorManipulator";
 
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiTableRow: {
       root: {
@@ -181,7 +181,7 @@ const theme = createMuiTheme({
       color: "#fff",
       fontWeight: "bold",
       "&:hover": {
-        backgroundColor: fade("#006273", 0.50),
+        backgroundColor: alpha("#006273", 0.50),
         color: "#006273",
       },
     },
