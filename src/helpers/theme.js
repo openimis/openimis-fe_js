@@ -1,8 +1,8 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createTheme } from "@material-ui/core";
 import { alpha } from "@material-ui/core/styles/colorManipulator";
 
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiTableRow: {
       root: {
