@@ -37,7 +37,7 @@ In case of troubles, please consult/contact our service desk via our [ticketing 
 * install yarn
 * within `openimis-fe_js` directory
   * install openIMIS technical dependencies: `yarn install`
-  * generate the openIMIS modules dependencies and locales (from openimis.json config): `node openimis-config.js`
+  * generate the openIMIS modules dependencies and locales (from openimis.json config): `yarn load-config`
   * install openIMIS current modules: `source ./modules-installs.txt`
   * start openIMIS frontend (in development mode): `yarn start`
 
