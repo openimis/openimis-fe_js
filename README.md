@@ -41,6 +41,52 @@ In case of troubles, please consult/contact our service desk via our [ticketing 
   * install openIMIS current modules: `source ./modules-installs.txt`
   * start openIMIS frontend (in development mode): `yarn start`
 
+### To start working in openIMIS as a (module) for production with git / shh / urls for dependencies:
+
+* within `openimis-fe_js` directory
+  
+  * generate the openIMIS modules dependencies and locales (from openimis.json config):  `node openimis-config.js` / `node openimis-config.js openimis.json` 
+  * remove previous local directory / git / link openIMIS current modules: `source ./modules-installs.txt`
+  * clean yarn cache in case local directory / git /link are used: `yarn cache clean` 
+  * install openIMIS current modules: `source ./modules-installs.txt`
+  * install openIMIS technical dependencies: `yarn install`
+  * build openIMIS frontend (in development mode): `yarn build`
+  * copy the build folder on the webserver
+  
+#### using npm
+  
+	```{
+		"name": "CoreModule",
+		"npm": "@openimis/fe-core@1.2.0-rc15"
+	}```
+  
+#### using git
+
+	when using git, the branch can be specified using this structure <git repo url>#<branch>
+
+	```{
+		"name": "CoreModule",
+		"npm": "@openimis/fe-core@",
+		"git": "https://github.com/openimis/openimis-fe_js.git#develop"
+		
+	}```
+ 
+#### using local files
+
+	```{
+		"name": "CoreModule",
+		"npm": "@openimis/fe-core@",
+		"file": "../openimis-fe-core_js/"		
+	}```
+	
+#### using tar ball
+
+	```{
+		"name": "CoreModule",
+		"npm": "@openimis/fe-core@",
+		"url": "https://github.com/openimis/openimis-fe_js/archive/v1.1.0.tar.gz"		
+	}```
+	
 At this stage, your browser opened on localhost:3000 with current openIMIS frontend.
 In developement mode, the frontend connects to the backend via a proxy configuration, expecting to reach the backend on localhost:8000 (cfr. /package.json file, "proxy" entry).
 
