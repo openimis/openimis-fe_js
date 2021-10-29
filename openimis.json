@@ -24,7 +24,7 @@
         },
         {
             "name": "HomeModule",
-            "npm": "@openimis/fe-home@1.2.0-rc3"
+            "npm": "@openimis/fe-home@1.3.0"
         },
         {
             "name": "LocationModule",
@@ -77,11 +77,11 @@
         },
         {
             "name": "ToolsModule",
-            "npm": "@openimis/fe-tools@1.2.0-rc4"
+            "npm": "@openimis/fe-tools@1.3.0"
         },
         {
             "name": "ProfileModule",
-            "npm": "@openimis/fe-profile@1.2.0-rc5"
+            "npm": "@openimis/fe-profile@1.3.0"
         },
         {
             "name": "LanguageFrModule",
