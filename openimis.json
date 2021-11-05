@@ -84,6 +84,26 @@
             "npm": "@openimis/fe-profile@1.3.0"
         },
         {
+            "name": "ProfileModule",
+            "npm": "@openimis/fe-profile@latest"
+        },
+        {
+            "name": "CalculationModule",
+            "npm": "@openimis/fe-calculation@latest"
+        },
+        {
+            "name": "PolicyHolderModule",
+            "npm": "@openimis/fe-policyholder@latest"
+        },
+        {
+            "name": "ContributionPlanModule",
+            "npm": "@openimis/fe-contribution_plan@latest"
+        },
+        {
+            "name": "ContractModule",
+            "npm": "@openimis/fe-contract@latest"
+        },
+        {
             "name": "LanguageFrModule",
             "npm": "@openimis/fe-language_fr@1.3.0"
         }
