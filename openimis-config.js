@@ -18,7 +18,12 @@ function processLocales(config) {
     );
     locales.write(`export const locales = ${JSON.stringify(config['locales'].map((lc) => lc.intl))}`);
     locales.write(`\nexport const fileNamesByLang = ${JSON.stringify(filesByLang)}`);
+    locales.write(`/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */`);
     locales.write(`\nexport default ${JSON.stringify(localeByLang)}`);
+}
+
+function getModuleLogicalName(module) {
+  return module.logicalName || module.npm.match(/([^/]*)\/([^@]*).*/)[2];
 }
 
 function processModules(config, packageConfig) {
@@ -27,19 +32,20 @@ function processModules(config, packageConfig) {
     let lib = module.npm.substring(0, module.npm.lastIndexOf('@'));
 		let version = module.npm.substring( module.npm.lastIndexOf('@')+1);
     srcModules.write(`import { ${module.name} } from '${lib}';\n`);
-		packageConfig.dependencies[lib]=version;
-    });
-    srcModules.write("\nfunction logicalName(npmName) {\n\t");
-    srcModules.write("return [...npmName.match(/([^/]*)\\/([^@]*).*/)][2];\n");
-    srcModules.write("}\n");
-    srcModules.write("\nexport const versions = [\n\t")
-    srcModules.write(config['modules'].map((module) => `"${module.npm}"`).join(",\n\t"));
-    srcModules.write("\n];\nexport const modules = (cfg) => [\n\t")
-    srcModules.write(config['modules'].map((module) => `${module.name}((cfg && cfg[logicalName('${module.npm}')]) || {})`).join(",\n\t"));
-    srcModules.write("\n];");
-    srcModules.end();
-    return packageConfig;
-	
+    packageConfig.dependencies[lib] = version;
+  });
+  srcModules.write("\nexport const versions = [\n\t");
+  srcModules.write(config["modules"].map((module) => `"${module.npm}"`).join(",\n\t"));
+  srcModules.write("\n];\nexport const modules = (cfg) => [\n\t");
+  srcModules.write(
+    config["modules"]
+      .map((module) => `${module.name}((cfg && cfg["${getModuleLogicalName(module)}"]) || {})`)
+      .join(",\n\t")
+  );
+  srcModules.write("\n];");
+  srcModules.end();
+  return packageConfig;
+
 }
 
 function applyConfig(config, packageConfig) {
