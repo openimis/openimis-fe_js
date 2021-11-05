@@ -20,7 +20,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [10.x, 11.x]
         
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -40,3 +40,9 @@ jobs:
         run : yarn build 
       - name: build
         run : yarn test
+      - name: tar build
+        run: tar -czvf frontend.tar.gz build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: frontend-node${{ matrix.node-version }}-${{github.run_number}}-${{github.sha}}
+          path: ./frontend.tar.gz
