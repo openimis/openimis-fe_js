@@ -18,6 +18,7 @@ function processLocales(config) {
     );
     locales.write(`export const locales = ${JSON.stringify(config['locales'].map((lc) => lc.intl))}`);
     locales.write(`\nexport const fileNamesByLang = ${JSON.stringify(filesByLang)}`);
+    locales.write(`/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */`);
     locales.write(`\nexport default ${JSON.stringify(localeByLang)}`);
 }
 
