@@ -35,12 +35,9 @@ jobs:
       - name: get dependences
         run: |
           node openimis-config.js openimis.json
-      - uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install # will run `yarn install` command
-      - uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: build # will run `yarn build` command
-      - uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: test # will run `yarn test` command
+      - name: Install dependencies
+        run : yarn install 
+      - name: build
+        run : yarn build 
+      - name: build
+        run : yarn test
