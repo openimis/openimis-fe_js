@@ -85,23 +85,23 @@
         },
         {
             "name": "ProfileModule",
-            "npm": "@openimis/fe-profile@latest"
+            "npm": "@openimis/fe-profile@1.3.0"
         },
         {
             "name": "CalculationModule",
-            "npm": "@openimis/fe-calculation@latest"
+            "npm": "@openimis/fe-calculation@1.3.0"
         },
         {
             "name": "PolicyHolderModule",
-            "npm": "@openimis/fe-policyholder@latest"
+            "npm": "@openimis/fe-policyholder@1.3.0"
         },
         {
             "name": "ContributionPlanModule",
-            "npm": "@openimis/fe-contribution_plan@latest"
+            "npm": "@openimis/fe-contribution_plan@1.3.0"
         },
         {
             "name": "ContractModule",
-            "npm": "@openimis/fe-contract@latest"
+            "npm": "@openimis/fe-contract@1.3.0"
         },
         {
             "name": "LanguageFrModule",
