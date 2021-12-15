@@ -30,15 +30,16 @@ In case of troubles, please consult/contact our service desk via our [ticketing 
 ## Developers setup
 
 ### To start working in openIMIS as a (module) developer:
-<table align="center"><tr><td>When programming for openIMIS frontend, the shared (with openimis-fe_js) dependencies (react,...) must be declared as *peerDependencies* in your package.json file. You are also highly encouraged to used the features provided in the openimis-fe-core module. This includes (but is not limited to) main menu entries, date handling, user info,...</td></tr></table>
+<table align="center"><tr><td>When programming for openIMIS frontend, the shared (with openimis-fe_js) dependencies (react,...) must be declared as *peerDependencies* in your package.json file. You are also highly encouraged to used the features provided in the openimis-fe-core module. This includes (but is not limited to) main menu entries, date handling, user info,... 
+Another important point is NOT TO HAVE in backend db table user_Core (managed by Django) user called 'admin' or 'Admin'. This could case defects while running frontend via command `yarn start`.
+This issue is related to the link between userCore and tblUser tables.</td></tr></table>
 
 * clone this repo (creates the `openimis-fe_js` directory)
 * install node (version 10)
 * install yarn
 * within `openimis-fe_js` directory
+  * generate the openIMIS modules dependencies and locales (from openimis.json config):  `node openimis-config.js` / `node openimis-config.js openimis.json` 
   * install openIMIS technical dependencies: `yarn install`
-  * generate the openIMIS modules dependencies and locales (from openimis.json config): `yarn load-config`
-  * install openIMIS current modules: `source ./modules-installs.txt`
   * start openIMIS frontend (in development mode): `yarn start`
 
 ### To start working in openIMIS as a (module) for production with git / shh / urls for dependencies:
