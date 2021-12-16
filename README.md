@@ -144,3 +144,35 @@ When release candidate is accepted:
 * upload openimis-be docker image to docker hub
 
 Note: This image only provides the openimis frontend server. The full openIMIS deployment (with the backend,...) is managed from openimis-dist_dck repo and its docker-compose.yml file.
+
+
+## Developer tools
+
+### To download from repository frontend module and build it locally in single command
+* from `/openimis-fe_js`:
+  * run this command: `node dev_tools/installModuleLocally.js <repourl> <branch>`
+  * for example `node dev_tools/installModuleLocally.js https://github.com/openimis/openimis-fe-contract_js.git develop`
+* this command executes every steps to install module locally. Those steps are:
+  * 1. Download module from GitHub repository using git clone.
+  * 2. Go into module directory
+  * 3. Within this directory run `yarn install` , `yarn build` and `yarn link` (according to that provided order)
+  * 4. Within openimis-fe_js:
+      a) execute `yarn remove @openimis/fe-invoice`
+      b) In openimis.json openimis add:
+	     ```{
+		    "name": "ContractModule",
+            "npm": "@openimis/fe-contract@0.1.0"	
+	     }```
+	  c) edit package.json - in "dependencies" put or update this module that you want to run from local environment: 
+	     ```{
+		    ...
+            "dependencies": {
+                ...
+                "@openimis/fe-invoice": "file:../openimis-fe-invoice_js",
+                ...
+            }
+            ...
+	     }```
+	  d) execute `node modules=config.js`    
+* after this you can execute `yarn start` and you should see local module in your imis application.
+  
