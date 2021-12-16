@@ -31,15 +31,17 @@ function dowloadModule(moduleRepoUrl, branch){
         }
         console.log(`stdout: ${stdout}`);
         console.error(`stderr: ${stderr}`);
-        packageVersion = prepareModuleForLocalDevelopment();
+        packageVersion = prepareModuleForLocalDevelopment(moduleName);
         updateModuleInAssembly(packageVersion);
     });
 }
 
 
-function prepareModuleForLocalDevelopment(){
+function prepareModuleForLocalDevelopment(moduleName){
+    shell.cd(moduleName);
     shell.exec('yarn unlink');
     shell.exec('yarn install');
+    shell.exec('yarn build');
     shell.exec('yarn link');
     module_path = shell.pwd();
     var pjson = require(path.join(module_path.stdout, 'package.json'));
@@ -104,7 +106,7 @@ function reinstallAssemblyModule(){
     console.log("Link local module");
     shell.cd(__dirname);
     shell.cd('..');
-    shell.exec("node openimis-config.js");
+    shell.exec("node modules-config.js");
 
     console.log('uninstall external module');
     shell.exec('yarn remove @openimis/'+splitedModuleName, (error, data) => {
