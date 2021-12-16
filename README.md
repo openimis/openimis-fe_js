@@ -173,7 +173,7 @@ Note: This image only provides the openimis frontend server. The full openIMIS d
             ...
             "dependencies": {
                 ...
-                "@openimis/fe-invoice": "file:../openimis-fe-invoice_js",    
+                "@openimis/fe-contract": "file:../openimis-fe-contract_js",    
                 ... 
             }
           ...
@@ -182,7 +182,7 @@ Note: This image only provides the openimis frontend server. The full openIMIS d
 	  
     - execute `node modules=config.js`   
     
-    - run "yarn link <module>" for example: 'yarn link "@openimis/fe-invoice"'
+    - run "yarn link <module>" for example: 'yarn link "@openimis/fe-contract"'
 
     - run "yarn install"
 
