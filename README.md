@@ -182,9 +182,9 @@ Note: This image only provides the openimis frontend server. The full openIMIS d
 	  
     - execute `node modules-config.js`   
     
-    - run "yarn link <module>" for example: 'yarn link "@openimis/fe-contract"'
+    - run `yarn link <module>` for example: 'yarn link `@openimis/fe-contract`
 
-    - run "yarn install"
+    - run `yarn install`
 
 * after this you can execute `yarn start` and you should see local module in your imis application.
   
