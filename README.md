@@ -180,7 +180,7 @@ Note: This image only provides the openimis frontend server. The full openIMIS d
           }
        ```
 	  
-    - execute `node modules=config.js`   
+    - execute `node modules-config.js`   
     
     - run "yarn link <module>" for example: 'yarn link "@openimis/fe-contract"'
 
