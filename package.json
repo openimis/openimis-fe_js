@@ -33,7 +33,8 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "redux-api-middleware": "^3.2.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "shelljs": "^0.8.4",
   },
   "scripts": {
     "start": "react-scripts start",
