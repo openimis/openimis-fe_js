@@ -187,4 +187,14 @@ Note: This image only provides the openimis frontend server. The full openIMIS d
     - run `yarn install`
 
 * after this you can execute `yarn start` and you should see local module in your imis application.
-  
+
+### To add github workflows files to the particular module
+* from `/openimis-fe_js`:
+  * run this command: `node dev_tools/addCiToModule.js <moduleNameDirectory>`
+  * for example `node dev_tools/addCiToModule.js openimis-fe-invoice_js`
+* this command allows to add files to execute CI on every PR and allows to publish to npm. 
+* if `.github/workflows` doesn't exist in particular module, this directories are created while running this command
+* files to be added through that command based on provided templates:
+     * CI_and_build.yml
+     * npmpublish.yml
+* those files are saved in `.github/workflows`
