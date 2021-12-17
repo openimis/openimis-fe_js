@@ -30,15 +30,16 @@ In case of troubles, please consult/contact our service desk via our [ticketing 
 ## Developers setup
 
 ### To start working in openIMIS as a (module) developer:
-<table align="center"><tr><td>When programming for openIMIS frontend, the shared (with openimis-fe_js) dependencies (react,...) must be declared as *peerDependencies* in your package.json file. You are also highly encouraged to used the features provided in the openimis-fe-core module. This includes (but is not limited to) main menu entries, date handling, user info,...</td></tr></table>
+<table align="center"><tr><td>When programming for openIMIS frontend, the shared (with openimis-fe_js) dependencies (react,...) must be declared as *peerDependencies* in your package.json file. You are also highly encouraged to used the features provided in the openimis-fe-core module. This includes (but is not limited to) main menu entries, date handling, user info,... 
+Another important point is NOT TO HAVE in backend db table user_Core (managed by Django) user called 'admin' or 'Admin'. This could case defects while running frontend via command `yarn start`.
+This issue is related to the link between userCore and tblUser tables.</td></tr></table>
 
 * clone this repo (creates the `openimis-fe_js` directory)
 * install node (version 10)
 * install yarn
 * within `openimis-fe_js` directory
+  * generate the openIMIS modules dependencies and locales (from openimis.json config):  `node openimis-config.js` / `node openimis-config.js openimis.json` 
   * install openIMIS technical dependencies: `yarn install`
-  * generate the openIMIS modules dependencies and locales (from openimis.json config): `yarn load-config`
-  * install openIMIS current modules: `source ./modules-installs.txt`
   * start openIMIS frontend (in development mode): `yarn start`
 
 ### To start working in openIMIS as a (module) for production with git / shh / urls for dependencies:
@@ -143,3 +144,47 @@ When release candidate is accepted:
 * upload openimis-be docker image to docker hub
 
 Note: This image only provides the openimis frontend server. The full openIMIS deployment (with the backend,...) is managed from openimis-dist_dck repo and its docker-compose.yml file.
+
+
+## Developer tools
+
+### To download from repository frontend module and build it locally in single command
+* from `/openimis-fe_js`:
+  * run this command: `node dev_tools/installModuleLocally.js <repourl> <branch>`
+  * for example `node dev_tools/installModuleLocally.js https://github.com/openimis/openimis-fe-contract_js.git develop`
+* this command executes every steps to install module locally. Those steps are:
+  1. Download module from GitHub repository using git clone.
+  2. Go into module directory
+  3. Within this directory run `yarn install` , `yarn build` and `yarn link` (according to that provided order)
+  4. Within openimis-fe_js:
+    - execute `yarn remove @openimis/fe-invoice`
+    
+    - In openimis.json openimis add:
+      ```json
+		  {
+            "name": "ContractModule",
+            "npm": "@openimis/fe-contract@0.1.0"
+          }	
+	    ```
+	  
+    - Edit package.json - in "dependencies" put or update this module that you want to run from local environment: 
+	     ```json  
+          {
+            ...
+            "dependencies": {
+                ...
+                "@openimis/fe-contract": "file:../openimis-fe-contract_js",    
+                ... 
+            }
+          ...
+          }
+       ```
+	  
+    - execute `node modules-config.js`   
+    
+    - run `yarn link <module>` for example: `yarn link "@openimis/fe-contract"`
+
+    - run `yarn install`
+
+* after this you can execute `yarn start` and you should see local module in your imis application.
+  
