@@ -190,8 +190,8 @@ Note: This image only provides the openimis frontend server. The full openIMIS d
 
 ### To add github workflows files to the particular module
 * from `/openimis-fe_js`:
-  * run this command: `node dev_tools/addCiToModule.js <moduleNameDirectory>`
-  * for example `node dev_tools/addCiToModule.js openimis-fe-invoice_js`
+  * run this command: `node dev_tools/addCIToModule.js <moduleNameDirectory>`
+  * for example `node dev_tools/addCIToModule.js openimis-fe-invoice_js`
 * this command allows to add files to execute CI on every PR and allows to publish to npm. 
 * if `.github/workflows` doesn't exist in particular module, this directories are created while running this command
 * files to be added through that command based on provided templates:
