@@ -198,3 +198,9 @@ Note: This image only provides the openimis frontend server. The full openIMIS d
      * CI_and_build.yml
      * npmpublish.yml
 * those files are saved in `.github/workflows`
+
+### To fetch all modules and install them from local directories
+* from `/openimis-fe_js`:
+  * run this command: `node dev_tools/installModuleLocallyAll.js`. This command will execute all required steps 
+  to fetch all modules present in `openimis.json` from the git repositories and install them as editable libraries.
+
