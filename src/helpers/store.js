@@ -16,7 +16,7 @@ const store = (reducers, middlewares = []) =>
   createStore(
     combineReducers({ ...reducers }),
     persistedState,
-    composeEnhancers(applyMiddleware(thunk, apiMiddleware, ...middlewares))
+    composeEnhancers(applyMiddleware(thunk, apiMiddleware, ...middlewares)),
   );
 
 export default store;

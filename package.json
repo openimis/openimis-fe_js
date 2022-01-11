@@ -33,10 +33,17 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "load-config": "node ./openimis-config.js",
-    "postinstall": "node script/postinstall.js"
+    "postinstall": "node script/postinstall.js",
+    "format": "prettier src -w"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app"
+    ],
+    "rules": {
+      "space-before-function-paren": 0,
+      "react/jsx-boolean-value": 0
+    }
   },
   "browserslist": {
     "production": [
@@ -51,6 +58,7 @@
     ]
   },
   "devDependencies": {
-    "http-proxy-middleware": "^2.0.1"
+    "http-proxy-middleware": "^2.0.1",
+    "prettier": "^2.3.2"
   }
 }
