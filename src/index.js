@@ -61,7 +61,11 @@ const AppContainer = () => {
   }, []);
 
   if (appState.isLoading) {
-    return <LinearProgress className="bootstrap" />;
+    return (
+      <MuiThemeProvider theme={theme}>
+        <LinearProgress className="bootstrap" />
+      </MuiThemeProvider>
+    );
   } else if (appState.error) {
     return (
       <FatalError
@@ -78,9 +82,11 @@ const AppContainer = () => {
       return reds;
     }, []);
 
+    const middlewares = modulesManager.getContribs("middlewares");
+
     return (
       <MuiThemeProvider theme={theme}>
-        <Provider store={store(reducers)}>
+        <Provider store={store(reducers, middlewares)}>
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <HistoryProvider history={history}>
               <ModulesManagerProvider modulesManager={modulesManager}>
