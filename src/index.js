@@ -90,7 +90,12 @@ const AppContainer = () => {
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <HistoryProvider history={history}>
               <ModulesManagerProvider modulesManager={modulesManager}>
-                <App localesManager={localesManager} messages={messages_ref} logo={logo} />
+                <App
+                  basename={process.env.PUBLIC_URL}
+                  localesManager={localesManager}
+                  messages={messages_ref}
+                  logo={logo}
+                />
               </ModulesManagerProvider>
             </HistoryProvider>
           </MuiPickersUtilsProvider>
