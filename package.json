@@ -34,7 +34,8 @@
     "build": "react-scripts build",
     "load-config": "node ./openimis-config.js",
     "postinstall": "node script/postinstall.js",
-    "format": "prettier src -w"
+    "format": "prettier src -w",
+    "check-package": "node script/check-package.js"
   },
   "eslintConfig": {
     "extends": [

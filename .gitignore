@@ -1,6 +1,6 @@
 node_modules
 build
-yarn*
+yarn-error.log
 modules-installs.txt
 modules-links.txt
 modules-removes.txt
@@ -8,4 +8,4 @@ modules-unlinks.txt
 src/modules.js
 src/locales.js
 .idea
-package-lock.json
+yarn.lock
