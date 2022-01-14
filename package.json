@@ -3,7 +3,7 @@
   "version": "1.3.0",
   "license": "AGPL-3.0-only",
   "proxy": "http://localhost:8000",
-  "homepage": "http://localhost/front",
+  "homepage": "http://localhost:3000/front",
   "dependencies": {
     "@date-io/core": "^1.3.13",
     "@date-io/moment": "^1.3.13",
@@ -33,10 +33,18 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "load-config": "node ./openimis-config.js",
-    "postinstall": "node script/postinstall.js"
+    "postinstall": "node script/postinstall.js",
+    "format": "prettier src -w",
+    "check-package": "node script/check-package.js"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app"
+    ],
+    "rules": {
+      "space-before-function-paren": 0,
+      "react/jsx-boolean-value": 0
+    }
   },
   "browserslist": {
     "production": [
@@ -51,6 +59,7 @@
     ]
   },
   "devDependencies": {
-    "http-proxy-middleware": "^2.0.1"
+    "http-proxy-middleware": "^2.0.1",
+    "prettier": "^2.3.2"
   }
 }

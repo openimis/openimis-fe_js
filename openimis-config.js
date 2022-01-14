@@ -1,86 +1,105 @@
-const fs = require('fs');
+const fs = require("fs");
+const pkg = require("./package.json");
 
 function processLocales(config) {
-    var locales = fs.createWriteStream('./src/locales.js');
-    let localeByLang = config['locales'].reduce(
-        (lcs, lc) => {
-            lc.languages.forEach((lg) => lcs[lg] = lc.intl);
-            return lcs
-        },
-        {}
+  var locales = fs.createWriteStream("./src/locales.js");
+  let localeByLang = config["locales"].reduce((lcs, lc) => {
+    lc.languages.forEach((lg) => (lcs[lg] = lc.intl));
+    return lcs;
+  }, {});
+  let filesByLang = config["locales"].reduce((fls, lc) => {
+    lc.languages.forEach((lg) => (fls[lg] = lc.fileNames));
+    return fls;
+  }, {});
+  locales.write(`export const locales = ${JSON.stringify(config["locales"].map((lc) => lc.intl))}`);
+  locales.write(`\nexport const fileNamesByLang = ${JSON.stringify(filesByLang)}`);
+  locales.write(`/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */`);
+  locales.write(`\nexport default ${JSON.stringify(localeByLang)}`);
+}
+
+function getConfig() {
+  // Try to get the configuration from the args
+  if (process.argv[2]) {
+    console.log(`  load configuration from '${process.argv[2]}'`);
+    return JSON.parse(fs.readFileSync(process.argv[2], "utf-8"));
+  } else if (process.env.OPENIMIS_CONF_JSON) {
+    console.log(`  load configuration from env`);
+    return JSON.parse(process.env.OPENIMIS_CONF_JSON);
+  } else if (fs.existsSync("./openimis.json")) {
+    console.log(`  load configuration from ./openimis.json`);
+    return JSON.parse(fs.readFileSync("./openimis.json", "utf-8"));
+  } else {
+    throw new Error(
+      "No configuration file found. Please provide a configuration in the CLI or in the OPENIMIS_CONF_JSON environment variable",
     );
-    let filesByLang = config['locales'].reduce(
-        (fls, lc) => {
-            lc.languages.forEach((lg) => fls[lg] = lc.fileNames);
-            return fls
-        },
-        {}
-    );
-    locales.write(`export const locales = ${JSON.stringify(config['locales'].map((lc) => lc.intl))}`);
-    locales.write(`\nexport const fileNamesByLang = ${JSON.stringify(filesByLang)}`);
-    locales.write(`/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */`);
-    locales.write(`\nexport default ${JSON.stringify(localeByLang)}`);
+  }
 }
 
-function getModuleLogicalName(module) {
-  return module.logicalName || module.npm.match(/([^/]*)\/([^@]*).*/)[2];
+function processModules(modules) {
+  const stream = fs.createWriteStream("./src/modules.js");
+  modules.forEach(({ moduleName, name }) => stream.write(`import { ${name} } from "${moduleName}";\n`));
+
+  stream.write(`
+export const versions = [
+  ${modules.map(({ npm }) => `"${npm}"`).join(",\n  ")}
+];\n
+`);
+
+  stream.write(`
+export const modules = (cfg = {}) => [
+  ${modules.map(({ name, logicalName }) => `${name}(cfg["${logicalName}"] || {})`).join(",\n\t")}
+];\n
+`);
+
+  stream.end();
 }
 
-function processModules(config, packageConfig) {
-    var srcModules = fs.createWriteStream('./src/modules.js');
-    config['modules'].forEach((module) => {
-    let lib = module.npm.substring(0, module.npm.lastIndexOf('@'));
-		let version = module.npm.substring( module.npm.lastIndexOf('@')+1);
-    srcModules.write(`import { ${module.name} } from '${lib}';\n`);
-    packageConfig.dependencies[lib] = version;
-  });
-  srcModules.write("\nexport const versions = [\n\t");
-  srcModules.write(config["modules"].map((module) => `"${module.npm}"`).join(",\n\t"));
-  srcModules.write("\n];\nexport const modules = (cfg) => [\n\t");
-  srcModules.write(
-    config["modules"]
-      .map((module) => `${module.name}((cfg && cfg["${getModuleLogicalName(module)}"]) || {})`)
-      .join(",\n\t")
-  );
-  srcModules.write("\n];");
-  srcModules.end();
-  return packageConfig;
+function main() {
+  /*
+  Load openIMIS configuration. Configuration is taken from args if provided or from the environment variable
+  */
 
+  // Remove @openimis dependencies from package.json
+  console.log("Remove @openimis dependencies from package.json");
+  for (const key in pkg.dependencies) {
+    if (key.startsWith("@openimis/")) {
+      // This only covers modules made from the openIMIS organization
+      console.log(`  removed ${key}`);
+      delete pkg.dependencies[key];
+    }
+  }
+
+  // Get openIMIS configuration from args
+  console.log("Load configuration");
+  const config = getConfig();
+
+  console.log("Process Locales");
+  processLocales(config);
+
+  console.log("Process Modules");
+  const modules = [];
+  for (const module of config.modules) {
+    const { npm, name, logicalName } = module;
+    // Find version number
+    const moduleName = npm.substring(0, npm.lastIndexOf("@"));
+    if (npm.lastIndexOf("@") <= 0) {
+      throw new Error(`  Module ${moduleName} has not version set.`);
+    }
+    const version = npm.substring(npm.lastIndexOf("@") + 1);
+    console.log(`  added "${moduleName}": ${version}`);
+    pkg.dependencies[moduleName] = version;
+    modules.push({
+      moduleName,
+      version,
+      name,
+      npm,
+      logicalName: logicalName || npm.match(/([^/]*)\/([^@]*).*/)[2],
+    });
+  }
+  processModules(modules);
+
+  console.log("Save package.json");
+  fs.writeFileSync("./package.json", JSON.stringify(pkg, null, 2), { encoding: "utf-8", flag: "w" });
 }
 
-function applyConfig(config, packageConfig) {
-	processLocales(config);
-	packageConfig = processModules(config, packageConfig);
-	fs.writeFileSync('package.json', JSON.stringify(packageConfig,null,2),{encoding:'utf8',flag:'w'});
-}
-// Configuration load 
-
-function cleanDeps(packageConfig){
-	for (const key in packageConfig.dependencies) {
-		if (key.startsWith('@openimis')) delete packageConfig.dependencies[key];
-	}
-	return packageConfig;
-}
-
-fs.readFile('package.json', 'utf8', function read(err, data) {
-	if (err) throw err;
-	let packageConfig = cleanDeps(JSON.parse(data));
-	try {
-        if(!process.env.OPENIMIS_CONF_JSON)throw 'OPENIMIS_CONF_JSON not set !'; 
-        JSON.parse(process.env.OPENIMIS_CONF_JSON);
-		applyConfig(JSON.parse(process.env.OPENIMIS_CONF_JSON), packageConfig);
-	} catch (e) {
-
-        
-		var configFile = process.argv[2];
-		if (configFile === null || configFile === '' | configFile ===  undefined){
-			configFile = './openimis.json';
-		}
-		console.log("Using file %s, Env variable OPENIMIS_CONF_JSON not valid: %s", configFile, process.env.OPENIMIS_CONF_JSON)
-		fs.readFile(configFile, 'utf8', function read(err, data) {
-			if (err) throw err;
-			config = JSON.parse(data);
-			applyConfig(config, packageConfig);
-		});
-	}
-});
+main();

@@ -54,7 +54,7 @@ const AppContainer = () => {
         setAppState({
           error,
           isLoading: false,
-        })
+        }),
     );
   }, []);
 
