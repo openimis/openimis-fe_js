@@ -4,11 +4,9 @@ COPY ./ /app
 WORKDIR /app
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
-RUN node openimis-config.js
-RUN cat package.json
-#RUN . ./modules-adds.txt
-#RUN . ./modules-installs.txt
-RUN yarn install
-RUN yarn build
+RUN node openimis-config.js &&\
+    cat package.json &&\
+    yarn install &&\
+    yarn build
 RUN yarn global add serve
 CMD ["yarn","start"]
