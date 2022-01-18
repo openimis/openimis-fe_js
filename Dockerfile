@@ -5,6 +5,7 @@ WORKDIR /app
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
 RUN node openimis-config.js
+RUN cat package.json
 #RUN . ./modules-adds.txt
 #RUN . ./modules-installs.txt
 RUN yarn install
