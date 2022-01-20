@@ -7,6 +7,7 @@ ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
 RUN node openimis-config.js &&\
     cat package.json &&\
     yarn install &&\
+    yarn list &&\
     yarn build
 RUN yarn global add serve
 CMD ["yarn","start"]
