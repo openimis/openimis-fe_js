@@ -7,7 +7,6 @@ import { Provider } from "react-redux";
 import MomentUtils from "@date-io/moment";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import * as serviceWorker from "./serviceWorker";
-import history from "./helpers/history";
 import theme from "./helpers/theme";
 import store from "./helpers/store";
 import LocalesManager from "./LocalesManager";
@@ -17,7 +16,6 @@ import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
 import messages_ref from "./translations/ref.json";
 import "./index.css";
 import logo from "./openIMIS.png";
-import HistoryProvider from "./HistoryProvider";
 
 const loadConfiguration = async () => {
   const response = await fetch(`${baseApiUrl}/graphql`, {
@@ -56,12 +54,16 @@ const AppContainer = () => {
         setAppState({
           error,
           isLoading: false,
-        })
+        }),
     );
   }, []);
 
   if (appState.isLoading) {
-    return <LinearProgress className="bootstrap" />;
+    return (
+      <MuiThemeProvider theme={theme}>
+        <LinearProgress className="bootstrap" />
+      </MuiThemeProvider>
+    );
   } else if (appState.error) {
     return (
       <FatalError
@@ -78,15 +80,20 @@ const AppContainer = () => {
       return reds;
     }, []);
 
+    const middlewares = modulesManager.getContribs("middlewares");
+
     return (
       <MuiThemeProvider theme={theme}>
-        <Provider store={store(reducers)}>
+        <Provider store={store(reducers, middlewares)}>
           <MuiPickersUtilsProvider utils={MomentUtils}>
-            <HistoryProvider history={history}>
-              <ModulesManagerProvider modulesManager={modulesManager}>
-                <App localesManager={localesManager} messages={messages_ref} logo={logo} />
-              </ModulesManagerProvider>
-            </HistoryProvider>
+            <ModulesManagerProvider modulesManager={modulesManager}>
+              <App
+                basename={process.env.PUBLIC_URL}
+                localesManager={localesManager}
+                messages={messages_ref}
+                logo={logo}
+              />
+            </ModulesManagerProvider>
           </MuiPickersUtilsProvider>
         </Provider>
       </MuiThemeProvider>

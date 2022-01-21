@@ -1,0 +1,55 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        name: Setup node v16
+        with:
+          node-version: "16"
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2
+        id: cache # use this to check for `cache-hit` (`steps.cache.outputs.cache-hit != 'true'`)
+        with:
+          path: |
+            **/node_modules
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Check package.json
+        run: yarn check-package
+
+      # Runs a single command using the runners shell
+      - name: Prepare openIMIS Dependencies
+        run: yarn load-config
+
+      - name: Install dependencies
+        run: yarn install # Since we edit package.json with the openIMIS deps, we cannot use --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: frontend-${GITHUB_REF_NAME_SLUG}-${{github.sha}}
+          path: ./build/*

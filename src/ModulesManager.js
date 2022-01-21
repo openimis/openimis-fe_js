@@ -2,7 +2,6 @@ import { modules, versions } from "./modules";
 import pkg from "../package.json";
 
 class ModulesManager {
-
   constructor(cfg) {
     this.cfg = cfg;
     this.modules = modules(cfg);
@@ -17,7 +16,7 @@ class ModulesManager {
       if (!!this.cfg[k].controls) {
         for (var i in this.cfg[k].controls) {
           var c = this.cfg[k].controls[i];
-          ctrls[k+'.'+c['field']] = c['usage'];
+          ctrls[k + "." + c["field"]] = c["usage"];
         }
       }
     }
@@ -25,11 +24,10 @@ class ModulesManager {
   }
 
   buildRefsCache() {
-    return this.getContribs("refs")
-      .reduce((refs, r) => {
-        refs[r.key] = r.ref;
-        return refs
-      }, {});
+    return this.getContribs("refs").reduce((refs, r) => {
+      refs[r.key] = r.ref;
+      return refs;
+    }, {});
   }
 
   getOpenIMISVersion() {
@@ -41,7 +39,7 @@ class ModulesManager {
   }
 
   hideField(module, key) {
-    return this.controlsCache['fe-'+module+"."+key] & 1;
+    return this.controlsCache["fe-" + module + "." + key] & 1;
   }
 
   getRef(key) {
