@@ -62,7 +62,7 @@ This issue is related to the link between userCore and tblUser tables.</td></tr>
 #### using npm
 
     ```{
-    	"name": "CoreModule",
+    	"name": "CoreModule", // If name is not provided, it will assume the module is exported as the `default` module
     	"npm": "@openimis/fe-core@1.2.0-rc15"
     }```
 
