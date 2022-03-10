@@ -1,4 +1,5 @@
 import { loadModules, packages } from "./modules";
+import { memoize } from "lodash";
 import pkg from "../package.json";
 
 class ModulesManager {
@@ -8,6 +9,7 @@ class ModulesManager {
     this.contributionsCache = {};
     this.controlsCache = this.buildControlsCache();
     this.refsCache = this.buildRefsCache();
+    this.reportsCache = this.buildReportsCache();
   }
 
   buildControlsCache() {
@@ -30,6 +32,19 @@ class ModulesManager {
     }, {});
   }
 
+  buildReportsCache() {
+    return this.getContribs("reports").reduce((acc, report) => {
+      if (!report.getParams) {
+        console.error(`Report ${report.key} has no getParams function.`);
+      }
+      if (!report.isValid) {
+        console.error(`Report ${report.key} has no isValid function.`);
+      }
+      acc[report.key] = report;
+      return acc;
+    }, {});
+  }
+
   getOpenIMISVersion() {
     return pkg.version;
   }
@@ -46,25 +61,18 @@ class ModulesManager {
     return this.refsCache[key];
   }
 
+  getReport(ref) {
+    return this.reportsCache[ref];
+  }
+
   getProjection(key) {
     const proj = this.getRef(key);
     return !!proj ? `{${proj.join(", ")}}` : "";
   }
 
-  getContribs(key) {
-    if (this.contributionsCache[key]) {
-      return this.contributionsCache[key];
-    }
-    const res = this.modules.reduce((contributions, module) => {
-      const contribs = (module || {})[key];
-      if (contribs) {
-        contributions.push(...contribs);
-      }
-      return contributions;
-    }, []);
-    this.contributionsCache[key] = res;
-    return res;
-  }
+  getContribs = memoize((key) => {
+    return this.modules.reduce((contributions, module) => [...contributions, ...(module[key] ?? [])], []);
+  });
 
   getConf(module, key, defaultValue = null) {
     const moduleCfg = this.cfg[module] || {};
