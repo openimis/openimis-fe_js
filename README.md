@@ -52,9 +52,7 @@ This issue is related to the link between userCore and tblUser tables.</td></tr>
 - within `openimis-fe_js` directory
 
   - generate the openIMIS modules dependencies and locales (from openimis.json config): `yarn load-config` or `yarn load-config openimis.json`
-  - remove previous local directory / git / link openIMIS current modules: `source ./modules-installs.txt`
   - clean yarn cache in case local directory / git /link are used: `yarn cache clean`
-  - install openIMIS current modules: `source ./modules-installs.txt`
   - install openIMIS technical dependencies: `yarn install`
   - build openIMIS frontend (in development mode): `yarn build`
   - copy the build folder on the webserver
@@ -62,35 +60,8 @@ This issue is related to the link between userCore and tblUser tables.</td></tr>
 #### using npm
 
     ```{
-    	"name": "CoreModule",
+    	"name": "CoreModule", // If name is not provided, it will assume the module is exported as the `default` module
     	"npm": "@openimis/fe-core@1.2.0-rc15"
-    }```
-
-#### using git
-
-    when using git, the branch can be specified using this structure <git repo url>#<branch>
-
-    ```{
-    	"name": "CoreModule",
-    	"npm": "@openimis/fe-core@",
-    	"git": "https://github.com/openimis/openimis-fe_js.git#develop"
-
-    }```
-
-#### using local files
-
-    ```{
-    	"name": "CoreModule",
-    	"npm": "@openimis/fe-core@",
-    	"file": "../openimis-fe-core_js/"
-    }```
-
-#### using tar ball
-
-    ```{
-    	"name": "CoreModule",
-    	"npm": "@openimis/fe-core@",
-    	"url": "https://github.com/openimis/openimis-fe_js/archive/v1.1.0.tar.gz"
     }```
 
 At this stage, your browser opened on localhost:3000 with current openIMIS frontend.
@@ -127,11 +98,11 @@ Note:
 ### To create a distinct implementation of an existing openIMIS module (e.g. `@openimis/fe-location-dhis2`)
 
 Unlike backend modules, there is 'shared logical name' between distinct implementations of a same 'module'.
-If you want to provide an distinct implementation for locations (example), just create a separate module, with a distinct module name and ensure the packaging (distribution) picks your module (and not the reference implementaion).
+If you want to provide an distinct implementation for locations (example), just create a separate module, with a distinct module name and ensure the packaging (distribution) picks your module (and not the reference implementation).
 
 ### To publish (in npm central repo) the modified (or new) module
 
-- adapt your package.json (bump version number, ensure license is mentionned,...)
+- adapt your package.json (bump version number, ensure license is mentioned,...)
 - commit your changes to the git repo and merge to master
 - tag the git repo according to your new version number
 - publish to npm central repo: `npm publish` (from within `/openimis-fe-mymodule_js`)

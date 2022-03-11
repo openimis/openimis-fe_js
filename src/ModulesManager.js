@@ -1,10 +1,10 @@
-import { modules, versions } from "./modules";
+import { loadModules, packages } from "./modules";
 import pkg from "../package.json";
 
 class ModulesManager {
   constructor(cfg) {
     this.cfg = cfg;
-    this.modules = modules(cfg);
+    this.modules = loadModules(cfg);
     this.contributionsCache = {};
     this.controlsCache = this.buildControlsCache();
     this.refsCache = this.buildRefsCache();
@@ -35,7 +35,7 @@ class ModulesManager {
   }
 
   getModulesVersions() {
-    return versions;
+    return packages.map((name) => `${name}@${pkg.dependencies[name] ?? "?"}`);
   }
 
   hideField(module, key) {

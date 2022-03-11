@@ -37,18 +37,24 @@ function getConfig() {
 
 function processModules(modules) {
   const stream = fs.createWriteStream("./src/modules.js");
-  modules.forEach(({ moduleName, name }) => stream.write(`import { ${name} } from "${moduleName}";\n`));
 
   stream.write(`
-export const versions = [
-  ${modules.map(({ npm }) => `"${npm}"`).join(",\n  ")}
+export const packages = [
+  ${modules.map(({ moduleName }) => `"${moduleName}"`).join(",\n  ")}
 ];\n
 `);
 
   stream.write(`
-export const modules = (cfg = {}) => [
-  ${modules.map(({ name, logicalName }) => `${name}(cfg["${logicalName}"] || {})`).join(",\n\t")}
-];\n
+export function loadModules (cfg = {}) {
+  return [
+    ${modules
+      .map(
+        ({ name, logicalName, moduleName }) =>
+          `require("${moduleName}").${name ?? "default"}(cfg["${logicalName}"] || {})`,
+      )
+      .join(",\n    ")}
+  ];\n
+}
 `);
 
   stream.end();
@@ -83,7 +89,7 @@ function main() {
     // Find version number
     const moduleName = npm.substring(0, npm.lastIndexOf("@"));
     if (npm.lastIndexOf("@") <= 0) {
-      throw new Error(`  Module ${moduleName} has not version set.`);
+      throw new Error(`  Module ${moduleName} has no version set.`);
     }
     const version = npm.substring(npm.lastIndexOf("@") + 1);
     console.log(`  added "${moduleName}": ${version}`);
