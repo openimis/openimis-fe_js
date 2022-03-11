@@ -48,7 +48,7 @@ $repos | ForEach-Object  -Process {
 
 cd openimis-fe_js
 
-node openimis-config.js ./openimis.fs.json
+yarn load-config ./openimis.fs.json
 Get-Content ./modules-unlinks.txt | Invoke-Expression
 Get-Content ./modules-removes.txt | Invoke-Expression
 Get-Content ./modules-installs.txt | Invoke-Expression

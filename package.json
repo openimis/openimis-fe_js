@@ -32,7 +32,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "load-config": "node ./openimis-config.js",
+    "load-config": "node script/load-config.js",
     "postinstall": "node script/postinstall.js",
     "format": "prettier src -w",
     "check-package": "node script/check-package.js"

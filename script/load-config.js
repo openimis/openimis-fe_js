@@ -1,5 +1,5 @@
 const fs = require("fs");
-const pkg = require("./package.json");
+const pkg = require("../package.json");
 
 function processLocales(config) {
   var locales = fs.createWriteStream("./src/locales.js");
