@@ -1,6 +1,7 @@
 import { loadModules, packages } from "./modules";
 import { memoize } from "lodash";
 import pkg from "../package.json";
+import { ensureArray } from "@openimis/fe-core";
 
 class ModulesManager {
   constructor(cfg) {
@@ -71,7 +72,7 @@ class ModulesManager {
   }
 
   getContribs = memoize((key) => {
-    return this.modules.reduce((contributions, module) => [...contributions, ...(module[key] ?? [])], []);
+    return this.modules.reduce((contributions, module) => [...contributions, ...ensureArray(module[key])], []);
   });
 
   getConf(module, key, defaultValue = null) {
