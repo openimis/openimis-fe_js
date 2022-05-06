@@ -20,91 +20,91 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@>1.4.0-rc"
+            "npm": "@openimis/fe-core@>1.4.0"
         },
         {
             "name": "HomeModule",
-            "npm": "@openimis/fe-home@>1.4.0-rc"
+            "npm": "@openimis/fe-home@>1.4.0"
         },
         {
             "name": "LocationModule",
-            "npm": "@openimis/fe-location@>1.4.0-rc"
+            "npm": "@openimis/fe-location@>1.4.0"
         },
         {
             "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@>1.4.0-rc"
+            "npm": "@openimis/fe-insuree@>1.4.0"
         },
         {
             "name": "MedicalModule",
-            "npm": "@openimis/fe-medical@>1.4.0-rc"
+            "npm": "@openimis/fe-medical@>1.4.0"
         },
         {
             "name": "MedicalPriceListModule",
-            "npm": "@openimis/fe-medical_pricelist@>1.3.0-rc"
+            "npm": "@openimis/fe-medical_pricelist@>1.4.0"
         },
         {
             "name": "ProductModule",
-            "npm": "@openimis/fe-product@>1.4.0-rc"
+            "npm": "@openimis/fe-product@>1.4.0"
         },
         {
             "name": "PolicyModule",
-            "npm": "@openimis/fe-policy@>1.4.0-rc"
+            "npm": "@openimis/fe-policy@>1.4.0"
         },
         {
             "name": "PayerModule",
-            "npm": "@openimis/fe-payer@>1.4.0-rc"
+            "npm": "@openimis/fe-payer@>1.4.0"
         },
         {
             "name": "ContributionModule",
-            "npm": "@openimis/fe-contribution@>1.4.0-rc"
+            "npm": "@openimis/fe-contribution@>1.4.0"
         },
         {
             "name": "PaymentModule",
-            "npm": "@openimis/fe-payment@>1.4.0-rc"
+            "npm": "@openimis/fe-payment@>1.4.0"
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@>1.4.0-rc"
+            "npm": "@openimis/fe-claim@>1.4.0"
         },
         {
             "name": "ClaimBatchModule",
-            "npm": "@openimis/fe-claim_batch@>1.4.0-rc"
+            "npm": "@openimis/fe-claim_batch@>1.4.0"
         },
         {
             "name": "AdminModule",
-            "npm": "@openimis/fe-admin@>1.4.0-rc"
+            "npm": "@openimis/fe-admin@>1.4.0"
         },
         {
             "name": "ToolsModule",
-            "npm": "@openimis/fe-tools@>1.4.0-rc"
+            "npm": "@openimis/fe-tools@>1.4.0"
         },
         {
             "name": "ProfileModule",
-            "npm": "@openimis/fe-profile@>1.4.0-rc"
+            "npm": "@openimis/fe-profile@>1.4.0"
         },
         {
             "name": "CalculationModule",
-            "npm": "@openimis/fe-calculation@>1.4.0-rc"
+            "npm": "@openimis/fe-calculation@>1.4.0"
         },
         {
             "name": "PolicyHolderModule",
-            "npm": "@openimis/fe-policyholder@>1.4.0-rc"
+            "npm": "@openimis/fe-policyholder@>1.4.0"
         },
         {
             "name": "ContributionPlanModule",
-            "npm": "@openimis/fe-contribution_plan@>1.4.0-rc"
+            "npm": "@openimis/fe-contribution_plan@>1.4.0"
         },
         {
             "name": "ContractModule",
-            "npm": "@openimis/fe-contract@>1.4.0-rc"
+            "npm": "@openimis/fe-contract@>1.4.0"
         },
         {
             "name": "LanguageFrModule",
-            "npm": "@openimis/fe-language_fr@>1.3.0-rc"
+            "npm": "@openimis/fe-language_fr@>1.4.0"
         },
 		{
 			"name": "InvoiceModule",
-			"npm": "@openimis/fe-invoice@>1.4.0-rc"
+			"npm": "@openimis/fe-invoice@>1.4.0"
 		}
     ]
 }
