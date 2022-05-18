@@ -1,13 +1,12 @@
 import { createTheme } from "@material-ui/core";
 import { alpha } from "@material-ui/core/styles/colorManipulator";
 
-
 const theme = createTheme({
   overrides: {
     MuiTableRow: {
       root: {
         "&$selected": {
-          backgroundColor: 'rgba(0, 0, 0, 0.08)'
+          backgroundColor: "rgba(0, 0, 0, 0.08)",
         },
       },
     },
@@ -20,7 +19,7 @@ const theme = createTheme({
       primary: "#006273",
       secondary: "#006273", // HACK FOR material-table hardcoded toolbar!,
       second: "#fff",
-      error: "#801a00"
+      error: "#801a00",
     },
     toggledButton: "#999999",
   },
@@ -51,7 +50,7 @@ const theme = createTheme({
     iconSize: 24,
   },
   menu: {
-    variant: 'AppBar',
+    variant: "AppBar",
     drawer: {
       width: 300,
       fontSize: 16,
@@ -61,9 +60,9 @@ const theme = createTheme({
     },
   },
   page: {
-    padding: 8,
+    padding: 16,
     locked: {
-      background: "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px);"
+      background: "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px);",
     },
   },
   paper: {
@@ -97,7 +96,7 @@ const theme = createTheme({
     },
     item: {
       padding: 10,
-    }
+    },
   },
   table: {
     title: {
@@ -115,32 +114,28 @@ const theme = createTheme({
     row: {
       color: "#006273",
       align: "center",
-      '&:hover': {
-        background: 'rgba(0, 0, 0, 0.12) !important'
-      }
+      "&:hover": {
+        background: "rgba(0, 0, 0, 0.12) !important",
+      },
     },
     cell: {
-      padding:5
+      padding: 5,
     },
     lockedRow: {
-      background: "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px);"
+      background: "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px);",
     },
-    lockedCell: {
-    },
-    highlightedRow: {
-    },
+    lockedCell: {},
+    highlightedRow: {},
     highlightedCell: {
       fontWeight: 500,
       align: "center",
     },
-    highlightedAltRow: {
-    },
+    highlightedAltRow: {},
     highlightedAltCell: {
       fontStyle: "italic",
       align: "center",
     },
-    disabledRow: {
-    },
+    disabledRow: {},
     disabledCell: {
       // textDecoration: "line-through",
       color: "grey",
@@ -166,7 +161,7 @@ const theme = createTheme({
     header: {
       color: "#006273",
       align: "center",
-    }
+    },
   },
   dialog: {
     title: {
@@ -181,12 +176,11 @@ const theme = createTheme({
       color: "#fff",
       fontWeight: "bold",
       "&:hover": {
-        backgroundColor: alpha("#006273", 0.50),
+        backgroundColor: alpha("#006273", 0.5),
         color: "#006273",
       },
     },
-    secondaryButton: {
-    },    
+    secondaryButton: {},
   },
   fab: {
     position: "fixed",
@@ -194,9 +188,7 @@ const theme = createTheme({
     right: 8,
     zIndex: 2000,
   },
-  fakeInput: {
-
-  },
+  fakeInput: {},
   bigAvatar: {
     width: 160,
     height: 160,
@@ -204,4 +196,3 @@ const theme = createTheme({
 });
 
 export default theme;
-
