@@ -3,7 +3,7 @@
   "version": "1.3.0",
   "license": "AGPL-3.0-only",
   "proxy": "http://localhost:8000",
-  "homepage": "http://localhost:3000/front",
+  "homepage": "http://localhost:8080/front",
   "dependencies": {
     "@date-io/core": "^1.3.13",
     "@date-io/moment": "^1.3.13",
@@ -11,8 +11,30 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@material-ui/pickers": "^3.2.10",
+    "@openimis/fe-admin": "latest",
+    "@openimis/fe-calculation": "latest",
+    "@openimis/fe-claim": "latest",
+    "@openimis/fe-claim_batch": "latest",
+    "@openimis/fe-contract": "latest",
+    "@openimis/fe-contribution": "latest",
+    "@openimis/fe-contribution_plan": "latest",
+    "@openimis/fe-core": "1.4.0",
+    "@openimis/fe-home": "1.4.0",
+    "@openimis/fe-insuree": "latest",
+    "@openimis/fe-invoice": "latest",
+    "@openimis/fe-language_fr": "latest",
+    "@openimis/fe-location": "latest",
+    "@openimis/fe-medical": "latest",
+    "@openimis/fe-medical_pricelist": "latest",
+    "@openimis/fe-payer": "latest",
+    "@openimis/fe-policy": "latest",
+    "@openimis/fe-policyholder": "latest",
+    "@openimis/fe-product": "latest",
+    "@openimis/fe-profile": "latest",
+    "@openimis/fe-tools": "latest",
     "classnames": "^2.2.6",
     "clsx": "^1.1.1",
+    "http-proxy-middleware": "^2.0.6",
     "lodash": "^4.17.15",
     "lodash-uuid": "^0.0.3",
     "moment": "^2.25.3",
@@ -59,7 +81,6 @@
     ]
   },
   "devDependencies": {
-    "http-proxy-middleware": "^2.0.1",
     "prettier": "^2.3.2"
   }
 }

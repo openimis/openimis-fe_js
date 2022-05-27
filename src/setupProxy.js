@@ -6,6 +6,8 @@ module.exports = function (app) {
   if (process.env.REMOTE_USER) {
     headers["Remote-User"] = process.env.REMOTE_USER;
   }
+  console.log("Proxy");
+  console.log(pkg.proxy);
   app.use(
     "/api",
     createProxyMiddleware({
