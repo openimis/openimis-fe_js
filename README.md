@@ -163,7 +163,7 @@ Note: This image only provides the openimis frontend server. The full openIMIS d
              "@openimis/fe-contract": "file:../openimis-fe-contract_js",
              ...
          }
-       ...
+         ...
        }
     ```
 
@@ -192,3 +192,78 @@ Note: This image only provides the openimis frontend server. The full openIMIS d
 - from `/openimis-fe_js`:
   - run this command: `node dev_tools/installModuleLocallyAll.js`. This command will execute all required steps
     to fetch all modules present in `openimis.json` from the git repositories and install them as editable libraries.
+
+
+## Managing translations/localization
+
+### To add new translation/localisations:
+- create separate new module based on [frontend template module](https://github.com/openimis/openimis-fe-template_js). 
+- this module should be named like: `openimis-fe-language_{lang}_js` for example `openimis-fe-language_es_js` (Spanish language)
+- add to this module such files as: `.babelrc`, `.gitignore`, `.estlintrc`
+- within `src/translation` add `{lang}.json` file for example `es.json`
+- in `index.js` within `src` modified (for example we want to have 'es' Spanish language):
+```js
+       import messages_es from "./translations/es.json";
+
+       const DEFAULT_CONFIG = {
+           "translations": [{ key: "es", messages: messages_es }],
+       }
+
+       export const LanguageEsModule = (cfg) => {
+           return { ...DEFAULT_CONFIG, ...cfg };
+       }
+```
+- build your new module with translations by typing within this module `yarn build`, `yarn install` and `yarn link` commands.
+- in `tblLanguages` on database level add new language for example 'es' (Spanish language)
+- within assembly frontend module `openimis-fe_js` in `openimis.json` add language key for new language/localization for example:
+```json
+      ...
+       "locales": [
+       {
+          "languages": [
+            "es",
+            "es-ES"
+          ],
+          "intl": "es-ES",
+          "fileNames": "es"
+       },
+       {
+          "languages": [
+            "en",
+            "en-GB"
+          ],
+          "intl": "en-GB",
+          "fileNames": "en"
+        },
+        {
+          "languages": [
+            "fr",
+            "fr-FR"
+          ],
+          "intl": "fr-FR",
+          "fileNames": "fr"
+        }
+      ],
+      ...
+```
+- in `openimis.json` add also this newly created module with translations
+- within `openimis-fe_js/src` in `locales.js` add new language like below:
+```js
+      export const locales = ["es-ES","en-GB","fr-FR"]
+      export const fileNamesByLang = {"es":"es", "es-ES":"es","en":"en","en-GB":"en","fr":"fr","fr-FR":"fr"}
+      export default {"es":"es-ES", "es-ES": "es-ES","en":"en-GB","en-GB":"en-GB","fr":"fr-FR","fr-FR":"fr-FR"}  
+```
+- type `yarn build` and if success - type `yarn start` and you should see this translation in your app (go to 'users' page, select user, change language into the newly provided, refresh page and you should see texts in changed language)
+- there is also possibility to overwrite particular language for example 'English' into 'Gambian English' (without changes on database level). In your new translation module in index.js (for example new module called `openimis-fe-language_en_gm_js`):
+ ```js
+       import messages_en from "./translations/en.json";
+
+       const DEFAULT_CONFIG = {
+           "translations": [{ key: "en", messages: messages_en }],
+       }
+
+       export const LanguageEnGmModule = (cfg) => {
+           return { ...DEFAULT_CONFIG, ...cfg };
+       }
+```
+- this approach overwrites default `en` language translations into `en-gm` (Gambian English) translations without adding new language on database level and without changing 'locales' in 'openimis.json' and 'locales.js' file both on assembly frontend module (openimis-fe_js). 
