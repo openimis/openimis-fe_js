@@ -267,3 +267,45 @@ Note: This image only provides the openimis frontend server. The full openIMIS d
        }
 ```
 - this approach overwrites default `en` language translations into `en-gm` (Gambian English) translations without adding new language on database level and without changing 'locales' in 'openimis.json' and 'locales.js' file both on assembly frontend module (openimis-fe_js). 
+
+
+## Handling errors while running openIMIS app - the most common ones
+
+### Handling error with ` no content display` after running frontend
+Based on error reported on that [ticket](https://openimis.atlassian.net/browse/OSD-176)
+
+Description of error: 
+* after `yarn start` the page loads but no content is display
+* sometimes it just keeps spinning the loader
+* web console doesn't show any errors
+
+How to solve this? 
+* double check if you use proper versions of backend/frontend modules (assembly and core ones)
+* make sure you have the latest version of dockerized database
+
+Conclusions:
+* The reason of this error is usually using not up-to-date assembly and core modules (both backend and frontend ones)
+
+
+### Handling error with `400 error` after running frontend
+Based on error reported on that [ticket](https://openimis.atlassian.net/browse/OSD-181)
+
+Description of error: 
+* modular openIMIS deployed on server
+* backend is set on port 8000, frontend is set on port 3000
+* backend works fine, no errors
+* it is not possible to reach both login and home page due to 400 error
+* web console doesn't show any errors
+
+How to solve this? 
+* double check if you use proper versions of backend/frontend modules (assembly and core ones)
+* make sure you added env variables on backend side (site root/sire url)
+* double check value for `proxy` key in package.json (IMPORTANT: be careful with this setting on production environment) 
+
+Conclusions:
+* The reason of this error is usually not setting up env variables on backend side and wrong value for `proxy` key
+
+
+### How to report another issues? 
+If you face another issues not described in that section you could use our [ticketing site](https://openimis.atlassian.net/servicedesk/customer/portal/1). 
+Here you can report any bugs/problems you faced during setting up openIMIS app. 
