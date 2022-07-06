@@ -40,7 +40,7 @@ Another important point is NOT TO HAVE in backend db table user_Core (managed by
 This issue is related to the link between userCore and tblUser tables.</td></tr></table>
 
 - clone this repo (creates the `openimis-fe_js` directory)
-- install node
+- install node (node V16.x)
 - install yarn
 - within `openimis-fe_js` directory
   - generate the openIMIS modules dependencies and locales (from openimis.json config): `yarn load-config` or `yarn load-config openimis.json`
