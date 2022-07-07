@@ -103,8 +103,8 @@
 			"npm": "@openimis/fe-invoice@latest"
 		},
 		{
-			"name": "ProductPackageModule",
-			"npm": "@openimis/fe-productpackage@0.1.0"
+			"name": "CmrCsModule",
+			"npm": "@openimis/fe-cmr-cs@latest"
 		}
 	]
 }
