@@ -35,10 +35,6 @@
 			"npm": "@openimis/fe-insuree@latest"
 		},
 		{
-			"name": "MedicalModule",
-			"npm": "@openimis/fe-medical@latest"
-		},
-		{
 			"name": "MedicalPriceListModule",
 			"npm": "@openimis/fe-medical_pricelist@latest"
 		},
@@ -104,7 +100,11 @@
 		},
 		{
 			"name": "CmrCsModule",
-			"npm": "@openimis/fe-cmr-cs@latest"
+			"npm": "@openimis/fe-cmr-cs@link:latest"
+		},
+		{
+			"name": "ProductPackageMedicalModule",
+			"npm": "@openimis/fe-productpackage-medical@link:latest"
 		}
 	]
 }
