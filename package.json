@@ -51,7 +51,7 @@
     "@openimis/fe-contract": "latest",
     "@openimis/fe-invoice": "latest",
     "@openimis/fe-cmr-cs": "link:latest",
-    "@openimis/fe-productpackage-medical": "link:latest"
+    "@openimis/fe-medical": "link:latest"
   },
   "scripts": {
     "start": "react-scripts start",

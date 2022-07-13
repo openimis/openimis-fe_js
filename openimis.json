@@ -103,8 +103,8 @@
 			"npm": "@openimis/fe-cmr-cs@link:latest"
 		},
 		{
-			"name": "ProductPackageMedicalModule",
-			"npm": "@openimis/fe-productpackage-medical@link:latest"
+			"name": "MedicalModule",
+			"npm": "@openimis/fe-medical@link:latest"
 		}
 	]
 }
