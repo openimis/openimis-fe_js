@@ -20,7 +20,7 @@
 	"modules": [
 		{
 			"name": "CoreModule",
-			"npm": "@openimis/fe-core@1.4.0"
+			"npm": "@openimis/fe-core#1.4.0"
 		},
 		{
 			"name": "HomeModule",
@@ -45,10 +45,6 @@
 		{
 			"name": "PolicyModule",
 			"npm": "@openimis/fe-policy@latest"
-		},
-		{
-			"name": "PayerModule",
-			"npm": "@openimis/fe-payer@latest"
 		},
 		{
 			"name": "ContributionModule",
@@ -81,14 +77,6 @@
 		{
 			"name": "CalculationModule",
 			"npm": "@openimis/fe-calculation@latest"
-		},
-		{
-			"name": "PolicyHolderModule",
-			"npm": "@openimis/fe-policyholder@latest"
-		},
-		{
-			"name": "ContributionPlanModule",
-			"npm": "@openimis/fe-contribution_plan@latest"
 		},
 		{
 			"name": "ContractModule",
