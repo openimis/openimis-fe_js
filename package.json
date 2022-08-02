@@ -37,7 +37,6 @@
     "@openimis/fe-medical_pricelist": "latest",
     "@openimis/fe-product": "latest",
     "@openimis/fe-policy": "latest",
-    "@openimis/fe-payer": "latest",
     "@openimis/fe-contribution": "latest",
     "@openimis/fe-claim": "latest",
     "@openimis/fe-claim_batch": "latest",
@@ -46,10 +45,7 @@
     "@openimis/fe-profile": "latest",
     "@openimis/fe-language_fr": "latest",
     "@openimis/fe-calculation": "latest",
-    "@openimis/fe-policyholder": "latest",
-    "@openimis/fe-contribution_plan": "latest",
     "@openimis/fe-contract": "latest",
-    "@openimis/fe-invoice": "latest",
     "@openimis/fe-cmr-cs": "link:latest",
     "@openimis/fe-medical": "link:latest"
   },
