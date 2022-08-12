@@ -15,6 +15,14 @@
 			],
 			"intl": "fr-FR",
 			"fileNames": "fr"
+		},
+		{
+			"languages": [
+				"fr_cs",
+				"fr-CMR"
+			],
+			"intl": "fr-CMR",
+			"fileNames": "fr_cs"
 		}
 	],
 	"modules": [
@@ -72,7 +80,11 @@
 		},
 		{
 			"name": "LanguageFrModule",
-			"npm": "@openimis/fe-language_fr@link:latest"
+			"npm": "@openimis/fe-language_fr@latest"
+		},
+		{
+			"name": "LanguageFrCmrCSModule",
+			"npm": "@openimis/fe-language_fr_cmr_cs@link:latest"
 		},
 		{
 			"name": "CalculationModule",
