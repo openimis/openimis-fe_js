@@ -1,4 +1,4 @@
-{
+w{
 	"locales": [
 		{
 			"languages": [
@@ -52,7 +52,7 @@
 		},
 		{
 			"name": "PolicyModule",
-			"npm": "@openimis/fe-policy@link:latest"
+			"npm": "@openimis/fe-policy@latest"
 		},
 		{
 			"name": "ContributionModule",
