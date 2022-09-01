@@ -1,6 +1,6 @@
 {
   "name": "@openimis/fe",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "license": "AGPL-3.0-only",
   "proxy": "http://localhost:8000",
   "homepage": "http://localhost:8080/front",
