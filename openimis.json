@@ -84,7 +84,7 @@
 		},
 		{
 			"name": "LanguageFrCmrCSModule",
-			"npm": "@openimis/fe-language_fr_cmr_cs@link:latest"
+			"npm": "@openimis/fe-language_fr_cmr_cs@latest"
 		},
 		{
 			"name": "CalculationModule",
