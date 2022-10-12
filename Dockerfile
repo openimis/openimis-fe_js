@@ -1,4 +1,5 @@
-FROM node:16 AS react-build
+FROM node:16-alpine AS react-build
+RUN apk update && apk upgrade
 RUN mkdir app
 COPY ./ /app
 WORKDIR /app
