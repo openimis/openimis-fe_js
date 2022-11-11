@@ -39,7 +39,7 @@
             "npm": "@openimis/fe-medical@>=1.5.0"
         },
 {
-            "name": "Medical_pricelistModule",
+            "name": "MedicalPriceListModule",
             "npm": "@openimis/fe-medical_pricelist@>=1.5.0"
         },
 {
@@ -67,7 +67,7 @@
             "npm": "@openimis/fe-claim@>=1.4.1"
         },
 {
-            "name": "Claim_batchModule",
+            "name": "ClaimBatchModule",
             "npm": "@openimis/fe-claim_batch@>=1.4.1"
         },
 {
@@ -91,7 +91,7 @@
             "npm": "@openimis/fe-policyholder@>=1.4.1"
         },
 {
-            "name": "Contribution_planModule",
+            "name": "ContributionPlanModule",
             "npm": "@openimis/fe-contribution_plan@>=1.5.0"
         },
 {
