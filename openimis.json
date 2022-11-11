@@ -87,7 +87,7 @@
             "npm": "@openimis/fe-calculation@>=1.4.1"
         },
 {
-            "name": "PolicyholderModule",
+            "name": "PolicyHolderModule",
             "npm": "@openimis/fe-policyholder@>=1.4.1"
         },
 {
