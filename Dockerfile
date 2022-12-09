@@ -6,8 +6,8 @@ RUN chown node /app -R
 USER node
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
-RUN npm load-config
-RUN npm install
-RUN npm build
-RUN yarn global add serve
+RUN npm run load-config
+RUN npm run install
+RUN npm run build
+RUN npm install --global serve
 CMD ["yarn","start"]
