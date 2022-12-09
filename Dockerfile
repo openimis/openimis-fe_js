@@ -1,8 +1,8 @@
 FROM node:16 AS react-build
+USER node
 RUN mkdir app
 COPY ./ /app
 WORKDIR /app
-USER node
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
 RUN yarn load-config
