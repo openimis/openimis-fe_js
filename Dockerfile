@@ -1,6 +1,6 @@
 FROM node:16 AS react-build
+RUN mkdir /app && chown node /app
 USER node
-RUN mkdir app
 COPY ./ /app
 WORKDIR /app
 ARG OPENIMIS_CONF_JSON
