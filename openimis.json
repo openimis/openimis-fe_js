@@ -20,91 +20,91 @@
 	"modules": [
  {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@>=1.5.0"
+            "npm": "https://github.com/openimis/openimis-fe-core_js.git"
         },
             {
             "name": "HomeModule",
-            "npm": "@openimis/fe-home@>=1.5.0"
+            "npm": "https://github.com/openimis/openimis-fe-home_js.git"
         },
             {
             "name": "LocationModule",
-            "npm": "@openimis/fe-location@>=1.4.0"
+            "npm": "https://github.com/openimis/openimis-fe-location_js.git"
         },
             {
             "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@>=1.5.0"
+            "npm": "https://github.com/openimis/openimis-fe-insuree_js.git"
         },
             {
             "name": "MedicalModule",
-            "npm": "@openimis/fe-medical@>=1.5.0"
+            "npm": "https://github.com/openimis/openimis-fe-medical_js.git"
         },
             {
             "name": "MedicalPriceListModule",
-            "npm": "@openimis/fe-medical_pricelist@>=1.5.0"
+            "npm": "https://github.com/openimis/openimis-fe-medical_pricelist_js.git"
         },
             {
             "name": "ProductModule",
-            "npm": "@openimis/fe-product@>=1.5.0"
+            "npm": "https://github.com/openimis/openimis-fe-product_js.git"
         },
             {
             "name": "PolicyModule",
-            "npm": "@openimis/fe-policy@>=1.5.0"
+            "npm": "https://github.com/openimis/openimis-fe-policy_js.git"
         },
             {
             "name": "PayerModule",
-            "npm": "@openimis/fe-payer@>=1.4.1"
+            "npm": "https://github.com/openimis/openimis-fe-payer_js.git"
         },
             {
             "name": "ContributionModule",
-            "npm": "@openimis/fe-contribution@>=1.4.1"
+            "npm": "https://github.com/openimis/openimis-fe-contribution_js.git"
         },
             {
             "name": "PaymentModule",
-            "npm": "@openimis/fe-payment@>=1.4.1"
+            "npm": "https://github.com/openimis/openimis-fe-payment_js.git"
         },
             {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@>=1.4.1"
+            "npm": "https://github.com/openimis/openimis-fe-claim_js.git"
         },
             {
             "name": "ClaimBatchModule",
-            "npm": "@openimis/fe-claim_batch@>=1.4.1"
+            "npm": "https://github.com/openimis/openimis-fe-claim_batch_js.git"
         },
             {
             "name": "AdminModule",
-            "npm": "@openimis/fe-admin@>=1.5.0"
+            "npm": "https://github.com/openimis/openimis-fe-admin_js.git"
         },
             {
             "name": "ToolsModule",
-            "npm": "@openimis/fe-tools@>=1.5.0"
+            "npm": "https://github.com/openimis/openimis-fe-tools_js.git"
         },
             {
             "name": "ProfileModule",
-            "npm": "@openimis/fe-profile@>=1.5.0"
+            "npm": "https://github.com/openimis/openimis-fe-profile_js.git"
         },
             {
             "name": "LanguageFrModule",
-            "npm": "@openimis/fe-language_fr@>=1.5.1"
+            "npm": "https://github.com/openimis/openimis-fe-language_fr_js.git"
         },
             {
             "name": "CalculationModule",
-            "npm": "@openimis/fe-calculation@>=1.4.1"
+            "npm": "https://github.com/openimis/openimis-fe-calculation_js.git"
         },
             {
             "name": "PolicyHolderModule",
-            "npm": "@openimis/fe-policyholder@>=1.4.1"
+            "npm": "https://github.com/openimis/openimis-fe-policyholder_js.git"
         },
             {
             "name": "ContributionPlanModule",
-            "npm": "@openimis/fe-contribution_plan@>=1.5.0"
+            "npm": "https://github.com/openimis/openimis-fe-contribution_plan_js.git"
         },
             {
             "name": "ContractModule",
-            "npm": "@openimis/fe-contract@>=1.4.1"
+            "npm": "https://github.com/openimis/openimis-fe-contract_js.git"
         },
             {
             "name": "InvoiceModule",
-            "npm": "@openimis/fe-invoice@>=1.4.1"
+            "npm": "https://github.com/openimis/openimis-fe-invoice_js.git"
         }
 	]
 }
