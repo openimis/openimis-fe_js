@@ -7,6 +7,7 @@ USER node
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
 RUN npm run load-config
+RUN echo "package.json with module injected" && cat ./package.json
 RUN npm  install
 RUN npm  run build
 RUN npm install --global serve
