@@ -7,8 +7,7 @@ USER node
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
 RUN yarn load-config
-RUN echo "package.json with module injected" && cat ./package.json
-RUN yarn cache clean && yarn install --verbose
+RUN yarn cache clean && yarn install --force
 RUN yarn build
 RUN yarn global add serve
 CMD ["yarn","start"]
