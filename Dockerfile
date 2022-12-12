@@ -6,9 +6,9 @@ RUN chown node /app -R
 USER node
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
-RUN npm run load-config
+RUN yarn load-config
 RUN echo "package.json with module injected" && cat ./package.json
-RUN npm  install
-RUN npm  run build
-RUN npm install --global serve
+RUN yarn install
+RUN yarn build
+RUN yarn global add serve
 CMD ["yarn","start"]
