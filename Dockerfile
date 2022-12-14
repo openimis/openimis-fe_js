@@ -10,5 +10,5 @@ ENV NODE_ENV=production
 RUN npm run load-config
 RUN npm cache clean --force  && npm install --force
 RUN npm run build
-RUN npm global add serve
+RUN npm install serve --global
 CMD ["npm","start"]
