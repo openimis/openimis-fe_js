@@ -9,6 +9,6 @@ ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
 ENV NODE_ENV=production 
 RUN npm run load-config
 RUN npm cache clean --force  && npm install --force
-RUN npm  build
+RUN npm run build
 RUN npm global add serve
 CMD ["npm","start"]
