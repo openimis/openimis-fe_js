@@ -7,8 +7,8 @@ USER node
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
 ENV NODE_ENV=production 
-RUN yarn load-config
-RUN yarn cache clean --all && yarn install --force
-RUN yarn build
-RUN yarn global add serve
-CMD ["yarn","start"]
+RUN npm run load-config
+RUN npm cache clean --force  && npm install --force
+RUN npm  build
+RUN npm global add serve
+CMD ["npm","start"]
