@@ -6,6 +6,7 @@ RUN chown node /app -R
 USER node
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
+ENV NODE_ENV=production 
 RUN yarn load-config
 RUN yarn cache clean --all && yarn install --force
 RUN yarn build
