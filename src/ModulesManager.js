@@ -1,14 +1,16 @@
-import { modules, versions } from "./modules";
+import { loadModules, packages } from "./modules";
+import { memoize } from "lodash";
 import pkg from "../package.json";
+import { ensureArray } from "@openimis/fe-core";
 
 class ModulesManager {
-
   constructor(cfg) {
     this.cfg = cfg;
-    this.modules = modules(cfg);
+    this.modules = loadModules(cfg);
     this.contributionsCache = {};
     this.controlsCache = this.buildControlsCache();
     this.refsCache = this.buildRefsCache();
+    this.reportsCache = this.buildReportsCache();
   }
 
   buildControlsCache() {
@@ -17,7 +19,7 @@ class ModulesManager {
       if (!!this.cfg[k].controls) {
         for (var i in this.cfg[k].controls) {
           var c = this.cfg[k].controls[i];
-          ctrls[k+'.'+c['field']] = c['usage'];
+          ctrls[k + "." + c["field"]] = c["usage"];
         }
       }
     }
@@ -25,11 +27,23 @@ class ModulesManager {
   }
 
   buildRefsCache() {
-    return this.getContribs("refs")
-      .reduce((refs, r) => {
-        refs[r.key] = r.ref;
-        return refs
-      }, {});
+    return this.getContribs("refs").reduce((refs, r) => {
+      refs[r.key] = r.ref;
+      return refs;
+    }, {});
+  }
+
+  buildReportsCache() {
+    return this.getContribs("reports").reduce((acc, report) => {
+      if (!report.getParams) {
+        console.error(`Report ${report.key} has no getParams function.`);
+      }
+      if (!report.isValid) {
+        console.error(`Report ${report.key} has no isValid function.`);
+      }
+      acc[report.key] = report;
+      return acc;
+    }, {});
   }
 
   getOpenIMISVersion() {
@@ -37,15 +51,19 @@ class ModulesManager {
   }
 
   getModulesVersions() {
-    return versions;
+    return packages.map((name) => `${name}@${pkg.dependencies[name] ?? "?"}`);
   }
 
   hideField(module, key) {
-    return this.controlsCache['fe-'+module+"."+key] & 1;
+    return this.controlsCache["fe-" + module + "." + key] & 1;
   }
 
   getRef(key) {
     return this.refsCache[key];
+  }
+
+  getReport(ref) {
+    return this.reportsCache[ref];
   }
 
   getProjection(key) {
@@ -53,20 +71,9 @@ class ModulesManager {
     return !!proj ? `{${proj.join(", ")}}` : "";
   }
 
-  getContribs(key) {
-    if (this.contributionsCache[key]) {
-      return this.contributionsCache[key];
-    }
-    const res = this.modules.reduce((contributions, module) => {
-      const contribs = (module || {})[key];
-      if (contribs) {
-        contributions.push(...contribs);
-      }
-      return contributions;
-    }, []);
-    this.contributionsCache[key] = res;
-    return res;
-  }
+  getContribs = memoize((key) => {
+    return this.modules.reduce((contributions, module) => [...contributions, ...ensureArray(module[key])], []);
+  });
 
   getConf(module, key, defaultValue = null) {
     const moduleCfg = this.cfg[module] || {};

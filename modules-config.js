@@ -103,9 +103,6 @@ function main() {
     });
   }
   processModules(modules);
-
-  console.log("Save package.json");
-  fs.writeFileSync("./package.json", JSON.stringify(pkg, null, 2), { encoding: "utf-8", flag: "w" });
 }
 
 main();
