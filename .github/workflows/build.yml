@@ -53,3 +53,4 @@ jobs:
         with:
           name: frontend-${GITHUB_REF_NAME_SLUG}-${{github.sha}}
           path: ./build/*
+
