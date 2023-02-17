@@ -1,4 +1,4 @@
-FROM node:16 AS react-build
+FROM node:16 AS build-stage
 RUN mkdir /app
 COPY ./ /app
 WORKDIR /app
