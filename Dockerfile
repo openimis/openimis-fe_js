@@ -4,6 +4,8 @@ COPY ./ /app
 WORKDIR /app
 RUN chown node /app -R
 RUN npm install --global serve
+RUN apt-get update && apt-get install -y nano openssl software-properties-common 
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/localhost.key -out /etc/ssl/certs/localhost.crt -subj "/C=BE/ST=_/L=_/O=_/OU=_/CN=localhost"
 USER node
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
@@ -11,8 +13,7 @@ ENV NODE_ENV=production
 RUN npm run load-config
 RUN npm install 
 RUN npm run build
-RUN apt-get update && apt-get install -y nano openssl software-properties-common 
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/localhost.key -out /etc/ssl/certs/localhost.crt -subj "/C=BE/ST=_/L=_/O=_/OU=_/CN=localhost"
+
 
 ### NGINX
 
