@@ -9,7 +9,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private
 USER node
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
-ENV NODE_ENV=production s
+ENV NODE_ENV=production
 RUN npm run load-config
 RUN npm install 
 RUN npm run build
