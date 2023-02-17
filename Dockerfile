@@ -22,7 +22,7 @@ FROM nginx:latest
 #COPY APP
 COPY --from=build-stage /app/build/ /usr/share/nginx/html
 #COPY DEFAULT CERTS
-COPY --from=build-stage /etc/ssl/private /etc/letsencrypt/live/localhost
+COPY --from=build-stage /etc/ssl/private /etc/nginx/ssl/live/host
 
 COPY conf/openimis.conf /conf/openimis.conf
 COPY script/entrypoint.sh /script/entrypoint.sh
