@@ -11,6 +11,8 @@ envsubst  '${ROOT_URI},${ROOT_API},${NEW_OPENIMIS_HOST},${ROOT_MOBILEAPI}' < /co
 
 if [  ! -f "/etc/letsencrypt/live/${NEW_OPENIMIS_HOST}/fullchain.pem" ]; then
   mkdir -p /etc/letsencrypt/live/${NEW_OPENIMIS_HOST}
-  cp -R /etc/nginx/ssl/live/host /etc/letsencrypt/live/${NEW_OPENIMIS_HOST}
+  echo "copying certificates to ${NEW_OPENIMIS_HOST}"
+  ls /etc/nginx/ssl/live/host
+  cp -R /etc/nginx/ssl/live/host /etc/letsencrypt/live/${NEW_OPENIMIS_HOST}/
 fi
 exec "$@"
