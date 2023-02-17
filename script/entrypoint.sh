@@ -3,9 +3,7 @@ set -e
 if [  ! -f "/etc/letsencrypt/live/${NEW_OPENIMIS_HOST}/fullchain.pem" ]; then
   mkdir -p /etc/letsencrypt/live/${NEW_OPENIMIS_HOST}
   echo "copying certificates to  /etc/letsencrypt/live/${NEW_OPENIMIS_HOST}/"
-  ls /etc/nginx/ssl/live/host
   cp -a /etc/nginx/ssl/live/host/. /etc/letsencrypt/live/${NEW_OPENIMIS_HOST}/
-  ls /etc/letsencrypt/live/${NEW_OPENIMIS_HOST}/
 fi
 rm -f /etc/nginx/conf.d/openIMIS.conf
 rm -f /etc/nginx/conf.d/default.conf

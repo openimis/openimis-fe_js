@@ -17,5 +17,5 @@ jobs:
     - name: Build the docker Docker image
       run: |
          docker build . --tag ghcr.io/openimis/openimis-fe:${GITHUB_REF##*/}
-         docker run ghcr.io/openimis/openimis-fe:${GITHUB_REF##*/}
+         docker run ghcr.io/openimis/openimis-fe:${GITHUB_REF##*/} nginx -t 
          docker push ghcr.io/openimis/openimis-fe:${GITHUB_REF##*/}
