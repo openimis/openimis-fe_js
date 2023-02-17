@@ -36,3 +36,4 @@ ENV ROOT_MOBILEAPI = "rest"
 
 
 ENTRYPOINT ["/bin/bash","/script/entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
