@@ -29,10 +29,10 @@ COPY script/entrypoint.sh /script/entrypoint.sh
 RUN chmod a+x /script/entrypoint.sh
 WORKDIR /script
 
-ENV NEW_OPENIMIS_HOST = "localhost"
-ENV ROOT_URI = "front"
-ENV ROOT_API = "api"
-ENV ROOT_MOBILEAPI = "rest"
+ENV NEW_OPENIMIS_HOST="localhost"
+ENV ROOT_URI="front"
+ENV ROOT_API="api"
+ENV ROOT_MOBILEAPI="rest"
 
 
 ENTRYPOINT ["/bin/bash","/script/entrypoint.sh"]
