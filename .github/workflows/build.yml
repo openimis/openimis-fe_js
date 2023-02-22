@@ -37,17 +37,17 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Check package.json
-        run: yarn check-package
+        run: npm check-package
 
       # Runs a single command using the runners shell
       - name: Prepare openIMIS Dependencies
-        run: yarn load-config
+        run: npm run load-config
 
       - name: Install dependencies
-        run: yarn install # Since we edit package.json with the openIMIS deps, we cannot use --frozen-lockfile
+        run: npm install # Since we edit package.json with the openIMIS deps, we cannot use --frozen-lockfile
 
       - name: Build
-        run: yarn build
+        run: npm run build
 
       - uses: actions/upload-artifact@v2
         with:
