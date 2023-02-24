@@ -11,6 +11,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@material-ui/pickers": "^3.2.10",
+    "@openimis/fe-language_en-tz": "^0.1.0",
     "classnames": "^2.2.6",
     "clsx": "^1.1.1",
     "lodash": "^4.17.15",

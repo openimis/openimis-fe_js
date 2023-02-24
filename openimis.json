@@ -78,7 +78,7 @@
     },
     {
       "name": "TanzaniaLanguageModule",
-      "npm": "@openimis/fe-language_en-tz@git+https://github.com/openimis/openimis-fe-tanzania_language_pack_js.git#develop"
+      "npm": "@openimis/fe-tanzania_language_pack@git+https://github.com/openimis/openimis-fe-tanzania_language_pack_js.git#develop"
     },
     {
       "name": "CalculationModule",
