@@ -30,8 +30,8 @@ RUN chmod a+x /script/entrypoint.sh
 WORKDIR /script
 
 ENV NEW_OPENIMIS_HOST="localhost"
-ENV ROOT_URI="front"
-ENV ROOT_API="api"
+ENV PUBLIC_URL="front"
+ENV REACT_APP_API_URL="api"
 ENV ROOT_MOBILEAPI="rest"
 
 
