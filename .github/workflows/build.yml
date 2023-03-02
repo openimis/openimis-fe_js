@@ -23,7 +23,7 @@ jobs:
           node-version: "16"
 
       - name: Check package.json
-        run: npm check-package
+        run: npm run check-package
 
       # Runs a single command using the runners shell
       - name: Prepare openIMIS Dependencies
