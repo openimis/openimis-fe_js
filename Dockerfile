@@ -33,7 +33,7 @@ ENV NEW_OPENIMIS_HOST="localhost"
 ENV PUBLIC_URL="front"
 ENV REACT_APP_API_URL="api"
 ENV ROOT_MOBILEAPI="rest"
-
+ENV FORCE_RELOAD=""
 
 ENTRYPOINT ["/bin/bash","/script/entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
