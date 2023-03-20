@@ -28,7 +28,7 @@ COPY conf/openimis.conf /conf/openimis.conf
 COPY script/entrypoint.sh /script/entrypoint.sh
 RUN chmod a+x /script/entrypoint.sh
 WORKDIR /script
-
+ENV DATA_UPLOAD_MAX_MEMORY_SIZE=12582912
 ENV NEW_OPENIMIS_HOST="localhost"
 ENV PUBLIC_URL="front"
 ENV REACT_APP_API_URL="api"
