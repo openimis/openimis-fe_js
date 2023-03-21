@@ -16,6 +16,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build the TZ implementation Docker image
         run: |
-          docker build . --tag ghcr.io/openimis/openimis-fe:${GITHUB_REF##*/}
-          docker run ghcr.io/openimis/openimis-fe:${GITHUB_REF##*/} nginx -t 
-          docker push ghcr.io/openimis/openimis-fe:${GITHUB_REF##*/}
+          LABEL=tzdevelop
+          docker build . --tag ghcr.io/openimis/openimis-fe:${LABEL}
+          docker run ghcr.io/openimis/openimis-fe:${LABEL} nginx -t 
+          docker push ghcr.io/openimis/openimis-fe:${LABEL}
