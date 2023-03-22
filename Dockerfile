@@ -11,6 +11,7 @@ ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
 ENV NODE_ENV=production
 RUN npm run load-config
+RUN npm config set timeout 6000000
 RUN npm install 
 RUN npm run build
 
