@@ -1,4 +1,4 @@
-name: create daily docker image on develop
+name: create manual docker image 
 on:
   workflow_dispatch:
     inputs:   
@@ -6,7 +6,7 @@ on:
         required: true
 
 jobs:
-  publish-docker-develop-image:
+  publish-manual-docker-image:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2

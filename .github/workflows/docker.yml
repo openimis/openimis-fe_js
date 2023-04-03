@@ -1,6 +1,5 @@
 name: create daily docker image on develop
 on:
-  workflow_dispatch:
   schedule:
    - cron: "0 2 * * *"
 jobs:
