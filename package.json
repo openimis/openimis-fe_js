@@ -2,7 +2,7 @@
   "name": "@openimis/fe",
   "version": "1.4.0",
   "license": "AGPL-3.0-only",
-  "proxy": "http://localhost:8000",
+  "proxy": "https://dev-mssql.s1.openimis.org",
   "homepage": "http://localhost:3000/front",
   "dependencies": {
     "@date-io/core": "^1.3.13",
