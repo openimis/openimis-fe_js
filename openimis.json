@@ -105,6 +105,10 @@
             {
             "name": "InvoiceModule",
             "npm": "@openimis/fe-invoice@git+https://github.com/openimis/openimis-fe-invoice_js.git#develop"
+        },
+        {
+            "name": "IndividualModule",
+            "npm": "@openimis/fe-individual@git+https://github.com/openimis/openimis-fe-individual_js.git#develop"
         }
 	]
 }
