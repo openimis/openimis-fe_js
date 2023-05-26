@@ -35,52 +35,12 @@
             "npm": "@openimis/fe-location@git+https://github.com/openimis/openimis-fe-location_js.git#develop"
         },
             {
-            "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@git+https://github.com/openimis/openimis-fe-insuree_js.git#develop"
-        },
-            {
             "name": "MedicalModule",
             "npm": "@openimis/fe-medical@git+https://github.com/openimis/openimis-fe-medical_js.git#develop"
         },
             {
-            "name": "MedicalPriceListModule",
-            "npm": "@openimis/fe-medical_pricelist@git+https://github.com/openimis/openimis-fe-medical_pricelist_js.git#develop"
-        },
-            {
-            "name": "ProductModule",
-            "npm": "@openimis/fe-product@git+https://github.com/openimis/openimis-fe-product_js.git#develop"
-        },
-            {
-            "name": "PolicyModule",
-            "npm": "@openimis/fe-policy@git+https://github.com/openimis/openimis-fe-policy_js.git#develop"
-        },
-            {
-            "name": "PayerModule",
-            "npm": "@openimis/fe-payer@git+https://github.com/openimis/openimis-fe-payer_js.git#develop"
-        },
-            {
-            "name": "ContributionModule",
-            "npm": "@openimis/fe-contribution@git+https://github.com/openimis/openimis-fe-contribution_js.git#develop"
-        },
-            {
-            "name": "PaymentModule",
-            "npm": "@openimis/fe-payment@git+https://github.com/openimis/openimis-fe-payment_js.git#develop"
-        },
-            {
-            "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@git+https://github.com/openimis/openimis-fe-claim_js.git#develop"
-        },
-            {
-            "name": "ClaimBatchModule",
-            "npm": "@openimis/fe-claim_batch@git+https://github.com/openimis/openimis-fe-claim_batch_js.git#develop"
-        },
-            {
             "name": "AdminModule",
             "npm": "@openimis/fe-admin@git+https://github.com/openimis/openimis-fe-admin_js.git#develop"
-        },
-            {
-            "name": "ToolsModule",
-            "npm": "@openimis/fe-tools@git+https://github.com/openimis/openimis-fe-tools_js.git#develop"
         },
             {
             "name": "ProfileModule",
