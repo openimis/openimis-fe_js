@@ -16,7 +16,7 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Build the openimis backend  Docker image
+    - name: Build the openimis frontend Docker image
       run: |
          docker build . --tag ghcr.io/openimis/openimis-fe:${{ github.event.inputs.tag }}
          docker push ghcr.io/openimis/openimis-fe:${{ github.event.inputs.tag }}
