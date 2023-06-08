@@ -44,7 +44,7 @@
     "@openimis/fe-tools": "latest",
     "@openimis/fe-profile": "latest",
     "@openimis/fe-language_fr": "latest",
-    "@openimis/fe-language_fr_cmr_cs": "link:latest",
+    "@openimis/fe-language_fr_cmr_cs": "latest",
     "@openimis/fe-calculation": "latest",
     "@openimis/fe-contract": "latest",
     "@openimis/fe-cmr-cs": "link:latest",
