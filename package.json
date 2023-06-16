@@ -41,6 +41,7 @@
     "@openimis/fe-claim": "link:latest",
     "@openimis/fe-claim_batch": "latest",
     "@openimis/fe-admin": "latest",
+    "@openimis/fe-tools": "latest",
     "@openimis/fe-profile": "latest",
     "@openimis/fe-language_fr": "latest",
     "@openimis/fe-language_fr_cmr_cs": "latest",
