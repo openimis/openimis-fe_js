@@ -71,10 +71,6 @@
 			"npm": "@openimis/fe-admin@latest"
 		},
 		{
-			"name": "ToolsModule",
-			"npm": "@openimis/fe-tools@latest"
-		},
-		{
 			"name": "ProfileModule",
 			"npm": "@openimis/fe-profile@latest"
 		},
