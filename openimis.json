@@ -77,6 +77,10 @@
             { 
             "name": "TasksManagementModule",
             "npm": "@openimis/fe-tasks-management@git+https://github.com/openimis/openimis-fe-tasks_management_js.git#develop"
+        },
+        { 
+            "name": "OpensearchReportsModule",
+            "npm": "@openimis/fe-opensearch_reports@git+https://github.com/openimis/openimis-opensearch_reports_js.git#develop"
         }
 	]
 }
