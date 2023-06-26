@@ -80,7 +80,7 @@
         },
         { 
             "name": "OpensearchReportsModule",
-            "npm": "@openimis/fe-opensearch_reports@git+https://github.com/openimis/openimis-opensearch_reports_js.git#develop"
+            "npm": "@openimis/fe-opensearch_reports@git+https://github.com/openimis/openimis-fe-opensearch_reports_js.git#develop"
         }
 	]
 }
