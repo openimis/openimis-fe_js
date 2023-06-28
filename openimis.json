@@ -113,6 +113,14 @@
             {
             "name": "SocialProtectionModule",
             "npm": "@openimis/fe-social_protection@git+https://github.com/openimis/openimis-fe-social_protection_js.git#develop"
+        },
+            { 
+            "name": "TasksManagementModule",
+            "npm": "@openimis/fe-tasks-management@git+https://github.com/openimis/openimis-fe-tasks_management_js.git#develop"
+        },
+        { 
+            "name": "OpensearchReportsModule",
+            "npm": "@openimis/fe-opensearch_reports@git+https://github.com/openimis/openimis-fe-opensearch_reports_js.git#develop"
         }
 	]
 }
