@@ -54,6 +54,7 @@ const theme = createTheme({
     drawer: {
       width: 300,
       fontSize: 16,
+      backgroundColor:"#006273"
     },
     appBar: {
       fontSize: 16,

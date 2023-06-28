@@ -27,14 +27,16 @@ const loadConfiguration = async () => {
     throw response;
   } else {
     const { data } = await response.json();
-    return data.moduleConfigurations.reduce((acc, c) => {
+    data.moduleConfigurations.unshift({});
+    const out = data.moduleConfigurations.reduce((acc, c) => {
       try {
         acc[c.module] = { controls: c.controls, ...JSON.parse(c.config) };
       } catch (error) {
         console.error(`Failed to parse module ${c.module} config`, error);
       }
       return acc;
-    }, []);
+    });
+    return out;
   }
 };
 
