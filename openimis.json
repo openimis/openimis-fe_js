@@ -70,7 +70,7 @@
             "name": "InvoiceModule",
             "npm": "@openimis/fe-invoice@git+https://github.com/openimis/openimis-fe-invoice_js.git#develop"
         },
-            {
+        {
             "name": "SocialProtectionModule",
             "npm": "@openimis/fe-social_protection@git+https://github.com/openimis/openimis-fe-social_protection_js.git#develop"
         },
@@ -81,6 +81,10 @@
         { 
             "name": "OpensearchReportsModule",
             "npm": "@openimis/fe-opensearch_reports@git+https://github.com/openimis/openimis-fe-opensearch_reports_js.git#develop"
+        },
+        {
+            "name": "GrievanceModule",
+            "npm": "@openimis/fe-grievance@git+https://github.com/openimis/openimis-fe-grievance_js.git#develop"
         }
-	]
+    ]
 }
