@@ -53,8 +53,10 @@ const theme = createTheme({
     variant: "AppBar",
     drawer: {
       width: 300,
-      fontSize: 16,
-      backgroundColor:"#006273"
+      fontSize: 18,
+      fontWeight: 400,
+      backgroundColor:"#006273",
+      textColor: "#fff",
     },
     appBar: {
       fontSize: 16,
