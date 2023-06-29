@@ -88,7 +88,7 @@
     },
     {
       "name": "CoreMISLanguageModule",
-      "npm": "@openimis/fe-coremis_language_en@git+https://github.com/openimis/openimis-fe-coremis_language_en_js.git#develop"
+      "npm": "@openimis/fe-coremis_language@git+https://github.com/openimis/openimis-fe-coremis_language_pack_js.git#develop"
     }
   ]
 }
