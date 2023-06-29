@@ -85,10 +85,6 @@
     {
       "name": "CoreMISLanguageModule",
       "npm": "@openimis/fe-coremis_language_pack@git+https://github.com/openimis/openimis-fe-coremis_language_pack_js.git#develop"
-    },
-    {
-      "name": "GrievanceModule",
-      "npm": "@openimis/fe-grievance@git+https://github.com/openimis/openimis-fe-grievance_js.git#develop"
     }
   ]
 }
