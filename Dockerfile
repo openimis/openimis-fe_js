@@ -34,6 +34,9 @@ ENV PUBLIC_URL="front"
 ENV REACT_APP_API_URL="api"
 ENV ROOT_MOBILEAPI="rest"
 ENV FORCE_RELOAD=""
+ENV OPENSEARCH_PROXY_ROOT="opensearch"
+ENV OPENSEARCH_PROXY_HOST="172.20.20.98"
+ENV PROXY_HOST="172.20.20.13"
 
 ENTRYPOINT ["/bin/bash","/script/entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
