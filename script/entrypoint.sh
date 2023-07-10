@@ -21,6 +21,5 @@ echo "root uri $PUBLIC_URL"
 echo "root api $REACT_APP_API_URL"
 echo "root restapi $ROOT_MOBILEAPI"
 echo "OpenSearch proxy base root $OPENSEARCH_PROXY_ROOT"
-echo "OpenSearch basic token $OPENSEARCH_BASIC_TOKEN"
 
 exec "$@"
