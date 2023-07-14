@@ -6,12 +6,18 @@ module.exports = function (app) {
   if (process.env.REMOTE_USER) {
     headers["Remote-User"] = process.env.REMOTE_USER;
   }
+
+  let baseApiUrl = process.env.REACT_APP_API_URL ?? '/api';
+  if (baseApiUrl.indexOf('/') !== 0) {
+    baseApiUrl = `/${baseApiUrl}`;
+  }
+
   app.use(
-    "/api",
+    baseApiUrl,
     createProxyMiddleware({
       target: pkg.proxy,
       changeOrigin: true,
-      headers: headers,
+      headers: headers
     }),
   );
 };

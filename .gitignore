@@ -9,3 +9,4 @@ src/modules.js
 src/locales.js
 .idea
 yarn.lock
+.env
