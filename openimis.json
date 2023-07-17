@@ -63,6 +63,10 @@
       "npm": "@openimis/fe-contribution_plan@git+https://github.com/openimis/openimis-fe-contribution_plan_js.git#develop"
     },
     {
+      "name": "PaymentCycleModule",
+      "npm": "@openimis/fe-payment_cycle@git+https://github.com/openimis/openimis-fe-payment_cycle_js.git#develop"
+    },
+    {
       "name": "ContractModule",
       "npm": "@openimis/fe-contract@git+https://github.com/openimis/openimis-fe-contract_js.git#develop"
     },
@@ -76,7 +80,7 @@
     },
     {
       "name": "TasksManagementModule",
-      "npm": "@openimis/fe-tasks-management@git+https://github.com/openimis/openimis-fe-tasks_management_js.git#develop"
+      "npm": "@openimis/fe-tasks_management@git+https://github.com/openimis/openimis-fe-tasks_management_js.git#develop"
     },
     {
       "name": "OpenSearchReportsModule",
@@ -89,6 +93,18 @@
     {
       "name": "GrievanceModule",
       "npm": "@openimis/fe-grievance@git+https://github.com/openimis/openimis-fe-grievance_js.git#develop"
+    },
+    {
+      "name": "PolicyholderModule",
+      "npm": "@openimis/fe-policyholder@1.0.0"
+    },
+    {
+      "name": "OpensearchReportsModule",
+      "npm": "@openimis/fe-opensearch_reports@0.1.0"
+    },
+    {
+      "name": "CoremisLanguagePackModule",
+      "npm": "@openimis/fe-coremis_language_pack@1.2.0-rc1"
     }
   ]
 }
