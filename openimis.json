@@ -93,18 +93,6 @@
     {
       "name": "GrievanceModule",
       "npm": "@openimis/fe-grievance@git+https://github.com/openimis/openimis-fe-grievance_js.git#develop"
-    },
-    {
-      "name": "PolicyholderModule",
-      "npm": "@openimis/fe-policyholder@1.0.0"
-    },
-    {
-      "name": "OpensearchReportsModule",
-      "npm": "@openimis/fe-opensearch_reports@0.1.0"
-    },
-    {
-      "name": "CoremisLanguagePackModule",
-      "npm": "@openimis/fe-coremis_language_pack@1.2.0-rc1"
     }
   ]
 }
