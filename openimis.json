@@ -63,6 +63,10 @@
       "npm": "@openimis/fe-contribution_plan@git+https://github.com/openimis/openimis-fe-contribution_plan_js.git#develop"
     },
     {
+      "name": "PaymentCycleModule",
+      "npm": "@openimis/fe-payment_cycle@git+https://github.com/openimis/openimis-fe-payment_cycle_js.git#develop"
+    },
+    {
       "name": "ContractModule",
       "npm": "@openimis/fe-contract@git+https://github.com/openimis/openimis-fe-contract_js.git#develop"
     },
@@ -76,7 +80,7 @@
     },
     {
       "name": "TasksManagementModule",
-      "npm": "@openimis/fe-tasks-management@git+https://github.com/openimis/openimis-fe-tasks_management_js.git#develop"
+      "npm": "@openimis/fe-tasks_management@git+https://github.com/openimis/openimis-fe-tasks_management_js.git#develop"
     },
     {
       "name": "OpenSearchReportsModule",
