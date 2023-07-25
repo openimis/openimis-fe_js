@@ -98,6 +98,13 @@ const theme = createTheme({
     item: {
       padding: 10,
     },
+    policyInactive: {
+      padding: 10,
+      color: "#d10606",
+    },
+    policyActive: {
+      padding: 10,
+    },
   },
   table: {
     title: {
