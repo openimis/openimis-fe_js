@@ -93,6 +93,10 @@
     {
       "name": "GrievanceModule",
       "npm": "@openimis/fe-grievance@git+https://github.com/openimis/openimis-fe-grievance_js.git#develop"
+    },
+    {
+      "name": "PayrollModule",
+      "npm": "@openimis/fe-payroll@git+https://github.com/openimis/openimis-fe-payroll_js.git#develop"
     }
   ]
 }
