@@ -15,14 +15,6 @@
 			],
 			"intl": "fr-FR",
 			"fileNames": "fr"
-		},
-		{
-			"languages": [
-				"fr_cs",
-				"fr-CMR"
-			],
-			"intl": "fr-CMR",
-			"fileNames": "fr_cs"
 		}
 	],
 	"modules": [
@@ -45,10 +37,6 @@
 		{
 			"name": "ClaimModule",
 			"npm": "@openimis/fe-claim@link:latest"
-		},
-		{
-			"name": "LanguageFrCmrCSModule",
-			"npm": "@openimis/fe-language_fr_cmr_cs@latest"
 		},
 		{
 			"name": "CmrCsModule",
