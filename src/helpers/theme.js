@@ -131,6 +131,10 @@ const theme = createTheme({
       fontWeight: 500,
       align: "center",
     },
+    secondaryHighlightedRow: {
+      backgroundColor: "#cbedf2",
+    },
+    secondaryHighlightedCell: {},
     highlightedAltRow: {},
     highlightedAltCell: {
       fontStyle: "italic",
