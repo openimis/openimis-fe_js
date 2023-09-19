@@ -20,11 +20,11 @@
 	"modules": [
  	{
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@git+https://github.com/openimis/openimis-fe-core_js.git#develop"
+            "npm": "@openimis/fe-core@git+https://github.com/openimis/openimis-fe-core_js.git#release/23.10"
         },    
 	{
       	    "name": "IndividualModule",
-      	    "npm": "@openimis/fe-individual@git+https://github.com/openimis/openimis-fe-individual_js.git#develop"
+      	    "npm": "@openimis/fe-individual@git+https://github.com/openimis/openimis-fe-individual_js.git#release/23.10"
     	},
         {
             "name": "HomeModule",
