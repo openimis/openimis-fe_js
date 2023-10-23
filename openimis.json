@@ -20,7 +20,7 @@
 	"modules": [
  {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@git+https://github.com/openimis/openimis-fe-core_js.git#develop"
+            "npm": "@openimis/fe-core@git+https://github.com/openimis/openimis-fe-core_js.git#feature/OM-54"
         },
             {
             "name": "HomeModule",
@@ -92,7 +92,7 @@
         },
             {
             "name": "PolicyHolderModule",
-            "npm": "@openimis/fe-policyholder@git+https://github.com/openimis/openimis-fe-policyholder_js.git#develop"
+            "npm": "@openimis/fe-policyholder@git+https://github.com/openimis/openimis-fe-policyholder_js.git#feature/OM-54"
         },
             {
             "name": "ContributionPlanModule",
