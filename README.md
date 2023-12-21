@@ -254,6 +254,7 @@ Note: This image only provides the openimis frontend server. The full openIMIS d
       export default {"es":"es-ES", "es-ES": "es-ES","en":"en-GB","en-GB":"en-GB","fr":"fr-FR","fr-FR":"fr-FR"}  
 ```
 - type `yarn build` and if success - type `yarn start` and you should see this translation in your app (go to 'users' page, select user, change language into the newly provided, refresh page and you should see texts in changed language)
+- if you encounter any problems by that point, run `yarn load-config` in the main module
 - there is also possibility to overwrite particular language for example 'English' into 'Gambian English' (without changes on database level). In your new translation module in index.js (for example new module called `openimis-fe-language_en_gm_js`):
  ```js
        import messages_en from "./translations/en.json";

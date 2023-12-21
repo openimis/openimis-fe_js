@@ -54,6 +54,7 @@ const theme = createTheme({
     drawer: {
       width: 300,
       fontSize: 16,
+      backgroundColor:"#006273"
     },
     appBar: {
       fontSize: 16,
@@ -130,6 +131,10 @@ const theme = createTheme({
       fontWeight: 500,
       align: "center",
     },
+    secondaryHighlightedRow: {
+      backgroundColor: "#cbedf2",
+    },
+    secondaryHighlightedCell: {},
     highlightedAltRow: {},
     highlightedAltCell: {
       fontStyle: "italic",
@@ -181,6 +186,18 @@ const theme = createTheme({
       },
     },
     secondaryButton: {},
+  },
+  tooltipContainer: {
+    position: 'fixed',
+    bottom: 15,
+    right: 8,
+    zIndex: 2000,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+  },
+  flexTooltip: {
+    marginBottom: 5,
   },
   fab: {
     position: "fixed",
