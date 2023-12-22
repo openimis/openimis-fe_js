@@ -105,26 +105,6 @@
             {
             "name": "InvoiceModule",
             "npm": "@openimis/fe-invoice@>=1.5.0"
-        },
-            {
-            "name": "SocialProtectionModule",
-            "npm": "@openimis/fe-social_protection@>=1.0.0"
-        },
-            {
-            "name": "TasksManagementModule",
-            "npm": "@openimis/fe-tasks_management@>=1.0.0"
-        },
-            {
-            "name": "OpenSearchReportsModule",
-            "npm": "@openimis/fe-opensearch_reports@>=1.0.0"
-        },
-            {
-            "name": "GrievanceModule",
-            "npm": "@openimis/fe-grievance@>=1.0.0"
-        },
-            {
-            "name": "PayrollModule",
-            "npm": "@openimis/fe-payroll@>=1.0.0"
         }
 	]
 }
