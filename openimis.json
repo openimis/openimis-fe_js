@@ -97,6 +97,10 @@
     {
       "name": "PayrollModule",
       "npm": "@openimis/fe-payroll@git+https://github.com/openimis/openimis-fe-payroll_js.git#develop"
+    },
+    {
+      "name": "DeduplicationModule",
+      "npm": "@openimis/fe-deduplication@git+https://github.com/openimis/openimis-fe-deduplication_js.git#develop"
     }
   ]
 }
