@@ -15,7 +15,8 @@ import ModulesManagerProvider from "./ModulesManagerProvider";
 import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
 import messages_ref from "./translations/ref.json";
 import "./index.css";
-import logo from "./openIMIS.png";
+import MMPS_logo_white from "./MMPS_logo_white.svg";
+import MMPS_logo from "./MMPS_logo.svg";
 
 const loadConfiguration = async () => {
   const response = await fetch(`${baseApiUrl}/graphql`, {
@@ -93,7 +94,8 @@ const AppContainer = () => {
                 basename={process.env.PUBLIC_URL}
                 localesManager={localesManager}
                 messages={messages_ref}
-                logo={logo}
+                logo={MMPS_logo}
+                whiteLogo={MMPS_logo_white}
               />
             </ModulesManagerProvider>
           </MuiPickersUtilsProvider>

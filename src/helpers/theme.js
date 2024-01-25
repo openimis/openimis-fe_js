@@ -1,27 +1,38 @@
 import { createTheme } from "@material-ui/core";
 import { alpha } from "@material-ui/core/styles/colorManipulator";
 
+const primaryColor = "#004E96";
+const errorColor = "#801a00";
+const whiteColor = "#fff";
+const backgroundColor = "#e4f2ff";
+const headerColor = "#BCD4E6";
+const greyColor = "grey";
+const selectedTableRowColor = "rgba(0, 0, 0, 0.08)";
+const hoveredTableRowColor = "rgba(0, 0, 0, 0.12)";
+const toggledButtonColor = "#999999";
+const lockedBackgroundPattern = "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px)";
+
 const theme = createTheme({
   overrides: {
     MuiTableRow: {
       root: {
         "&$selected": {
-          backgroundColor: "rgba(0, 0, 0, 0.08)",
+          backgroundColor: selectedTableRowColor,
         },
       },
     },
   },
   palette: {
-    primary: { main: "#006273" },
-    secondary: { main: "#fff" },
-    error: { main: "#801a00" },
+    primary: { main: primaryColor },
+    secondary: { main: whiteColor },
+    error: { main: errorColor },
     text: {
-      primary: "#006273",
-      secondary: "#006273", // HACK FOR material-table hardcoded toolbar!,
-      second: "#fff",
-      error: "#801a00",
+      primary: primaryColor,
+      secondary: primaryColor, // HACK FOR material-table hardcoded toolbar
+      second: whiteColor,
+      error: errorColor,
     },
-    toggledButton: "#999999",
+    toggledButton: toggledButtonColor,
   },
   typography: {
     useNextVariants: true,
@@ -34,7 +45,7 @@ const theme = createTheme({
       fontWeight: 300,
     },
     label: {
-      color: "grey",
+      color: greyColor,
     },
   },
   jrnlDrawer: {
@@ -54,7 +65,7 @@ const theme = createTheme({
     drawer: {
       width: 300,
       fontSize: 16,
-      backgroundColor:"#006273"
+      backgroundColor: primaryColor,
     },
     appBar: {
       fontSize: 16,
@@ -63,26 +74,26 @@ const theme = createTheme({
   page: {
     padding: 16,
     locked: {
-      background: "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px);",
+      background: lockedBackgroundPattern,
     },
   },
   paper: {
     paper: {
       margin: 10,
-      backgroundColor: "#dbeef0",
+      backgroundColor: backgroundColor,
     },
     header: {
-      color: "#006273",
-      backgroundColor: "#b7d4d8",
+      color: primaryColor,
+      backgroundColor: headerColor,
     },
     message: {
-      backgroundColor: "#b7d4d8",
+      backgroundColor: headerColor,
     },
     title: {
       padding: 10,
       fontSize: 24,
-      color: "#006273",
-      backgroundColor: "#b7d4d8",
+      color: primaryColor,
+      backgroundColor: headerColor,
     },
     action: {
       padding: 5,
@@ -93,7 +104,7 @@ const theme = createTheme({
     },
     body: {
       marginTop: 10,
-      backgroundColor: "#dbeef0",
+      backgroundColor: backgroundColor,
     },
     item: {
       padding: 10,
@@ -103,27 +114,27 @@ const theme = createTheme({
     title: {
       padding: 10,
       fontWeight: 500,
-      color: "#006273",
-      backgroundColor: "#b7d4d8",
+      color: primaryColor,
+      backgroundColor: headerColor,
     },
     header: {
-      color: "#006273",
+      color: primaryColor,
     },
     headerAction: {
       padding: 5,
     },
     row: {
-      color: "#006273",
+      color: primaryColor,
       align: "center",
       "&:hover": {
-        background: "rgba(0, 0, 0, 0.12) !important",
+        background: hoveredTableRowColor + " !important",
       },
     },
     cell: {
       padding: 5,
     },
     lockedRow: {
-      background: "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px);",
+      background: lockedBackgroundPattern,
     },
     lockedCell: {},
     highlightedRow: {},
@@ -138,15 +149,14 @@ const theme = createTheme({
     },
     disabledRow: {},
     disabledCell: {
-      // textDecoration: "line-through",
-      color: "grey",
+      color: greyColor,
       align: "center",
     },
     footer: {
-      color: "#006273",
+      color: primaryColor,
     },
     pager: {
-      color: "#006273",
+      color: primaryColor,
     },
   },
   form: {
@@ -154,43 +164,43 @@ const theme = createTheme({
   },
   formTable: {
     table: {
-      color: "#006273",
+      color: primaryColor,
     },
     actions: {
-      color: "#006273",
+      color: primaryColor,
     },
     header: {
-      color: "#006273",
+      color: primaryColor,
       align: "center",
     },
   },
   dialog: {
     title: {
       fontWeight: 500,
-      color: "grey",
+      color: greyColor,
     },
     content: {
       padding: 0,
     },
     primaryButton: {
-      backgroundColor: "#006273",
-      color: "#fff",
+      backgroundColor: primaryColor,
+      color: whiteColor,
       fontWeight: "bold",
       "&:hover": {
-        backgroundColor: alpha("#006273", 0.5),
-        color: "#006273",
+        backgroundColor: alpha(primaryColor, 0.5),
+        color: primaryColor,
       },
     },
     secondaryButton: {},
   },
   tooltipContainer: {
-    position: 'fixed',
+    position: "fixed",
     bottom: 15,
     right: 8,
     zIndex: 2000,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
   },
   flexTooltip: {
     marginBottom: 5,
