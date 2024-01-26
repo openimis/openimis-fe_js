@@ -49,30 +49,38 @@ function prepareModuleForLocalDevelopment(moduleName){
 }
 
 
-function updateModuleInAssembly(packageVersion){
-    imisJsonPath = path.normalize(path.join(__dirname, '..'));
-    fs.readFile(path.join(imisJsonPath, 'openimis.json'), 'utf8', (error, data) => {
-        if(error){
-           console.log(error);
-           return;
-        }
-        imisJSON = JSON.parse(data);
-        imisJSON["modules"].push({
-            "name": titleCase(camalize(separatedName))+"Module", 
-            "npm": '@openimis/'+splitedModuleName+'@'+packageVersion
-        });
-        
-        console.log("removing from openimis.json eventual duplicates entries");
-        imisJSON["modules"] = imisJSON["modules"].filter((obj, pos, arr) => {
-            return arr
-              .map(mapObj => mapObj.name)
-              .indexOf(obj.name) == pos;
-          });
-        fs.writeFileSync(path.join(imisJsonPath, 'openimis.json'), JSON.stringify(imisJSON,null,2),{encoding:'utf8',flag:'w'});
-        console.log("openimis.json is updated");
+function updateModuleInAssembly(packageVersion) {
+  const imisJsonPath = path.normalize(path.join(__dirname, ".."));
+  fs.readFile(path.join(imisJsonPath, "openimis.json"), "utf8", (error, data) => {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    const imisJSON = JSON.parse(data);
 
-        reinstallAssemblyModule();
-    })
+    const newModuleName = titleCase(camalize(separatedName)).toLowerCase() + "module";
+
+    const moduleExists = imisJSON["modules"].some((module) => module.name.toLowerCase() === newModuleName);
+
+    if (!moduleExists) {
+      imisJSON["modules"].push({
+        "name": titleCase(camalize(separatedName)) + "Module",
+        "npm": "@openimis/" + splitedModuleName + "@" + packageVersion,
+      });
+    }
+
+    imisJSON["modules"] = imisJSON["modules"].filter((obj, pos, arr) => {
+      return arr.map((mapObj) => mapObj.name.toLowerCase()).indexOf(obj.name.toLowerCase()) === pos;
+    });
+
+    fs.writeFileSync(path.join(imisJsonPath, "openimis.json"), JSON.stringify(imisJSON, null, 2), {
+      encoding: "utf8",
+      flag: "w",
+    });
+    console.log("openimis.json is updated");
+
+    reinstallAssemblyModule();
+  });
 }
 
 
