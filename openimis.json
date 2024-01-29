@@ -24,7 +24,7 @@
     },
     {
       "name": "IndividualModule",
-      "npm": "@openimis/fe-individual@git+https://github.com/openimis/openimis-fe-individual_js.git#develop"
+      "npm": "@openimis/fe-individual@git+https://github.com/openimis/openimis-fe-individual_js.git#hackaton"
     },
     {
       "name": "HomeModule",
