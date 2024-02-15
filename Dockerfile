@@ -18,7 +18,7 @@ RUN npm run build
 ### NGINX
 
 
-FROM nginx:latest
+FROM nginx:stable
 #COPY APP
 COPY --from=build-stage /app/build/ /usr/share/nginx/html
 #COPY DEFAULT CERTS
