@@ -115,6 +115,7 @@
             "npm": "@openimis/fe-invoice@git+https://github.com/openimis/openimis-fe-invoice_js.git#develop"
         },
         {
+
             "name": "NepalLanguageModule",
             "npm": "@openimis/fe-nepal_language_pack@git+https://github.com/openimis/openimis-fe-nepal_language_pack_js.git#develop"
         }
