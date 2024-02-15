@@ -15,6 +15,14 @@
 			],
 			"intl": "fr-FR",
 			"fileNames": "fr"
+		},
+        {
+			"languages": [
+				"np",
+				"np-NP"
+			],
+			"intl": "np-NP",
+			"fileNames": "np"
 		}
 	],
 	"modules": [
@@ -107,24 +115,9 @@
             "npm": "@openimis/fe-invoice@git+https://github.com/openimis/openimis-fe-invoice_js.git#develop"
         },
         {
-          "name": "SocialProtectionModule",
-          "npm": "@openimis/fe-social_protection@git+https://github.com/openimis/openimis-fe-social_protection_js.git#develop"
-        },
-        {
-          "name": "TasksManagementModule",
-          "npm": "@openimis/fe-tasks_management@git+https://github.com/openimis/openimis-fe-tasks_management_js.git#develop"
-        },
-        {
-          "name": "OpenSearchReportsModule",
-          "npm": "@openimis/fe-opensearch_reports@git+https://github.com/openimis/openimis-fe-opensearch_reports_js.git#develop"
-        },
-        {
-          "name": "GrievanceModule",
-          "npm": "@openimis/fe-grievance@git+https://github.com/openimis/openimis-fe-grievance_js.git#develop"
-        },
-        {
-          "name": "PayrollModule",
-          "npm": "@openimis/fe-payroll@git+https://github.com/openimis/openimis-fe-payroll_js.git#develop"
+
+            "name": "NepalLanguageModule",
+            "npm": "@openimis/fe-nepal_language_pack@git+https://github.com/openimis/openimis-fe-nepal_language_pack_js.git#develop"
         }
 	]
 }
