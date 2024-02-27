@@ -10,7 +10,8 @@ REF=$(date +'%m%d%Y%p')
 rm -f /etc/nginx/conf.d/openIMIS.confs
 rm -f /etc/nginx/conf.d/default.conf
 cp  /conf/openimis.conf /etc/nginx/conf.d/openIMIS.conf
-envsubst  '${PUBLIC_URL},${REACT_APP_API_URL},${NEW_OPENIMIS_HOST},${ROOT_MOBILEAPI},${REDIRECT_TAIL},${DATA_UPLOAD_MAX_MEMORY_SIZE},${$OPENSEARCH_BASIC_TOKEN}' < /conf/openimis.conf > /etc/nginx/conf.d/openIMIS.conf
+VARS_TO_REPLACE="$(printenv | grep -Eo "^([A-Z_]*)" | xargs -I % echo \$\{%\}, | xargs)"
+envsubst  "\${REDIRECT_TAIL}, ${VARS_TO_REPLACE::-1}" < /conf/openimis.conf > /etc/nginx/conf.d/openIMIS.conf
 ln -s -f  /usr/share/nginx/html /usr/share/nginx/html/${PUBLIC_URL}
 echo "Hosting on https://""$NEW_OPENIMIS_HOST"
 echo "root uri $PUBLIC_URL"
