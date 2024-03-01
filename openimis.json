@@ -10,14 +10,6 @@
         },
         {
             "languages": [
-                "fr",
-                "fr-FR"
-            ],
-            "intl": "fr-FR",
-            "fileNames": "fr"
-        },
-        {
-            "languages": [
                 "np",
                 "np-NP"
             ],
@@ -89,10 +81,6 @@
         {
             "name": "ProfileModule",
             "npm": "@openimis/fe-profile@git+https://github.com/openimis/openimis-fe-profile_js.git#develop"
-        },
-        {
-            "name": "LanguageFrModule",
-            "npm": "@openimis/fe-language_fr@git+https://github.com/openimis/openimis-fe-language_fr_js.git#develop"
         },
         {
             "name": "CalculationModule",
