@@ -39,10 +39,6 @@
       "npm": "@openimis/fe-medical@git+https://github.com/openimis/openimis-fe-medical_js.git#develop"
     },
     {
-      "name": "AdminModule",
-      "npm": "@openimis/fe-admin@git+https://github.com/openimis/openimis-fe-admin_js.git#develop"
-    },
-    {
       "name": "ProfileModule",
       "npm": "@openimis/fe-profile@git+https://github.com/openimis/openimis-fe-profile_js.git#develop"
     },
@@ -101,6 +97,10 @@
     {
       "name": "GrievanceSocialProtectionModule",
       "npm": "@openimis/fe-grievance_social_protection@git+https://github.com/openimis/openimis-fe-grievance_social_protection_js.git#develop"
+    },
+    {
+      "name": "AdminModule",
+      "npm": "@openimis/fe-admin@git+https://github.com/openimis/openimis-fe-admin_js.git#develop"
     }
   ]
 }
