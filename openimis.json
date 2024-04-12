@@ -1,18 +1,12 @@
 {
   "locales": [
     {
-      "languages": [
-        "en",
-        "en-GB"
-      ],
+      "languages": ["en", "en-GB"],
       "intl": "en-GB",
       "fileNames": "en"
     },
     {
-      "languages": [
-        "fr",
-        "fr-FR"
-      ],
+      "languages": ["fr", "fr-FR"],
       "intl": "fr-FR",
       "fileNames": "fr"
     }
@@ -34,54 +28,54 @@
       "name": "LocationModule",
       "npm": "@openimis/fe-location@git+https://github.com/openimis/openimis-fe-location_js.git#release/24.04"
     },
-            {
-            "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@git+https://github.com/openimis/openimis-fe-insuree_js.git#release/24.04"
-        },
+    {
+      "name": "InsureeModule",
+      "npm": "@openimis/fe-insuree@git+https://github.com/openimis/openimis-fe-insuree_js.git#release/24.04"
+    },
     {
       "name": "MedicalModule",
       "npm": "@openimis/fe-medical@git+https://github.com/openimis/openimis-fe-medical_js.git#release/24.04"
     },
-            {
-            "name": "MedicalPriceListModule",
-            "npm": "@openimis/fe-medical_pricelist@git+https://github.com/openimis/openimis-fe-medical_pricelist_js.git#release/24.04"
-        },
-            {
-            "name": "ProductModule",
-            "npm": "@openimis/fe-product@git+https://github.com/openimis/openimis-fe-product_js.git#release/24.04"
-        },
-            {
-            "name": "PolicyModule",
-            "npm": "@openimis/fe-policy@git+https://github.com/openimis/openimis-fe-policy_js.git#release/24.04"
-        },
-            {
-            "name": "PayerModule",
-            "npm": "@openimis/fe-payer@git+https://github.com/openimis/openimis-fe-payer_js.git#release/24.04"
-        },
-            {
-            "name": "ContributionModule",
-            "npm": "@openimis/fe-contribution@git+https://github.com/openimis/openimis-fe-contribution_js.git#release/24.04"
-        },
-            {
-            "name": "PaymentModule",
-            "npm": "@openimis/fe-payment@git+https://github.com/openimis/openimis-fe-payment_js.git#release/24.04"
-        },
-            {
-            "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@git+https://github.com/openimis/openimis-fe-claim_js.git#release/24.04"
-        },
-            {
-            "name": "ClaimBatchModule",
-            "npm": "@openimis/fe-claim_batch@git+https://github.com/openimis/openimis-fe-claim_batch_js.git#release/24.04"
-        },
-            {
-            "name": "AdminModule",
-            "npm": "@openimis/fe-admin@git+https://github.com/openimis/openimis-fe-admin_js.git#release/24.04"
-        },
-            {
-            "name": "ToolsModule",
-            "npm": "@openimis/fe-tools@git+https://github.com/openimis/openimis-fe-tools_js.git#release/24.04"
-        },
+    {
+      "name": "MedicalPriceListModule",
+      "npm": "@openimis/fe-medical_pricelist@git+https://github.com/openimis/openimis-fe-medical_pricelist_js.git#release/24.04"
+    },
+    {
+      "name": "ProductModule",
+      "npm": "@openimis/fe-product@git+https://github.com/openimis/openimis-fe-product_js.git#release/24.04"
+    },
+    {
+      "name": "PolicyModule",
+      "npm": "@openimis/fe-policy@git+https://github.com/openimis/openimis-fe-policy_js.git#release/24.04"
+    },
+    {
+      "name": "PayerModule",
+      "npm": "@openimis/fe-payer@git+https://github.com/openimis/openimis-fe-payer_js.git#release/24.04"
+    },
+    {
+      "name": "ContributionModule",
+      "npm": "@openimis/fe-contribution@git+https://github.com/openimis/openimis-fe-contribution_js.git#release/24.04"
+    },
+    {
+      "name": "PaymentModule",
+      "npm": "@openimis/fe-payment@git+https://github.com/openimis/openimis-fe-payment_js.git#release/24.04"
+    },
+    {
+      "name": "ClaimModule",
+      "npm": "@openimis/fe-claim@git+https://github.com/openimis/openimis-fe-claim_js.git#release/24.04"
+    },
+    {
+      "name": "ClaimBatchModule",
+      "npm": "@openimis/fe-claim_batch@git+https://github.com/openimis/openimis-fe-claim_batch_js.git#release/24.04"
+    },
+    {
+      "name": "AdminModule",
+      "npm": "@openimis/fe-admin@git+https://github.com/openimis/openimis-fe-admin_js.git#release/24.04"
+    },
+    {
+      "name": "ToolsModule",
+      "npm": "@openimis/fe-tools@git+https://github.com/openimis/openimis-fe-tools_js.git#release/24.04"
+    },
     {
       "name": "ProfileModule",
       "npm": "@openimis/fe-profile@git+https://github.com/openimis/openimis-fe-profile_js.git#release/24.04"
