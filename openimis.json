@@ -133,11 +133,7 @@
     {
       "name": "DeduplicationModule",
       "npm": "@openimis/fe-deduplication@git+https://github.com/openimis/openimis-fe-deduplication_js.git#release/24.04"
-    },
-    {
-      "name": "Grievance",
-      "npm": "@openimis/fe-grievance@git+https://github.com/openimis/openimis-fe-grievance_js.git#release/24.04"
-    },
+    }
     {
       "name": "AdminModule",
       "npm": "@openimis/fe-admin@git+https://github.com/openimis/openimis-fe-admin_js.git#release/24.04"
