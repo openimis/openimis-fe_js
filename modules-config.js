@@ -45,15 +45,21 @@ export const packages = [
 `);
 
   stream.write(`
-export function loadModules (cfg = {}) {
-  return [
-    ${modules
-      .map(
-        ({ name, logicalName, moduleName }) =>
-          `require("${moduleName}").${name ?? "default"}(cfg["${logicalName}"] || {})`,
-      )
-      .join(",\n    ")}
-  ];\n
+export function loadModules(cfg = {}) {
+  const loadedModules = [];
+${modules
+.map(({ name, logicalName, moduleName }) => {
+return `
+  try {
+    loadedModules.push(require("${moduleName}").${name ?? "default"}(cfg["${logicalName}"] || {}));
+  } catch (error) {
+    alert(\`Failed to load module "${moduleName}". More details can be found in the developer console. Look for: \${error}\`);
+    console.error(error);
+  }
+`;
+})
+.join("")}
+  return loadedModules;
 }
 `);
 
