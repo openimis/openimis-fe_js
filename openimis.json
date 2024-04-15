@@ -27,6 +27,18 @@
       "npm": "@openimis/fe-individual@git+https://github.com/openimis/openimis-fe-individual_js.git#develop"
     },
     {
+      "name": "SocialProtectionModule",
+      "npm": "@openimis/fe-social_protection@git+https://github.com/openimis/openimis-fe-social_protection_js.git#develop"
+    },
+    {
+      "name": "OpenSearchReportsModule",
+      "npm": "@openimis/fe-opensearch_reports@git+https://github.com/openimis/openimis-fe-opensearch_reports_js.git#develop"
+    },
+    {
+      "name": "InvoiceModule",
+      "npm": "@openimis/fe-invoice@git+https://github.com/openimis/openimis-fe-invoice_js.git#develop"
+    },
+    {
       "name": "HomeModule",
       "npm": "@openimis/fe-home@git+https://github.com/openimis/openimis-fe-home_js.git#develop"
     },
@@ -67,20 +79,8 @@
       "npm": "@openimis/fe-contract@git+https://github.com/openimis/openimis-fe-contract_js.git#develop"
     },
     {
-      "name": "InvoiceModule",
-      "npm": "@openimis/fe-invoice@git+https://github.com/openimis/openimis-fe-invoice_js.git#develop"
-    },
-    {
-      "name": "SocialProtectionModule",
-      "npm": "@openimis/fe-social_protection@git+https://github.com/openimis/openimis-fe-social_protection_js.git#develop"
-    },
-    {
       "name": "TasksManagementModule",
       "npm": "@openimis/fe-tasks_management@git+https://github.com/openimis/openimis-fe-tasks_management_js.git#develop"
-    },
-    {
-      "name": "OpenSearchReportsModule",
-      "npm": "@openimis/fe-opensearch_reports@git+https://github.com/openimis/openimis-fe-opensearch_reports_js.git#develop"
     },
     {
       "name": "CoreMISLanguageModule",
