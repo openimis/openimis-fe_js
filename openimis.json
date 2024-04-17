@@ -135,10 +135,6 @@
       "npm": "@openimis/fe-deduplication@git+https://github.com/openimis/openimis-fe-deduplication_js.git#develop"
     },
     {
-      "name": "GrievanceSocialProtectionModule",
-      "npm": "@openimis/fe-grievance_social_protection@git+https://github.com/openimis/openimis-fe-grievance_social_protection_js.git#develop"
-    },
-    {
       "name": "AdminModule",
       "npm": "@openimis/fe-admin@git+https://github.com/openimis/openimis-fe-admin_js.git#develop"
     }
