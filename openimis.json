@@ -39,6 +39,10 @@
       "npm": "@openimis/fe-invoice@git+https://github.com/openimis/openimis-fe-invoice_js.git#develop"
     },
     {
+      "name": "GrievanceSocialProtectionModule",
+      "npm": "@openimis/fe-grievance_social_protection@git+https://github.com/openimis/openimis-fe-grievance_social_protection_js.git#develop"
+    },
+    {
       "name": "HomeModule",
       "npm": "@openimis/fe-home@git+https://github.com/openimis/openimis-fe-home_js.git#develop"
     },
@@ -93,10 +97,6 @@
     {
       "name": "DeduplicationModule",
       "npm": "@openimis/fe-deduplication@git+https://github.com/openimis/openimis-fe-deduplication_js.git#develop"
-    },
-    {
-      "name": "GrievanceSocialProtectionModule",
-      "npm": "@openimis/fe-grievance_social_protection@git+https://github.com/openimis/openimis-fe-grievance_social_protection_js.git#develop"
     },
     {
       "name": "AdminModule",
