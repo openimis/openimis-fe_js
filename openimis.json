@@ -20,6 +20,7 @@
   "modules": [
     {
       "name": "CoreModule",
+
       "npm": "@openimis/fe-core@git+https://github.com/openimis/openimis-fe-core_js.git#release/24.04"
     },
     {
