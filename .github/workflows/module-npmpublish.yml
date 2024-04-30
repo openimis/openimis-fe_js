@@ -31,7 +31,6 @@ jobs:
           scope: ${{ inputs.scope }}
       - name: Update version with TAG
         run: |
-          TAG_NAME=$(git tag --sort=-version:refname | head -n 1)
           echo '------'
           git fetch --tags
           echo 'List all tags:'
@@ -42,6 +41,7 @@ jobs:
           echo $(git tag | head -n 1)
           echo $(git tag --sort=-version:refname)
           echo $(git tag)
+          TAG_NAME=$(git tag --sort=-version:refname | head -n 1)
           echo $TAG_NAME
           echo '------'
           echo $(jq --arg a "$TAG_NAME" '.version = ($a)' package.json) > package.json
