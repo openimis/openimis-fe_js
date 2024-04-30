@@ -15,6 +15,9 @@ on:
       access:
         type: string
         default: 'public'
+    secrets:
+      GITHUB_TOKEN:
+        required: true
 
 jobs:
   build_and_publish:
@@ -49,7 +52,7 @@ jobs:
 
 # jobs:
 #   call-central-workflow:
-#     uses: openimis/openimis-fe_js/.github/workflows/module-npmpublish.yml@develop
+#     uses: openimis/openimis-fe_js/.github/workflows/module-gprpublish.yml@develop
 #     with:
 #       node_version: '18'
 #       registry_url: 'https://registry.npmjs.org/'
