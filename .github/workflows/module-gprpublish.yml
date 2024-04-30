@@ -32,9 +32,13 @@ jobs:
           echo $(jq --arg a "$TAG_NAME" '.version = ($a)' package.json) > package.json
       - run: yarn install
       - run: yarn build
-      - run: npm publish --access ${{ inputs.access }}
+      - name: Publish to GPR
+        run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
+          REGISTRY_URL: 'https://npm.pkg.github.com/'
+
+
 
 # Use example 
 # name: Implement Node.js Package Workflow
@@ -51,5 +55,6 @@ jobs:
 #       registry_url: 'https://registry.npmjs.org/'
 #       access: 'public'
 #       scope: 'openimis'
+#       publish_to_gpr: true
 #     secrets:
-#       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+#       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
