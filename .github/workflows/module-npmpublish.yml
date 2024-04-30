@@ -33,6 +33,11 @@ jobs:
         run: |
           TAG_NAME=$(git tag --sort=-version:refname | head -n 1)
           echo '------'
+          git fetch --tags
+          echo 'List all tags:'
+          git tag -l
+          echo 'Get latest tag:'
+          git describe --tags `git rev-list --tags --max-count=1`
           echo $(git tag --sort=-version:refname | head -n 1)
           echo $(git tag | head -n 1)
           echo $(git tag --sort=-version:refname)
