@@ -15,6 +15,8 @@ on:
       access:
         type: string
         default: 'public'
+      tag:
+        type: string
     secrets:
       NPM_TOKEN:
         required: true
@@ -30,9 +32,14 @@ jobs:
           registry-url: ${{ inputs.registry_url }}
           scope: ${{ inputs.scope }}
       - name: Update version with TAG
+        env:
+          TAG_NAME: ${{ github.event.inputs.tag }}
         run: |
-          git fetch --tags
-          TAG_NAME=$(git tag --sort=-version:refname | head -n 1)
+          if [ -z "$TAG_NAME" ]; then
+              git fetch --tags
+              export TAG_NAME=$(git tag --sort=-version:refname | head -n 1)
+          fi
+          echo "tag to use $TAG_NAME"
           echo $(jq --arg a "$TAG_NAME" '.version = ($a)' package.json) > package.json
       - run: yarn install
       - run: yarn build
