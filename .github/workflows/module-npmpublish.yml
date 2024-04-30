@@ -45,7 +45,7 @@ jobs:
         if: ${{ inputs.publish_to_gpr }}
         run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GPR_TOKEN }}
+          NODE_AUTH_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
           REGISTRY_URL: 'https://npm.pkg.github.com/'
 
 
