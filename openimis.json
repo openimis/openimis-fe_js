@@ -20,124 +20,123 @@
   "modules": [
     {
       "name": "CoreModule",
-
-      "npm": "@openimis/fe-core@git+https://github.com/openimis/openimis-fe-core_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-core@>=v1.7.0"
+  },
+      {
       "name": "IndividualModule",
-      "npm": "@openimis/fe-individual@git+https://github.com/openimis/openimis-fe-individual_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-individual@>=1.0.0"
+  },
+      {
       "name": "HomeModule",
-      "npm": "@openimis/fe-home@git+https://github.com/openimis/openimis-fe-home_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-home@>=v1.5.3"
+  },
+      {
       "name": "LocationModule",
-      "npm": "@openimis/fe-location@git+https://github.com/openimis/openimis-fe-location_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-location@>=v1.5.1"
+  },
+      {
       "name": "InsureeModule",
-      "npm": "@openimis/fe-insuree@git+https://github.com/openimis/openimis-fe-insuree_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-insuree@>=v1.7.0"
+  },
+      {
       "name": "MedicalModule",
-      "npm": "@openimis/fe-medical@git+https://github.com/openimis/openimis-fe-medical_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-medical@>=v1.6.1"
+  },
+      {
       "name": "MedicalPriceListModule",
-      "npm": "@openimis/fe-medical_pricelist@git+https://github.com/openimis/openimis-fe-medical_pricelist_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-medical_pricelist@>=v1.6.0"
+  },
+      {
       "name": "ProductModule",
-      "npm": "@openimis/fe-product@git+https://github.com/openimis/openimis-fe-product_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-product@>=v1.7.0"
+  },
+      {
       "name": "PolicyModule",
-      "npm": "@openimis/fe-policy@git+https://github.com/openimis/openimis-fe-policy_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-policy@>=v1.7.0"
+  },
+      {
       "name": "PayerModule",
-      "npm": "@openimis/fe-payer@git+https://github.com/openimis/openimis-fe-payer_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-payer@>=v1.4.4"
+  },
+      {
       "name": "ContributionModule",
-      "npm": "@openimis/fe-contribution@git+https://github.com/openimis/openimis-fe-contribution_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-contribution@>=v1.6.0"
+  },
+      {
       "name": "PaymentModule",
-      "npm": "@openimis/fe-payment@git+https://github.com/openimis/openimis-fe-payment_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-payment@>=v1.4.4"
+  },
+      {
       "name": "ClaimModule",
-      "npm": "@openimis/fe-claim@git+https://github.com/openimis/openimis-fe-claim_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-claim@>=v1.6.0"
+  },
+      {
       "name": "ClaimBatchModule",
-      "npm": "@openimis/fe-claim_batch@git+https://github.com/openimis/openimis-fe-claim_batch_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-claim_batch@>=v1.4.3"
+  },
+      {
       "name": "AdminModule",
-      "npm": "@openimis/fe-admin@git+https://github.com/openimis/openimis-fe-admin_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-admin@>=v1.7.0"
+  },
+      {
       "name": "ToolsModule",
-      "npm": "@openimis/fe-tools@git+https://github.com/openimis/openimis-fe-tools_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-tools@>=v1.6.0"
+  },
+      {
       "name": "ProfileModule",
-      "npm": "@openimis/fe-profile@git+https://github.com/openimis/openimis-fe-profile_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-profile@>=v1.6.1"
+  },
+      {
       "name": "LanguageFrModule",
-      "npm": "@openimis/fe-language_fr@git+https://github.com/openimis/openimis-fe-language_fr_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-language_fr@>=v1.6.1"
+  },
+      {
       "name": "CalculationModule",
-      "npm": "@openimis/fe-calculation@git+https://github.com/openimis/openimis-fe-calculation_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-calculation@>=v1.5.1"
+  },
+      {
       "name": "PolicyHolderModule",
-      "npm": "@openimis/fe-policyholder@git+https://github.com/openimis/openimis-fe-policyholder_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-policyholder@>=v1.5.1"
+  },
+      {
       "name": "ContributionPlanModule",
-      "npm": "@openimis/fe-contribution_plan@git+https://github.com/openimis/openimis-fe-contribution_plan_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-contribution_plan@>=v1.7.0"
+  },
+      {
       "name": "PaymentCycleModule",
-      "npm": "@openimis/fe-payment_cycle@git+https://github.com/openimis/openimis-fe-payment_cycle_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-payment_cycle@>=1.0.0"
+  },
+      {
       "name": "ContractModule",
-      "npm": "@openimis/fe-contract@git+https://github.com/openimis/openimis-fe-contract_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-contract@>=v1.5.1"
+  },
+      {
       "name": "InvoiceModule",
-      "npm": "@openimis/fe-invoice@git+https://github.com/openimis/openimis-fe-invoice_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-invoice@>=v1.6.0"
+  },
+      {
       "name": "SocialProtectionModule",
-      "npm": "@openimis/fe-social_protection@git+https://github.com/openimis/openimis-fe-social_protection_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-social_protection@>=v1.1.0"
+  },
+      {
       "name": "TasksManagementModule",
-      "npm": "@openimis/fe-tasks_management@git+https://github.com/openimis/openimis-fe-tasks_management_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-tasks_management@>=v1.1.0"
+  },
+      {
       "name": "OpenSearchReportsModule",
-      "npm": "@openimis/fe-opensearch_reports@git+https://github.com/openimis/openimis-fe-opensearch_reports_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-opensearch_reports@>=v1.1.0"
+  },
+      {
       "name": "PayrollModule",
-      "npm": "@openimis/fe-payroll@git+https://github.com/openimis/openimis-fe-payroll_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-payroll@>=v1.1.0"
+  },
+      {
       "name": "DeduplicationModule",
-      "npm": "@openimis/fe-deduplication@git+https://github.com/openimis/openimis-fe-deduplication_js.git#release/24.04"
-    },
-    {
+      "npm": "@openimis/fe-deduplication@>=1.0.0"
+  },
+      {
       "name": "AdminModule",
-      "npm": "@openimis/fe-admin@git+https://github.com/openimis/openimis-fe-admin_js.git#release/24.04"
-    }
+      "npm": "@openimis/fe-admin@>=v1.7.0"
+  }
   ]
 }
