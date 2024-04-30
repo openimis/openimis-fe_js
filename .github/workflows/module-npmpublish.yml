@@ -33,6 +33,10 @@ jobs:
         run: |
           TAG_NAME=$(git tag --sort=-version:refname | head -n 1)
           echo '------'
+          echo $(git tag --sort=-version:refname | head -n 1)
+          echo $(git tag | head -n 1)
+          echo $(git tag --sort=-version:refname)
+          echo $(git tag)
           echo $TAG_NAME
           echo '------'
           echo $(jq --arg a "$TAG_NAME" '.version = ($a)' package.json) > package.json
