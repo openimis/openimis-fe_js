@@ -20,7 +20,7 @@
   "modules": [
     {
       "name": "CoreModule",
-      "npm": "@openimis/fe-core@>=v1.7.0"
+      "npm": "@openimis/fe-core@>=v1.7.1"
   },
       {
       "name": "IndividualModule",
@@ -36,7 +36,7 @@
   },
       {
       "name": "InsureeModule",
-      "npm": "@openimis/fe-insuree@>=v1.7.0"
+      "npm": "@openimis/fe-insuree@>=v1.7.1"
   },
       {
       "name": "MedicalModule",
@@ -88,7 +88,7 @@
   },
       {
       "name": "LanguageFrModule",
-      "npm": "@openimis/fe-language_fr@>=v1.6.1"
+      "npm": "@openimis/fe-language_fr@>=v1.6.2"
   },
       {
       "name": "CalculationModule",
@@ -104,7 +104,7 @@
   },
       {
       "name": "PaymentCycleModule",
-      "npm": "@openimis/fe-payment_cycle@>=1.0.0"
+      "npm": "@openimis/fe-payment_cycle@>=v1.0.1"
   },
       {
       "name": "ContractModule",
@@ -116,11 +116,11 @@
   },
       {
       "name": "SocialProtectionModule",
-      "npm": "@openimis/fe-social_protection@>=v1.1.0"
+      "npm": "@openimis/fe-social_protection@>=v1.1.1"
   },
       {
       "name": "TasksManagementModule",
-      "npm": "@openimis/fe-tasks_management@>=v1.1.0"
+      "npm": "@openimis/fe-tasks_management@>=v1.1.1"
   },
       {
       "name": "OpenSearchReportsModule",
@@ -128,11 +128,11 @@
   },
       {
       "name": "PayrollModule",
-      "npm": "@openimis/fe-payroll@>=v1.1.0"
+      "npm": "@openimis/fe-payroll@>=v1.1.1"
   },
       {
       "name": "DeduplicationModule",
-      "npm": "@openimis/fe-deduplication@>=1.0.0"
+      "npm": "@openimis/fe-deduplication@>=v1.0.1"
   },
       {
       "name": "AdminModule",
