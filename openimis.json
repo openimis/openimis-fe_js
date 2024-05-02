@@ -138,5 +138,5 @@
       "name": "AdminModule",
       "npm": "@openimis/fe-admin@>=v1.7.0"
   }
-  ]
+
 }
