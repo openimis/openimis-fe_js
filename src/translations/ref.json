@@ -40,6 +40,6 @@
   "validation.maxValue": "{value} above allowed {max}",
   "addTooltip": "Create new",
   "saveTooltip": "Save changes",
-  "resetFilterTooltip": "Reset search criteria",
-  "refreshFilterTooltip": "Search again"
+  "resetFilterTooltip": "Reset filters",
+  "refreshFilterTooltip": "Search"
 }
