@@ -133,10 +133,6 @@
     {
       "name": "DeduplicationModule",
       "npm": "@openimis/fe-deduplication@git+https://github.com/openimis/openimis-fe-deduplication_js.git#develop"
-    },
-    {
-      "name": "AdminModule",
-      "npm": "@openimis/fe-admin@git+https://github.com/openimis/openimis-fe-admin_js.git#develop"
     }
   ]
 }
