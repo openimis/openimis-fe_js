@@ -1,0 +1,4 @@
+#include the configuration use in the loc files
+include location/var.conf
+# include the  loc files
+include location/*.loc

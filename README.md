@@ -1,35 +1,19 @@
-# openIMIS Frontend Reference Implementation : Windows Docker
+# openIMIS frontend assembly
 
-This repository holds the configuration files for the openIMIS Frontend Reference Implementation:
+## running
 
-- Legacy web application
-- Modular front end
+this repository builds:
 
-Please look for the direction on the openIMIS Wiki: https://openimis.atlassian.net/wiki/spaces/OP/pages/963182705/MO1.1+Install+the+modular+openIMIS+using+Docker
+- a docker image `ghcr.io/openimis/openimis-fe` that can be use in a docker compose
+- a minified js application that can be served by any webserver (see release)
 
-Note: the modular frontend is part of the release ZIP of the legacy webapp, if the modular frontend need to be changed then new modular frontend static files need to be placed in /inetroot/www/openIMIS/front
+the build content is defined by the openimis.json file
 
-Note 2: The docker file can be change to build first the frontend by uncommenting the "downloader" related lines.
-
-This repo branches, tags,... are maintained by openIMIS official delivery team who use it to build the official openIMIS Docker images containing the official modules (versions) list.
-
-In case of troubles, please consult/contact our service desk via our [ticketing site](https://openimis.atlassian.net/servicedesk/customer).
-
-# openIMIS Frontend Reference Implementation : Linux
-
-This repository holds the configuration files for the openIMIS Frontend Reference Implementation.
-It serves 2 distinct use cases:
-
-- developers who want to implement new modules or modify existing frontend modules of openIMIS
-- distributors who want to assemble modules into a Docker image for delivery
-
-Note: please, refer to [openIMIS Frontend localisation](i18n.md) to provide translations and bind user's language to a locale for data format (dates, numbers,...)
-
-This repo branches, tags,... are maintained by openIMIS official delivery team who use it to build the official openIMIS Docker images containing the official modules (versions) list.
-
-In case of troubles, please consult/contact our service desk via our [ticketing site](https://openimis.atlassian.net/servicedesk/customer).
-
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+more information for:
+ 
+  - [docker Windows](/docs/WINDOWS_DOCKER.md) 
+  - [docker Linux](/docs/LINUX_DOCKER.md)
+  - [reverse proxy toward other openIMIS services](/docs/reverse_proxy.md)
 
 ## Developers setup
 
