@@ -112,7 +112,7 @@
     },
     {
       "name": "ClaimSamplingModule",
-      "npm": "@openimis/fe-claim_sampling@git+https://https://github.com/openimis/openimis-fe-claim_sampling_js.git#develop"
+      "npm": "@openimis/fe-claim_sampling@git+https://github.com/openimis/openimis-fe-claim_sampling_js.git#develop"
     }
   ]
 }
