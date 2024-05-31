@@ -2,6 +2,14 @@
 	"locales": [
 		{
 			"languages": [
+				"fr",
+				"fr-FR"
+			],
+			"intl": "fr-FR",
+			"fileNames": "fr"
+		},
+        {
+			"languages": [
 				"en",
 				"en-GB"
 			],
@@ -89,6 +97,10 @@
             {
             "name": "ContractModule",
             "npm": "@openimis/fe-contract@git+https://github.com/openimis/openimis-fe-contract_js.git#release/23.04_with_fixes"
+        },
+            {
+            "name": "LanguageFrModule",
+            "npm": "@openimis/fe-language_fr@git+https://github.com/openimis/openimis-fe-language_fr_js.git#develop"
         },
             {
             "name": "InvoiceModule",
