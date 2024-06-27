@@ -2,7 +2,10 @@
   "name": "@openimis/fe",
   "version": "23.10+",
   "license": "AGPL-3.0-only",
-  "proxy": "http://localhost:8000",
+  "proxy": {
+    "api": {"base": "/api", "target": "http://localhost:8000"},
+    "opensearch": {"base": "/opensearch", "target": "http://localhost:5410"}
+  },
   "homepage": "http://localhost:3000/front",
   "dependencies": {
     "@date-io/core": "^1.3.13",
