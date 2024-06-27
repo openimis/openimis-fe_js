@@ -23,10 +23,6 @@
         "npm": "@openimis/fe-core@>=v1.7.1"
     },
         {
-        "name": "IndividualModule",
-        "npm": "@openimis/fe-individual@>=1.0.0"
-    },
-        {
         "name": "HomeModule",
         "npm": "@openimis/fe-home@>=v1.5.3"
     },
@@ -103,36 +99,12 @@
         "npm": "@openimis/fe-contribution_plan@>=v1.7.0"
     },
         {
-        "name": "PaymentCycleModule",
-        "npm": "@openimis/fe-payment_cycle@>=v1.0.1"
-    },
-        {
         "name": "ContractModule",
         "npm": "@openimis/fe-contract@>=v1.5.1"
     },
         {
         "name": "InvoiceModule",
         "npm": "@openimis/fe-invoice@>=v1.6.0"
-    },
-        {
-        "name": "SocialProtectionModule",
-        "npm": "@openimis/fe-social_protection@>=v1.1.1"
-    },
-        {
-        "name": "TasksManagementModule",
-        "npm": "@openimis/fe-tasks_management@>=v1.1.1"
-    },
-        {
-        "name": "OpenSearchReportsModule",
-        "npm": "@openimis/fe-opensearch_reports@>=v1.1.0"
-    },
-        {
-        "name": "PayrollModule",
-        "npm": "@openimis/fe-payroll@>=v1.1.1"
-    },
-        {
-        "name": "DeduplicationModule",
-        "npm": "@openimis/fe-deduplication@>=v1.0.1"
     }
   ]
 }
