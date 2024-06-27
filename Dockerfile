@@ -24,7 +24,7 @@ COPY --from=build-stage /app/build/ /usr/share/nginx/html
 #COPY DEFAULT CERTS
 COPY --from=build-stage /etc/ssl/private/ /etc/nginx/ssl/live/host
 
-COPY conf/openimis.conf /conf/openimis.conf
+COPY ./conf /conf
 COPY script/entrypoint.sh /script/entrypoint.sh
 RUN chmod a+x /script/entrypoint.sh
 WORKDIR /script

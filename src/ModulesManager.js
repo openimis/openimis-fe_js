@@ -6,7 +6,14 @@ import { ensureArray } from "@openimis/fe-core";
 class ModulesManager {
   constructor(cfg) {
     this.cfg = cfg;
-    this.modules = loadModules(cfg);
+    try {
+      this.modules = loadModules(cfg);
+    } catch (error) {
+      throw new Error(
+        "Loading modules failed in ModulesManager.js. This might be caused by duplicated modules in /src/modules.js. \n ORIGINAL ERROR: " +
+          error,
+      );
+    }
     this.contributionsCache = {};
     this.controlsCache = this.buildControlsCache();
     this.refsCache = this.buildRefsCache();
