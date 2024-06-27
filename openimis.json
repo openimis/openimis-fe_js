@@ -104,7 +104,7 @@
     },
     {
       "name": "GrievanceModule",
-      "npm": "@openimis/fe-grievance@git+https://github.com/openimis/openimis-fe-grievance_js.git#develop"
+      "npm": "@openimis/fe-grievance_social_protection@git+https://github.com/openimis/openimis-fe-grievance_social_protection_js.git#develop"
     },
     {
       "name": "NepalLanguageModule",
