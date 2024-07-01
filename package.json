@@ -1,6 +1,6 @@
 {
   "name": "@openimis/fe",
-  "version": "23.10+",
+  "version": "24.04+",
   "license": "AGPL-3.0-only",
   "proxy": {
     "api": {"base": "/api", "target": "http://localhost:8000"},
