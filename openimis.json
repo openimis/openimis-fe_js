@@ -109,6 +109,10 @@
     {
       "name": "NepalLanguageModule",
       "npm": "@openimis/fe-nepal_language_pack@git+https://github.com/openimis/openimis-fe-nepal_language_pack_js.git#develop"
+    },
+    {
+      "name": "ClaimSamplingModule",
+      "npm": "@openimis/fe-claim_sampling@git+https://github.com/openimis/openimis-fe-claim_sampling_js.git#develop"
     }
   ]
 }
