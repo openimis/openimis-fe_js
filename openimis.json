@@ -15,6 +15,14 @@
       ],
       "intl": "ro-MD",
       "fileNames": "ro"
+    },
+    {
+      "languages": [
+        "ru",
+        "ru-MD"
+      ],
+      "intl": "ru-MD",
+      "fileNames": "ru"
     }
   ],
   "modules": [
@@ -113,6 +121,10 @@
     {
       "name": "LanguageRoModule",
       "npm": "@openimis/fe-language_ro@git+https://github.com/openimis/openimis-fe-language_ro_js.git#develop"
+    },
+    {
+      "name": "LanguageRuModule",
+      "npm": "@openimis/fe-language_ru@git+https://github.com/openimis/openimis-fe-language_ru_js.git#develop"
     }
   ]
 }
