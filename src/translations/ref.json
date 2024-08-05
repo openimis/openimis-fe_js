@@ -6,7 +6,7 @@
   "empty": " ",
   "FatalError.title": "Fatal Error",
   "FatalError.message": "Requested action can't be executed, please check your internet connection,...",
-  "currency": "$",
+  "currency": "LEI",
   "rowsPerPage": "Rows Per Page",
   "ofPages": "of",
   "selectAll": "Select All",
