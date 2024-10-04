@@ -125,6 +125,10 @@
     {
       "name": "LanguageRuModule",
       "npm": "@openimis/fe-language_ru@git+https://github.com/openimis/openimis-fe-language_ru_js.git#develop"
+    },
+    {
+      "name": "MoldovaLandingModule",
+      "npm": "@openimis/fe-moldova_landing@git+https://github.com/openimis/openimis-fe-moldova_landing_js.git#develop"
     }
   ]
 }
