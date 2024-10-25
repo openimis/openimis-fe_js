@@ -224,6 +224,18 @@ const theme = createTheme({
       justifyContent: "flex-end",
     },
   },
+  landing: {
+    palette: {
+      primary: '#3B6900',
+      secondary: '#F3DA00',
+      tertiary: '#539300',
+      mutedPrimary: 'rgba(45, 166, 4, 0.08)',
+      mutedSecondary: '#FFFBDA',
+      black: '#000000',
+      white: '#FFFFFF',
+      text: '#1E1E23',
+    },
+  }
 });
 
 export default theme;
