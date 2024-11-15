@@ -1,0 +1,66 @@
+name: Reusable Node.js Package Workflow
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        type: string
+        required: true
+      registry_url:
+        type: string
+        required: true
+      scope:
+        type: string
+        default: 'openimis'
+      access:
+        type: string
+        default: 'public'
+      tag:
+        type: string
+    secrets:
+      NPM_TOKEN:
+        required: true
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node_version }}
+          registry-url: ${{ inputs.registry_url }}
+          scope: ${{ inputs.scope }}
+      - name: Update version with TAG
+        env:
+          TAG_NAME: ${{ github.event.inputs.tag }}
+        run: |
+          if [ -z "$TAG_NAME" ]; then
+              git fetch --tags
+              export TAG_NAME=$(git tag --sort=-version:refname | head -n 1)
+          fi
+          echo "tag to use $TAG_NAME"
+          echo $(jq --arg a "$TAG_NAME" '.version = ($a)' package.json) > package.json
+      - run: yarn install
+      - run: yarn build
+      - run: npm publish --access ${{ inputs.access }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+# Use example 
+# name: Implement Node.js Package Workflow
+
+# on:
+#   release:
+#     types: [published]
+
+# jobs:
+#   call-central-workflow:
+#     uses: openimis/openimis-fe_js/.github/workflows/module-npmpublish.yml@develop
+#     with:
+#       node_version: '18'
+#       registry_url: 'https://registry.npmjs.org/'
+#       access: 'public'
+#       scope: 'openimis'
+#     secrets:
+#       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
