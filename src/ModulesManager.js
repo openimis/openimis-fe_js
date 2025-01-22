@@ -86,6 +86,18 @@ class ModulesManager {
     const moduleCfg = this.cfg[module] || {};
     return moduleCfg[key] !== undefined ? moduleCfg[key] : defaultValue;
   }
+
+  getMenuEntries() {
+    return this.modules.reduce((menuEntries, module) => {
+      const mainMenuKeys = Object.keys(module).filter(
+        (key) => key.includes(".MainMenu") && key !== "core.MainMenu"
+      );
+      mainMenuKeys.forEach((key) => {
+        menuEntries.push(...ensureArray(module[key]));
+      });
+      return menuEntries;
+    }, []);
+  }
 }
 
 export default ModulesManager;
