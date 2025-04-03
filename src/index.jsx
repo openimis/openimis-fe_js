@@ -1,14 +1,15 @@
-import "react-app-polyfill/ie11";
-import "react-app-polyfill/stable";
-import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
-import { MuiThemeProvider, LinearProgress } from "@material-ui/core";
-import { Provider } from "react-redux";
-import MomentUtils from "@date-io/moment";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import * as serviceWorker from "./serviceWorker";
-import theme from "./helpers/theme";
-import store from "./helpers/store";
+
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
+
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { IntlProvider } from 'react-intl';
+import { createStore, applyMiddleware } from 'redux';
+import { apiMiddleware } from 'redux-api-middleware';
+import thunk from 'redux-thunk';
 import LocalesManager from "./LocalesManager";
 import ModulesManager from "./ModulesManager";
 import ModulesManagerProvider from "./ModulesManagerProvider";
