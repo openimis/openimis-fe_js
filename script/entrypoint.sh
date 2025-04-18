@@ -44,7 +44,7 @@ fi
 ln -s -f  /usr/share/nginx/html /usr/share/nginx/html/${PUBLIC_URL}
 echo "Hosting on https://""$NEW_OPENIMIS_HOST"
 echo "root uri $PUBLIC_URL"
-echo "root api $REACT_APP_API_URL"
+echo "root api $VITE_API_URL"
 echo "root restapi $ROOT_MOBILEAPI"
 
 exec "$@"

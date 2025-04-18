@@ -1,5 +1,5 @@
 
-    location /${REACT_APP_API_URL}/ {
+    location /${VITE_API_URL}/ {
 
             proxy_pass http://${backend};
             proxy_set_header   Host $host;
@@ -17,7 +17,7 @@
            proxy_set_header X-Original-URI $request_uri;
            proxy_set_header X-Real-IP $remote_addr;
            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-           proxy_pass http://${backend}/${REACT_APP_API_URL}/core/users/current_user/;
+           proxy_pass http://${backend}/${VITE_API_URL}/core/users/current_user/;
         }
 
 

@@ -11,27 +11,31 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@material-ui/pickers": "^3.2.10",
+    "caniuse-lite": "^1.0.30001714",
     "classnames": "^2.2.6",
     "clsx": "^1.1.1",
+    "express": "^5.1.0",
     "lodash": "^4.17.15",
     "lodash-uuid": "^0.0.3",
     "moment": "^2.25.3",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-autosuggest": "^10.0.2",
-    "react-dom": "^17.0.2",
+    "react-dom": "^19.1.0",
     "react-helmet": "^6.1.0",
     "react-intl": "^5.8.1",
     "react-redux": "^7.2.0",
-    "react-scripts": "4.0.3",
     "redux": "^4.0.5",
     "redux-api-middleware": "^3.2.1",
     "redux-thunk": "^2.3.0",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.8.4",
+    "vite-plugin-pwa": "^1.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "load-config": "node ./openimis-config.js",
     "postinstall": "node script/postinstall.js",
     "format": "prettier src -w",
@@ -62,7 +66,11 @@
     "caniuse-lite": "1.0.30001632"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
     "http-proxy-middleware": "^2.0.1",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "vite": "^5.0.0",
+    "vite-plugin-svgr": "^4.0.0"
   }
 }

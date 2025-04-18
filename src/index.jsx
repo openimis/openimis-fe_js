@@ -1,5 +1,3 @@
-import "react-app-polyfill/ie11";
-import "react-app-polyfill/stable";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { MuiThemeProvider, LinearProgress } from "@material-ui/core";
@@ -16,6 +14,7 @@ import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
 import messages_ref from "./translations/ref.json";
 import "./index.css";
 import logo from "./openIMIS.png";
+import { createRoot } from 'react-dom/client';
 
 const loadConfiguration = async () => {
   const response = await fetch(`${baseApiUrl}/graphql`, {
@@ -90,7 +89,7 @@ const AppContainer = () => {
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <ModulesManagerProvider modulesManager={modulesManager}>
               <App
-                basename={process.env.PUBLIC_URL}
+                basename={import.meta.env.BASE_URL}
                 localesManager={localesManager}
                 messages={messages_ref}
                 logo={logo}
@@ -103,5 +102,5 @@ const AppContainer = () => {
   }
 };
 
-ReactDOM.render(<AppContainer />, document.getElementById("root"));
-serviceWorker.register();
+const root = createRoot(document.getElementById("root"));
+root.render(<AppContainer />);
