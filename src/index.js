@@ -15,6 +15,7 @@ import ModulesManagerProvider from "./ModulesManagerProvider";
 import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
 import messages_ref from "./translations/ref.json";
 import "./index.css";
+import "./rc-cascader.css";
 import logo from "./openIMIS.png";
 
 const loadConfiguration = async () => {

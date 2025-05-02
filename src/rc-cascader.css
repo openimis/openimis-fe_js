@@ -1,0 +1,162 @@
+/* Dropdown wrapper */
+.rc-cascader-dropdown {
+  position: absolute;
+  background-color: white;
+  z-index: 1300; /* Same as MUI popups */
+  min-height: auto;
+  border-radius: 4px;
+}
+
+.rc-cascader-dropdown-hidden {
+    display: none;
+}
+
+/* Panel holding all menus */
+.rc-cascader-menus {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+/* Individual menu column */
+.rc-cascader-menu {
+  flex: none;
+  margin: 0;
+  padding: 8px 0; /* Matches MUI menu vertical padding */
+  list-style: none;
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  height: auto;
+  min-width: 200px; /* Close to MUI default menu width */
+  overflow-y: auto;
+  max-height: 300px;
+}
+.rc-cascader-menu:first-child {
+  border-left: 0;
+}
+
+/* Scrollbar styling for WebKit browsers (Chrome, Edge, Safari) */
+.rc-cascader-menu::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.rc-cascader-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.rc-cascader-menu::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.rc-cascader-menu::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Firefox support */
+.rc-cascader-menu {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+/* Menu items */
+.rc-cascader-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 16px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+  color: rgba(0, 0, 0, 0.87);
+}
+.rc-cascader-menu-item:hover {
+  background-color: rgba(0, 0, 0, 0.04); /* MUI hover */
+}
+.rc-cascader-menu-item-selected {
+  background-color: rgba(25, 118, 210, 0.08); /* MUI selected (primary color) */
+}
+.rc-cascader-menu-item-active {
+  background-color: rgba(25, 118, 210, 0.12); /* MUI active (hover on selected) */
+}
+.rc-cascader-menu-item-disabled {
+  opacity: 0.38;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Label inside item */
+.rc-cascader-menu-item-content {
+  flex: 1;
+  padding-right: 20px;
+}
+
+/* Expand submenu icon */
+.rc-cascader-menu-item-expand-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.rc-cascader-menu-item-expand-icon svg{
+  vertical-align: middle;
+}
+
+/* Expand submenu loading icon */
+@keyframes mui-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: mui-spin 1s linear infinite;
+}
+
+/* Checkbox (if used) */
+.rc-cascader-checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  border-radius: 2px;
+  margin-right: 8px;
+  background-color: #fff;
+}
+.rc-cascader-checkbox::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  content: '';
+}
+.rc-cascader-checkbox-checked::after {
+  content: '✔';
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.87);
+}
+.rc-cascader-checkbox-indeterminate::after {
+  content: '−';
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/* RTL support */
+.rc-cascader-rtl {
+  direction: rtl;
+}
+.rc-cascader-rtl .rc-cascader-menu {
+  border-left: none;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+.rc-cascader-rtl .rc-cascader-menu:first-child {
+  border-right: 0;
+}
