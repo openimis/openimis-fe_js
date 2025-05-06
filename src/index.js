@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import MomentUtils from "@date-io/moment";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import * as serviceWorker from "./serviceWorker";
-import theme from "./helpers/theme";
+import createAppTheme from "./helpers/theme";
 import store from "./helpers/store";
 import LocalesManager from "./LocalesManager";
 import ModulesManager from "./ModulesManager";
@@ -60,9 +60,12 @@ const AppContainer = () => {
     );
   }, []);
 
+  const themeColor = appState?.config?.["fe-core"]?.theme;
+  const dynamicTheme = createAppTheme(themeColor || {});
+
   if (appState.isLoading) {
     return (
-      <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider theme={dynamicTheme}>
         <LinearProgress className="bootstrap" />
       </MuiThemeProvider>
     );
@@ -85,7 +88,7 @@ const AppContainer = () => {
     const middlewares = modulesManager.getContribs("middlewares");
 
     return (
-      <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider theme={dynamicTheme}>
         <Provider store={store(reducers, middlewares)}>
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <ModulesManagerProvider modulesManager={modulesManager}>
