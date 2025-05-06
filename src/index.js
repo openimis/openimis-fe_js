@@ -15,7 +15,8 @@ import ModulesManagerProvider from "./ModulesManagerProvider";
 import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
 import messages_ref from "./translations/ref.json";
 import "./index.css";
-import logo from "./openIMIS.png";
+import defaultLogo from "./openIMIS.png";
+import getConfiguredLogo from "./helpers/logo";
 
 const loadConfiguration = async () => {
   const response = await fetch(`${baseApiUrl}/graphql`, {
@@ -62,6 +63,8 @@ const AppContainer = () => {
 
   const themeColor = appState?.config?.["fe-core"]?.theme;
   const dynamicTheme = createAppTheme(themeColor || {});
+  const logo = getConfiguredLogo(appState.config);
+  const whiteLogo = getConfiguredLogo(appState.config, "white");
 
   if (appState.isLoading) {
     return (
@@ -97,6 +100,8 @@ const AppContainer = () => {
                 localesManager={localesManager}
                 messages={messages_ref}
                 logo={logo}
+                whiteLogo={whiteLogo}
+                {...(whiteLogo !== defaultLogo && { whiteLogo })}
               />
             </ModulesManagerProvider>
           </MuiPickersUtilsProvider>
