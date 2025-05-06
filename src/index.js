@@ -89,7 +89,7 @@ const AppContainer = () => {
     }, []);
 
     const middlewares = modulesManager.getContribs("middlewares");
-
+    
     return (
       <MuiThemeProvider theme={dynamicTheme}>
         <Provider store={store(reducers, middlewares)}>
@@ -100,7 +100,6 @@ const AppContainer = () => {
                 localesManager={localesManager}
                 messages={messages_ref}
                 logo={logo}
-                whiteLogo={whiteLogo}
                 {...(whiteLogo !== defaultLogo && { whiteLogo })}
               />
             </ModulesManagerProvider>
