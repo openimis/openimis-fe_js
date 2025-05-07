@@ -344,7 +344,7 @@ To override the default theme colors, provide a `theme` object under the `fe-cor
 
 ---
 
-#### 🌈 Logo Configuration (`logo`)
+#### 🖼️ Logo Configuration (`logo`)
 
 Add additional property 
 under `fe-core` configuration in `moduleConfiguration`. Logos can also be configured via base64-encoded images. This allows the UI to show custom branding without bundling new static files.
