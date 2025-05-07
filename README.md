@@ -294,3 +294,90 @@ Conclusions:
 ### How to report another issues? 
 If you face another issues not described in that section you could use our [ticketing site](https://openimis.atlassian.net/servicedesk/customer/portal/1). 
 Here you can report any bugs/problems you faced during setting up openIMIS app. 
+
+
+## 🎨 Theme & Logo Configuration
+
+To customize the appearance of your openIMIS frontend, you can define a `theme` and optionally a `logo` configuration in your module settings either on database level or django admin panel (table `moduleConfiguration`).
+
+### 🧹 JSON Configuration Structure
+
+#### Theme Configuration (`theme`)
+
+To override the default theme colors, provide a `theme` object under the `fe-core` module configuration. Below is the full structure with all supported properties:
+
+```json
+{
+  "theme": {
+    "name": "defaultBlue",
+    "primaryColor": "#004E96",
+    "errorColor": "#801a00",
+    "whiteColor": "#ffffff",
+    "backgroundColor": "#e4f2ff",
+    "headerColor": "#BCD4E6",
+    "greyColor": "grey",
+    "selectedTableRowColor": "rgba(0, 0, 0, 0.08)",
+    "hoveredTableRowColor": "rgba(0, 0, 0, 0.12)",
+    "toggledButtonColor": "#999999",
+    "lockedBackgroundPattern": "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px)"
+  }
+}
+```
+
+##### Description of Properties:
+
+| Property                  | Description                                               |
+| ------------------------- | --------------------------------------------------------- |
+| `name`                    | Optional name identifier for the theme                    |
+| `primaryColor`            | Main brand color used in headers, buttons, text, etc.     |
+| `errorColor`              | Used to highlight errors or critical UI elements          |
+| `whiteColor`              | Used for contrasting text and background elements         |
+| `backgroundColor`         | General background color for the app                      |
+| `headerColor`             | Header background color                                   |
+| `greyColor`               | Used for subdued UI elements (e.g., disabled text)        |
+| `selectedTableRowColor`   | Background for selected table rows                        |
+| `hoveredTableRowColor`    | Background for hovered table rows                         |
+| `toggledButtonColor`      | Background for toggled/active state buttons               |
+| `lockedBackgroundPattern` | Background pattern used for locked (readonly) UI elements |
+
+**Note:** If `theme` is not provided, the default openIMIS theme will be used instead.
+
+---
+
+#### 🌈 Logo Configuration (`logo`)
+
+Add additional property 
+under `fe-core` configuration in `moduleConfiguration`. Logos can also be configured via base64-encoded images. This allows the UI to show custom branding without bundling new static files.
+
+```json
+{
+  "logo": {
+    "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEU...",
+    "white": "data:image/png;base64,iVBORw0KGgoAAAANSUhEU..."
+  }
+}
+```
+
+##### Logo Fields:
+
+| Property | Description                                                           |
+| -------- | --------------------------------------------------------------------- |
+| `value`  | Base64-encoded string of the main logo |
+| `white`  | *(Optional)* Base64-encoded white logo |
+
+**Note:** If `logo.value` or `logo.white` is not provided, the default openIMIS logo will be used instead.
+
+---
+
+### ✅ Example GraphQL Response from `module configuration` GQL
+
+```json
+{
+  "moduleConfigurations": [
+    {
+      "module": "fe-core",
+      "config": "{\"theme\":{...}, \"logo\":{...}}"
+    }
+  ]
+}
+```
