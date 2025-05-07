@@ -1,5 +1,6 @@
-import "react-app-polyfill/ie11";
-import "react-app-polyfill/stable";
+// import "react-app-polyfill/ie11";
+// import "react-app-polyfill/stable";
+// Add in packages if required
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { MuiThemeProvider, LinearProgress } from "@material-ui/core";
