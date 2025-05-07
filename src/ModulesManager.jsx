@@ -10,7 +10,7 @@ class ModulesManager {
       this.modules = loadModules(cfg);
     } catch (error) {
       throw new Error(
-        "Loading modules failed in ModulesManager.js. This might be caused by duplicated modules in /src/modules.js. \n ORIGINAL ERROR: " +
+        "Loading modules failed in ModulesManager.jsx. This might be caused by duplicated modules in /src/modules.js. \n ORIGINAL ERROR: " +
           error,
       );
     }
@@ -89,9 +89,7 @@ class ModulesManager {
 
   getMenuEntries() {
     return this.modules.reduce((menuEntries, module) => {
-      const mainMenuKeys = Object.keys(module).filter(
-        (key) => key.includes(".MainMenu") && key !== "core.MainMenu"
-      );
+      const mainMenuKeys = Object.keys(module).filter((key) => key.includes(".MainMenu") && key !== "core.MainMenu");
       mainMenuKeys.forEach((key) => {
         menuEntries.push(...ensureArray(module[key]));
       });
