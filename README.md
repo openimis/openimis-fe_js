@@ -353,19 +353,21 @@ under `fe-core` configuration in `moduleConfiguration`. Logos can also be config
 {
   "logo": {
     "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEU...",
-    "white": "data:image/png;base64,iVBORw0KGgoAAAANSUhEU..."
+    "disableTextLogo": true
   }
 }
 ```
+
+**Note:** Supported formats: `svg+xml`, `jpeg`, `png`
 
 ##### Logo Fields:
 
 | Property | Description                                                           |
 | -------- | --------------------------------------------------------------------- |
 | `value`  | Base64-encoded string of the main logo |
-| `white`  | *(Optional)* Base64-encoded white logo |
+| `disableTextLogo`  | *(Optional)* Do not show `openIMIS` text next to logo: `true` or `false`. By default `false` |
 
-**Note:** If `logo.value` or `logo.white` is not provided, the default openIMIS logo will be used instead.
+**Note:** If `logo.value` is not provided, the default openIMIS logo will be used instead.
 
 ---
 

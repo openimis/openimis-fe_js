@@ -15,7 +15,6 @@ import ModulesManagerProvider from "./ModulesManagerProvider";
 import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
 import messages_ref from "./translations/ref.json";
 import "./index.css";
-import defaultLogo from "./openIMIS.png";
 import getConfiguredLogo from "./helpers/logo";
 
 const loadConfiguration = async () => {
@@ -64,7 +63,7 @@ const AppContainer = () => {
   const themeColor = appState?.config?.["fe-core"]?.theme;
   const dynamicTheme = createAppTheme(themeColor || {});
   const logo = getConfiguredLogo(appState.config);
-  const whiteLogo = getConfiguredLogo(appState.config, "white");
+  const disableTextLogo = appState?.config?.["fe-core"]?.logo?.disableTextLogo || false
 
   if (appState.isLoading) {
     return (
@@ -100,7 +99,7 @@ const AppContainer = () => {
                 localesManager={localesManager}
                 messages={messages_ref}
                 logo={logo}
-                {...(whiteLogo !== defaultLogo && { whiteLogo })}
+                disableTextLogo={disableTextLogo}
               />
             </ModulesManagerProvider>
           </MuiPickersUtilsProvider>
