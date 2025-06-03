@@ -7,20 +7,26 @@ const { has } = require('lodash');
 
 
 function downloadModulesLocallyBasedOnImisJson(){
-    imisJsonPath = path.normalize(path.join(__dirname, '..'));
+    let imisJsonPath = path.normalize(path.join(__dirname, '..'));
     fs.readFile(path.join(imisJsonPath, 'openimis.json'), 'utf8', (error, data) => {
         if(error){
            console.log(error);
            return;
         }
-        imisJSON = JSON.parse(data);
+        let imisJSON = JSON.parse(data);
         imisJSON['modules'].forEach(module => {
             console.log(module["npm"]);
-            moduleName = module["npm"].split('/')[1]
-            moduleName = "openimis-"+moduleName.split('@')[0]+"_js"
-            moduleRepoUrl = 'https://github.com/openimis/'+moduleName+'.git';
-            shell.exec('node installModuleLocally.js '+moduleRepoUrl +' develop');
+            let modulePath = module["npm"].split('/')[1]
+            modulePath = "openimis-"+modulePath.split('@')[0]+"_js"
+            let moduleRepoUrl = 'https://github.com/openimis/'+modulePath+'.git';
+            shell.exec('node installModuleLocally.js '+moduleRepoUrl +' '+modulePath+' '+module["name"]+' develop');
         });
+
+        shell.cd(__dirname);
+        shell.cd('..');
+        shell.exec("node modules-config.js");
+        shell.exec("yarn install");
+        console.log("Application has been updated!");
     })
 }
 

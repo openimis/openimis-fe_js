@@ -10,7 +10,7 @@ function checkModuleExists(moduleDirectory){
     shell.cd(__dirname);
     shell.cd('..');
     shell.cd('..');
-    imisFolder = shell.pwd();
+    let imisFolder = shell.pwd();
     if (!fs.existsSync(path.join(imisFolder.stdout, path.join(moduleDirectory)))) {
         return false;
     }
@@ -26,8 +26,8 @@ function addFileToGithubWorflow(moduleDirectory){
         shell.cd('..');
         shell.cd('..');
         shell.cd(moduleDirectory);
-        modulePath = shell.pwd();
-        githubFolders = path.join('.github', 'workflows');
+        let modulePath = shell.pwd();
+        let githubFolders = path.join('.github', 'workflows');
         fs.mkdir('.github', { recursive: true }, (err) => {
             if (err) throw err;
             fs.mkdir(path.join(modulePath.stdout, githubFolders), { recursive: true }, (err) => {
@@ -44,7 +44,7 @@ function addFileToGithubWorflow(moduleDirectory){
 
 function copySkeletonCIFiles(modulePath, githubFolders){
     if (!fs.existsSync(path.join(modulePath.stdout, path.join(githubFolders, 'CI_and_build.yml')))) {
-        skeletonFile = path.join(__dirname, path.join('skeletons', 'CI_and_build.yml'));
+        let skeletonFile = path.join(__dirname, path.join('skeletons', 'CI_and_build.yml'));
         fs.copyFile(skeletonFile, path.join(modulePath.stdout, path.join(githubFolders, 'CI_and_build.yml')), (err) => {
             if (err) throw err;
             console.log('CI_and_build.yml was copied!');
@@ -56,7 +56,7 @@ function copySkeletonCIFiles(modulePath, githubFolders){
     
     
     if (!fs.existsSync(path.join(modulePath.stdout, path.join(githubFolders, 'npmpublish.yml')))) {
-        skeletonFile = path.join(__dirname, path.join('skeletons', 'npmpublish.yml'));
+        let skeletonFile = path.join(__dirname, path.join('skeletons', 'npmpublish.yml'));
         fs.copyFile(skeletonFile, path.join(modulePath.stdout, path.join(githubFolders, 'npmpublish.yml')), (err) => {
             if (err) throw err;
             console.log('npmpublish.yml was copied!');
