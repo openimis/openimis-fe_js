@@ -109,7 +109,7 @@ const AppContainer = () => {
       </MuiThemeProvider>
     );
   }
-};
+}
 
 ReactDOM.render(<AppContainer />, document.getElementById("root"));
 serviceWorker.register();
