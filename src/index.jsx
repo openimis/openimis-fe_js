@@ -1,5 +1,6 @@
 import "react-app-polyfill/ie11";
 import "react-app-polyfill/stable";
+
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { MuiThemeProvider, LinearProgress } from "@material-ui/core";
@@ -7,17 +8,15 @@ import { Provider } from "react-redux";
 import MomentUtils from "@date-io/moment";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import * as serviceWorker from "./serviceWorker";
-import createAppTheme from "./helpers/theme";
+import theme from "./helpers/theme";
 import store from "./helpers/store";
 import LocalesManager from "./LocalesManager";
 import ModulesManager from "./ModulesManager";
 import ModulesManagerProvider from "./ModulesManagerProvider";
 import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
-import getConfiguredLogo from "./helpers/logo";
 import messages_ref from "./translations/ref.json";
 import "./index.css";
-import "./rc-cascader.css";
-
+import logo from "./openIMIS.png";
 
 const loadConfiguration = async () => {
   const response = await fetch(`${baseApiUrl}/graphql`, {
@@ -62,14 +61,9 @@ const AppContainer = () => {
     );
   }, []);
 
-  const themeColor = appState?.config?.["fe-core"]?.theme;
-  const dynamicTheme = createAppTheme(themeColor || {});
-  const logo = getConfiguredLogo(appState.config);
-  const disableTextLogo = appState?.config?.["fe-core"]?.logo?.disableTextLogo || false
-
   if (appState.isLoading) {
     return (
-      <MuiThemeProvider theme={dynamicTheme}>
+      <MuiThemeProvider theme={theme}>
         <LinearProgress className="bootstrap" />
       </MuiThemeProvider>
     );
@@ -90,9 +84,9 @@ const AppContainer = () => {
     }, []);
 
     const middlewares = modulesManager.getContribs("middlewares");
-    
+
     return (
-      <MuiThemeProvider theme={dynamicTheme}>
+      <MuiThemeProvider theme={theme}>
         <Provider store={store(reducers, middlewares)}>
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <ModulesManagerProvider modulesManager={modulesManager}>
@@ -101,7 +95,6 @@ const AppContainer = () => {
                 localesManager={localesManager}
                 messages={messages_ref}
                 logo={logo}
-                disableTextLogo={disableTextLogo}
               />
             </ModulesManagerProvider>
           </MuiPickersUtilsProvider>
@@ -109,7 +102,7 @@ const AppContainer = () => {
       </MuiThemeProvider>
     );
   }
-}
+};
 
 ReactDOM.render(<AppContainer />, document.getElementById("root"));
 serviceWorker.register();

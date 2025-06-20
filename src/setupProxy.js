@@ -12,7 +12,7 @@ export function createViteProxy() {
     [baseApiUrl]: {
       target: pkg.proxy,
       changeOrigin: true,
-      configure: (proxy) => {
+      figure: (proxy) => {
         proxy.on('proxyReq', (proxyReq, req) => {
           if (process.env.VITE_REMOTE_USER) {
             proxyReq.setHeader('Remote-User', process.env.VITE_REMOTE_USER);

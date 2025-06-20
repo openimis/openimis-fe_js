@@ -46,29 +46,25 @@ export const packages = [
 `);
 
   stream.write(`
-export function loadModules(cfg = {}) {
-  const loadedModules = [];
+export async function loadModules(cfg = {}) {
+  const modulePromises = [
 ${modules
-.map(({ name, logicalName, moduleName }) => {
-return `
-  try {
-    // Using dynamic import for Vite compatibility
+.map(
+({ name, logicalName, moduleName }) => `
     import("${moduleName}")
-      .then(module => {
-        loadedModules.push(module.${name ?? "default"}(cfg["${logicalName}"] || {}));
-      })
+      .then(module => module.${name ?? "default"}(cfg["${logicalName}"] || {}))
       .catch(error => {
         console.error(\`Failed to load module "${moduleName}". Error: \${error}\`);
         alert(\`Failed to load module "${moduleName}". More details can be found in the developer console.\`);
-      });
-  } catch (error) {
-    console.error(\`Failed to import module "${moduleName}". Error: \${error}\`);
-    alert(\`Failed to import module "${moduleName}". More details can be found in the developer console.\`);
-  }
-`;
-})
-.join("")}
-  return loadedModules;
+        return null;
+      })
+`,
+)
+.join(",\n")}
+  ];
+
+  const loadedModules = await Promise.all(modulePromises);
+  return loadedModules.filter(module => module !== null);
 }
 `);
 
