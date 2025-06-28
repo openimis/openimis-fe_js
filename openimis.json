@@ -44,7 +44,7 @@
         },
         {
             "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@https://github.com/openimis/openimis-fe-insuree_js#develop"
+            "npm": "@openimis/fe-insuree@https://github.com/habtec/openimis-fe-insuree_js#develop"
         },
         {
             "name": "MedicalModule",
@@ -56,7 +56,7 @@
         },
         {
             "name": "ProductModule",
-            "npm": "@openimis/fe-product@https://github.com/openimis/openimis-fe-product_js#develop"
+            "npm": "@openimis/fe-product@https://github.com/habtec/openimis-fe-product_js#develop"
         },
         {
             "name": "PolicyModule",
@@ -76,7 +76,7 @@
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@https://github.com/openimis/openimis-fe-claim_js#develop"
+            "npm": "@openimis/fe-claim@https://github.com/habtec/openimis-fe-claim_js#develop"
         },
         {
             "name": "ClaimBatchModule",
