@@ -103,7 +103,7 @@ function prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageName
   console.log(`Preparing ${moduleName} for local development...`);
 
   shell.exec(`npm unlink ${npmPackageName}`, { silent: true });
-  shell.exec("npm install");
+  shell.exec("npm install --include dev");
   //shell.exec("npm build");
   shell.exec("npm link");
 
@@ -174,7 +174,7 @@ function updatePackageInAssembly(modules, basePath, modulesInstallPath) {
 
   modules.forEach((module) => {
     let info = extractModuleInfo(module)
-    if (packageJSON.dependencies[info.name] !== `file:${info.path}`) {
+    if (packageJSON.dependencies[info.packageName] !== `file:${info.path}`) {
       console.log(`Updating ${info.name} in package.json to use local path: file:${info.path}`);
       shell.exec(`npm remove ${info.packageName}`, { silent: true });
       packageJSON.dependencies[info.packageName] = `file:${info.path}`;

@@ -40,7 +40,7 @@ function processModules(modules) {
 
   stream.write(`
 export const packages = [
-  ${modules.map(({ moduleName }) => `"${moduleName}"`).join(",\n  ")}
+  ${modules.map(({ name, version, moduleName, npm }) => `"${name}"`).join(",\n  ")}
 ];\n
 `);
 
@@ -48,7 +48,7 @@ export const packages = [
 export function loadModules(cfg = {}) {
   const loadedModules = [];
 ${modules
-.map(({ name, logicalName, moduleName }) => {
+.map(({ name, logicalName, moduleName, npm }) => {
 return `
   try {
     loadedModules.push(require("${moduleName}").${name ?? "default"}(cfg["${logicalName}"] || {}));
@@ -65,7 +65,14 @@ return `
 
   stream.end();
 }
+function parseNpmName(module) {
 
+  const npmMatch = module.npm.match(/(@openimis\/.+)@?/);
+  if (npmMatch) {
+    return npmMatch[1];
+  }
+  return "@openimis/fe-" +module.name.replace("Module", "").toLowerCase(); // Fallback if no match
+}
 function main() {
   /*
   Load openIMIS configuration. Configuration is taken from args if provided or from the environment variable
@@ -93,12 +100,9 @@ function main() {
   for (const module of config.modules) {
     const { npm, name, logicalName } = module;
     // Find version number
-    const moduleName = npm.substring(0, npm.lastIndexOf("@"));
-    if (npm.lastIndexOf("@") <= 0) {
-      throw new Error(`  Module ${moduleName} has no version set.`);
-    }
-    const version = npm.substring(npm.lastIndexOf("@") + 1);
-    console.log(`  added "${moduleName}": ${version}`);
+    const moduleName = parseNpmName(module)
+    const version = npm.lastIndexOf("@") <= 0 ? npm.substring(npm.lastIndexOf("@") + 1) : null;
+         console.log(`  added "${moduleName}": ${version}`);
     pkg.dependencies[moduleName] = version;
     modules.push({
       moduleName,
