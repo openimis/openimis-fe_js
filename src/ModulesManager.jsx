@@ -5,7 +5,7 @@ import { ensureArray } from "@openimis/fe-core";
 class ModulesManager {
   constructor(cfg, loadedModules) {
     this.cfg = cfg;
-    this.modules = loadedModules; // ✅ Now we receive resolved modules
+    this.modules = loadedModules; // Now we receive resolved modules
     this.contributionsCache = {};
     this.controlsCache = this.buildControlsCache();
     this.refsCache = this.buildRefsCache();
@@ -13,7 +13,7 @@ class ModulesManager {
   }
   static async init(cfg) {
     try {
-      const loadedModules = await loadModules(cfg); // ✅ Await here
+      const loadedModules = await loadModules(cfg); 
       return new ModulesManager(cfg, loadedModules);
     } catch (error) {
       throw new Error(

@@ -1,0 +1,2 @@
+System.register(["./index-legacy-Br0_IX7d.js","./vendor-legacy-zrIWW9vl.js"],function(e,t){"use strict";var r,d,a,v;return{setters:[e=>{r=e.i,d=e.a,a=e.r},e=>{v=e.e}],execute:function(){var t={},c=d,u=r;Object.defineProperty(t,"__esModule",{value:!0}),e("d",t.default=void 0);var l=u(v),n=(0,c(a()).default)(l.createElement("path",{d:"M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 14h-3v3h-2v-3H8v-2h3v-3h2v3h3v2zm-3-7V3.5L18.5 9H13z"}),"NoteAdd");e("d",t.default=n)}}});
+//# sourceMappingURL=NoteAdd-legacy-DD_9OYLY.js.map

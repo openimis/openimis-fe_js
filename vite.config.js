@@ -51,7 +51,13 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    proxy: createViteProxy(),
+    // proxy: createViteProxy()
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+    },
   },
   optimizeDeps: {
     include: [
@@ -81,7 +87,7 @@ export default defineConfig({
     exclude: []
   },
   build: {
-    outDir: "build",
+    outDir: "dist",
     assetsDir: "static",
     sourcemap: true,
     rollupOptions: {

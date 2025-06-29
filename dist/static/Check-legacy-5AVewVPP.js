@@ -1,0 +1,2 @@
+System.register(["./index-legacy-Br0_IX7d.js","./vendor-legacy-zrIWW9vl.js"],function(e,t){"use strict";var r,a,d,l;return{setters:[e=>{r=e.i,a=e.a,d=e.r},e=>{l=e.e}],execute:function(){var t={},u=a,c=r;Object.defineProperty(t,"__esModule",{value:!0}),e("d",t.default=void 0);var n=c(l),s=(0,u(d()).default)(n.createElement("path",{d:"M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"}),"Check");e("d",t.default=s)}}});
+//# sourceMappingURL=Check-legacy-5AVewVPP.js.map

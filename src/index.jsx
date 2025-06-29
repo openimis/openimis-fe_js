@@ -1,5 +1,5 @@
-import "react-app-polyfill/ie11";
-import "react-app-polyfill/stable";
+// import "react-app-polyfill/ie11";
+// import "react-app-polyfill/stable";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { MuiThemeProvider, LinearProgress } from "@material-ui/core";
@@ -10,15 +10,16 @@ import * as serviceWorker from "./serviceWorker";
 import createAppTheme from "./helpers/theme";
 import store from "./helpers/store";
 import LocalesManager from "./LocalesManager";
-import ModulesManager from "./ModulesManager"; // ✅ already using fixed ModulesManager
+import ModulesManager from "./ModulesManager"; 
 import ModulesManagerProvider from "./ModulesManagerProvider";
 import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
 import getConfiguredLogo from "./helpers/logo";
 import messages_ref from "./translations/ref.json";
 import "./index.css";
 import "./rc-cascader.css";
-// ✅ Loads config from API and parses each module's config safely
+
 const loadConfiguration = async () => {
+  
   const response = await fetch(`${baseApiUrl}/graphql`, {
     method: "post",
     headers: apiHeaders(),
@@ -26,9 +27,12 @@ const loadConfiguration = async () => {
       query: `{ moduleConfigurations { module, config, controls { field, usage } } }`,
     }),
   });
+  
+
   if (!response.ok) throw response;
   const { data } = await response.json();
-  data.moduleConfigurations.unshift({}); // Add empty base module config
+  console.log(data);
+  
   const out = data.moduleConfigurations.reduce((acc, c) => {
     try {
       acc[c.module] = { controls: c.controls, ...JSON.parse(c.config) };
@@ -37,6 +41,7 @@ const loadConfiguration = async () => {
     }
     return acc;
   }, {});
+ 
   return out;
 };
 const AppContainer = () => {
@@ -44,15 +49,16 @@ const AppContainer = () => {
     isLoading: true,
     config: undefined,
     error: null,
-    modulesManager: null, // ✅ we now track modulesManager separately
+    modulesManager: null, 
   });
   const localesManager = new LocalesManager();
-  // ✅ Modified to load ModulesManager asynchronously using the static async init method
+  
   useEffect(() => {
     const initialize = async () => {
       try {
         const config = await loadConfiguration();
-        const modulesManager = await ModulesManager.init(config); // ✅ async init
+        const modulesManager = await ModulesManager.init(config); 
+        console.log("[openIMIS] ModulesManager initialized:", modulesManager);
         setAppState({
           config,
           error: null,
@@ -60,28 +66,31 @@ const AppContainer = () => {
           modulesManager,
         });
       } catch (error) {
+        console.error("[openIMIS] Error during initialization:", error);
         setAppState({
           error,
           isLoading: false,
         });
       }
     };
-    initialize(); // 🔁 run async init logic
+    initialize();
   }, []);
   const themeColor = appState?.config?.["fe-core"]?.theme;
   const dynamicTheme = createAppTheme(themeColor || {});
   const logo = getConfiguredLogo(appState.config);
   const disableTextLogo = appState?.config?.["fe-core"]?.logo?.disableTextLogo || false;
-  // ✅ While loading: show linear progress
+  
   if (appState.isLoading) {
+    console.log("[openIMIS] App is loading...");
     return (
       <MuiThemeProvider theme={dynamicTheme}>
         <LinearProgress className="bootstrap" />
       </MuiThemeProvider>
     );
   }
-  // ✅ Show fatal error if loading failed
+  //  Show fatal error if loading failed
   if (appState.error) {
+    console.error("[openIMIS] Fatal error state:", appState.error);
     return (
       <FatalError
         error={{
@@ -91,14 +100,15 @@ const AppContainer = () => {
       />
     );
   }
-  // ✅ Once everything is loaded, extract middleware and reducers from modulesManager
+  // ✅Once everything is loaded, extract middleware and reducers from modulesManager
   const { modulesManager } = appState;
+  console.log("[openIMIS] Rendering app with modulesManager:", modulesManager);
   const reducers = modulesManager.getContribs("reducers").reduce((acc, r) => {
     acc[r.key] = r.reducer;
     return acc;
   }, {});
   const middlewares = modulesManager.getContribs("middlewares");
-  // ✅ Main app render with all props & providers
+  //  Main app render with all props & providers
   return (
     <MuiThemeProvider theme={dynamicTheme}>
       <Provider store={store(reducers, middlewares)}>
@@ -117,6 +127,6 @@ const AppContainer = () => {
     </MuiThemeProvider>
   );
 };
-// ✅ Render the full AppContainer in root
+//  Render the full AppContainer in root
 ReactDOM.render(<AppContainer />, document.getElementById("root"));
 serviceWorker.register();
