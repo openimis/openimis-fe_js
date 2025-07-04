@@ -38,9 +38,9 @@ export const packages = [
 export async function loadModules(cfg = {}) {
   const loadedModules = [];
 
-  // Dynamically importing @openimis/fe-core
+  // 🔄 Dynamically importing @openimis/fe-core
   try {
-    const module = await import("@openimis/fe-core"); //  CHANGED: use await instead of .then
+    const module = await import("@openimis/fe-core"); // ✅ CHANGED: use await instead of .then
     loadedModules.push(
       module.CoreModule(cfg["fe-core"] || {})
     );
@@ -49,9 +49,9 @@ export async function loadModules(cfg = {}) {
     alert(`Failed to load module "@openimis/fe-core". See console for details.`);
   }
 
-  //  Dynamically importing @openimis/fe-individual
+  // 🔄 Dynamically importing @openimis/fe-individual
   try {
-    const module = await import("@openimis/fe-individual"); // CHANGED: use await instead of .then
+    const module = await import("@openimis/fe-individual"); // ✅ CHANGED: use await instead of .then
     loadedModules.push(
       module.IndividualModule(cfg["fe-individual"] || {})
     );

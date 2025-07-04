@@ -5,7 +5,7 @@ import svgr from "vite-plugin-svgr";
 import envCompatible from "vite-plugin-env-compatible";
 import { createHtmlPlugin } from "vite-plugin-html";
 import path from "path";
-import { createViteProxy } from "./src/setupProxy.js";
+// import { createViteProxy } from "./src/setupProxy.js";
 
 export default defineConfig({
   plugins: [
@@ -32,8 +32,14 @@ export default defineConfig({
       '@openimis/fe-medical': path.resolve(__dirname, '../openimis-fe-medical_js/src'),
       '@openimis/fe-medical_pricelist': path.resolve(__dirname, '../openimis-fe-medical_pricelist_js/src'),
       '@openimis/fe-social_protection': path.resolve(__dirname, '../openimis-fe-social_protection_js/src'),
+      '@openimis/fe-insuree': path.resolve(__dirname, '../openimis-fe-insuree_js/src'),
+      '@openimis/fe-home': path.resolve(__dirname, '../openimis-fe-home_js/src'),
+      '@openimis/fe-opensearch_reports': path.resolve(__dirname, '../openimis-fe-opensearch_reports_js/src'),
+      '@openimis/fe-individual': path.resolve(__dirname, '../openimis-fe-individual_js/src'),
+      
 
       'react': path.resolve(__dirname, './node_modules/react'),
+      'lodash': path.resolve(__dirname, './node_modules/lodash'),
       'react-redux': path.resolve(__dirname, './node_modules/react-redux'),
       '@material-ui': path.resolve(__dirname, './node_modules/@material-ui'),
       'clsx': path.resolve(__dirname, './node_modules/clsx'),
@@ -46,6 +52,7 @@ export default defineConfig({
       'react-date-object': path.resolve(__dirname, './node_modules/react-date-object'),
       'react-date-object/calendars/gregorian': path.resolve(__dirname, './node_modules/react-date-object/calendars/gregorian'),
       'react-date-object/locales/gregorian_en': path.resolve(__dirname, './node_modules/react-date-object/locales/gregorian_en'),
+      'redux': path.resolve(__dirname, './node_modules/redux'),
     },
     preserveSymlinks: true,
   },
@@ -82,7 +89,8 @@ export default defineConfig({
       "zxcvbn",
       "react-router",
       "react-router-dom",
-      "nepali-date-converter"
+      "nepali-date-converter",
+      "lodash"
     ],
     exclude: []
   },

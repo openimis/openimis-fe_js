@@ -1,2 +1,0 @@
-System.register(["./index-legacy-Br0_IX7d.js","./vendor-legacy-zrIWW9vl.js"],function(e,t){"use strict";var r,a,c,d;return{setters:[e=>{r=e.i,a=e.a,c=e.r},e=>{d=e.e}],execute:function(){var t={},n=a,u=r;Object.defineProperty(t,"__esModule",{value:!0}),e("d",t.default=void 0);var s=u(d),v=(0,n(c()).default)(s.createElement("path",{d:"M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"}),"Payment");e("d",t.default=v)}}});
-//# sourceMappingURL=Payment-legacy-D-SQnBw1.js.map

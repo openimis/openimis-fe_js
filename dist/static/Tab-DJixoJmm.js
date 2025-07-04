@@ -1,0 +1,2 @@
+import{$ as r,a0 as a,a1 as t}from"./index-NGDRFoaS.js";import{e as o}from"./vendor-DYjVD0df.js";var e={},i=a,u=r;Object.defineProperty(e,"__esModule",{value:!0});var d=e.default=void 0,v=u(o),c=i(t()),l=(0,c.default)(v.createElement("path",{d:"M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h10v4h8v10z"}),"Tab");d=e.default=l;export{d};
+//# sourceMappingURL=Tab-DJixoJmm.js.map
