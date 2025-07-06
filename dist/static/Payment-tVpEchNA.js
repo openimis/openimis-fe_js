@@ -1,2 +1,0 @@
-import{$ as r,a0 as a,a1 as t}from"./index-NGDRFoaS.js";import{e as o}from"./vendor-DYjVD0df.js";var e={},i=a,u=r;Object.defineProperty(e,"__esModule",{value:!0});var d=e.default=void 0,v=u(o),c=i(t()),l=(0,c.default)(v.createElement("path",{d:"M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"}),"Payment");d=e.default=l;export{d};
-//# sourceMappingURL=Payment-tVpEchNA.js.map

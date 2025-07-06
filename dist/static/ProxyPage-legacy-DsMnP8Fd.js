@@ -1,2 +1,0 @@
-System.register(["./index-legacy-Bbuio7Qw.js","./vendor-legacy-x-lLx_Xj.js"],function(t,e){"use strict";var r,i;return{setters:[t=>{r=t.r},t=>{i=t.e}],execute:function(){class e extends i.Component{render(){const{url:t,marginTop:e,marginBottom:i,marginLeft:n,marginRight:s}=this.props;var a={width:"1px",minWidth:"100%",height:"100vh",marginTop:e||"-68px",marginBottom:i||"0px",marginLeft:n||"0px",marginRight:s||"0px"};return r.jsx("div",{children:r.jsx("iframe",{title:t,src:t,style:a})})}}t("P",e)}}});
-//# sourceMappingURL=ProxyPage-legacy-DsMnP8Fd.js.map
