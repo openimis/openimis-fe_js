@@ -2,7 +2,7 @@
 // import "react-app-polyfill/stable";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import { MuiThemeProvider, LinearProgress } from "@material-ui/core";
+import { MuiThemeProvider, LinearProgress } from "@mui/core";
 import { Provider } from "react-redux";
 import MomentUtils from "@date-io/moment";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";

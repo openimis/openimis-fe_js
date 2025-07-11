@@ -1,5 +1,5 @@
-import { createTheme } from "@material-ui/core/styles";
-import { alpha } from "@material-ui/core/styles/colorManipulator";
+import { createTheme } from "@mui/core/styles";
+import { alpha } from "@mui/core/styles/colorManipulator";
 
 const defaultColors = {
   primaryColor: "#006273",
