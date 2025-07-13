@@ -11,7 +11,7 @@ class ModulesManager {
     } catch (error) {
       throw new Error(
         "Loading modules failed in ModulesManager.js. This might be caused by duplicated modules in /src/modules.js. \n ORIGINAL ERROR: " +
-          error,
+        error,
       );
     }
     this.contributionsCache = {};
@@ -84,7 +84,20 @@ class ModulesManager {
 
   getConf(module, key, defaultValue = null) {
     const moduleCfg = this.cfg[module] || {};
-    return moduleCfg[key] !== undefined ? moduleCfg[key] : defaultValue;
+    let value = moduleCfg[key] !== undefined ? moduleCfg[key] : null;
+
+    if (value == null) {
+      this.modules.forEach(m => {
+        if (m[key] !== undefined) {
+          value = m[key];
+        }
+      })
+    }
+
+    if (value == null) {
+      value = defaultValue;
+    }
+    return value;
   }
 
   getMenuEntries() {
