@@ -45,7 +45,20 @@ export default defineConfig({
       '@openimis/fe-profile': path.resolve(__dirname, '../openimis-fe-profile_js/src'),
       '@openimis/fe-calculation': path.resolve(__dirname, '../openimis-fe-calculation_js/src'),
       '@openimis/fe-policyholder': path.resolve(__dirname, '../openimis-fe-policyholder_js/src'),
+      '@openimis/fe-invoice': path.resolve(__dirname, '../openimis-fe-invoice_js/src'),
+      '@openimis/fe-contribution_plan': path.resolve(__dirname, '../openimis-fe-contribution_plan_js/src'),
+      '@openimis/fe-deduplication': path.resolve(__dirname, '../openimis-fe-deduplication_js/src'),
+      '@openimis/fe-claim_sampling': path.resolve(__dirname, '../openimis-fe-claim_sampling_js/src'),
+      '@openimis/fe-contract': path.resolve(__dirname, '../openimis-fe-contract_js/src'),
+      '@openimis/fe-grievance_social_protection': path.resolve(__dirname, '../openimis-fe-grievance_social_protection_js/src'),
+      '@openimis/fe-language_fr': path.resolve(__dirname, '../openimis-fe-language_fr_js/src'),
+      '@openimis/fe-payer': path.resolve(__dirname, '../openimis-fe-payer_js/src'),
+      '@openimis/fe-payment_cycle': path.resolve(__dirname, '../openimis-fe-payment_cycle_js/src'),
+      '@openimis/fe-payroll': path.resolve(__dirname, '../openimis-fe-payroll_js/src'),
+      '@openimis/fe-product': path.resolve(__dirname, '../openimis-fe-product_js/src'),
+      '@openimis/fe-tasks_management': path.resolve(__dirname, '../openimis-fe-tasks_management_js/src'),
       
+
       
 
       'react': path.resolve(__dirname, './node_modules/react'),
