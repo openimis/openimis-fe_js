@@ -115,10 +115,6 @@
             "npm": "@openimis/fe-contract@https://github.com/openimis/openimis-fe-contract_js#feature/vite-migration"
         },
         {
-            "name": "TasksManagementModule",
-            "npm": "@openimis/fe-tasks_management@https://github.com/openimis/openimis-fe-tasks_management_js#feature/vite-migration"
-        },
-        {
             "name": "InvoiceModule",
             "npm": "@openimis/fe-invoice@https://github.com/openimis/openimis-fe-invoice_js#feature/vite-migration"
         },
