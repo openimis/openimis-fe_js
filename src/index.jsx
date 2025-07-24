@@ -2,15 +2,15 @@
 // import "react-app-polyfill/stable";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import { MuiThemeProvider, LinearProgress } from "@mui/core";
+import { ThemeProvider, LinearProgress } from "@mui/material";
 import { Provider } from "react-redux";
-import MomentUtils from "@date-io/moment";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import * as serviceWorker from "./serviceWorker";
 import createAppTheme from "./helpers/theme";
 import store from "./helpers/store";
 import LocalesManager from "./LocalesManager";
-import ModulesManager from "./ModulesManager"; 
+import ModulesManager from "./ModulesManager";
 import ModulesManagerProvider from "./ModulesManagerProvider";
 import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
 import getConfiguredLogo from "./helpers/logo";
@@ -19,7 +19,7 @@ import "./index.css";
 import "./rc-cascader.css";
 
 const loadConfiguration = async () => {
-  
+
   const response = await fetch(`${baseApiUrl}/graphql`, {
     method: "post",
     headers: apiHeaders(),
@@ -27,12 +27,12 @@ const loadConfiguration = async () => {
       query: `{ moduleConfigurations { module, config, controls { field, usage } } }`,
     }),
   });
-  
+
 
   if (!response.ok) throw response;
   const { data } = await response.json();
   console.log(data);
-  
+
   const out = data.moduleConfigurations.reduce((acc, c) => {
     try {
       acc[c.module] = { controls: c.controls, ...JSON.parse(c.config) };
@@ -41,7 +41,7 @@ const loadConfiguration = async () => {
     }
     return acc;
   }, {});
- 
+
   return out;
 };
 const AppContainer = () => {
@@ -49,15 +49,15 @@ const AppContainer = () => {
     isLoading: true,
     config: undefined,
     error: null,
-    modulesManager: null, 
+    modulesManager: null,
   });
   const localesManager = new LocalesManager();
-  
+
   useEffect(() => {
     const initialize = async () => {
       try {
         const config = await loadConfiguration();
-        const modulesManager = await ModulesManager.init(config); 
+        const modulesManager = await ModulesManager.init(config);
         console.log("[openIMIS] ModulesManager initialized:", modulesManager);
         setAppState({
           config,
@@ -79,13 +79,13 @@ const AppContainer = () => {
   const dynamicTheme = createAppTheme(themeColor || {});
   const logo = getConfiguredLogo(appState.config);
   const disableTextLogo = appState?.config?.["fe-core"]?.logo?.disableTextLogo || false;
-  
+
   if (appState.isLoading) {
     console.log("[openIMIS] App is loading...");
     return (
-      <MuiThemeProvider theme={dynamicTheme}>
+      <ThemeProvider theme={dynamicTheme}>
         <LinearProgress className="bootstrap" />
-      </MuiThemeProvider>
+      </ThemeProvider>
     );
   }
   //  Show fatal error if loading failed
@@ -110,9 +110,9 @@ const AppContainer = () => {
   const middlewares = modulesManager.getContribs("middlewares");
   //  Main app render with all props & providers
   return (
-    <MuiThemeProvider theme={dynamicTheme}>
+    <ThemeProvider theme={dynamicTheme}>
       <Provider store={store(reducers, middlewares)}>
-        <MuiPickersUtilsProvider utils={MomentUtils}>
+        <LocalizationProvider dateAdapter={AdapterMoment}>
           <ModulesManagerProvider modulesManager={modulesManager}>
             <App
               basename={process.env.PUBLIC_URL}
@@ -122,9 +122,9 @@ const AppContainer = () => {
               disableTextLogo={disableTextLogo}
             />
           </ModulesManagerProvider>
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
       </Provider>
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 };
 //  Render the full AppContainer in root

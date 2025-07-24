@@ -1,0 +1,1 @@
+import{i as r,j as a}from"./materialui-B4YeaQHS.js";import{a1 as t}from"./index-oqIM9AWZ.js";var e={},o=r;Object.defineProperty(e,"__esModule",{value:!0});var u=e.default=void 0,i=o(t()),s=a;u=e.default=(0,i.default)((0,s.jsx)("path",{d:"M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8"}),"Replay");export{u as d};

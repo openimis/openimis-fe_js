@@ -1,1 +1,0 @@
-{"version":3,"file":"jsonExt-Blw0THds.js","sources":["../../../openimis-fe-core_js/src/helpers/jsonExt.js"],"sourcesContent":["export function formatJsonField(json) {\r\n  return `\"${JSON.stringify(json).replace(/\\\"/g, '\\\\\"')}\"`;\r\n}\r\n"],"names":["formatJsonField","json"],"mappings":"AAAO,SAASA,EAAgBC,EAAM,CACpC,MAAO,IAAI,YAAK,UAAUA,CAAI,EAAE,QAAQ,MAAO,KAAK,EAAC,IACvD"}

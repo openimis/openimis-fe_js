@@ -1,0 +1,1 @@
+import"./materialui-B4YeaQHS.js";import{bp as a,Q as p,aL as i}from"./index-oqIM9AWZ.js";import"./vendor-CA816dpA.js";function h(r,t,e=a.csv){var n=new URL("".concat(window.location.origin).concat(p,"/core/fetch_export?export=").concat(r));return c=>{fetch(n).then(o=>o.blob()).then(o=>i(o,t,e)).catch(o=>{console.error("Export failed, reason: ",o)})}}export{h as d};
