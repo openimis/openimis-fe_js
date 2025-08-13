@@ -4,10 +4,10 @@ mkdir ~/.npm-global
 npm config set prefix ~/.npm-global
 export PATH=~/.npm-global/bin:$PATH
 source ~/.bashrc  # or ~/.zshrc, ~/.bash_profile, etc., depending on your shell
-node ./dev_tools/entrypoint-dev.js -c ./openimis-dev.json -p /frontend-packages
+node ./dev_tools/entrypoint-dev.js -c /app/openimis-dev.json -p /frontend-packages
 echo "Updating package.json"
-node ./modules-config.js openimis-dev.json
+npm run load-config
 echo "Install application"
 npm install 
 echo "Application has been updated!, will start now"
-npx vite  -- openimis-dev.json
+npx vite  --host -- openimis-dev.json

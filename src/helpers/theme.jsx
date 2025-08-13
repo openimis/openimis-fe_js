@@ -1,5 +1,5 @@
-import { createTheme } from "@mui/core/styles";
-import { alpha } from "@mui/core/styles/colorManipulator";
+import { createTheme } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 
 const defaultColors = {
   primaryColor: "#006273",
@@ -30,12 +30,15 @@ const createAppTheme = (colorOverrides = {}) => {
     toggledButtonColor,
     lockedBackgroundPattern,
   } = { ...defaultColors, ...colorOverrides };
+
   return createTheme({
-    overrides: {
+    components: {
       MuiTableRow: {
-        root: {
-          "&$selected": {
-            backgroundColor: selectedTableRowColor,
+        styleOverrides: {
+          root: {
+            '&.Mui-selected': {
+              backgroundColor: selectedTableRowColor,
+            },
           },
         },
       },
@@ -53,16 +56,15 @@ const createAppTheme = (colorOverrides = {}) => {
       toggledButton: toggledButtonColor,
     },
     typography: {
-      useNextVariants: true,
       fontFamily: ["Rubik", "Roboto", '"Helvetica Neue"', "sans-serif"].join(","),
       fontSize: 14,
       fontWeightRegular: 300,
       fontWeightMedium: 400,
-      title: {
+      h6: {
         fontSize: 20,
         fontWeight: 300,
       },
-      label: {
+      body2: {
         color: greyColor,
       },
     },
@@ -144,9 +146,9 @@ const createAppTheme = (colorOverrides = {}) => {
       },
       row: {
         color: primaryColor,
-        align: "center",
-        "&:hover": {
-          background: hoveredTableRowColor + " !important",
+        textAlign: "center",
+        '&:hover': {
+          background: hoveredTableRowColor,
         },
       },
       cell: {
@@ -159,7 +161,7 @@ const createAppTheme = (colorOverrides = {}) => {
       highlightedRow: {},
       highlightedCell: {
         fontWeight: 500,
-        align: "center",
+        textAlign: "center",
       },
       secondaryHighlightedRow: {
         backgroundColor: "#cbedf2",
@@ -168,12 +170,12 @@ const createAppTheme = (colorOverrides = {}) => {
       highlightedAltRow: {},
       highlightedAltCell: {
         fontStyle: "italic",
-        align: "center",
+        textAlign: "center",
       },
       disabledRow: {},
       disabledCell: {
         color: greyColor,
-        align: "center",
+        textAlign: "center",
       },
       footer: {
         color: primaryColor,
@@ -194,7 +196,7 @@ const createAppTheme = (colorOverrides = {}) => {
       },
       header: {
         color: primaryColor,
-        align: "center",
+        textAlign: "center",
       },
     },
     dialog: {
@@ -209,7 +211,7 @@ const createAppTheme = (colorOverrides = {}) => {
         backgroundColor: primaryColor,
         color: whiteColor,
         fontWeight: "bold",
-        "&:hover": {
+        '&:hover': {
           backgroundColor: alpha(primaryColor, 0.5),
           color: primaryColor,
         },
