@@ -5,7 +5,6 @@ import svgr from "vite-plugin-svgr";
 import envCompatible from "vite-plugin-env-compatible";
 import { createHtmlPlugin } from "vite-plugin-html";
 import path from "path";
-// import { createViteProxy } from "./src/setupProxy.js";
 
 export default defineConfig({
   plugins: [
@@ -26,6 +25,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
+     
       "@openimis/fe-core": path.resolve(__dirname, "../openimis-fe-core_js/src"),
       "@openimis/fe-claim": path.resolve(__dirname, "../openimis-fe-claim_js/src"),
       "@openimis/fe-location": path.resolve(__dirname, "../openimis-fe-location_js/src"),
@@ -52,7 +52,7 @@ export default defineConfig({
       "@openimis/fe-contract": path.resolve(__dirname, "../openimis-fe-contract_js/src"),
       "@openimis/fe-grievance_social_protection": path.resolve(
         __dirname,
-        "../openimis-fe-grievance_social_protection_js/src",
+        "../openimis-fe-grievance_social_protection_js/src"
       ),
       "@openimis/fe-language_fr": path.resolve(__dirname, "../openimis-fe-language_fr_js/src"),
       "@openimis/fe-payer": path.resolve(__dirname, "../openimis-fe-payer_js/src"),
@@ -61,6 +61,7 @@ export default defineConfig({
       "@openimis/fe-product": path.resolve(__dirname, "../openimis-fe-product_js/src"),
       "@openimis/fe-tasks_management": path.resolve(__dirname, "../openimis-fe-tasks_management_js/src"),
 
+     
       "react": path.resolve(__dirname, "./node_modules/react"),
       "lodash": path.resolve(__dirname, "./node_modules/lodash"),
       "react-redux": path.resolve(__dirname, "./node_modules/react-redux"),
@@ -75,19 +76,26 @@ export default defineConfig({
       "react-date-object": path.resolve(__dirname, "./node_modules/react-date-object"),
       "react-date-object/calendars/gregorian": path.resolve(
         __dirname,
-        "./node_modules/react-date-object/calendars/gregorian",
+        "./node_modules/react-date-object/calendars/gregorian"
       ),
       "react-date-object/locales/gregorian_en": path.resolve(
         __dirname,
-        "./node_modules/react-date-object/locales/gregorian_en",
+        "./node_modules/react-date-object/locales/gregorian_en"
       ),
       "redux": path.resolve(__dirname, "./node_modules/redux"),
+
+   
+
+  
+     "deepmerge": path.resolve(__dirname, "./node_modules/deepmerge/dist/cjs.js"),
     },
     preserveSymlinks: true,
   },
   server: {
     port: 3000,
-    // proxy: createViteProxy()
+    fs: {
+      allow: [".."],
+    },
     proxy: {
       "/api": {
         target: "http://localhost:8000",
@@ -106,36 +114,34 @@ export default defineConfig({
       "react-intl",
       "@mui/material",
       "@mui/icons-material",
-      "@mui/lab",
+      "@mui/x-data-grid",
       "@mui/x-date-pickers",
+      "react-to-print",
+    
+      "deepmerge",
+      "@mui/system",
     ],
-    exclude: [],
     force: true,
   },
   build: {
     outDir: "dist",
     assetsDir: "static",
-    sourcemap: false,
+    sourcemap: true,
     rollupOptions: {
       maxParallelFileOps: 1,
-      external: ["react-to-print"],
       output: {
-        globals: {
-          "react-to-print": "ReactToPrint",
-        },
         manualChunks: {
           vendor: ["react", "react-dom", "react-redux", "redux"],
-          materialui: ["@mui/material", "@mui/icons-material", "@mui/lab", "@mui/x-date-pickers"],
+          materialui: ["@mui/material", "@mui/icons-material", "@mui/x-date-pickers"],
         },
       },
+    },
+    commonjsOptions: {
+      requireReturnsDefault: "auto",
     },
   },
   define: {
     "process.env.PUBLIC_URL": JSON.stringify("/front"),
   },
   base: "/front/",
-  // esbuild: {
-  //   loader: "jsx",
-  //   include: /src\/.*\.js$/,
-  // },
 });

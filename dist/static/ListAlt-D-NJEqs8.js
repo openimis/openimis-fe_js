@@ -1,0 +1,2 @@
+import{i as t,j as r}from"./materialui-4Sp7dOOG.js";import{$ as a}from"./index-CB5z4M26.js";var e={},v=t.default;Object.defineProperty(e,"__esModule",{value:!0});var o=e.default=void 0,u=v(a),i=r;o=e.default=(0,u.default)((0,i.jsx)("path",{d:"M19 5v14H5V5zm1.1-2H3.9c-.5 0-.9.4-.9.9v16.2c0 .4.4.9.9.9h16.2c.4 0 .9-.5.9-.9V3.9c0-.5-.5-.9-.9-.9M11 7h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7z"}),"ListAlt");export{o as d};
+//# sourceMappingURL=ListAlt-D-NJEqs8.js.map

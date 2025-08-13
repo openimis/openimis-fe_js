@@ -1,0 +1,2 @@
+import{i as t,j as a}from"./materialui-4Sp7dOOG.js";import{$ as r}from"./index-CB5z4M26.js";var e={},o=t.default;Object.defineProperty(e,"__esModule",{value:!0});var u=e.default=void 0,i=o(r),d=a;u=e.default=(0,i.default)((0,d.jsx)("path",{d:"M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4v-6h16zm0-10H4V6h16z"}),"Payment");export{u as d};
+//# sourceMappingURL=Payment-PFNPUNqD.js.map

@@ -1,1 +1,0 @@
-import{j as r}from"./materialui-B4YeaQHS.js";import{r as t}from"./vendor-CA816dpA.js";import{T as e}from"./index-oqIM9AWZ.js";class n extends t.Component{render(){return r.jsx(e,{multiline:!0,...this.props})}}export{n as T};

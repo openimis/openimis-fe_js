@@ -1,1 +1,0 @@
-import{i as r,j as a}from"./materialui-B4YeaQHS.js";import{a1 as t}from"./index-oqIM9AWZ.js";var e={},o=r;Object.defineProperty(e,"__esModule",{value:!0});var u=e.default=void 0,i=o(t()),v=a;u=e.default=(0,i.default)((0,v.jsx)("path",{d:"M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H3V5h10v4h8z"}),"Tab");export{u as d};

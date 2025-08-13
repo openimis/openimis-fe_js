@@ -1,0 +1,2 @@
+System.register(["./materialui-legacy-6yFIEIpf.js","./index-legacy-C4xTkwuQ.js"],function(e,t){"use strict";var a,d,r;return{setters:[e=>{a=e.i,d=e.j},e=>{r=e.$}],execute:function(){var t={},u=a.default;Object.defineProperty(t,"__esModule",{value:!0}),e("d",t.default=void 0);var l=u(r),i=d;e("d",t.default=(0,l.default)((0,i.jsx)("path",{d:"M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8"}),"Undo"))}}});
+//# sourceMappingURL=Undo-legacy-Dj8d3xJ6.js.map

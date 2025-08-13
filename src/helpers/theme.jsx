@@ -29,12 +29,15 @@ const createAppTheme = (colorOverrides = {}) => {
     toggledButtonColor,
     lockedBackgroundPattern,
   } = { ...defaultColors, ...colorOverrides };
+  
   return createTheme({
-    overrides: {
+    components: {
       MuiTableRow: {
-        root: {
-          "&$selected": {
-            backgroundColor: selectedTableRowColor,
+        styleOverrides: {
+          root: {
+            "&.Mui-selected": {
+              backgroundColor: selectedTableRowColor,
+            },
           },
         },
       },
@@ -46,25 +49,26 @@ const createAppTheme = (colorOverrides = {}) => {
       text: {
         primary: fontColor,
         secondary: fontColor,
-        second: whiteColor,
-        error: errorColor,
+        // Note: 'second' is not a standard MUI palette color
+        // If you need custom colors, add them to a custom palette section
       },
-      toggledButton: toggledButtonColor,
+      // Custom colors should be added like this in MUI v7:
+      // customColors: {
+      //   toggledButton: toggledButtonColor,
+      // },
     },
     typography: {
-      useNextVariants: true,
       fontFamily: ["Rubik", "Roboto", '"Helvetica Neue"', "sans-serif"].join(","),
       fontSize: 14,
       fontWeightRegular: 300,
       fontWeightMedium: 400,
-      title: {
+      // Convert 'title' to proper MUI v7 typography variant
+      h6: {
         fontSize: 20,
         fontWeight: 300,
       },
-      label: {
-        color: greyColor,
-      },
     },
+    // Custom theme properties (these will be preserved)
     jrnlDrawer: {
       open: {
         width: 500,

@@ -1,0 +1,1 @@
+{"version":3,"file":"jsonExt-legacy-BfWiQNlH.js","sources":["../../../openimis-fe-core_js/src/helpers/jsonExt.js"],"sourcesContent":["export function formatJsonField(json) {\r\n  return `\"${JSON.stringify(json).replace(/\\\"/g, '\\\\\"')}\"`;\r\n}\r\n"],"names":["json","JSON","stringify","replace"],"mappings":"8EAAO,SAAyBA,GAC9B,MAAO,IAAIC,KAAKC,UAAUF,GAAMG,QAAQ,MAAO,SACjD"}

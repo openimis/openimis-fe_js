@@ -1,0 +1,2 @@
+import{i as t,j as r}from"./materialui-4Sp7dOOG.js";import{$ as a}from"./index-CB5z4M26.js";var e={},o=t.default;Object.defineProperty(e,"__esModule",{value:!0});var d=e.default=void 0,u=o(a),v=r;d=e.default=(0,u.default)((0,v.jsx)("path",{d:"M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 14h-3v3h-2v-3H8v-2h3v-3h2v3h3zm-3-7V3.5L18.5 9z"}),"NoteAdd");export{d};
+//# sourceMappingURL=NoteAdd-D1geuJJm.js.map

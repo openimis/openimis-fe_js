@@ -1,0 +1,2 @@
+import{i as a,j as t}from"./materialui-4Sp7dOOG.js";import{$ as r}from"./index-CB5z4M26.js";var e={},o=a.default;Object.defineProperty(e,"__esModule",{value:!0});var u=e.default=void 0,i=o(r),v=t;u=e.default=(0,i.default)((0,v.jsx)("path",{d:"M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H3V5h10v4h8z"}),"Tab");export{u as d};
+//# sourceMappingURL=Tab-MdVNLyY_.js.map
