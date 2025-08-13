@@ -4,8 +4,13 @@ import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { ThemeProvider, LinearProgress } from "@mui/material";
 import { Provider } from "react-redux";
+<<<<<<< HEAD
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+=======
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+>>>>>>> b8bbb3f76ae01cbd997b70eb0df0c24b7cd8a11e
 import * as serviceWorker from "./serviceWorker";
 import createAppTheme from "./helpers/theme";
 import store from "./helpers/store";
@@ -19,7 +24,10 @@ import "./index.css";
 import "./rc-cascader.css";
 
 const loadConfiguration = async () => {
+<<<<<<< HEAD
 
+=======
+>>>>>>> b8bbb3f76ae01cbd997b70eb0df0c24b7cd8a11e
   const response = await fetch(`${baseApiUrl}/graphql`, {
     method: "post",
     headers: apiHeaders(),
@@ -27,12 +35,18 @@ const loadConfiguration = async () => {
       query: `{ moduleConfigurations { module, config, controls { field, usage } } }`,
     }),
   });
+<<<<<<< HEAD
 
 
   if (!response.ok) throw response;
   const { data } = await response.json();
   console.log(data);
 
+=======
+  if (!response.ok) throw response;
+  const { data } = await response.json();
+  console.log(data);
+>>>>>>> b8bbb3f76ae01cbd997b70eb0df0c24b7cd8a11e
   const out = data.moduleConfigurations.reduce((acc, c) => {
     try {
       acc[c.module] = { controls: c.controls, ...JSON.parse(c.config) };
@@ -41,9 +55,13 @@ const loadConfiguration = async () => {
     }
     return acc;
   }, {});
+<<<<<<< HEAD
 
+=======
+>>>>>>> b8bbb3f76ae01cbd997b70eb0df0c24b7cd8a11e
   return out;
 };
+
 const AppContainer = () => {
   const [appState, setAppState] = React.useState({
     isLoading: true,
@@ -51,6 +69,7 @@ const AppContainer = () => {
     error: null,
     modulesManager: null,
   });
+
   const localesManager = new LocalesManager();
 
   useEffect(() => {
@@ -75,6 +94,7 @@ const AppContainer = () => {
     };
     initialize();
   }, []);
+
   const themeColor = appState?.config?.["fe-core"]?.theme;
   const dynamicTheme = createAppTheme(themeColor || {});
   const logo = getConfiguredLogo(appState.config);
@@ -88,7 +108,7 @@ const AppContainer = () => {
       </ThemeProvider>
     );
   }
-  //  Show fatal error if loading failed
+
   if (appState.error) {
     console.error("[openIMIS] Fatal error state:", appState.error);
     return (
@@ -100,7 +120,7 @@ const AppContainer = () => {
       />
     );
   }
-  // ✅Once everything is loaded, extract middleware and reducers from modulesManager
+
   const { modulesManager } = appState;
   console.log("[openIMIS] Rendering app with modulesManager:", modulesManager);
   const reducers = modulesManager.getContribs("reducers").reduce((acc, r) => {
@@ -108,11 +128,15 @@ const AppContainer = () => {
     return acc;
   }, {});
   const middlewares = modulesManager.getContribs("middlewares");
-  //  Main app render with all props & providers
+
   return (
     <ThemeProvider theme={dynamicTheme}>
       <Provider store={store(reducers, middlewares)}>
+<<<<<<< HEAD
         <LocalizationProvider dateAdapter={AdapterMoment}>
+=======
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+>>>>>>> b8bbb3f76ae01cbd997b70eb0df0c24b7cd8a11e
           <ModulesManagerProvider modulesManager={modulesManager}>
             <App
               basename={process.env.PUBLIC_URL}
@@ -127,6 +151,6 @@ const AppContainer = () => {
     </ThemeProvider>
   );
 };
-//  Render the full AppContainer in root
+
 ReactDOM.render(<AppContainer />, document.getElementById("root"));
 serviceWorker.register();
