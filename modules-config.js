@@ -67,7 +67,7 @@ return `
 }
 function parseNpmName(module) {
 
-  const npmMatch = module.npm.match(/(@openimis\/.+)@?/);
+  const npmMatch = module.npm.match(/(@?[^@]+)(?:@.+)$/);
   if (npmMatch) {
     return npmMatch[1];
   }

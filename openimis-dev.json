@@ -1,0 +1,34 @@
+{
+    "locales": [
+        {
+            "languages": [
+                "en",
+                "en-GB"
+            ],
+            "intl": "en-GB",
+            "fileNames": "en"
+        },
+        {
+            "languages": [
+                "fr",
+                "fr-FR"
+            ],
+            "intl": "fr-FR",
+            "fileNames": "fr"
+        }
+    ],
+    "modules": [
+        {
+            "name": "CoreModule",
+            "npm": "@openimis/fe-core@https://github.com/openimis/openimis-fe-core_js#feature/vite-migration"
+        },
+        {
+            "name": "LocationModule",
+            "npm": "@openimis/fe-location@https://github.com/openimis/openimis-fe-location_js#feature/vite-migration"
+        },
+        {
+            "name": "LanguageFrModule",
+            "npm": "@openimis/fe-language_fr@https://github.com/openimis/openimis-fe-language_fr_js#feature/vite-migration"
+        }
+    ]
+}

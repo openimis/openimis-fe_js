@@ -2,15 +2,11 @@
 // import "react-app-polyfill/stable";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import { ThemeProvider, LinearProgress } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+import { LinearProgress } from "@mui/material";
 import { Provider } from "react-redux";
-<<<<<<< HEAD
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-=======
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
->>>>>>> b8bbb3f76ae01cbd997b70eb0df0c24b7cd8a11e
 import * as serviceWorker from "./serviceWorker";
 import createAppTheme from "./helpers/theme";
 import store from "./helpers/store";
@@ -24,10 +20,6 @@ import "./index.css";
 import "./rc-cascader.css";
 
 const loadConfiguration = async () => {
-<<<<<<< HEAD
-
-=======
->>>>>>> b8bbb3f76ae01cbd997b70eb0df0c24b7cd8a11e
   const response = await fetch(`${baseApiUrl}/graphql`, {
     method: "post",
     headers: apiHeaders(),
@@ -35,18 +27,9 @@ const loadConfiguration = async () => {
       query: `{ moduleConfigurations { module, config, controls { field, usage } } }`,
     }),
   });
-<<<<<<< HEAD
-
-
   if (!response.ok) throw response;
   const { data } = await response.json();
   console.log(data);
-
-=======
-  if (!response.ok) throw response;
-  const { data } = await response.json();
-  console.log(data);
->>>>>>> b8bbb3f76ae01cbd997b70eb0df0c24b7cd8a11e
   const out = data.moduleConfigurations.reduce((acc, c) => {
     try {
       acc[c.module] = { controls: c.controls, ...JSON.parse(c.config) };
@@ -55,10 +38,6 @@ const loadConfiguration = async () => {
     }
     return acc;
   }, {});
-<<<<<<< HEAD
-
-=======
->>>>>>> b8bbb3f76ae01cbd997b70eb0df0c24b7cd8a11e
   return out;
 };
 
@@ -132,11 +111,7 @@ const AppContainer = () => {
   return (
     <ThemeProvider theme={dynamicTheme}>
       <Provider store={store(reducers, middlewares)}>
-<<<<<<< HEAD
-        <LocalizationProvider dateAdapter={AdapterMoment}>
-=======
         <LocalizationProvider dateAdapter={AdapterDayjs}>
->>>>>>> b8bbb3f76ae01cbd997b70eb0df0c24b7cd8a11e
           <ModulesManagerProvider modulesManager={modulesManager}>
             <App
               basename={process.env.PUBLIC_URL}
@@ -152,5 +127,6 @@ const AppContainer = () => {
   );
 };
 
-ReactDOM.render(<AppContainer />, document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<AppContainer />);
 serviceWorker.register();

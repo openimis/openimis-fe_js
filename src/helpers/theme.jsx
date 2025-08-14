@@ -1,4 +1,5 @@
-import { createTheme, alpha } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 
 const defaultColors = {
   primaryColor: "#006273",
@@ -29,13 +30,13 @@ const createAppTheme = (colorOverrides = {}) => {
     toggledButtonColor,
     lockedBackgroundPattern,
   } = { ...defaultColors, ...colorOverrides };
-  
+
   return createTheme({
     components: {
       MuiTableRow: {
         styleOverrides: {
           root: {
-            "&.Mui-selected": {
+            '&.Mui-selected': {
               backgroundColor: selectedTableRowColor,
             },
           },
@@ -49,26 +50,24 @@ const createAppTheme = (colorOverrides = {}) => {
       text: {
         primary: fontColor,
         secondary: fontColor,
-        // Note: 'second' is not a standard MUI palette color
-        // If you need custom colors, add them to a custom palette section
+        second: whiteColor,
+        error: errorColor,
       },
-      // Custom colors should be added like this in MUI v7:
-      // customColors: {
-      //   toggledButton: toggledButtonColor,
-      // },
+      toggledButton: toggledButtonColor,
     },
     typography: {
       fontFamily: ["Rubik", "Roboto", '"Helvetica Neue"', "sans-serif"].join(","),
       fontSize: 14,
       fontWeightRegular: 300,
       fontWeightMedium: 400,
-      // Convert 'title' to proper MUI v7 typography variant
       h6: {
         fontSize: 20,
         fontWeight: 300,
       },
+      body2: {
+        color: greyColor,
+      },
     },
-    // Custom theme properties (these will be preserved)
     jrnlDrawer: {
       open: {
         width: 500,
@@ -147,9 +146,9 @@ const createAppTheme = (colorOverrides = {}) => {
       },
       row: {
         color: primaryColor,
-        align: "center",
-        "&:hover": {
-          background: hoveredTableRowColor + " !important",
+        textAlign: "center",
+        '&:hover': {
+          background: hoveredTableRowColor,
         },
       },
       cell: {
@@ -162,7 +161,7 @@ const createAppTheme = (colorOverrides = {}) => {
       highlightedRow: {},
       highlightedCell: {
         fontWeight: 500,
-        align: "center",
+        textAlign: "center",
       },
       secondaryHighlightedRow: {
         backgroundColor: "#cbedf2",
@@ -171,12 +170,12 @@ const createAppTheme = (colorOverrides = {}) => {
       highlightedAltRow: {},
       highlightedAltCell: {
         fontStyle: "italic",
-        align: "center",
+        textAlign: "center",
       },
       disabledRow: {},
       disabledCell: {
         color: greyColor,
-        align: "center",
+        textAlign: "center",
       },
       footer: {
         color: primaryColor,
@@ -197,7 +196,7 @@ const createAppTheme = (colorOverrides = {}) => {
       },
       header: {
         color: primaryColor,
-        align: "center",
+        textAlign: "center",
       },
     },
     dialog: {
@@ -212,7 +211,7 @@ const createAppTheme = (colorOverrides = {}) => {
         backgroundColor: primaryColor,
         color: whiteColor,
         fontWeight: "bold",
-        "&:hover": {
+        '&:hover': {
           backgroundColor: alpha(primaryColor, 0.5),
           color: primaryColor,
         },
