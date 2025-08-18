@@ -1,2 +1,0 @@
-import{i as t,j as r}from"./materialui-4Sp7dOOG.js";import{$ as a}from"./index-CB5z4M26.js";var e={},o=t.default;Object.defineProperty(e,"__esModule",{value:!0});var u=e.default=void 0,v=o(a),i=r;u=e.default=(0,v.default)((0,i.jsx)("path",{d:"M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H5.17l-.59.59-.58.58V4h16zM6 12h2v2H6zm0-3h2v2H6zm0-3h2v2H6zm4 6h5v2h-5zm0-3h8v2h-8zm0-3h8v2h-8z"}),"SpeakerNotesOutlined");export{u as d};
-//# sourceMappingURL=SpeakerNotesOutlined-C5cLdXyk.js.map

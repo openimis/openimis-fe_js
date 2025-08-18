@@ -24,8 +24,18 @@ export default defineConfig({
     }),
   ],
   resolve: {
+    dedupe: [
+      "react",
+      "react-dom",
+      "@emotion/react",
+      "@emotion/styled",
+      "@mui/material",
+      "@mui/icons-material",
+      "@mui/x-data-grid",
+      "@mui/system"
+    ],
     alias: {
-     
+    
       "@openimis/fe-core": path.resolve(__dirname, "../openimis-fe-core_js/src"),
       "@openimis/fe-claim": path.resolve(__dirname, "../openimis-fe-claim_js/src"),
       "@openimis/fe-location": path.resolve(__dirname, "../openimis-fe-location_js/src"),
@@ -61,11 +71,17 @@ export default defineConfig({
       "@openimis/fe-product": path.resolve(__dirname, "../openimis-fe-product_js/src"),
       "@openimis/fe-tasks_management": path.resolve(__dirname, "../openimis-fe-tasks_management_js/src"),
 
-     
+   
       "react": path.resolve(__dirname, "./node_modules/react"),
+      "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
       "lodash": path.resolve(__dirname, "./node_modules/lodash"),
       "react-redux": path.resolve(__dirname, "./node_modules/react-redux"),
-      "@mui": path.resolve(__dirname, "./node_modules/@mui"),
+      // "@mui/material": path.resolve(__dirname, "./node_modules/@mui/material"),
+      // "@mui/icons-material": path.resolve(__dirname, "./node_modules/@mui/icons-material"),
+      // "@mui/system": path.resolve(__dirname, "./node_modules/@mui/system"),
+      // "@mui/x-data-grid": path.resolve(__dirname, "./node_modules/@mui/x-data-grid"),
+      "@emotion/react": path.resolve(__dirname, "./node_modules/@emotion/react"),
+      "@emotion/styled": path.resolve(__dirname, "./node_modules/@emotion/styled"),
       "clsx": path.resolve(__dirname, "./node_modules/clsx"),
       "react-intl": path.resolve(__dirname, "./node_modules/react-intl"),
       "lodash/debounce": path.resolve(__dirname, "./node_modules/lodash.debounce"),
@@ -83,13 +99,8 @@ export default defineConfig({
         "./node_modules/react-date-object/locales/gregorian_en"
       ),
       "redux": path.resolve(__dirname, "./node_modules/redux"),
-
-   
-
-  
-     "deepmerge": path.resolve(__dirname, "./node_modules/deepmerge/dist/cjs.js"),
     },
-    preserveSymlinks: true,
+    // preserveSymlinks :false
   },
   server: {
     port: 3000,
@@ -112,14 +123,16 @@ export default defineConfig({
       "lodash",
       "clsx",
       "react-intl",
+      "@emotion/react",
+      "@emotion/styled",
       "@mui/material",
       "@mui/icons-material",
       "@mui/x-data-grid",
       "@mui/x-date-pickers",
-      "react-to-print",
-    
-      "deepmerge",
       "@mui/system",
+      "react-to-print",
+      "@mui/utils",
+      "@mui/styled-engine",
     ],
     force: true,
   },
@@ -138,6 +151,8 @@ export default defineConfig({
     },
     commonjsOptions: {
       requireReturnsDefault: "auto",
+      include: [/node_modules/],
+      transformMixedEsModules: true,
     },
   },
   define: {

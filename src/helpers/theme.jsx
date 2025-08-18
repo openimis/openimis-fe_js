@@ -64,6 +64,11 @@ const createAppTheme = (colorOverrides = {}) => {
         fontSize: 20,
         fontWeight: 300,
       },
+      // Ensure compatibility with components reading `theme.typography.title.fontSize`
+      title: {
+        fontSize: 20,
+        fontWeight: 300,
+      },
       body2: {
         color: greyColor,
       },

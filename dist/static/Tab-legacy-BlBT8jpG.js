@@ -1,2 +1,0 @@
-System.register(["./materialui-legacy-6yFIEIpf.js","./index-legacy-C4xTkwuQ.js"],function(e,t){"use strict";var a,r,u;return{setters:[e=>{a=e.i,r=e.j},e=>{u=e.$}],execute:function(){var t={},c=a.default;Object.defineProperty(t,"__esModule",{value:!0}),e("d",t.default=void 0);var d=c(u),i=r;e("d",t.default=(0,d.default)((0,i.jsx)("path",{d:"M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H3V5h10v4h8z"}),"Tab"))}}});
-//# sourceMappingURL=Tab-legacy-BlBT8jpG.js.map

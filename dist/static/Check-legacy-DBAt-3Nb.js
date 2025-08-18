@@ -1,2 +1,0 @@
-System.register(["./materialui-legacy-6yFIEIpf.js","./index-legacy-C4xTkwuQ.js"],function(e,t){"use strict";var a,r,u;return{setters:[e=>{a=e.i,r=e.j},e=>{u=e.$}],execute:function(){var t={},d=a.default;Object.defineProperty(t,"__esModule",{value:!0}),e("d",t.default=void 0);var l=d(u),i=r;e("d",t.default=(0,l.default)((0,i.jsx)("path",{d:"M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"}),"Check"))}}});
-//# sourceMappingURL=Check-legacy-DBAt-3Nb.js.map
