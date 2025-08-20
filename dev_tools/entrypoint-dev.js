@@ -103,7 +103,7 @@ function prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageName
   shell.cd(modulePath);
   console.log(`Preparing ${moduleName} for local development...`);
   shell.exec("npm install --include=dev");
-  shell.exec("npm build");
+  shell.exec("npx vite build ");
   shell.exec("npm link");
 
   const modulePackageJson = path.join("package.json");
@@ -221,9 +221,17 @@ function generateViteConfig(modules, modulesInstallPath) {
     .map((module) => {
       const info = extractModuleInfo(module, modulesInstallPath);
       const modulePath = path.resolve(info.path).replace(/\\/g, "/");
-      return `"${info.packageName}": path.resolve('${info.path}')`;
+      return `"${info.packageName}": path.resolve('${info.path}'), //DYNMANIC_ALIAS`;
     })
     .join(",\n");
+
+    
+    // Split into lines and filter out lines ending with //DYNMANIC_ALIAS,
+    const lines = viteConfigContent.split('\n');
+    const filteredLines = lines.filter(line => !line.trim().endsWith('//DYNMANIC_ALIAS,'));
+    
+    // Join lines back and write to output file
+    viteConfigContent = filteredLines.join('\n');
 
   // Replace <<DYNMANIC_ALIAS_PLACEHOLDER>> with aliases
   if (!viteConfigContent.includes("//<<DYNMANIC_ALIAS_PLACEHOLDER>>")) {
