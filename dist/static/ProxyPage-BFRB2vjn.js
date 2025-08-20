@@ -1,0 +1,2 @@
+import{j as t}from"./materialui-Cn2xh8FZ.js";import{a}from"./vendor-Ci-lJ3K5.js";class g extends a.Component{render(){const{url:r,marginTop:i,marginBottom:e,marginLeft:m,marginRight:o}=this.props;var s={width:"1px",minWidth:"100%",height:"100vh",marginTop:i||"-68px",marginBottom:e||"0px",marginLeft:m||"0px",marginRight:o||"0px"};return t.jsx("div",{children:t.jsx("iframe",{title:r,src:r,style:s})})}}export{g as P};
+//# sourceMappingURL=ProxyPage-BFRB2vjn.js.map

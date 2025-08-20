@@ -5,7 +5,6 @@ import svgr from "vite-plugin-svgr";
 import envCompatible from "vite-plugin-env-compatible";
 import { createHtmlPlugin } from "vite-plugin-html";
 import path from "path";
-// import { createViteProxy } from "./src/setupProxy.js";
 
 export default defineConfig({
   plugins: [
@@ -25,35 +24,56 @@ export default defineConfig({
     }),
   ],
   resolve: {
+    dedupe: [
+      "react",
+      "react-dom",
+      "@emotion/react",
+      "@emotion/styled",
+      "@mui/material",
+      "@mui/icons-material",
+      "@mui/x-data-grid",
+      "@mui/system"
+    ],
     alias: {
       //<<DYNMANIC_ALIAS_PLACEHOLDER>>
-"@openimis/fe-core": path.resolve('/frontend-packages/CoreModule'), //DYNMANIC_ALIAS,
-"@openimis/fe-location": path.resolve('/frontend-packages/LocationModule'), //DYNMANIC_ALIAS,
-"@openimis/fe-language_fr": path.resolve('/frontend-packages/LanguageFrModule'), //DYNMANIC_ALIAS,
-     'react': path.resolve(__dirname, './node_modules/react'),
-      'lodash': path.resolve(__dirname, './node_modules/lodash'),
-      'react-redux': path.resolve(__dirname, './node_modules/react-redux'),
-      '@mui': path.resolve(__dirname, './node_modules/@mui'),
-      'clsx': path.resolve(__dirname, './node_modules/clsx'),
-      'react-intl': path.resolve(__dirname, './node_modules/react-intl'),
-      'lodash/debounce': path.resolve(__dirname, './node_modules/lodash.debounce'),
-      'zxcvbn': path.resolve(__dirname, './node_modules/zxcvbn'),
-      'react-router': path.resolve(__dirname, './node_modules/react-router'),
-      'react-router-dom': path.resolve(__dirname, './node_modules/react-router-dom'),
-      'nepali-date-converter': path.resolve(__dirname, './node_modules/nepali-date-converter'),
-      'react-date-object': path.resolve(__dirname, './node_modules/react-date-object'),
-      'react-date-object/calendars/gregorian': path.resolve(__dirname, './node_modules/react-date-object/calendars/gregorian'),
-      'react-date-object/locales/gregorian_en': path.resolve(__dirname, './node_modules/react-date-object/locales/gregorian_en'),
-      'redux': path.resolve(__dirname, './node_modules/redux'),
+      "react": path.resolve(__dirname, "./node_modules/react"),
+      "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
+      "lodash": path.resolve(__dirname, "./node_modules/lodash"),
+      "react-redux": path.resolve(__dirname, "./node_modules/react-redux"),
+      // "@mui/material": path.resolve(__dirname, "./node_modules/@mui/material"),
+      // "@mui/icons-material": path.resolve(__dirname, "./node_modules/@mui/icons-material"),
+      // "@mui/system": path.resolve(__dirname, "./node_modules/@mui/system"),
+      // "@mui/x-data-grid": path.resolve(__dirname, "./node_modules/@mui/x-data-grid"),
+      "@emotion/react": path.resolve(__dirname, "./node_modules/@emotion/react"),
+      "@emotion/styled": path.resolve(__dirname, "./node_modules/@emotion/styled"),
+      "clsx": path.resolve(__dirname, "./node_modules/clsx"),
+      "react-intl": path.resolve(__dirname, "./node_modules/react-intl"),
+      "lodash/debounce": path.resolve(__dirname, "./node_modules/lodash.debounce"),
+      "zxcvbn": path.resolve(__dirname, "./node_modules/zxcvbn"),
+      "react-router": path.resolve(__dirname, "./node_modules/react-router"),
+      "react-router-dom": path.resolve(__dirname, "./node_modules/react-router-dom"),
+      "nepali-date-converter": path.resolve(__dirname, "./node_modules/nepali-date-converter"),
+      "react-date-object": path.resolve(__dirname, "./node_modules/react-date-object"),
+      "react-date-object/calendars/gregorian": path.resolve(
+        __dirname,
+        "./node_modules/react-date-object/calendars/gregorian"
+      ),
+      "react-date-object/locales/gregorian_en": path.resolve(
+        __dirname,
+        "./node_modules/react-date-object/locales/gregorian_en"
+      ),
+      "redux": path.resolve(__dirname, "./node_modules/redux"),
     },
-    preserveSymlinks: true,
+    // preserveSymlinks :false
   },
   server: {
     port: 3000,
-    // proxy: createViteProxy()
+    fs: {
+      allow: [".."],
+    },
     proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
+      "/api": {
+        target: "http://localhost:8000",
         changeOrigin: true,
       },
     },
@@ -64,52 +84,43 @@ export default defineConfig({
       "react-dom",
       "react-redux",
       "redux",
-      "react-date-object",
-      "react-date-object/calendars/gregorian",
-      "react-date-object/locales/gregorian_en",
-      "@mui/icons-material/Add",
-      "@mui/icons-material/Shuffle",
-      "@mui/icons-material/Delete",
-      "@mui/icons-material/Replay",
-      "@mui/icons-material/ArrowDropDown",
-      "@mui/icons-material/KeyboardArrowRight",
-      "@mui/icons-material/Autorenew",
-      "lodash/debounce",
-      "lodash.debounce",
+      "lodash",
       "clsx",
       "react-intl",
-      "zxcvbn",
-      "react-router",
-      "react-router-dom",
-      "nepali-date-converter",
-      "lodash"
+      "@emotion/react",
+      "@emotion/styled",
+      "@mui/material",
+      "@mui/icons-material",
+      "@mui/x-data-grid",
+      "@mui/x-date-pickers",
+      "@mui/system",
+      "react-to-print",
+      "@mui/utils",
+      "@mui/styled-engine",
     ],
-    exclude: []
+    force: true,
   },
   build: {
     outDir: "dist",
     assetsDir: "static",
     sourcemap: true,
     rollupOptions: {
+      maxParallelFileOps: 1,
       output: {
         manualChunks: {
           vendor: ["react", "react-dom", "react-redux", "redux"],
-          materialui: [
-            "@mui/material",
-            "@mui/icons-material",
-            "@mui/lab",
-            "@mui/x-date-pickers"
-          ],
+          materialui: ["@mui/material", "@mui/icons-material", "@mui/x-date-pickers"],
         },
       },
+    },
+    commonjsOptions: {
+      requireReturnsDefault: "auto",
+      include: [/node_modules/],
+      transformMixedEsModules: true,
     },
   },
   define: {
     "process.env.PUBLIC_URL": JSON.stringify("/front"),
   },
   base: "/front/",
-  // esbuild: {
-  //   loader: "jsx",
-  //   include: /src\/.*\.js$/, 
-  // },
 });

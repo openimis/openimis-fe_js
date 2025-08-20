@@ -2,7 +2,8 @@
 // import "react-app-polyfill/stable";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import { ThemeProvider, LinearProgress } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+import { LinearProgress } from "@mui/material";
 import { Provider } from "react-redux";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -126,5 +127,6 @@ const AppContainer = () => {
   );
 };
 
-ReactDOM.render(<AppContainer />, document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<AppContainer />);
 serviceWorker.register();

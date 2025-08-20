@@ -20,123 +20,127 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@https://github.com/openimis/openimis-fe-core_js#feature/vite-migration"
+            "npm": "@openimis/fe-core@https://github.com/openimis/openimis-fe-core_js#develop"
         },
         {
             "name": "IndividualModule",
-            "npm": "@openimis/fe-individual@https://github.com/openimis/openimis-fe-individual_js#feature/vite-migration"
+            "npm": "@openimis/fe-individual@https://github.com/openimis/openimis-fe-individual_js#develop"
         },
         {
             "name": "SocialProtectionModule",
-            "npm": "@openimis/fe-social_protection@https://github.com/openimis/openimis-fe-social_protection_js#feature/vite-migration"
+            "npm": "@openimis/fe-social_protection@https://github.com/openimis/openimis-fe-social_protection_js#develop"
         },
         {
             "name": "OpenSearchReportsModule",
-            "npm": "@openimis/fe-opensearch_reports@https://github.com/openimis/openimis-fe-opensearch_reports_js#feature/vite-migration"
+            "npm": "@openimis/fe-opensearch_reports@https://github.com/openimis/openimis-fe-opensearch_reports_js#develop"
         },
         {
             "name": "HomeModule",
-            "npm": "@openimis/fe-home@https://github.com/openimis/openimis-fe-home_js#feature/vite-migration"
+            "npm": "@openimis/fe-home@https://github.com/openimis/openimis-fe-home_js#develop"
         },
         {
             "name": "LocationModule",
-            "npm": "@openimis/fe-location@https://github.com/openimis/openimis-fe-location_js#feature/vite-migration"
+            "npm": "@openimis/fe-location@https://github.com/openimis/openimis-fe-location_js#develop"
         },
         {
             "name": "InsureeModule",
-            "npm": "@openimis/fe-insuree@https://github.com/openimis/openimis-fe-insuree_js#feature/vite-migration"
+            "npm": "@openimis/fe-insuree@https://github.com/openimis/openimis-fe-insuree_js#develop"
         },
         {
             "name": "MedicalModule",
-            "npm": "@openimis/fe-medical@https://github.com/openimis/openimis-fe-medical_js#feature/vite-migration"
+            "npm": "@openimis/fe-medical@https://github.com/openimis/openimis-fe-medical_js#develop"
         },
         {
             "name": "MedicalPriceListModule",
-            "npm": "@openimis/fe-medical_pricelist@https://github.com/openimis/openimis-fe-medical_pricelist_js#feature/vite-migration"
+            "npm": "@openimis/fe-medical_pricelist@https://github.com/openimis/openimis-fe-medical_pricelist_js#develop"
         },
         {
             "name": "ProductModule",
-            "npm": "@openimis/fe-product@https://github.com/openimis/openimis-fe-product_js#feature/vite-migration"
+            "npm": "@openimis/fe-product@https://github.com/openimis/openimis-fe-product_js#develop"
         },
         {
             "name": "PolicyModule",
-            "npm": "@openimis/fe-policy@https://github.com/openimis/openimis-fe-policy_js#feature/vite-migration"
+            "npm": "@openimis/fe-policy@https://github.com/openimis/openimis-fe-policy_js#develop"
         },
         {
             "name": "PayerModule",
-            "npm": "@openimis/fe-payer@https://github.com/openimis/openimis-fe-payer_js#feature/vite-migration"
+            "npm": "@openimis/fe-payer@https://github.com/openimis/openimis-fe-payer_js#develop"
         },
         {
             "name": "ContributionModule",
-            "npm": "@openimis/fe-contribution@https://github.com/openimis/openimis-fe-contribution_js#feature/vite-migration"
+            "npm": "@openimis/fe-contribution@https://github.com/openimis/openimis-fe-contribution_js#develop"
         },
         {
             "name": "PaymentModule",
-            "npm": "@openimis/fe-payment@https://github.com/openimis/openimis-fe-payment_js#feature/vite-migration"
+            "npm": "@openimis/fe-payment@https://github.com/openimis/openimis-fe-payment_js#develop"
         },
         {
             "name": "ClaimModule",
-            "npm": "@openimis/fe-claim@https://github.com/openimis/openimis-fe-claim_js#feature/vite-migration"
+            "npm": "@openimis/fe-claim@https://github.com/openimis/openimis-fe-claim_js#develop"
         },
         {
             "name": "ClaimBatchModule",
-            "npm": "@openimis/fe-claim_batch@https://github.com/openimis/openimis-fe-claim_batch_js#feature/vite-migration"
+            "npm": "@openimis/fe-claim_batch@https://github.com/openimis/openimis-fe-claim_batch_js#develop"
         },
         {
             "name": "AdminModule",
-            "npm": "@openimis/fe-admin@https://github.com/openimis/openimis-fe-admin_js#feature/vite-migration"
+            "npm": "@openimis/fe-admin@https://github.com/openimis/openimis-fe-admin_js#develop"
         },
         {
             "name": "ToolsModule",
-            "npm": "@openimis/fe-tools@https://github.com/openimis/openimis-fe-tools_js#feature/vite-migration"
+            "npm": "@openimis/fe-tools@https://github.com/openimis/openimis-fe-tools_js#develop"
         },
         {
             "name": "ProfileModule",
-            "npm": "@openimis/fe-profile@https://github.com/openimis/openimis-fe-profile_js#feature/vite-migration"
+            "npm": "@openimis/fe-profile@https://github.com/openimis/openimis-fe-profile_js#develop"
         },
         {
             "name": "CalculationModule",
-            "npm": "@openimis/fe-calculation@https://github.com/openimis/openimis-fe-calculation_js#feature/vite-migration"
+            "npm": "@openimis/fe-calculation@https://github.com/openimis/openimis-fe-calculation_js#develop"
         },
         {
             "name": "PolicyHolderModule",
-            "npm": "@openimis/fe-policyholder@https://github.com/openimis/openimis-fe-policyholder_js#feature/vite-migration"
+            "npm": "@openimis/fe-policyholder@https://github.com/openimis/openimis-fe-policyholder_js#develop"
         },
         {
             "name": "ContributionPlanModule",
-            "npm": "@openimis/fe-contribution_plan@https://github.com/openimis/openimis-fe-contribution_plan_js#feature/vite-migration"
+            "npm": "@openimis/fe-contribution_plan@https://github.com/openimis/openimis-fe-contribution_plan_js#develop"
         },
         {
             "name": "PaymentCycleModule",
-            "npm": "@openimis/fe-payment_cycle@https://github.com/openimis/openimis-fe-payment_cycle_js#feature/vite-migration"
+            "npm": "@openimis/fe-payment_cycle@https://github.com/openimis/openimis-fe-payment_cycle_js#develop"
         },
         {
             "name": "ContractModule",
-            "npm": "@openimis/fe-contract@https://github.com/openimis/openimis-fe-contract_js#feature/vite-migration"
+            "npm": "@openimis/fe-contract@https://github.com/openimis/openimis-fe-contract_js#develop"
+        },
+        {
+            "name": "TasksManagementModule",
+            "npm": "@openimis/fe-tasks_management@https://github.com/openimis/openimis-fe-tasks_management_js#develop"
         },
         {
             "name": "InvoiceModule",
-            "npm": "@openimis/fe-invoice@https://github.com/openimis/openimis-fe-invoice_js#feature/vite-migration"
+            "npm": "@openimis/fe-invoice@https://github.com/openimis/openimis-fe-invoice_js#develop"
         },
         {
             "name": "GrievanceSocialProtectionModule",
-            "npm": "@openimis/fe-grievance_social_protection@https://github.com/openimis/openimis-fe-grievance_social_protection_js#feature/vite-migration"
+            "npm": "@openimis/fe-grievance_social_protection@https://github.com/openimis/openimis-fe-grievance_social_protection_js#develop"
         },
         {
             "name": "LanguageFrModule",
-            "npm": "@openimis/fe-language_fr@https://github.com/openimis/openimis-fe-language_fr_js#feature/vite-migration"
+            "npm": "@openimis/fe-language_fr@https://github.com/openimis/openimis-fe-language_fr_js#develop"
         },
         {
             "name": "ClaimSamplingModule",
-            "npm": "@openimis/fe-claim_sampling@https://github.com/openimis/openimis-fe-claim_sampling_js#feature/vite-migration"
+            "npm": "@openimis/fe-claim_sampling@https://github.com/openimis/openimis-fe-claim_sampling_js#develop"
         },
         {
             "name": "DeduplicationModule",
-            "npm": "@openimis/fe-deduplication@https://github.com/openimis/openimis-fe-deduplication_js#feature/vite-migration"
+            "npm": "@openimis/fe-deduplication@https://github.com/openimis/openimis-fe-deduplication_js#develop"
         },
         {
             "name": "PayrollModule",
-            "npm": "@openimis/fe-payroll@https://github.com/openimis/openimis-fe-payroll_js#feature/vite-migration"
+            "npm": "@openimis/fe-payroll@https://github.com/openimis/openimis-fe-payroll_js#develop"
         }
     ]
 }
