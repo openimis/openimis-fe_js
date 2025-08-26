@@ -29,6 +29,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: Prepare openIMIS Dependencies
         run: |
+          npm install --include=dev
           node dev_tools/entrypoint-dev.js
           npm script/openimis-config-vite.js
       - name: Install dependencies
