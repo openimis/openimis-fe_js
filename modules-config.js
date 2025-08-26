@@ -40,7 +40,7 @@ function processModules(modules) {
 
   stream.write(`
 export const packages = [
-  ${modules.map(({ name, version, moduleName, npm }) => `"${name}"`).join(",\n  ")}
+  ${modules.map(({ moduleName }) => `"${moduleName}"`).join(",\n  ")}
 ];\n
 `);
 
@@ -48,23 +48,24 @@ export const packages = [
 export function loadModules(cfg = {}) {
   const loadedModules = [];
 ${modules
-.map(({ name, logicalName, moduleName, npm }) => {
-return `
+  .map(({ name, logicalName, moduleName }) => {
+    return `
   try {
-    loadedModules.push(require("${moduleName}").${name ?? "default"}(cfg["${logicalName}"] || {}));
+    loadedModules.push(require("${moduleName}").${name || "default"}(cfg["${logicalName}"] || {}));
   } catch (error) {
     alert(\`Failed to load module "${moduleName}". More details can be found in the developer console. Look for: \${error}\`);
     console.error(error);
   }
 `;
-})
-.join("")}
+  })
+  .join("")}
   return loadedModules;
 }
 `);
 
   stream.end();
 }
+
 function parseNpmName(module) {
 
   const npmMatch = module.npm.match(/(@?[^@]+)(?:@.+)$/);
@@ -113,6 +114,8 @@ function main() {
     });
   }
   processModules(modules);
+    console.log("Save package.json");
+  fs.writeFileSync("./package.json", JSON.stringify(pkg, null, 2), { encoding: "utf-8", flag: "w" });
 }
 
 main();

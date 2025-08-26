@@ -1,66 +1,76 @@
-name: Reusable Node.js Package Workflow
+name: Publish Node.js Package to Registry
 
 on:
   workflow_call:
     inputs:
-      node_version:
-        type: string
-        required: true
       registry_url:
-        type: string
+        description: 'NPM registry URL'
         required: true
+        type: string
+        default: 'https://registry.npmjs.org/'
+      node_version:
+        description: 'Node version to use'
+        required: true
+        type: string
+        default: '20'
       scope:
+        description: 'Scope for npm package (e.g., openimis for @openimis/*)'
+        required: false
         type: string
         default: 'openimis'
       access:
+        description: 'Access level for npm package (e.g., public)'
+        required: false
         type: string
         default: 'public'
       tag:
+        description: 'Optional tag for the published package (e.g., latest, beta)'
+        required: false
         type: string
     secrets:
       NPM_TOKEN:
+        description: 'NPM authentication token'
         required: true
 
 jobs:
-  build_and_publish:
+  publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed for git fetch --tags
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node_version }}
           registry-url: ${{ inputs.registry_url }}
           scope: ${{ inputs.scope }}
+
       - name: Update version with TAG
-        env:
-          TAG_NAME: ${{ github.event.inputs.tag }}
         run: |
+          TAG_NAME="${{ inputs.tag }}"
           if [ -z "$TAG_NAME" ]; then
+            if [ "${{ github.event_name }}" == "release" ]; then
+              TAG_NAME="${{ github.event.release.tag_name }}"
+            else
               git fetch --tags
-              export TAG_NAME=$(git tag --sort=-version:refname | head -n 1)
+              TAG_NAME=$(git tag --sort=-version:refname | head -n 1)
+            fi
           fi
           echo "tag to use $TAG_NAME"
-          echo $(jq --arg a "$TAG_NAME" '.version = ($a)' package.json) > package.json
-      - run: yarn install
-      - run: yarn build
-      - run: npm publish --access ${{ inputs.access }}
+          jq --arg a "$TAG_NAME" '.version = $a' package.json > temp.json && mv temp.json package.json
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Publish package
+        run: |
+          if [ -n "${{ inputs.tag }}" ]; then
+            yarn publish --tag ${{ inputs.tag }} --access ${{ inputs.access }} --no-git-tag-version
+          else
+            yarn publish --access ${{ inputs.access }} --no-git-tag-version
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-# Use example 
-# name: Implement Node.js Package Workflow
-
-# on:
-#   release:
-#     types: [published]
-
-# jobs:
-#   call-central-workflow:
-#     uses: openimis/openimis-fe_js/.github/workflows/module-npmpublish.yml@develop
-#     with:
-#       node_version: '18'
-#       registry_url: 'https://registry.npmjs.org/'
-#       access: 'public'
-#       scope: 'openimis'
-#     secrets:
-#       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

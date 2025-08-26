@@ -383,3 +383,76 @@ under `fe-core` configuration in `moduleConfiguration`. Logos can also be config
   ]
 }
 ```
+
+## Frontend Development Setup with CRACO and API Proxy
+
+This frontend project uses CRACO to customize Create React App configurations without ejecting. It also sets up a flexible proxy system for API routing during development.
+
+### 🔧 Requirements
+
+* Node.js (v16+ recommended)
+* Yarn
+
+### 📦 Setup
+
+1. **Install dependencies**:
+
+   ```bash
+   yarn install
+   ```
+
+2. **Create `.env` file** (if it doesn't exist):
+
+   ```env
+   API_PROXY_TARGET=http://localhost:8000
+   ```
+
+   * Use `http://backend:8000` if you're running the backend as a Docker container.
+
+3. **Start the dev server**:
+
+   ```bash
+   yarn start
+   ```
+
+   This will start the frontend on `http://localhost:3000/front` and proxy all API requests from `/api` to the `API_PROXY_TARGET` defined above.
+
+### 🌐 Proxy Configuration
+
+The proxy logic is handled in `src/setupProxy.js`. It reads `API_PROXY_TARGET` from the environment to dynamically redirect API calls to the appropriate backend:
+
+* `/api` → `$API_PROXY_TARGET`
+* Additional proxies (e.g. `/opensearch`) are configured statically in `package.json`:
+
+```json
+"proxies": {
+  "opensearch": {
+    "base": "/opensearch",
+    "target": "http://opensearch:5410"
+  }
+}
+```
+
+### ⚙️ CRACO Configuration
+
+`craco.config.js` sets:
+
+* `output.publicPath` to `/front/` to support deployment under sub-paths.
+* `DefinePlugin` to inject environment variables.
+* Dev server `historyApiFallback` and proxy behavior.
+
+```js
+webpackConfig.output.publicPath = '/front/';
+```
+
+### 📁 Folder Structure
+
+* `src/setupProxy.js`: Middleware proxy setup
+* `craco.config.js`: Webpack and dev server overrides
+* `.env`: Environment-specific overrides
+
+### ✅ Tips
+
+* Make sure the backend server is running and accessible from your frontend environment.
+* Use Docker network names like `http://backend:8000` when both frontend and backend are running in Docker.
+* Set `PUBLIC_URL=/front` if needed to ensure assets load correctly.

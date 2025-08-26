@@ -1,0 +1,95 @@
+name: Automated CI Build
+# This workflow runs automatically for every commit on GitHub to check syntax and build the frontend.
+on:
+  workflow_call:
+    inputs:
+      branchName:
+        required: false
+        type: string
+        default: 'develop'
+
+jobs:
+  build_frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Pull openIMIS Frontend
+        run: |
+          # Determine the source and target branches
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            SOURCE_BRANCH="${{ github.event.pull_request.head.ref }}"
+            TARGET_BRANCH="${{ github.event.pull_request.base.ref }}"
+          else
+            SOURCE_BRANCH="${{ github.ref_name }}"
+            TARGET_BRANCH="develop"
+          fi
+      
+          # Use 'develop' as fallback if SOURCE_BRANCH or TARGET_BRANCH is empty
+          if [[ -z "$SOURCE_BRANCH" ]]; then
+            SOURCE_BRANCH="develop"
+          fi
+          if [[ -z "$TARGET_BRANCH" ]]; then
+            TARGET_BRANCH="develop"
+          fi
+      
+          echo "Source branch: $SOURCE_BRANCH"
+          echo "Target branch: $TARGET_BRANCH"
+      
+          # Clone the repository with source branch, fall back to target branch if source doesn't exist
+          rm -rf ./openimis-fe
+          if git ls-remote --heads https://github.com/openimis/openimis-fe_js.git "$SOURCE_BRANCH" | grep -q "$SOURCE_BRANCH"; then
+            echo "Cloning source branch: $SOURCE_BRANCH"
+            git clone --depth=1 --branch="$SOURCE_BRANCH" https://github.com/openimis/openimis-fe_js.git ./openimis-fe
+          else
+            echo "Source branch $SOURCE_BRANCH not found, falling back to $TARGET_BRANCH"
+            git clone --depth=1 --branch="$TARGET_BRANCH" https://github.com/openimis/openimis-fe_js.git ./openimis-fe || {
+              echo "Failed to clone $TARGET_BRANCH, falling back to develop"
+              git clone --depth=1 --branch=develop https://github.com/openimis/openimis-fe_js.git ./openimis-fe
+            }
+          fi
+      
+          # Verify the cloned branch
+          cd ./openimis-fe
+          CLONED_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          echo "Cloned branch: $CLONED_BRANCH"
+      - name: Copy Current branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: './current-module'
+
+      - name: Update the configuration
+        working-directory: ./openimis-fe
+        run: |
+          sudo apt-get update
+          sudo apt-get install jq
+          PACKAGE_NAME=$(jq -r '.name' ../current-module/package.json)
+          echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
+          export MODULE_NAME=$(grep -oP 'export\s+(?:const)?\s+\K\w+Module(?=\s+=)' ../current-module/src/index.js)
+          echo "MODULE_NAME=$MODULE_NAME" >> $GITHUB_ENV
+          
+          # Add or replace MODULE_NAME module in openimis.json (local version)
+          jq --arg name "$MODULE_NAME" --arg npm_val "$PACKAGE_NAME@file:../current-module" 'if [.modules[].name == $name] | max then (.modules[] | select(.name == $name) | .npm) = $npm_val else .modules |= . + [{name: $name, npm: $npm_val}] end' openimis.json > temp.json && mv temp.json openimis.json
+
+      - name: Check package.json
+        working-directory: ./openimis-fe
+        run: |
+          npm run check-package
+          # install without openimis modules
+          npm install --include=dev --legacy-peer-deps
+
+      - name: Prepare openIMIS Dependencies
+        working-directory: ./openimis-fe
+        run: npm run load-config
+
+      - name: Install dependencies
+        working-directory: ./openimis-fe
+        run: npm install --include=dev --legacy-peer-deps
+
+      - name: Build
+        working-directory: ./openimis-fe
+        run: npm run build

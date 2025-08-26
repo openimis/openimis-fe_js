@@ -1,13 +1,41 @@
-name: CI Build
+name: CI / Build
 
 on:
+  push:
+    branches: [develop]
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [develop]
 
 jobs:
   build:
-    uses: openimis/openimis-fe_js/.github/workflows/module-ci-build.yml@develop  # Adjust the path and branch as needed
-    secrets:
-      inherit
-    with:
-      branchName: ${{ github.head_ref || github.ref_name }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        name: Setup node v20
+        with:
+          node-version: "20"
+
+      - name: Check package.json
+        run: |
+            npm install -g npm@latest
+            npm run check-package
+
+      - name: Prepare openIMIS Dependencies
+        run: npm run load-config
+
+      - name: Install dependencies
+        run: |
+            npm install  --include=dev --legacy-peer-deps
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-${{ github.event_name == 'push' && github.ref_name || github.run_number }}-${{ github.sha }}
+          path: ./build/*
+

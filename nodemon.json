@@ -1,0 +1,12 @@
+{
+  "watch": [
+    "/app/**/*",
+    "/frontend-packages/**/*"
+  ],
+  "ignore": [
+    "/app/package.json",
+    "/app/src/modules.js",
+    "/app/build"
+  ],
+  "exec": "yarn start"
+}
