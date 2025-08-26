@@ -31,6 +31,7 @@ export default defineConfig({
       "@emotion/styled",
       "@mui/material",
       "@mui/icons-material",
+      "@mui/x-date-pickers",
       "@mui/x-data-grid",
       "@mui/system"
     ],
@@ -44,6 +45,15 @@ export default defineConfig({
       // "@mui/icons-material": path.resolve(__dirname, "./node_modules/@mui/icons-material"),
       // "@mui/system": path.resolve(__dirname, "./node_modules/@mui/system"),
       // "@mui/x-data-grid": path.resolve(__dirname, "./node_modules/@mui/x-data-grid"),
+      "@mui/x-date-pickers": path.resolve(__dirname, "./node_modules/@mui/x-date-pickers"),
+      "@mui/x-date-pickers/LocalizationProvider": path.resolve(
+        __dirname,
+        "./node_modules/@mui/x-date-pickers/LocalizationProvider"
+      ),
+      "@mui/x-date-pickers/AdapterDayjs": path.resolve(
+        __dirname,
+        "./node_modules/@mui/x-date-pickers/AdapterDayjs"
+      ),
       "@emotion/react": path.resolve(__dirname, "./node_modules/@emotion/react"),
       "@emotion/styled": path.resolve(__dirname, "./node_modules/@emotion/styled"),
       "clsx": path.resolve(__dirname, "./node_modules/clsx"),

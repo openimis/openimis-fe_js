@@ -1,2 +1,0 @@
-import"./materialui-Cn2xh8FZ.js";import{b5 as a,K as i,au as p}from"./index-CAP3Ibed.js";import"./vendor-Ci-lJ3K5.js";function h(r,t,e=a.csv){var n=new URL("".concat(window.location.origin).concat(i,"/core/fetch_export?export=").concat(r));return c=>{fetch(n).then(o=>o.blob()).then(o=>p(o,t,e)).catch(o=>{console.error("Export failed, reason: ",o)})}}export{h as d};
-//# sourceMappingURL=downloadExport-Dfq6M9V8.js.map
