@@ -63,7 +63,7 @@ function processLocales(config) {
 
 function getConfig(configPath) {
   console.log(`Loading configuration from '${configPath}'`);
-  if (process.env.OPENIMIS_CONF_JSON !== 'undefined' && process.env.OPENIMIS_CONF_JSON !== '') {
+  if (process.env.OPENIMIS_CONF_JSON !== undefined && process.env.OPENIMIS_CONF_JSON !== '') {
     console.log("Falling back to OPENIMIS_CONF_JSON environment variable");
     return JSON.parse(process.env.OPENIMIS_CONF_JSON);
   } else if (fs.existsSync(configPath)) {
@@ -172,7 +172,7 @@ function main(config, moduleRootPath) {
        } finally {
          packageName = pkgModule.name;
          version = pkgModule.version;
-         npmNew = `${packageName}@file:${modulePath}`
+         npmNew = modulePath
        }
    
      }else {
