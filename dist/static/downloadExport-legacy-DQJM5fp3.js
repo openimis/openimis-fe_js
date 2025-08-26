@@ -1,2 +1,0 @@
-System.register(["./materialui-legacy-CLmBeRbV.js","./index-legacy-DUz9OJOV.js","./vendor-legacy-DLNgWELU.js"],function(e,t){"use strict";var r,n,o;return{setters:[null,e=>{r=e.b5,n=e.K,o=e.au},null],execute:function(){e("d",function(e,t,c=r.csv){var i=new URL(`${window.location.origin}${n}/core/fetch_export?export=${e}`);return e=>{fetch(i).then(e=>e.blob()).then(e=>o(e,t,c)).catch(e=>{console.error("Export failed, reason: ",e)})}})}}});
-//# sourceMappingURL=downloadExport-legacy-DQJM5fp3.js.map

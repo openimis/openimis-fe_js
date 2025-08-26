@@ -63,7 +63,7 @@
     "dayjs": "^1.11.12",
     "deepmerge": "^4.3.1",
     "flat": "^6.0.1",
-    "loadsh": "^0.0.4",
+   
     "lodash": "^4.17.21",
     "lodash-uuid": "^0.0.3",
     "moment": "^2.25.3",

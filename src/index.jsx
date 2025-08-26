@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { LinearProgress } from "@mui/material";
 import { Provider } from "react-redux";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import * as serviceWorker from "./serviceWorker";
 import createAppTheme from "./helpers/theme";

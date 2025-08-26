@@ -5,7 +5,7 @@ const defaultColors = {
   primaryColor: "#006273",
   errorColor: "#801a00",
   whiteColor: "#fff",
-  fontColor: "#006273",
+  fontColor: "#003d4a",
   backgroundColor: "#dbeef0",
   headerColor: "#b7d4d8",
   greyColor: "grey",
@@ -78,7 +78,7 @@ const createAppTheme = (colorOverrides = {}) => {
         width: 500,
       },
       close: {
-        width: 80,
+        width: 70,
       },
       itemDetail: {
         marginLeft: 8,
@@ -92,13 +92,15 @@ const createAppTheme = (colorOverrides = {}) => {
         fontSize: 16,
         fontWeight: 400,
         backgroundColor: primaryColor,
+        textColor: fontColor,
       },
       appBar: {
-        fontSize: 16,
+        fontSize: 15,
       },
     },
     page: {
-      padding: 16,
+      // padding: 40,
+      padding: "40px 40px 40px 0", 
       locked: {
         background: lockedBackgroundPattern,
       },
@@ -111,18 +113,20 @@ const createAppTheme = (colorOverrides = {}) => {
       header: {
         color: primaryColor,
         backgroundColor: headerColor,
+        padding: 16,
       },
       message: {
         backgroundColor: headerColor,
       },
       title: {
-        padding: 10,
-        fontSize: 24,
+        padding: 16,
+        fontSize: 20,
+        fontWeight: 500,
         color: primaryColor,
         backgroundColor: headerColor,
       },
       action: {
-        padding: 5,
+        padding: 8,
       },
       divider: {
         padding: 0,
@@ -138,7 +142,7 @@ const createAppTheme = (colorOverrides = {}) => {
     },
     table: {
       title: {
-        padding: 10,
+        padding: 16,
         fontWeight: 500,
         color: primaryColor,
         backgroundColor: headerColor,
@@ -147,7 +151,7 @@ const createAppTheme = (colorOverrides = {}) => {
         color: primaryColor,
       },
       headerAction: {
-        padding: 5,
+        padding: 8,
       },
       row: {
         color: primaryColor,
@@ -155,6 +159,9 @@ const createAppTheme = (colorOverrides = {}) => {
         '&:hover': {
           background: hoveredTableRowColor,
         },
+      },
+      container: {
+        backgroundColor: backgroundColor,
       },
       cell: {
         padding: 5,
