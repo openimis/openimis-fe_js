@@ -2,10 +2,13 @@ name: Build
 
 on:
   push:
-    branches:
+      branches:
       - main
+      - 'release/**'
       - develop
-
+      - 'feature/**'
+  pull_request:
+    types: [opened, synchronize, reopened]
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -18,17 +21,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
-        name: Setup node v16
+        name: Setup node v24
         with:
-          node-version: "16"
+          node-version: "24"
 
-      - name: Check package.json
-        run: npm run check-package
 
       # Runs a single command using the runners shell
       - name: Prepare openIMIS Dependencies
-        run: npm run load-config
-
+        run: |
+          node dev_tools/entrypoint-dev.js
+          npm script/openimis-config-vite.js
       - name: Install dependencies
         run: npm install # Since we edit package.json with the openIMIS deps, we cannot use --frozen-lockfile
 

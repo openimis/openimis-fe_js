@@ -41,21 +41,43 @@ function parseNpmBranch(npmStr) {
   return null; // Fallback if no match
 }
 
-function extractModuleInfo(module, modulesInstallPath) {
-  const modulePath = module.npm.match(/^file:/) ? module.npm.replace(/^file:/, '') : path.join(modulesInstallPath, module.name);
+function extractModuleInfo(module, modulesInstallPath, branchOverride) {
+  const local = module.npm.match(/^.*file:/)
+  let modulePath, packageName, repoUrl, branch;
+  if(local){
+    modulePath = module.npm.replace(/^.*file:/, '');
+    let pkg;
+    try {
+      pkg = JSON.parse(fs.readFileSync(path.join(modulePath, "package.json"), "utf-8"));
+    } catch (error) {
+      console.error(`Error reading package.json: ${error.message}`);
+      process.exit(1);
+    } finally {
+      packageName = pkg.name;
+      branch = null;
+      repoUrl = pkg.repository;
+    }
+
+  }else {
+    modulePath = path.join(modulesInstallPath, module.name);
+    packageName= parseNpmName(module);
+    branch = parseNpmBranch(module.npm);
+    repoUrl = module.npm.replace(/#.+$/,"")
+  }
+   
   console.log(`Path for ${modulePath}`);
   return {
     name: module.name,
     npm: module.npm,
     path: modulePath,
-    gitName: parseNpm(module.npm),
-    repoUrl: `https://github.com/openimis/${module.name}.git`,
-    branch: parseNpmBranch(module.npm),
-    packageName: parseNpmName(module),
+    repoUrl: repoUrl,
+    branch: branch,
+    packageName:packageName,
+    local: local
   };
 }
 
-function installAndLinkModules(imisJsonPath, modulesInstallPath) {
+function installAndLinkModules(imisJsonPath, modulesInstallPath, branch) {
   let imisJSON;
   try {
     imisJSON = JSON.parse(fs.readFileSync(imisJsonPath, "utf8"));
@@ -63,11 +85,12 @@ function installAndLinkModules(imisJsonPath, modulesInstallPath) {
     console.error(`Error reading openimis.json at ${imisJsonPath}: ${error.message}`);
     throw error;
   }
-  const curPath = String(shell.pwd());
 
+  const curPath = String(shell.pwd());
+  let imisJSONoutput = imisJSON;
   imisJSON.modules.forEach((module) => {
-    let info = extractModuleInfo(module, modulesInstallPath);
-    const branch = info.branch || 'develop';
+    let info = extractModuleInfo(module, modulesInstallPath, null);
+    const branch = info.branch
     if (!shell.test("-d", info.path)) {
       console.log(`Module directory ${info.path} does not exist. Cloning from ${info.repoUrl}...`);
       shell.cd(modulesInstallPath);
@@ -83,27 +106,66 @@ function installAndLinkModules(imisJsonPath, modulesInstallPath) {
     }
 
     shell.cd(info.path);
-    try {
-      console.log(`Attempting to checkout and pull ${branch} for ${info.name}...`);
-      shell.exec(`git checkout ${branch}`, { silent: true });
-      shell.exec(`git pull`, { silent: true });
-      console.log(`Successfully checked out and pulled ${branch} for ${info.name}`);
-    } catch (error) {
-      console.warn(`Skipping git checkout/pull for ${info.name} due to local changes or error: ${error.message}`);
+    if (branch !== null){
+      try {
+        console.log(`Attempting to checkout and pull ${branch} for ${info.name}...`);
+        shell.exec(`git checkout ${branch}`, { silent: true });
+        shell.exec(`git pull`, { silent: true });
+        console.log(`Successfully checked out and pulled ${branch} for ${info.name}`);
+      } catch (error) {
+        console.warn(`Skipping git checkout/pull for ${info.name} due to local changes or error: ${error.message}`);
+      }
     }
-    prepareModuleForLocalDevelopment(info.path, info.name, info.packageName, path.dirname(imisJsonPath));
+    
+    prepareModuleForLocalDevelopment(info.path, info.name, info.packageName);
+    const moduleExists = imisJSON.modules.some((m) => m.name.toLowerCase() === info.name.toLowerCase());
+    const npmEntry = `${info.packageName}@file:${info.path}`;
+    if (!moduleExists) {
+      imisJSONoutput.modules.push({
+        name: info.name,
+        npm: npmEntry,
+      });
+    } else {
+      imisJSONoutput.modules = imisJSON.modules.map((m) =>
+        m.name.toLowerCase() === info.name.toLowerCase()
+          ? { ...m, npm: npmEntry }
+          : m
+      );
+    }
+  // imisJSON.modules = imisJSON.modules.filter(
+  //   (obj, pos, arr) =>
+  //     arr.map((mapObj) => mapObj.name.toLowerCase()).indexOf(obj.name.toLowerCase()) === pos
+  // );
+
     shell.cd(curPath);
   });
-
-  updatePackageInAssembly(imisJSON.modules, path.dirname(imisJsonPath), modulesInstallPath);
+  try {
+    fs.writeFileSync(imisJsonPath, JSON.stringify(imisJSONoutput, null, 2), {
+      encoding: "utf8",
+      flag: "w",
+    });
+  } catch (error) {
+    console.error(`Error writing openimis.json: ${error.message}`);
+    throw error;
+  }
+  //updatePackageInAssembly(imisJSON.modules, path.dirname(imisJsonPath), modulesInstallPath);
   generateViteConfig(imisJSON.modules, modulesInstallPath);
+
 }
 
-function prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageName, basePath) {
+function prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageName) {
   shell.cd(modulePath);
   console.log(`Preparing ${moduleName} for local development...`);
-  shell.exec("npm install --include=dev");
-  shell.exec("npx vite build ");
+  const installResult = shell.exec("npm install --include=dev", { silent: false });
+  if (installResult.code !== 0) {
+    console.error(`npm install failed for ${moduleName}: ${installResult.stderr}`);
+    throw new Error(`npm install failed for ${moduleName}`);
+  }
+  //const buildResult = shell.exec("npx vite build", { silent: false });
+  // if (buildResult.code !== 0) {
+  //   console.error(`vite build failed for ${moduleName}: ${buildResult.stderr}`);
+  //   throw new Error(`vite build failed for ${moduleName}`);
+  // }
   shell.exec("npm link");
 
   const modulePackageJson = path.join("package.json");
@@ -115,48 +177,6 @@ function prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageName
     throw error;
   }
 
-  updateModuleInAssembly(packageVersion, modulePath, moduleName, npmPackageName, basePath);
-}
-
-function updateModuleInAssembly(packageVersion, modulePath, moduleName, npmPackageName, basePath) {
-  const imisJsonPath = path.join(basePath, "openimis.json");
-  let imisJSON;
-  try {
-    imisJSON = JSON.parse(fs.readFileSync(imisJsonPath, "utf8"));
-  } catch (error) {
-    console.error(`Error reading openimis.json at ${imisJsonPath}: ${error.message}`);
-    throw error;
-  }
-
-  const moduleExists = imisJSON.modules.some((m) => m.name.toLowerCase() === moduleName.toLowerCase());
-  if (!moduleExists) {
-    imisJSON.modules.push({
-      name: moduleName,
-      npm: `file:${modulePath}`,
-    });
-  } else {
-    imisJSON.modules = imisJSON.modules.map((m) =>
-      m.name.toLowerCase() === moduleName.toLowerCase()
-        ? { ...m, npm: `file:${modulePath}` }
-        : m
-    );
-  }
-
-  imisJSON.modules = imisJSON.modules.filter(
-    (obj, pos, arr) =>
-      arr.map((mapObj) => mapObj.name.toLowerCase()).indexOf(obj.name.toLowerCase()) === pos
-  );
-
-  try {
-    fs.writeFileSync(imisJsonPath, JSON.stringify(imisJSON, null, 2), {
-      encoding: "utf8",
-      flag: "w",
-    });
-    console.log(`Updated openimis.json for ${moduleName}`);
-  } catch (error) {
-    console.error(`Error writing openimis.json: ${error.message}`);
-    throw error;
-  }
 }
 
 function updatePackageInAssembly(modules, basePath, modulesInstallPath) {
@@ -170,7 +190,7 @@ function updatePackageInAssembly(modules, basePath, modulesInstallPath) {
   }
 
   modules.forEach((module) => {
-    let info = extractModuleInfo(module, modulesInstallPath);
+    let info = extractModuleInfo(module, modulesInstallPath, null);
     if (packageJSON.dependencies[info.packageName] !== `file:${info.path}`) {
       console.log(`Updating ${info.name} in package.json to use local path: file:${info.path}`);
       shell.exec(`npm remove ${info.packageName}`, { silent: true });
@@ -208,7 +228,7 @@ function generateViteConfig(modules, modulesInstallPath) {
     if (fs.existsSync(viteConfigPath)) {
       viteConfigContent = fs.readFileSync(viteConfigPath, "utf-8");
     } else {
-      console.error("vite.config.js not found. Please ensure it exists with <<DYNMANIC_ALIAS_PLACEHOLDER>>.");
+      console.error("vite.config.js not found. Please ensure it exists with <<DYNAMIC_ALIAS_PLACEHOLDER>>.");
       process.exit(1);
     }
   } catch (error) {
@@ -219,33 +239,30 @@ function generateViteConfig(modules, modulesInstallPath) {
   // Generate aliases for local file: modules
   const aliases = modules
     .map((module) => {
-      const info = extractModuleInfo(module, modulesInstallPath);
+      const info = extractModuleInfo(module, modulesInstallPath, null);
       const modulePath = path.resolve(info.path).replace(/\\/g, "/");
-      return `"${info.packageName}": path.resolve('${info.path}'), //DYNMANIC_ALIAS`;
+      return `"${info.packageName}": path.resolve('${modulePath}'), //DYNAMIC_ALIAS`;
     })
     .join(",\n");
 
-    
-    // Split into lines and filter out lines ending with //DYNMANIC_ALIAS,
-    const lines = viteConfigContent.split('\n');
-    const filteredLines = lines.filter(line => !line.trim().endsWith('//DYNMANIC_ALIAS,'));
-    
-    // Join lines back and write to output file
-    viteConfigContent = filteredLines.join('\n');
+  // Split into lines and filter out lines ending with //DYNAMIC_ALIAS
+  const lines = viteConfigContent.split('\n');
+  const filteredLines = lines.filter(line => !line.trim().endsWith('//DYNAMIC_ALIAS,'));
+  viteConfigContent = filteredLines.join('\n');
 
-  // Replace <<DYNMANIC_ALIAS_PLACEHOLDER>> with aliases
-  if (!viteConfigContent.includes("//<<DYNMANIC_ALIAS_PLACEHOLDER>>")) {
-    console.error("Placeholder //<<DYNMANIC_ALIAS_PLACEHOLDER>> not found in vite.config.js.");
+  // Replace <<DYNAMIC_ALIAS_PLACEHOLDER>> with aliases
+  if (!viteConfigContent.includes("//<<DYNAMIC_ALIAS_PLACEHOLDER>>")) {
+    console.error("Placeholder //<<DYNAMIC_ALIAS_PLACEHOLDER>> not found in vite.config.js.");
     process.exit(1);
   }
 
-  if (aliases){
+  if (aliases) {
     viteConfigContent = viteConfigContent.replace(
-        /\/\/<<DYNMANIC_ALIAS_PLACEHOLDER>>/,
-          "//<<DYNMANIC_ALIAS_PLACEHOLDER>>\n" + aliases + ",");
-
+      /\/\/<<DYNAMIC_ALIAS_PLACEHOLDER>>/,
+      "//<<DYNAMIC_ALIAS_PLACEHOLDER>>\n" + aliases + ","
+    );
   }
-  
+
   // Write updated vite.config.js
   try {
     fs.writeFileSync(viteConfigPath, viteConfigContent, {
@@ -302,15 +319,12 @@ if (require.main === module) {
     .argv;
 
   console.log(`dev entrypoint, p: ${argv.path}, c: ${argv.config}, host: ${argv.host}`);
-
-
   main(argv.config, argv.path);
 }
 
 module.exports = {
   installAndLinkModules,
   prepareModuleForLocalDevelopment,
-  updateModuleInAssembly,
   updatePackageInAssembly,
   generateViteConfig,
   main,

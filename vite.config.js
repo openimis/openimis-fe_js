@@ -35,7 +35,7 @@ export default defineConfig({
       "@mui/system"
     ],
     alias: {
-      //<<DYNMANIC_ALIAS_PLACEHOLDER>>
+      //<<DYNAMIC_ALIAS_PLACEHOLDER>>
       "react": path.resolve(__dirname, "./node_modules/react"),
       "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
       "lodash": path.resolve(__dirname, "./node_modules/lodash"),
@@ -73,9 +73,13 @@ export default defineConfig({
     },
     proxy: {
       "/api": {
-        target: "http://localhost:8000",
+        target: "http://backend:8000",
         changeOrigin: true,
       },
+      "/opensearch": {
+      target: "http://opensearch:5410",
+      changeOrigin: true,
+    }
     },
   },
   optimizeDeps: {
