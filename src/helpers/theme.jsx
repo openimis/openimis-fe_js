@@ -31,7 +31,16 @@ const createAppTheme = (colorOverrides = {}) => {
     lockedBackgroundPattern,
   } = { ...defaultColors, ...colorOverrides };
 
-  return createTheme({
+  let theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 0, 
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+      },
+    },
     components: {
       MuiTableRow: {
         styleOverrides: {
@@ -64,7 +73,7 @@ const createAppTheme = (colorOverrides = {}) => {
         fontSize: 20,
         fontWeight: 300,
       },
-      // Ensure compatibility with components reading `theme.typography.title.fontSize`
+    
       title: {
         fontSize: 20,
         fontWeight: 300,
@@ -85,10 +94,10 @@ const createAppTheme = (colorOverrides = {}) => {
       },
       iconSize: 24,
     },
-    menu: {
-      variant: "AppBar",
-      drawer: {
-        width: 300,
+         menu: {
+       variant: "AppBar", 
+       drawer: {
+         width: "300px", // Must be string for CSS calc() in RequireAuth
         fontSize: 16,
         fontWeight: 400,
         backgroundColor: primaryColor,
@@ -261,7 +270,25 @@ const createAppTheme = (colorOverrides = {}) => {
         justifyContent: "flex-end",
       },
     },
-  });
+     });
+
+  
+   theme.jrnlDrawer = theme.jrnlDrawer;
+   theme.menu = theme.menu;
+   theme.page = theme.page;
+   theme.paper = theme.paper;
+   theme.table = theme.table;
+   theme.form = theme.form;
+   theme.formTable = theme.formTable;
+   theme.dialog = theme.dialog;
+   theme.tooltipContainer = theme.tooltipContainer;
+   theme.flexTooltip = theme.flexTooltip;
+   theme.fab = theme.fab;
+   theme.fakeInput = theme.fakeInput;
+   theme.bigAvatar = theme.bigAvatar;
+   theme.buttonContainer = theme.buttonContainer;
+
+   return theme;
 };
 
 export default createAppTheme;
