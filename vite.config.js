@@ -42,7 +42,7 @@ export default defineConfig({
       "lodash": path.resolve(__dirname, "./node_modules/lodash"),
       "react-redux": path.resolve(__dirname, "./node_modules/react-redux"),
       // "@mui/material": path.resolve(__dirname, "./node_modules/@mui/material"),
-      // "@mui/icons-material": path.resolve(__dirname, "./node_modules/@mui/icons-material"),
+      // "@mui/icons-material": path.resolve(__dirname, "./node_modules/@mui/icons-material"),y
       // "@mui/system": path.resolve(__dirname, "./node_modules/@mui/system"),
       // "@mui/x-data-grid": path.resolve(__dirname, "./node_modules/@mui/x-data-grid"),
       "@mui/x-date-pickers": path.resolve(__dirname, "./node_modules/@mui/x-date-pickers"),

@@ -63,14 +63,14 @@ jobs:
           jq --arg a "$TAG_NAME" '.version = $a' package.json > temp.json && mv temp.json package.json
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
       - name: Publish package
         run: |
           if [ -n "${{ inputs.tag }}" ]; then
-            yarn publish --tag ${{ inputs.tag }} --access ${{ inputs.access }} --no-git-tag-version
+            npm publish --tag ${{ inputs.tag }} --access ${{ inputs.access }} --no-git-tag-version
           else
-            yarn publish --access ${{ inputs.access }} --no-git-tag-version
+            npm publish --access ${{ inputs.access }} --no-git-tag-version
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

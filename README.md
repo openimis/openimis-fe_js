@@ -24,21 +24,24 @@ Another important point is NOT TO HAVE in backend db table user_Core (managed by
 This issue is related to the link between userCore and tblUser tables.</td></tr></table>
 
 - clone this repo (creates the `openimis-fe_js` directory)
-- install node (node V16.x)
-- install yarn
-- within `openimis-fe_js` directory
-  - generate the openIMIS modules dependencies and locales (from openimis.json config): `yarn load-config` or `yarn load-config openimis.json`
-  - install openIMIS technical dependencies: `yarn install`
+- install node (node V20.x - 14)
+- 
+- within `openimis-fe_js` directory (below `../frontend-packages/` is the location where the modules will be downloaded)
+  - install shelljs and yargs `npm i shelljs yargs`
+  - copy `openimis.json` to `openimis-dev.json` and make your changes (modules, branches)
+  - download and install all modules with a git address locally `node dev_tools/entrypoint-dev.js -c openimis-dev.json -p ../frontend-packages/', it also update vite.config.js
+  - load module in package and create modules.jsx: `node openimis-config-vite.js -c openimis-dev.json -p ../frontend-packages/`
+  - install openIMIS technical dependencies: `npm install`
   - start openIMIS frontend (in development mode): `yarn start`
 
 ### To start working in openIMIS as a (module) for production with git / shh / urls for dependencies:
 
 - within `openimis-fe_js` directory
 
-  - generate the openIMIS modules dependencies and locales (from openimis.json config): `yarn load-config` or `yarn load-config openimis.json`
-  - clean yarn cache in case local directory / git /link are used: `yarn cache clean`
-  - install openIMIS technical dependencies: `yarn install`
-  - build openIMIS frontend (in development mode): `yarn build`
+  - generate the openIMIS modules dependencies and locales (from openimis.json config): `npm run load-config` or `npm run load-config -- openimis.json`
+  - clean yarn cache in case local directory / git /link are used: `npm cache clean`
+  - install openIMIS technical dependencies: `npm install`
+  - build openIMIS frontend (in development mode): `npm build`
   - copy the build folder on the webserver
 
 #### using npm

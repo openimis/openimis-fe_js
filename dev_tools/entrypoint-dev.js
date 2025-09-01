@@ -3,6 +3,53 @@ const shell = require("shelljs");
 const path = require("path");
 const yargs = require("yargs/yargs")(process.argv.slice(2)); // Modern yargs API
 
+// Function to get the latest modification time of all files in a directory
+function getLatestMtime(dir) {
+  let latestMtime = 0;
+  try {
+    const files = fs.readdirSync(dir, { withFileTypes: true });
+    for (const file of files) {
+      const fullPath = path.join(dir, file.name);
+      if (file.isDirectory()) {
+        const subMtime = getLatestMtime(fullPath); // Recurse into subdirectories
+        latestMtime = Math.max(latestMtime, subMtime);
+      } else {
+        const stats = fs.statSync(fullPath);
+        latestMtime = Math.max(latestMtime, stats.mtimeMs);
+      }
+    }
+  } catch (err) {
+    // If dir doesn't exist, return 0 (e.g., no src/)
+    if (err.code === 'ENOENT') return 0;
+    throw err;
+  }
+  return latestMtime;
+}
+
+// Function to get the earliest modification time of all files in a directory
+function getEarliestMtime(dir) {
+  let earliestMtime = Infinity;
+  try {
+    const files = fs.readdirSync(dir, { withFileTypes: true });
+    if (files.length === 0) return Infinity; // No files in dist/, force build
+    for (const file of files) {
+      const fullPath = path.join(dir, file.name);
+      if (file.isDirectory()) {
+        const subMtime = getEarliestMtime(fullPath); // Recurse into subdirectories
+        earliestMtime = Math.min(earliestMtime, subMtime);
+      } else {
+        const stats = fs.statSync(fullPath);
+        earliestMtime = Math.min(earliestMtime, stats.mtimeMs);
+      }
+    }
+  } catch (err) {
+    // If dist/ doesn't exist, force build
+    if (err.code === 'ENOENT') return Infinity;
+    throw err;
+  }
+  return earliestMtime;
+}
+
 function extractNpmPackageName(packageJsonPath) {
   try {
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
@@ -116,6 +163,7 @@ function installAndLinkModules(imisJsonPath, modulesInstallPath, branch) {
         console.warn(`Skipping git checkout/pull for ${info.name} due to local changes or error: ${error.message}`);
       }
     }
+    //fs.symlink(path.resolve(__dirname, '../node_modules'),path.join(info.path, 'node_modules' ))
     
     prepareModuleForLocalDevelopment(info.path, info.name, info.packageName);
     const moduleExists = imisJSON.modules.some((m) => m.name.toLowerCase() === info.name.toLowerCase());
@@ -153,10 +201,18 @@ function installAndLinkModules(imisJsonPath, modulesInstallPath, branch) {
 
 }
 
-function prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageName) {
+function  prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageName) {
   shell.cd(modulePath);
   console.log(`Preparing ${moduleName} for local development...`);
-  const installResult = shell.exec("npm install --include=dev", { silent: false });
+  shell.exec("rm -rf node_modules");
+  shell.exec("rm -f package-lock.json");
+  const srcDir = path.join(modulePath, 'src');
+  const distDir = path.join(modulePath, 'dist');
+  // Check modiication times
+  const srcMtime =  getLatestMtime(srcDir);
+  const distMtime =  getEarliestMtime(distDir);
+  
+  const installResult = shell.exec("npm install --include=dev --ignore-scripts", { silent: false });
   if (installResult.code !== 0) {
     console.error(`npm install failed for ${moduleName}: ${installResult.stderr}`);
     throw new Error(`npm install failed for ${moduleName}`);
@@ -166,6 +222,9 @@ function prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageName
   //   console.error(`vite build failed for ${moduleName}: ${buildResult.stderr}`);
   //   throw new Error(`vite build failed for ${moduleName}`);
   // }
+  if (distMtime === Infinity || srcMtime > distMtime) {
+    shell.exec("npm run build");
+  }
   shell.exec("npm link");
 
   const modulePackageJson = path.join("package.json");
@@ -241,7 +300,7 @@ function generateViteConfig(modules, modulesInstallPath) {
     .map((module) => {
       const info = extractModuleInfo(module, modulesInstallPath, null);
       const modulePath = path.resolve(info.path).replace(/\\/g, "/");
-      return `"${info.packageName}": path.resolve('${modulePath}'), //DYNAMIC_ALIAS`;
+      return `"${info.packageName}": path.resolve('${modulePath}','src'), //DYNAMIC_ALIAS`;
     })
     .join(",\n");
 
@@ -279,6 +338,12 @@ function generateViteConfig(modules, modulesInstallPath) {
 function main(configPath, modulesPath) {
   const imisJsonPath = path.resolve(configPath);
   const modulesInstallPath = path.resolve(modulesPath);
+
+  console.log(`Setting local npm cache`);
+
+  shell.exec(`npm config set cache ${path.join(modulesInstallPath, 'npm-cache')}`);
+
+  //shell.exec(`find . -type d -iname node_modules -exec rm -rf {} \;)
   try {
     if (!fs.existsSync(imisJsonPath)) {
       throw new Error(`Configuration file ${imisJsonPath} does not exist`);

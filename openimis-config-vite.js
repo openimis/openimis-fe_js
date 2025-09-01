@@ -96,7 +96,7 @@ export async function loadModules(cfg = {}) {
       return `
   // 🔄 Dynamically importing ${name}
   try {
-    const module = await import("${importPath}");
+    const module = await import("${packageName}");
     loadedModules.push(
       module.${name ?? "default"}(cfg["${logicalName}"] || {})
     );
@@ -116,8 +116,6 @@ export async function loadModules(cfg = {}) {
 
 function main(config, moduleRootPath) {
   // Parse command-line arguments
-  
-
   // Load package.json
   let pkg;
   try {
@@ -172,7 +170,7 @@ function main(config, moduleRootPath) {
        } finally {
          packageName = pkgModule.name;
          version = pkgModule.version;
-         npmNew = modulePath
+         npmNew = 'file:'.modulePath
        }
    
      }else {
