@@ -64,9 +64,6 @@
     "rules": {
       "space-before-function-paren": 0,
       "react/jsx-boolean-value": 0
-    },
-    "engines":{
-      "node": ">=20.0.0"
     }
   },
   "browserslist": {
