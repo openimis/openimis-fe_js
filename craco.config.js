@@ -1,6 +1,10 @@
 const webpack = require("webpack");
+const CracoWorkboxPlugin = require('craco-workbox');
 
 module.exports = {
+  plugins: [{
+    plugin: CracoWorkboxPlugin
+  }],
   webpack: {
     configure: (webpackConfig) => {
       // Set publicPath to serve assets under /front/
@@ -26,11 +30,6 @@ module.exports = {
 
       return webpackConfig;
     },
-  },
-  InjectManifest: options => {
-    // override InjectManifest config here
-    options.maximumFileSizeToCacheInBytes = 10 * 1024 * 1024;
-    return options;
   },
   devServer: {
   },
