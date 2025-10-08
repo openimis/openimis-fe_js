@@ -10,3 +10,4 @@ src/locales.js
 .idea
 yarn.lock
 .env
+dist
