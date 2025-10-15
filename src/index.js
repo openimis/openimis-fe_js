@@ -2,6 +2,7 @@ import "react-app-polyfill/ie11";
 import "react-app-polyfill/stable";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
+import { IntlProvider } from "react-intl";
 import { MuiThemeProvider, LinearProgress } from "@material-ui/core";
 import { Provider } from "react-redux";
 import MomentUtils from "@date-io/moment";
@@ -74,13 +75,17 @@ const AppContainer = () => {
       </MuiThemeProvider>
     );
   } else if (appState.error) {
+    const localesManager = new LocalesManager();
+    const locale = localesManager.getLocale();
     return (
-      <FatalError
-        error={{
-          code: appState.error.status,
-          message: appState.error.statusText,
-        }}
-      />
+      <IntlProvider locale={locale} messages={messages_ref}>
+        <FatalError
+          error={{
+            code: appState.error.status,
+            message: appState.error.statusText,
+          }}
+        />
+      </IntlProvider>
     );
   } else {
     const modulesManager = new ModulesManager(appState.config);
