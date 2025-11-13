@@ -6,7 +6,7 @@ import { MuiThemeProvider, LinearProgress } from "@material-ui/core";
 import { Provider } from "react-redux";
 import MomentUtils from "@date-io/moment";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import * as serviceWorker from "./serviceWorker";
+import * as serviceWorker from "./serviceWorkerRegistration";
 import createAppTheme from "./helpers/theme";
 import store from "./helpers/store";
 import LocalesManager from "./LocalesManager";
@@ -112,4 +112,4 @@ const AppContainer = () => {
 };
 
 ReactDOM.render(<AppContainer />, document.getElementById("root"));
-serviceWorker.register();
+serviceWorker.unregister();
