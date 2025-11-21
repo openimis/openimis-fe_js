@@ -42,6 +42,10 @@ const loadConfiguration = async () => {
   }
 };
 
+export function isKeycloakEnabled(config) {
+  return config?.["fe-core"]?.isKeycloakEnabled === true;
+}
+
 const AppContainer = () => {
   const [appState, setAppState] = React.useState({ isLoading: true, config: undefined, error: null });
   const localesManager = new LocalesManager();
@@ -67,6 +71,9 @@ const AppContainer = () => {
   const logo = getConfiguredLogo(appState.config);
   const disableTextLogo = appState?.config?.["fe-core"]?.logo?.disableTextLogo || false
 
+  // ...existing code...
+
+
   if (appState.isLoading) {
     return (
       <MuiThemeProvider theme={dynamicTheme}>
@@ -83,7 +90,7 @@ const AppContainer = () => {
       />
     );
   } else {
-    const modulesManager = new ModulesManager(appState.config);
+  const modulesManager = new ModulesManager(appState.config);
     const reducers = modulesManager.getContribs("reducers").reduce((reds, red) => {
       reds[red.key] = red.reducer;
       return reds;
@@ -91,6 +98,30 @@ const AppContainer = () => {
 
     const middlewares = modulesManager.getContribs("middlewares");
     
+    // Ensure window.keycloakConfig is populated from ModuleConfiguration so legacy code
+    // and compiled packages depending on this global keep working. Preference order:
+    // ModuleConfiguration (fe-core.keycloak) -> sensible defaults
+    if (typeof window !== 'undefined') {
+      try {
+        const moduleKeycloak = modulesManager.getConf('fe-core', 'keycloak', null);
+        const keycloakEnabled = modulesManager.getConf('fe-core', 'isKeycloakEnabled', false);
+        if (moduleKeycloak && moduleKeycloak.serverUrl && moduleKeycloak.realm && moduleKeycloak.clientId && moduleKeycloak.redirectUri) {
+          window.keycloakConfig = {
+            enabled: keycloakEnabled === true,
+            serverUrl: moduleKeycloak.serverUrl,
+            realm: moduleKeycloak.realm,
+            clientId: moduleKeycloak.clientId,
+            redirectUri: moduleKeycloak.redirectUri,
+          };
+        } else {
+          window.keycloakConfig = { enabled: false };
+          if (keycloakEnabled) console.error('[Keycloak] Bad backend configuration: fe-core.keycloak missing or incomplete. The Keycloak button is disabled.');
+        }
+      } catch (e) {
+        console.warn('Could not populate window.keycloakConfig from modulesManager:', e);
+      }
+    }
+
     return (
       <MuiThemeProvider theme={dynamicTheme}>
         <Provider store={store(reducers, middlewares)}>
@@ -113,3 +144,4 @@ const AppContainer = () => {
 
 ReactDOM.render(<AppContainer />, document.getElementById("root"));
 serviceWorker.register();
+

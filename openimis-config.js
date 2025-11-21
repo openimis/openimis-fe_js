@@ -110,8 +110,12 @@ function main() {
   }
   processModules(modules);
 
+  // ...existing code...
+
   console.log("Save package.json");
   fs.writeFileSync("./package.json", JSON.stringify(pkg, null, 2), { encoding: "utf-8", flag: "w" });
 }
+
+// ...existing code...
 
 main();
