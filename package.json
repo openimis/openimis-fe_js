@@ -45,7 +45,14 @@
     "shelljs": "^0.8.4",
     "zxcvbn": "^4.4.2",
     "@craco/craco": "^7.1.0",
-    "ajv": "8.17.1"
+    "ajv": "8.17.1",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "jest": "^26.6.3",
+    "@babel/preset-env": "^7.12.13",
+    "@babel/preset-react": "^7.12.13",
+    "babel-jest": "^26.6.3"
   },
   "scripts": {
     "start": "craco start",
@@ -55,7 +62,13 @@
     "load-config": "node ./openimis-config.js",
     "postinstall": "node script/postinstall.js",
     "format": "prettier src -w",
-    "check-package": "node script/check-package.js"
+    "check-package": "node script/check-package.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --coverage --watchAll=false --ci --reporters=default --reporters=jest-junit",
+    "test:sonar": "jest --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter",
+    "lint": "eslint src --ext .js,.jsx"
   },
   "eslintConfig": {
     "extends": [
