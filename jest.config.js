@@ -12,18 +12,18 @@ module.exports = {
   
     moduleNameMapper: {
       "\\.(css|scss|sass|less)$": "identity-obj-proxy",
-      "^@openimis/(.*)$": "<rootDir>/src/modules/$1",
+      "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/tests/mocks/fileMock.js"
     },
   
     testEnvironment: "jsdom",
   
-    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.js"],
+    setupFilesAfterEnv: ["<rootDir>/tests/setupTests.js"],
   
-    testPathIgnorePatterns: [
-      "/node_modules/",
-      "/dist/",
+    testMatch: [
+      "**/tests/**/*.test.js",
+      "**/tests/**/*.test.jsx"
     ],
-
+  
     collectCoverage: true,
   
     collectCoverageFrom: [
@@ -35,12 +35,7 @@ module.exports = {
   
     coverageDirectory: "<rootDir>/coverage/",
   
-    coverageReporters: [
-      "json",
-      "lcov",
-      "text",
-      "clover"
-    ],
+    coverageReporters: ["json", "lcov", "text", "clover"],
   
     coverageThreshold: {
       global: {

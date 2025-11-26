@@ -19,7 +19,7 @@ import "./index.css";
 import "./rc-cascader.css";
 
 
-const loadConfiguration = async () => {
+export const loadConfiguration = async () => {
   const response = await fetch(`${baseApiUrl}/graphql`, {
     method: "post",
     headers: apiHeaders(),

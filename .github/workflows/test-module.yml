@@ -1,0 +1,72 @@
+name: Test Module React
+
+on:
+  workflow_call:
+    inputs:
+      module-path:
+        required: true
+        type: string
+        description: 'Chemin relatif vers le module (ex: openimis-fe-insuree_js)'
+    secrets:
+      CODECOV_TOKEN:
+        required: false
+
+jobs:
+  test-module:
+    name: Test ${{ inputs.module-path }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: '${{ inputs.module-path }}/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cd ${{ inputs.module-path }}
+          npm ci
+
+      - name: Run linter
+        run: |
+          cd ${{ inputs.module-path }}
+          npm run lint --if-present
+
+      - name: Run tests with coverage
+        run: |
+          cd ${{ inputs.module-path }}
+          npm run test:ci
+
+      - name: Upload coverage to Codecov
+        if: ${{ success() && secrets.CODECOV_TOKEN }}
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ${{ inputs.module-path }}/coverage/lcov.info
+          flags: ${{ inputs.module-path }}
+          name: ${{ inputs.module-path }}-coverage
+          fail_ci_if_error: false
+
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ inputs.module-path }}-node${{ matrix.node-version }}
+          path: |
+            ${{ inputs.module-path }}/coverage/
+            ${{ inputs.module-path }}/jest-results.json
+
+      - name: Comment PR with coverage
+        if: ${{ github.event_name == 'pull_request' && success() && secrets.CODECOV_TOKEN }}
+        uses: romeovs/lcov-reporter-action@v0.3.1
+        with:
+          lcov-file: ${{ inputs.module-path }}/coverage/lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
