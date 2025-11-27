@@ -9,7 +9,7 @@
     },
     "api": {
       "base": "/api",
-      "target": "http://backend:8000"
+      "target": "http://localhost:8000"
     }
   },
   "homepage": "/front",
