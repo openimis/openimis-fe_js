@@ -1,8 +1,8 @@
 // tests/LocalesManager.test.js
-import LocalesManager from '../src/LocalesManager';
+import LocalesManager from '../src/LocalesManager.js';
 
 // Mock du module locales
-jest.mock('../src/locales', () => ({
+jest.mock('../src/locales.js', () => ({
   fileNamesByLang: {
     en: 'en.json',
     fr: 'fr.json',

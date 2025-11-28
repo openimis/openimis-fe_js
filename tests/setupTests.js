@@ -15,9 +15,9 @@ jest.mock('@material-ui/core', () => ({
   MuiPickersUtilsProvider: ({ children }) => children,
 }));
 
-jest.mock('../src/helpers/logo', () => () => 'mockLogo');
+jest.mock('../src/helpers/logo.js', () => () => 'mockLogo');
 jest.mock('../src/translations/ref.json', () => ({}));
-jest.mock('../src/helpers/store', () => () => ({
+jest.mock('../src/helpers/store.js', () => () => ({
   getState: () => ({}),
   dispatch: jest.fn(),
   subscribe: jest.fn(),
