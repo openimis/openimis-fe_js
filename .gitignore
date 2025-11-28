@@ -11,3 +11,4 @@ src/locales.js
 yarn.lock
 .env
 coverage/
+junit.xml
