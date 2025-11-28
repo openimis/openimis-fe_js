@@ -1,0 +1,50 @@
+name: Automated CI testing for modules
+
+on:
+  workflow_call:
+    inputs:
+      module-path:
+        required: true
+        type: string
+        description: 'Chemin relatif vers le module (checkout dans le workflow central)'
+      repo:
+        required: true
+        type: string
+        description: 'Le dépôt du module à tester'
+
+jobs:
+  test-module:
+    name: Test ${{ inputs.repo }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout module repository
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.repo }}
+          path: current-module
+          fetch-depth: 0
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: |
+          npm ci
+        working-directory: ${{ inputs.module-path }}
+
+      - name: Run linter
+        run: |
+          npm run lint --if-present
+        working-directory: ${{ inputs.module-path }}
+
+      - name: Run tests
+        run: |
+          npm run test:ci
+        working-directory: ${{ inputs.module-path }}

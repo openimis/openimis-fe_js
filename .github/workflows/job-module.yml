@@ -1,0 +1,104 @@
+ci_module_front_test_module_only:
+  name: Run Frontend Module Tests
+  runs-on: ubuntu-24.04
+  needs: build_backend       # si tu veux dépendre du job backend, sinon supprime cette ligne
+  steps:
+
+    # 1) Checkout minimal (we'll clone core separately)
+    - name: Checkout current module (frontend)
+      uses: actions/checkout@v4
+      with:
+        path: ./current-module
+        fetch-depth: 0
+
+    # 2) Clone frontend core repo (shallow)
+    - name: Clone openIMIS frontend core
+      run: |
+        rm -rf ./fe-core
+        git clone --depth=1 --branch=develop https://github.com/openimis/openimis-fe_js.git ./fe-core || {
+          echo "Clone failed, falling back to develop"
+          git clone --depth=1 --branch=develop https://github.com/openimis/openimis-fe_js.git ./fe-core
+        }
+
+    # 3) Setup Node
+    - name: Setup Node 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'               # builtin cache support
+
+    # 4) Ensure module is visible to core: link/copy current-module inside fe-core
+    - name: Link current module into fe-core
+      run: |
+        # copy module into the core workspace so relative paths work
+        rm -rf fe-core/current-module
+        cp -R current-module fe-core/current-module
+        ls -la fe-core/current-module
+      shell: bash
+
+    # 5) (optional) update openimis.json / modules list to include the module
+    - name: Add module to openimis.json (core)
+      working-directory: ./fe-core
+      run: |
+        # compute module name from package.json if present
+        if [ -f "./current-module/package.json" ]; then
+          MODULE_NAME=$(node -p "require('./current-module/package.json').name" || echo "current-module")
+        else
+          MODULE_NAME="current-module"
+        fi
+        echo "MODULE_NAME=$MODULE_NAME"
+        # Insert module entry if not present (uses jq)
+        jq --arg name "$MODULE_NAME" --arg path "./current-module" \
+           'if any(.modules[]; .name == $name) then . else .modules += [{name:$name, path:$path}] end' \
+           openimis.json > openimis.tmp.json && mv openimis.tmp.json openimis.json || cat openimis.json
+        cat openimis.json
+
+    # 6) Cache dependencies (node_modules / npm cache)
+    - name: Cache npm
+      uses: actions/cache@v4
+      with:
+        path: |
+          fe-core/node_modules
+          fe-core/package-lock.json
+          ~/.npm
+        key: ${{ runner.os }}-npm-${{ hashFiles('fe-core/package-lock.json', 'current-module/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-npm-
+
+    # 7) Install dependencies
+    - name: Install dependencies (core + module)
+      working-directory: ./fe-core
+      run: |
+        npm install --legacy-peer-deps --include=dev
+
+    # 8) (optional) Run linters / unit tests
+    - name: Run Unit Tests (if present)
+      working-directory: ./fe-core
+      run: |
+        # run tests if script exists
+        if npm run | grep -q " test"; then
+          npm test --if-present --silent
+        else
+          echo "No tests script found, skipping"
+        fi
+
+    # 9) Build frontend
+    - name: Build frontend
+      working-directory: ./fe-core
+      run: |
+        # prefer `build` script, fallback to vite build or react-scripts build
+        if npm run | grep -q " build"; then
+          npm run build
+        elif [ -f package.json ] && jq -r '.scripts.build' package.json | grep -q '.'; then
+          npm run build
+        else
+          echo "No build script found"
+          exit 1
+        fi
+
+    # 10) Upload build artifact
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: frontend-${{ github.event_name == 'push' && github.ref_name || github.run_number }}-${{ github.sha }}
+        path: fe-core/build/**,fe-core/dist/**
