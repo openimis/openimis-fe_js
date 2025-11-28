@@ -37,6 +37,7 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+        working-directory: ${{ inputs.module-path }}
 
       - name: Run tests
         run: yarn test:ci
