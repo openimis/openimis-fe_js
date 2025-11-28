@@ -2,13 +2,16 @@ name: SonarQube Scan - React
 
 on:
   push:
-    branches: [main, develop]
-    paths:
-      - 'openimis-fe_js/**'
+    branches:
+      - develop
+      - 'feature/**'
+      - 'release/**'
   pull_request:
-    branches: [main, develop]
-    paths:
-      - 'openimis-fe_js/**'
+    types: [opened, synchronize, reopened]
+    branches:
+      - develop
+      - 'feature/**'
+      - 'release/**'
 
 jobs:
   sonarqube:
