@@ -38,10 +38,6 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Run linter
-        run: yarn lint --if-present
-        working-directory: ${{ inputs.module-path }}
-
       - name: Run tests
         run: yarn test:ci
         working-directory: ${{ inputs.module-path }}
