@@ -15,14 +15,6 @@ jest.mock('@material-ui/core', () => ({
   MuiPickersUtilsProvider: ({ children }) => children,
 }));
 
-jest.mock('@openimis/fe-core', () => ({
-  App: () => null,
-  historyPush: jest.fn(),
-  FatalError: () => null,
-  baseApiUrl: 'http://mock.api',
-  apiHeaders: () => ({}),
-}));
-
 jest.mock('../src/helpers/logo', () => () => 'mockLogo');
 jest.mock('../src/translations/ref.json', () => ({}));
 jest.mock('../src/helpers/store', () => () => ({

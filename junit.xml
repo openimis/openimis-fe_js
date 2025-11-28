@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="4" failures="0" errors="0" time="6.256">
+  <testsuite name="Basic test" errors="0" failures="0" skipped="0" timestamp="2025-11-28T13:03:08" time="2.56" tests="1">
+    <testcase classname="Basic test 1 + 1 should equal 2" name="Basic test 1 + 1 should equal 2" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="LocalesManager" errors="0" failures="0" skipped="0" timestamp="2025-11-28T13:03:08" time="2.742" tests="3">
+    <testcase classname="LocalesManager getLocale should always return &quot;en&quot; as the locale" name="LocalesManager getLocale should always return &quot;en&quot; as the locale" time="0.004">
+    </testcase>
+    <testcase classname="LocalesManager getFileNameByLang should return the correct file name for each language" name="LocalesManager getFileNameByLang should return the correct file name for each language" time="0.001">
+    </testcase>
+    <testcase classname="LocalesManager getFileNameByLang should return undefined for unknown languages" name="LocalesManager getFileNameByLang should return undefined for unknown languages" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>
