@@ -4,13 +4,13 @@ on:
   push:
     branches:
       - develop
-      - 'feature/**'
+      - 'feature*'
       - 'release/**'
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
       - develop
-      - 'feature/**'
+      - 'feature*'
       - 'release/**'
 
 jobs:
