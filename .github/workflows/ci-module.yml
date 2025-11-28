@@ -37,7 +37,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn add react@^18.2.0 react-dom@^18.2.0 @testing-library/dom@^8.21.0
+          yarn add react@^18.2.0
           yarn install
         working-directory: ${{ inputs.module-path }}
 
