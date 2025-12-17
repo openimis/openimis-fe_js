@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ inputs.repo }}
-          path: current-module
+          path: ${{ inputs.module-path }}
           fetch-depth: 0
 
       - name: Setup Node.js ${{ matrix.node-version }}
