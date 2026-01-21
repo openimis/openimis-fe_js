@@ -12,7 +12,7 @@ app.use('/front', express.static(path.join(__dirname, 'build')));
 app.all('/api/*path', (req, res) => {
   // Rewrite the URL to remove /api/ and keep the rest
   //req.url = req.url.replace(/^\/api/  '');
-  proxy.web(req, res, { target: 'http://backend:8000' }, (err) => {
+  proxy.web(req, res, { target: (process.env.API_PROXY_TARGET || 'http://backend:8000')  }, (err) => {
     console.error('Proxy error:', err);
     res.status(500).send('Proxy error');
   });
@@ -31,6 +31,6 @@ proxy.on('error', (err, req, res) => {
 
 const port = 3000;
 app.listen(port, () => {
-  console.log(`App served at http://localhost:${port}/front/`);
-  console.log(`API requests proxied from /api/ to http://localhost:8000/`);
+  console.log(`App served at http://127.0.0.1:${port}/front/`);
+  console.log(`API requests proxied from /api/ to http://127.0.0.1:8000/`);
 });

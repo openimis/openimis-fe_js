@@ -13,11 +13,11 @@ function extractNpmPackageName(packageJsonPath) {
 }
 
 function parseNpm(npmStr) {
-  const gitMatch = npmStr.match(/github\.com\/(.+)\.git/);
+  const gitMatch = npmStr.match(/github\.com[\/:](.+)\.git/);
   if (gitMatch) {
     return gitMatch[1];
   }
-  const npmMatch = npmStr.match(/@openimis\/(.+)@/);
+  const npmMatch = npmStr.match(/@openimis\/([^@]+)@/);
   if (npmMatch) {
     return `openimis/openimis-${npmMatch[1]}_js`;
   }
@@ -25,7 +25,7 @@ function parseNpm(npmStr) {
 }
 
 function parseNpmName(module) {
-  const npmMatch = module.npm.match(/(@openimis\/.+)@?/);
+  const npmMatch = module.npm.match(/(@openimis\/[^@]+)(?:@.+)?/);
   if (npmMatch) {
     return npmMatch[1];
   }
@@ -41,13 +41,13 @@ function parseNpmBranch(npmStr) {
 }
 
 function extractModuleInfo(module) {
-  const modulePath = module.npm.match(/^file:/) ? module.npm.replace(/^file:/, '') : module.name;
+  const modulePath = module.npm.match(/^.+file:/) ? module.npm.replace(/^.+file:/, '') : module.name;
   return {
     "name": module.name,
     "npm": module.npm,
     "path": modulePath,
     "gitName": parseNpm(module.npm),
-    "repoUrl": `https://github.com/openimis/${module.name}.git`,
+    "repoUrl": `https://github.com/${parseNpm(module.npm) || `openimis/${module.name}`}.git`,
     "branch": parseNpmBranch(module.npm),
     "packageName": parseNpmName(module)
   };
@@ -87,7 +87,7 @@ function installAndLinkModules(imisJsonPath, modulesInstallPath) {
       shell.cd(modulesInstallPath);
       try {
         shell.exec(`git clone ${info.repoUrl} ${info.path}`, { silent: true });
-        console.log(`Successfully cloned ${info.name}`);
+        console.log(`Successfully cloned ${info.name} in ${info.path}`);
       } catch (error) {
         console.error(`Failed to clone ${info.name} from ${info.repoUrl}: ${error.message}`);
         throw error;
@@ -97,7 +97,7 @@ function installAndLinkModules(imisJsonPath, modulesInstallPath) {
     }
 
     shell.cd(info.path);
-    const modulePath = path.join(curPath, info.path);
+    const modulePath = path.isAbsolute(info.path) ? info.path : path.join(modulesInstallPath, info.path);
     prepareModuleForLocalDevelopment(modulePath, info.name, info.packageName, path.dirname(imisJsonPath));
     shell.cd(curPath);
   });
@@ -153,7 +153,7 @@ function updateModuleInAssembly(packageVersion, modulePath, moduleName, npmPacka
   if (!moduleExists) {
     imisJSON.modules.push({
       name: moduleName,
-      npm: `file:${modulePath}`,
+      npm: `${npmPackageName}@file:${modulePath}`,
     });
   } else {
     imisJSON.modules = imisJSON.modules.map((m) =>
