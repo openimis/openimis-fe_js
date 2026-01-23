@@ -35,6 +35,7 @@ ENV NODE_ENV=production
 RUN npm config set prefix /home/node/.npm-global
 RUN npm install -g npm@latest
 RUN npm install -g shelljs yargs
+RUN npm install  --include=dev --legacy-peer-deps
 RUN npm run load-config
 RUN npm install  --include=dev --legacy-peer-deps
 RUN npm run build
