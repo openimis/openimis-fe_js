@@ -37,7 +37,7 @@ RUN npm install -g npm@latest
 RUN npm install -g shelljs yargs
 RUN npm install  --include=dev --legacy-peer-deps
 RUN npm run load-config -- -c ./openimis.json
-RUN npm install  --include=dev --legacy-peer-deps
+RUN npm install --production
 RUN npm run build
 
 FROM nginx:latest

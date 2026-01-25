@@ -40,6 +40,48 @@ function parseNpmBranch(npmStr) {
   return null; // Fallback if no match
 }
 
+function removeFromPackageLock(removedPackages) {
+  if (removedPackages.length === 0) {
+    console.log("No packages to remove from package-lock.json");
+    return;
+  }
+
+  try {
+    if (!fs.existsSync("./package-lock.json")) {
+      console.log("No package-lock.json file found");
+      return;
+    }
+
+    console.log("Removing packages from package-lock.json...");
+    const lockfile = JSON.parse(fs.readFileSync("./package-lock.json", "utf-8"));
+
+    // Remove from packages object
+    for (const pkgName of removedPackages) {
+      if (lockfile.packages && lockfile.packages[`node_modules/${pkgName}`]) {
+        console.log(`Removed ${pkgName} from package-lock.json packages`);
+        delete lockfile.packages[`node_modules/${pkgName}`];
+      }
+
+      // Remove from dependencies if they exist in root
+      if (lockfile.dependencies && lockfile.dependencies[pkgName]) {
+        console.log(`Removed ${pkgName} from package-lock.json dependencies`);
+        delete lockfile.dependencies[pkgName];
+      }
+    }
+
+    // Save updated package-lock.json
+    fs.writeFileSync("./package-lock.json", JSON.stringify(lockfile, null, 2), {
+      encoding: "utf-8",
+      flag: "w",
+    });
+    console.log("Updated package-lock.json");
+
+  } catch (error) {
+    console.error(`Error updating package-lock.json: ${error.message}`);
+    // Don't exit on error, as this is not critical
+  }
+}
+
 
 
 function processLocales(config) {
@@ -125,11 +167,13 @@ function main(config, moduleRootPath) {
     process.exit(1);
   }
 
-  // Remove existing @openimis dependencies
+  // Remove existing @openimis dependencies from package.json
   console.log("Removing @openimis dependencies from package.json...");
+  const removedPackages = [];
   for (const key in pkg.dependencies) {
     if (key.startsWith("@openimis/")) {
-      console.log(`Removed ${key}`);
+      console.log(`Removed ${key} from package.json`);
+      removedPackages.push(key);
       delete pkg.dependencies[key];
     }
   }
@@ -155,30 +199,46 @@ function main(config, moduleRootPath) {
   const modulesInstallPath = path.resolve(moduleRootPath);
   for (const module of config.modules) {
     const { npm, name, logicalName } = module;
-    const local = npm.includes("file:")
+    const local = npm.includes("file:");
+    const isGitHub = npm.includes("https://github.com/");
     let packageName, version, modulePath, npmNew;
-    if(local){
-      
-       modulePath = npm.replace(/^.*file:/, '');
-       console.log(`working with ${modulePath}`)
-       let pkgModule;
-       try {
-         pkgModule = JSON.parse(fs.readFileSync(path.join(modulePath, "package.json"), "utf-8"));
-       } catch (error) {
-         console.error(`Error reading package.json: ${error.message}`);
-         process.exit(1);
-       } finally {
-         packageName = pkgModule.name;
-         version = pkgModule.version;
-         npmNew = 'file:'.modulePath
-       }
-   
-     }else {
-       packageName= parseNpmName(module);
-       version = npm.substring(npm.lastIndexOf("@") + 1);
-       modulePath = null
-       npmNew = npm
-     }
+    
+    if (local) {
+      modulePath = npm.replace(/^.*file:/, '');
+      console.log(`Working with local module: ${modulePath}`);
+      let pkgModule;
+      try {
+        pkgModule = JSON.parse(fs.readFileSync(path.join(modulePath, "package.json"), "utf-8"));
+      } catch (error) {
+        console.error(`Error reading package.json: ${error.message}`);
+        process.exit(1);
+      } finally {
+        packageName = pkgModule.name;
+        version = pkgModule.version;
+        npmNew = 'file:' + modulePath;
+      }
+    } else if (isGitHub) {
+      // Handle GitHub URLs: @openimis/fe-core@https://github.com/...
+      // Extract package name (part before @https://)
+      const atHttpsIndex = npm.indexOf("@https://");
+      if (atHttpsIndex !== -1) {
+        packageName = npm.substring(0, atHttpsIndex);
+        npmNew = npm.substring(atHttpsIndex + 1); // Get URL without leading @
+      } else {
+        // Fallback: try to parse as @package@github:...
+        packageName = parseNpmName(module);
+        npmNew = npm.substring(npm.indexOf("https://"));
+      }
+      version = "github";
+      modulePath = null;
+      console.log(`GitHub module: ${packageName} -> ${npmNew}`);
+    } else {
+      // Standard npm package: @openimis/fe-core@1.0.0
+      packageName = parseNpmName(module);
+      version = npm.substring(npm.lastIndexOf("@") + 1);
+      modulePath = null;
+      npmNew = npm;
+    }
 
     console.log(`Added "${packageName}": ${npm}`);
     pkg.dependencies[packageName] = npmNew;
@@ -211,6 +271,9 @@ function main(config, moduleRootPath) {
     console.error(`Error saving package.json: ${error.message}`);
     process.exit(1);
   }
+
+  // Remove packages from package-lock.json
+  removeFromPackageLock(removedPackages);
 }
 
 if (require.main === module) {

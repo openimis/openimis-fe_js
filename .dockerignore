@@ -2,3 +2,5 @@
 /build
 yarn*
 *.lock
+.git
+package-lock.json
