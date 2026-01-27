@@ -52,32 +52,12 @@ function removeFromPackageLock(removedPackages) {
       return;
     }
 
-    console.log("Removing packages from package-lock.json...");
-    const lockfile = JSON.parse(fs.readFileSync("./package-lock.json", "utf-8"));
-
-    // Remove from packages object
-    for (const pkgName of removedPackages) {
-      if (lockfile.packages && lockfile.packages[`node_modules/${pkgName}`]) {
-        console.log(`Removed ${pkgName} from package-lock.json packages`);
-        delete lockfile.packages[`node_modules/${pkgName}`];
-      }
-
-      // Remove from dependencies if they exist in root
-      if (lockfile.dependencies && lockfile.dependencies[pkgName]) {
-        console.log(`Removed ${pkgName} from package-lock.json dependencies`);
-        delete lockfile.dependencies[pkgName];
-      }
-    }
-
-    // Save updated package-lock.json
-    fs.writeFileSync("./package-lock.json", JSON.stringify(lockfile, null, 2), {
-      encoding: "utf-8",
-      flag: "w",
-    });
-    console.log("Updated package-lock.json");
+    console.log("Removing package-lock.json to force clean regeneration...");
+    fs.unlinkSync("./package-lock.json");
+    console.log("package-lock.json deleted - npm will regenerate it cleanly");
 
   } catch (error) {
-    console.error(`Error updating package-lock.json: ${error.message}`);
+    console.error(`Error removing package-lock.json: ${error.message}`);
     // Don't exit on error, as this is not critical
   }
 }

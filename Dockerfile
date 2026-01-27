@@ -35,13 +35,13 @@ ENV NODE_ENV=production
 RUN npm config set prefix /home/node/.npm-global
 RUN npm install -g npm@latest
 RUN npm install -g shelljs yargs
-RUN npm install  --include=dev --legacy-peer-deps
+RUN npm install  --include=dev
 RUN npm run load-config -- -c ./openimis.json
-RUN npm install --production
-RUN npm run build
+RUN npm install --include=dev
+RUN npx vite build
 
 FROM nginx:latest
-COPY --from=build-stage /app/build/ /usr/share/nginx/html
+COPY --from=build-stage /app/dist/ /usr/share/nginx/html
 COPY --from=build-stage /etc/ssl/private/ /etc/nginx/ssl/live/host
 COPY ./conf /conf
 COPY ./script/entrypoint.sh /script/entrypoint.sh
