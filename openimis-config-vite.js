@@ -146,25 +146,9 @@ function processViteConfig(modules) {
     return;
   }
 
-  // Generate dynamic aliases for @openimis modules
-  const dynamicAliases = modules
-    .filter(module => module.packageName.startsWith("@openimis/"))
-    .map(module => `      "${module.packageName}": path.resolve(__dirname, "./node_modules/${module.packageName}"),`)
-    .join("\n");
-
-  // Replace the placeholder with actual aliases
-  const updatedViteConfig = viteConfig.replace(
-    "      //<<DYNAMIC_ALIAS_PLACEHOLDER>>",
-    `      //<<DYNAMIC_ALIAS_PLACEHOLDER>>
-${dynamicAliases}`
-  );
-
-  try {
-    fs.writeFileSync("./vite.config.js", updatedViteConfig, "utf-8");
-    console.log("Updated vite.config.js with dynamic aliases");
-  } catch (error) {
-    console.error(`Error writing vite.config.js: ${error.message}`);
-  }
+  // For production builds with GitHub packages, let Vite resolve them naturally
+  // through package.json entry points rather than using aliases
+  console.log("Skipping alias generation for GitHub packages - letting Vite resolve naturally");
 }
 
 function main(config, moduleRootPath) {
