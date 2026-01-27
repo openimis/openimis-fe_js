@@ -136,6 +136,37 @@ export async function loadModules(cfg = {}) {
   console.log("Generated src/modules.jsx");
 }
 
+function processViteConfig(modules) {
+  console.log("Processing Vite config...");
+  let viteConfig;
+  try {
+    viteConfig = fs.readFileSync("./vite.config.js", "utf-8");
+  } catch (error) {
+    console.error(`Error reading vite.config.js: ${error.message}`);
+    return;
+  }
+
+  // Generate dynamic aliases for @openimis modules
+  const dynamicAliases = modules
+    .filter(module => module.packageName.startsWith("@openimis/"))
+    .map(module => `      "${module.packageName}": path.resolve(__dirname, "./node_modules/${module.packageName}"),`)
+    .join("\n");
+
+  // Replace the placeholder with actual aliases
+  const updatedViteConfig = viteConfig.replace(
+    "      //<<DYNAMIC_ALIAS_PLACEHOLDER>>",
+    `      //<<DYNAMIC_ALIAS_PLACEHOLDER>>
+${dynamicAliases}`
+  );
+
+  try {
+    fs.writeFileSync("./vite.config.js", updatedViteConfig, "utf-8");
+    console.log("Updated vite.config.js with dynamic aliases");
+  } catch (error) {
+    console.error(`Error writing vite.config.js: ${error.message}`);
+  }
+}
+
 function main(config, moduleRootPath) {
   // Parse command-line arguments
   // Load package.json
@@ -239,6 +270,13 @@ function main(config, moduleRootPath) {
     process.exit(1);
   }
 
+  // Process Vite config
+  try {
+    processViteConfig(modules);
+  } catch (error) {
+    console.error(`Failed to process Vite config: ${error.message}`);
+    process.exit(1);
+  }
 
   // Save package.json
   try {
