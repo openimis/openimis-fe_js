@@ -212,7 +212,7 @@ function  prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageNam
   const srcMtime =  getLatestMtime(srcDir);
   const distMtime =  getEarliestMtime(distDir);
   
-  const installResult = shell.exec("npm install --include=dev --ignore-scripts", { silent: false });
+  const installResult = shell.exec("npm install --include=dev --legacy-peer-deps --ignore-scripts", { silent: false });
   if (installResult.code !== 0) {
     console.error(`npm install failed for ${moduleName}: ${installResult.stderr}`);
     throw new Error(`npm install failed for ${moduleName}`);
