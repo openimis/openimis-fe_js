@@ -41,7 +41,7 @@ RUN npm install --include=dev
 RUN npx vite build
 
 FROM nginx:latest
-COPY --from=build-stage /openimis-fe_js/build/ /usr/share/nginx/html
+COPY --from=build-stage /openimis-fe_js/dist/ /usr/share/nginx/html
 COPY --from=build-stage /etc/ssl/private/ /etc/nginx/ssl/live/host
 COPY ./conf /conf
 COPY ./script/entrypoint.sh /script/entrypoint.sh
