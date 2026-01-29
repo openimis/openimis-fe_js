@@ -32,7 +32,7 @@ FROM dev-stage AS build-stage
 USER node
 ARG MODE=production
 ENV GENERATE_SOURCEMAP=true
-ENV NODE_ENV=production
+ENV NODE_ENV=$MODE
 RUN npm config set prefix /home/node/.npm-global
 RUN npm install -g npm@latest
 RUN npm install -g shelljs yargs

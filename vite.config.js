@@ -11,9 +11,9 @@ export default defineConfig(({ mode }) => ({
     react(),
     svgr(),
     envCompatible(),
-    legacy({
+    ...(mode === 'production' ? [legacy({
       targets: [">0.2%", "not dead", "not op_mini all"],
-    }),
+    })] : []),
     createHtmlPlugin({
       minify: true,
       inject: {
@@ -33,7 +33,8 @@ export default defineConfig(({ mode }) => ({
       "@mui/icons-material",
       "@mui/x-date-pickers",
       "@mui/x-data-grid",
-      "@mui/system"
+      "@mui/system",
+      "@openimis/fe-core"
     ],
     alias: {
       //<<DYNAMIC_ALIAS_PLACEHOLDER>>
