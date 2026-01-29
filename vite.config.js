@@ -6,7 +6,7 @@ import envCompatible from "vite-plugin-env-compatible";
 import { createHtmlPlugin } from "vite-plugin-html";
 import path from "path";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     svgr(),
@@ -118,6 +118,7 @@ export default defineConfig({
     outDir: "dist",
     assetsDir: "static",
     sourcemap: true,
+    minify: mode === 'production',
     rollupOptions: {
       maxParallelFileOps: 1,
       output: {
@@ -137,4 +138,4 @@ export default defineConfig({
     "process.env.PUBLIC_URL": JSON.stringify("/front"),
   },
   base: "/front/",
-});
+}));

@@ -30,6 +30,7 @@ ENTRYPOINT ["/bin/bash", "/app/script/entrypoint-dev.sh"]
 
 FROM dev-stage AS build-stage
 USER node
+ARG MODE=production
 ENV GENERATE_SOURCEMAP=true
 ENV NODE_ENV=production
 RUN npm config set prefix /home/node/.npm-global
@@ -38,7 +39,7 @@ RUN npm install -g shelljs yargs
 RUN npm install  --include=dev
 RUN npm run load-config -- -c ./openimis.json
 RUN npm install --include=dev
-RUN npx vite build
+RUN npx vite build --mode $MODE
 
 FROM nginx:latest
 COPY --from=build-stage /app/dist/ /usr/share/nginx/html
