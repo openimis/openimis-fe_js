@@ -52,32 +52,12 @@ function removeFromPackageLock(removedPackages) {
       return;
     }
 
-    console.log("Removing packages from package-lock.json...");
-    const lockfile = JSON.parse(fs.readFileSync("./package-lock.json", "utf-8"));
-
-    // Remove from packages object
-    for (const pkgName of removedPackages) {
-      if (lockfile.packages && lockfile.packages[`node_modules/${pkgName}`]) {
-        console.log(`Removed ${pkgName} from package-lock.json packages`);
-        delete lockfile.packages[`node_modules/${pkgName}`];
-      }
-
-      // Remove from dependencies if they exist in root
-      if (lockfile.dependencies && lockfile.dependencies[pkgName]) {
-        console.log(`Removed ${pkgName} from package-lock.json dependencies`);
-        delete lockfile.dependencies[pkgName];
-      }
-    }
-
-    // Save updated package-lock.json
-    fs.writeFileSync("./package-lock.json", JSON.stringify(lockfile, null, 2), {
-      encoding: "utf-8",
-      flag: "w",
-    });
-    console.log("Updated package-lock.json");
+    console.log("Removing package-lock.json to force clean regeneration...");
+    fs.unlinkSync("./package-lock.json");
+    console.log("package-lock.json deleted - npm will regenerate it cleanly");
 
   } catch (error) {
-    console.error(`Error updating package-lock.json: ${error.message}`);
+    console.error(`Error removing package-lock.json: ${error.message}`);
     // Don't exit on error, as this is not critical
   }
 }
@@ -154,6 +134,21 @@ export async function loadModules(cfg = {}) {
 `);
   stream.end();
   console.log("Generated src/modules.jsx");
+}
+
+function processViteConfig(modules) {
+  console.log("Processing Vite config...");
+  let viteConfig;
+  try {
+    viteConfig = fs.readFileSync("./vite.config.js", "utf-8");
+  } catch (error) {
+    console.error(`Error reading vite.config.js: ${error.message}`);
+    return;
+  }
+
+  // For production builds with GitHub packages, let Vite resolve them naturally
+  // through package.json entry points rather than using aliases
+  console.log("Skipping alias generation for GitHub packages - letting Vite resolve naturally");
 }
 
 function main(config, moduleRootPath) {
@@ -259,6 +254,13 @@ function main(config, moduleRootPath) {
     process.exit(1);
   }
 
+  // Process Vite config
+  try {
+    processViteConfig(modules);
+  } catch (error) {
+    console.error(`Failed to process Vite config: ${error.message}`);
+    process.exit(1);
+  }
 
   // Save package.json
   try {
