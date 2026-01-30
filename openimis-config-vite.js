@@ -146,9 +146,38 @@ function processViteConfig(modules) {
     return;
   }
 
-  // For production builds with GitHub packages, let Vite resolve them naturally
-  // through package.json entry points rather than using aliases
-  console.log("Skipping alias generation for GitHub packages - letting Vite resolve naturally");
+  // Generate dynamic aliases for local modules
+  const localModules = modules.filter(module => module.localPath !== null);
+  let aliases = "";
+  if (localModules.length > 0) {
+    aliases = localModules.map(module => {
+      const moduleName = module.packageName;
+      const modulePath = module.localPath.replace(/\\/g, '\\\\');
+      return `"${moduleName}": path.resolve('${modulePath}','src'), //DYNAMIC_ALIAS,`;
+    }).join('\n') + '\n      ';
+  }
+
+  // Replace the placeholder with generated aliases
+  const placeholder = '//<<DYNAMIC_ALIAS_PLACEHOLDER>>';
+  const aliasStart = viteConfig.indexOf(placeholder);
+  if (aliasStart !== -1) {
+    const aliasEndMarker = '//DYNAMIC_ALIAS,';
+    const aliasEnd = viteConfig.lastIndexOf(aliasEndMarker);
+    if (aliasEnd !== -1) {
+      const endOfLine = viteConfig.indexOf('\n', aliasEnd);
+      const beforePlaceholder = viteConfig.substring(0, aliasStart + placeholder.length);
+      const afterAliases = viteConfig.substring(endOfLine + 1);
+      viteConfig = beforePlaceholder + '\n' + aliases + afterAliases;
+    }
+  }
+
+  // Write back the updated vite config
+  try {
+    fs.writeFileSync("./vite.config.js", viteConfig, "utf-8");
+    console.log("Updated vite.config.js with dynamic aliases");
+  } catch (error) {
+    console.error(`Error writing vite.config.js: ${error.message}`);
+  }
 }
 
 function main(config, moduleRootPath) {

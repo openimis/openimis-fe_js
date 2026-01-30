@@ -1,19 +1,16 @@
-import { Component, Children } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import { modulesManagerCtx } from "@openimis/fe-core";
 
-class ModulesManagerProvider extends Component {
-  static propTypes = {
-    modulesManager: PropTypes.object.isRequired,
-  };
-  static childContextTypes = {
-    modulesManager: PropTypes.object.isRequired,
-  };
-  getChildContext() {
-    const { modulesManager } = this.props;
-    return { modulesManager };
-  }
-  render() {
-    return Children.only(this.props.children);
-  }
-}
+const ModulesManagerProvider = ({ modulesManager, children }) => (
+  <modulesManagerCtx.Provider value={modulesManager}>
+    {children}
+  </modulesManagerCtx.Provider>
+);
+
+ModulesManagerProvider.propTypes = {
+  modulesManager: PropTypes.object.isRequired,
+  children: PropTypes.node,
+};
+
 export default ModulesManagerProvider;
