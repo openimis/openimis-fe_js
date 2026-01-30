@@ -5,11 +5,11 @@
   "proxies": {
     "api": {
       "base": "/api",
-      "target": "http://backend:8000"
+      "target": "http://localhost:8000"
     },
     "opensearch": {
       "base": "/opensearch",
-      "target": "http://opensearch:5410"
+      "target": "http://localhost:5410"
     }
   },
   "homepage": "http://localhost:3000/front",
@@ -52,7 +52,38 @@
     "redux": "^4.2.1",
     "redux-api-middleware": "^3.2.1",
     "redux-thunk": "^2.3.0",
-    "zxcvbn": "^4.4.2"
+    "zxcvbn": "^4.4.2",
+    "@openimis/fe-core": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/CoreModule",
+    "@openimis/fe-individual": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/IndividualModule",
+    "@openimis/fe-social_protection": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/SocialProtectionModule",
+    "@openimis/fe-opensearch_reports": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/OpenSearchReportsModule",
+    "@openimis/fe-home": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/HomeModule",
+    "@openimis/fe-location": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/LocationModule",
+    "@openimis/fe-insuree": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/InsureeModule",
+    "@openimis/fe-medical": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/MedicalModule",
+    "@openimis/fe-medical_pricelist": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/MedicalPriceListModule",
+    "@openimis/fe-product": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/ProductModule",
+    "@openimis/fe-policy": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/PolicyModule",
+    "@openimis/fe-payer": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/PayerModule",
+    "@openimis/fe-contribution": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/ContributionModule",
+    "@openimis/fe-payment": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/PaymentModule",
+    "@openimis/fe-claim": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/ClaimModule",
+    "@openimis/fe-claim_batch": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/ClaimBatchModule",
+    "@openimis/fe-admin": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/AdminModule",
+    "@openimis/fe-tools": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/ToolsModule",
+    "@openimis/fe-profile": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/ProfileModule",
+    "@openimis/fe-calculation": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/CalculationModule",
+    "@openimis/fe-policyholder": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/PolicyHolderModule",
+    "@openimis/fe-contribution_plan": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/ContributionPlanModule",
+    "@openimis/fe-payment_cycle": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/PaymentCycleModule",
+    "@openimis/fe-contract": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/ContractModule",
+    "@openimis/fe-tasks_management": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/TasksManagementModule",
+    "@openimis/fe-invoice": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/InvoiceModule",
+    "@openimis/fe-grievance_social_protection": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/GrievanceSocialProtectionModule",
+    "@openimis/fe-language_fr": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/LanguageFrModule",
+    "@openimis/fe-claim_sampling": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/ClaimSamplingModule",
+    "@openimis/fe-deduplication": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/DeduplicationModule",
+    "@openimis/fe-payroll": "file:/mnt/data/Development/openimis-dev-tools/frontend-packages/PayrollModule"
   },
   "scripts": {
     "start": "vite",
@@ -77,6 +108,7 @@
     "@vitejs/plugin-legacy": "^7.1.2",
     "@vitejs/plugin-react": "^5.0.0",
     "@vitest/ui": "^1.0.0",
+    "baseline-browser-mapping": "^2.9.19",
     "eslint-plugin-react": "^7.33.2",
     "http-proxy-middleware": "^2.0.1",
     "prettier": "^2.3.2",

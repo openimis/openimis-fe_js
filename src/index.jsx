@@ -1,12 +1,13 @@
 // import "react-app-polyfill/ie11";
 // import "react-app-polyfill/stable";
 import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { ThemeProvider } from "@mui/material/styles";
 import { LinearProgress } from "@mui/material";
 import { Provider } from "react-redux";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { IntlProvider } from "react-intl";
 import * as serviceWorker from "./serviceWorker";
 import createAppTheme from "./helpers/theme";
 import store from "./helpers/store";
@@ -91,12 +92,16 @@ const AppContainer = () => {
   if (appState.error) {
     console.error("[openIMIS] Fatal error state:", appState.error);
     return (
-      <FatalError
-        error={{
-          code: appState.error.status,
-          message: appState.error.statusText,
-        }}
-      />
+      <ThemeProvider theme={dynamicTheme}>
+        <IntlProvider locale="en" messages={messages_ref}>
+          <FatalError
+            error={{
+              code: appState.error.status,
+              message: appState.error.statusText,
+            }}
+          />
+        </IntlProvider>
+      </ThemeProvider>
     );
   }
 
@@ -127,6 +132,6 @@ const AppContainer = () => {
   );
 };
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = createRoot(document.getElementById("root"));
 root.render(<AppContainer />);
 serviceWorker.register();
