@@ -97,6 +97,7 @@ export default defineConfig(({ mode }) => ({
       "zxcvbn": path.resolve(__dirname, "./node_modules/zxcvbn"),
       "react-router": path.resolve(__dirname, "./node_modules/react-router"),
       "react-router-dom": path.resolve(__dirname, "./node_modules/react-router-dom"),
+      "react-helmet": path.resolve(__dirname, "./node_modules/react-helmet"),
       "nepali-date-converter": path.resolve(__dirname, "./node_modules/nepali-date-converter"),
       "react-date-object": path.resolve(__dirname, "./node_modules/react-date-object"),
       "react-date-object/calendars/gregorian": path.resolve(
