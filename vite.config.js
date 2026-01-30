@@ -8,7 +8,10 @@ import path from "path";
 
 export default defineConfig(({ mode }) => ({
   plugins: [
-    react(),
+    react({
+      jsxRuntime: 'automatic',
+      jsxImportSource: '@emotion/react',
+    }),
     svgr(),
     envCompatible(),
     ...(mode === 'production' ? [legacy({
