@@ -228,10 +228,10 @@ function  prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageNam
   //   console.error(`vite build failed for ${moduleName}: ${buildResult.stderr}`);
   //   throw new Error(`vite build failed for ${moduleName}`);
   // }
-  if (distMtime === Infinity || srcMtime > distMtime) {
-    shell.exec("npm run build");
-  }
-  shell.exec("npm link");
+  // if (distMtime === Infinity || srcMtime > distMtime) {
+  //   shell.exec("npm run build");
+  // }
+  // shell.exec("npm link");
 
   const modulePackageJson = path.join("package.json");
   let packageVersion;
@@ -276,11 +276,11 @@ function updatePackageInAssembly(modules, basePath, modulesInstallPath) {
     throw error;
   }
 
-  modules.forEach((module) => {
-    const npmPackageName = parseNpmName(module);
-    console.log(`Linking ${npmPackageName}`);
-    shell.exec(`npm link "${npmPackageName}"`);
-  });
+  // modules.forEach((module) => {
+  //   const npmPackageName = parseNpmName(module);
+  //   console.log(`Linking ${npmPackageName}`);
+  //   shell.exec(`npm link "${npmPackageName}"`);
+  // });
 }
 
 function generateViteConfig(modules, modulesInstallPath) {
