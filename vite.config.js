@@ -145,7 +145,6 @@ export default defineConfig(({ mode }) => ({
       "@mui/x-data-grid",
       "@mui/x-date-pickers",
       "@mui/system",
-      "react-to-print",
       "@mui/utils",
       "@mui/styled-engine",
     ],
