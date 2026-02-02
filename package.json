@@ -1,6 +1,6 @@
 {
   "name": "@openimis/fe",
-  "version": "25.10+",
+  "version": "25.10",
   "license": "AGPL-3.0-only",
   "proxies": {
     "opensearch": {
@@ -9,12 +9,11 @@
     },
     "api": {
       "base": "/api",
-      "target": "http://localhost:9000"
+      "target": "http://backend:8000"
     }
   },
   "homepage": "/front",
   "dependencies": {
-    "@craco/craco": "^7.1.0",
     "@date-io/core": "^1.3.6",
     "@date-io/moment": "^1.3.6",
     "@emotion/react": "^11.14.0",
@@ -23,35 +22,6 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@material-ui/pickers": "^3.2.10",
-    "@openimis/fe-admin": "https://github.com/openimis/openimis-fe-admin_js#develop",
-    "@openimis/fe-calculation": "https://github.com/openimis/openimis-fe-calculation_js#develop",
-    "@openimis/fe-claim": "https://github.com/openimis/openimis-fe-claim_js#develop",
-    "@openimis/fe-claim_batch": "https://github.com/openimis/openimis-fe-claim_batch_js#develop",
-    "@openimis/fe-claim_sampling": "https://github.com/openimis/openimis-fe-claim_sampling_js#develop",
-    "@openimis/fe-contract": "https://github.com/openimis/openimis-fe-contract_js#develop",
-    "@openimis/fe-contribution": "https://github.com/openimis/openimis-fe-contribution_js#develop",
-    "@openimis/fe-contribution_plan": "https://github.com/openimis/openimis-fe-contribution_plan_js#develop",
-    "@openimis/fe-core": "https://github.com/openimis/openimis-fe-core_js#develop",
-    "@openimis/fe-deduplication": "https://github.com/openimis/openimis-fe-deduplication_js#develop",
-    "@openimis/fe-grievance_social_protection": "https://github.com/openimis/openimis-fe-grievance_social_protection_js#develop",
-    "@openimis/fe-home": "https://github.com/openimis/openimis-fe-home_js#develop",
-    "@openimis/fe-individual": "https://github.com/openimis/openimis-fe-individual_js#develop",
-    "@openimis/fe-invoice": "https://github.com/openimis/openimis-fe-invoice_js#develop",
-    "@openimis/fe-language_fr": "https://github.com/openimis/openimis-fe-language_fr_js#develop",
-    "@openimis/fe-location": "https://github.com/openimis/openimis-fe-location_js#develop",
-    "@openimis/fe-opensearch_reports": "https://github.com/openimis/openimis-fe-opensearch_reports_js#develop",
-    "@openimis/fe-payer": "https://github.com/openimis/openimis-fe-payer_js#develop",
-    "@openimis/fe-payment": "https://github.com/openimis/openimis-fe-payment_js#develop",
-    "@openimis/fe-payment_cycle": "https://github.com/openimis/openimis-fe-payment_cycle_js#develop",
-    "@openimis/fe-payroll": "https://github.com/openimis/openimis-fe-payroll_js#develop",
-    "@openimis/fe-policy": "https://github.com/openimis/openimis-fe-policy_js#develop",
-    "@openimis/fe-policyholder": "https://github.com/openimis/openimis-fe-policyholder_js#develop",
-    "@openimis/fe-product": "https://github.com/openimis/openimis-fe-product_js#develop",
-    "@openimis/fe-profile": "https://github.com/openimis/openimis-fe-profile_js#develop",
-    "@openimis/fe-social_protection": "https://github.com/openimis/openimis-fe-social_protection_js#develop",
-    "@openimis/fe-tasks_management": "https://github.com/openimis/openimis-fe-tasks_management_js#develop",
-    "@openimis/fe-tools": "https://github.com/openimis/openimis-fe-tools_js#develop",
-    "ajv": "8.17.1",
     "classnames": "^2.2.6",
     "clsx": "^1.1.1",
     "http-client": "^4.3.1",
@@ -73,7 +43,10 @@
     "redux-thunk": "^2.3.0",
     "serve": "^14.2.4",
     "shelljs": "^0.8.4",
-    "zxcvbn": "^4.4.2"
+    "zxcvbn": "^4.4.2",
+    "@craco/craco": "^7.1.0",
+    "ajv":"8.17.1",
+    "@sentry/react": "^10.17.0"
   },
   "scripts": {
     "start": "craco start",
