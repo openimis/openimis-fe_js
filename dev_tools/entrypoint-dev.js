@@ -89,8 +89,9 @@ function parseNpmBranch(npmStr) {
 }
 
 function extractModuleInfo(module, modulesInstallPath, branchOverride) {
-  const local = module.npm.match(/^.*file:/)
+  const local = module.npm.match(/^.*file:/);
   let modulePath, packageName, repoUrl, branch;
+
   if(local){
     modulePath = module.npm.replace(/^.*file:/, '');
     let pkg;
@@ -104,22 +105,27 @@ function extractModuleInfo(module, modulesInstallPath, branchOverride) {
       branch = null;
       repoUrl = pkg.repository;
     }
-
-  }else {
+  } else {
     modulePath = path.join(modulesInstallPath, module.name);
-    packageName= parseNpmName(module);
+    packageName = parseNpmName(module);
     branch = parseNpmBranch(module.npm);
-    repoUrl = module.npm.replace(/#.+$/,"")
+
+    const gitUrlMatch = module.npm.match(/@(https?:\/\/github\.com\/.+?)(?:#.+)?$/);
+    if (gitUrlMatch) {
+      repoUrl = gitUrlMatch[1];
+    } else {
+      repoUrl = module.npm.replace(/#.+$/,"");
+    }
   }
-   
-  console.log(`Path for ${modulePath}`);
+
+  console.log(`Path for ${modulePath}, repoUrl: ${repoUrl}, branch: ${branch}`);
   return {
     name: module.name,
     npm: module.npm,
     path: modulePath,
     repoUrl: repoUrl,
     branch: branch,
-    packageName:packageName,
+    packageName: packageName,
     local: local
   };
 }
