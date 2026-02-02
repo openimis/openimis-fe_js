@@ -57,6 +57,7 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview --port 3000",
+    "load-config": "node ./openimis-config-vite.js",
     "postinstall": "node script/postinstall.js",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
     "check-package": "node script/check-package.js"
