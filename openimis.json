@@ -141,6 +141,10 @@
         {
             "name": "PayrollModule",
             "npm": "@openimis/fe-payroll@https://github.com/openimis/openimis-fe-payroll_js#develop"
+        },
+        {
+            "name": "ProgramModule",
+            "npm": "@openimis/fe-program@https://github.com/Y-Note-SAS/openimis-fe-program_js#develop"
         }
     ]
 }
