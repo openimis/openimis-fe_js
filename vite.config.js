@@ -30,6 +30,11 @@ export default defineConfig(({ mode }) => ({
     dedupe: [
       "react",
       "react-dom",
+      "react-redux",
+      "redux",
+      "react-intl",
+      "react-router",
+      "react-router-dom",
       "@emotion/react",
       "@emotion/styled",
       "@mui/material",
