@@ -31,7 +31,7 @@ const createAppTheme = (colorOverrides = {}) => {
     lockedBackgroundPattern,
   } = { ...defaultColors, ...colorOverrides };
 
-  let theme = createTheme({
+  const themeOptions = {
     breakpoints: {
       values: {
         xs: 0,
@@ -270,25 +270,29 @@ const createAppTheme = (colorOverrides = {}) => {
         justifyContent: "flex-end",
       },
     },
-     });
+   };
 
-  
-   theme.jrnlDrawer = theme.jrnlDrawer;
-   theme.menu = theme.menu;
-   theme.page = theme.page;
-   theme.paper = theme.paper;
-   theme.table = theme.table;
-   theme.form = theme.form;
-   theme.formTable = theme.formTable;
-   theme.dialog = theme.dialog;
-   theme.tooltipContainer = theme.tooltipContainer;
-   theme.flexTooltip = theme.flexTooltip;
-   theme.fab = theme.fab;
-   theme.fakeInput = theme.fakeInput;
-   theme.bigAvatar = theme.bigAvatar;
-   theme.buttonContainer = theme.buttonContainer;
+  let theme = createTheme(themeOptions);
 
-   return theme;
+  theme.jrnlDrawer = themeOptions.jrnlDrawer;
+  theme.menu = themeOptions.menu;
+  theme.page = themeOptions.page;
+  theme.paper = themeOptions.paper;
+  theme.table = themeOptions.table;
+  theme.form = themeOptions.form;
+  theme.formTable = themeOptions.formTable;
+  theme.dialog = themeOptions.dialog;
+  theme.tooltipContainer = themeOptions.tooltipContainer;
+  theme.flexTooltip = themeOptions.flexTooltip;
+  theme.fab = themeOptions.fab;
+  theme.fakeInput = themeOptions.fakeInput;
+  theme.bigAvatar = themeOptions.bigAvatar;
+  theme.buttonContainer = themeOptions.buttonContainer;
+  if (!theme.typography.title) {
+    theme.typography.title = themeOptions.typography.title;
+  }
+
+  return theme;
 };
 
 export default createAppTheme;
