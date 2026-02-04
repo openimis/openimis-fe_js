@@ -101,7 +101,7 @@ const createAppTheme = (colorOverrides = {}) => {
         fontSize: 16,
         fontWeight: 400,
         backgroundColor: primaryColor,
-        textColor: fontColor,
+        textColor: whiteColor,
       },
       appBar: {
         fontSize: 15,
