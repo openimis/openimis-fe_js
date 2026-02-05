@@ -11,3 +11,5 @@ src/locales.js
 yarn.lock
 .env
 dist
+
+.package-lock.json
