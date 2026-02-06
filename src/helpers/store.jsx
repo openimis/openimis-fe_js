@@ -1,4 +1,4 @@
-import thunk from "redux-thunk";
+import { thunk } from "redux-thunk";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import { loadState } from "./localStorage";
 import { apiMiddleware } from "redux-api-middleware";
