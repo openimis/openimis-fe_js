@@ -40,6 +40,7 @@ export default defineConfig(({ mode }) => ({
       "react-router-dom",
       "@emotion/react",
       "@emotion/styled",
+      "@emotion/cache",
       "@mui/material",
       "@mui/icons-material",
       "@mui/x-date-pickers",
@@ -104,6 +105,7 @@ export default defineConfig(({ mode }) => ({
       "lodash-uuid": path.resolve(__dirname, "./node_modules/lodash-uuid"),
       "react-redux": path.resolve(__dirname, "./node_modules/react-redux"),
       "@mui/material": path.resolve(__dirname, "./node_modules/@mui/material/esm"),
+      "@mui/material/styles": path.resolve(__dirname, "./node_modules/@mui/material/styles"),
       "@mui/icons-material": path.resolve(__dirname, "./node_modules/@mui/icons-material/esm"),
       "@mui/system": path.resolve(__dirname, "./node_modules/@mui/system/esm"),
       "@mui/x-data-grid": path.resolve(__dirname, "./node_modules/@mui/x-data-grid"),
@@ -118,6 +120,7 @@ export default defineConfig(({ mode }) => ({
       ),
       "@emotion/react": path.resolve(__dirname, "./node_modules/@emotion/react"),
       "@emotion/styled": path.resolve(__dirname, "./node_modules/@emotion/styled"),
+      "@emotion/cache": path.resolve(__dirname, "./node_modules/@emotion/cache"),
       "@mui/utils": path.resolve(__dirname, "./node_modules/@mui/utils/esm"),
       "@mui/utils/deepmerge": path.resolve(
         __dirname,
