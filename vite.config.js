@@ -64,7 +64,8 @@ export default defineConfig(({ mode }) => ({
       "@material-table/core",
       "@mui/styles",
       "@mui/lab",
-      "@openimis/fe-core"
+      "@openimis/fe-core",
+      "@sentry/react",
     ],
     alias: {
       //<<DYNAMIC_ALIAS_PLACEHOLDER>>
@@ -213,6 +214,7 @@ export default defineConfig(({ mode }) => ({
       "@material-table/core",
       "@mui/styles",
       "@mui/lab",
+      "@sentry/react",
     ],
     needsInterop: ["react-is", "@mui/utils", "@mui/utils/deepmerge"],
     force: true,
