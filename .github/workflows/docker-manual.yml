@@ -39,5 +39,5 @@ jobs:
         fi
     - name: Build the openimis frontend Docker image
       run: |
-         docker build . --build-arg MODE=$MODE --tag ghcr.io/openimis/openimis-fe:${{ github.event.inputs.tag }}
+         docker build . --no-cache --build-arg MODE=$MODE --tag ghcr.io/openimis/openimis-fe:${{ github.event.inputs.tag }}
          docker push ghcr.io/openimis/openimis-fe:${{ github.event.inputs.tag }}
