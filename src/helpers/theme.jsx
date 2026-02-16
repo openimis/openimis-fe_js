@@ -108,8 +108,6 @@ const createAppTheme = (colorOverrides = {}) => {
       },
     },
     page: {
-      // padding: 40,
-      padding: "40px 40px 40px 0", 
       locked: {
         background: lockedBackgroundPattern,
       },

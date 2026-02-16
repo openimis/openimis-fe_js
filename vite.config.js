@@ -61,7 +61,11 @@ export default defineConfig(({ mode }) => ({
       "redux-api-middleware",
       "hot-formula-parser",
       "react-to-print",
-      "@openimis/fe-core"
+      "@material-table/core",
+      "@mui/styles",
+      "@mui/lab",
+      "@openimis/fe-core",
+      "@sentry/react",
     ],
     alias: {
       //<<DYNAMIC_ALIAS_PLACEHOLDER>>
@@ -156,6 +160,9 @@ export default defineConfig(({ mode }) => ({
       "hot-formula-parser": path.resolve(__dirname, "./node_modules/hot-formula-parser"),
       "react-to-print": path.resolve(__dirname, "./node_modules/react-to-print"),
       "redux": path.resolve(__dirname, "./node_modules/redux"),
+      "@material-table/core": path.resolve(__dirname, "./node_modules/@material-table/core"),
+      "@mui/styles": path.resolve(__dirname, "./node_modules/@mui/styles"),
+      "@mui/lab": path.resolve(__dirname, "./node_modules/@mui/lab"),
     },
     // preserveSymlinks :false
   },
@@ -204,6 +211,10 @@ export default defineConfig(({ mode }) => ({
       "@mui/utils",
       "@mui/utils/deepmerge",
       "@mui/styled-engine",
+      "@material-table/core",
+      "@mui/styles",
+      "@mui/lab",
+      "@sentry/react",
     ],
     needsInterop: ["react-is", "@mui/utils", "@mui/utils/deepmerge"],
     force: true,
