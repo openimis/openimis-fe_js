@@ -107,6 +107,16 @@ const AppContainer = () => {
 
   const { modulesManager } = appState;
   console.log("[openIMIS] Rendering app with modulesManager:", modulesManager);
+
+  if (!modulesManager) {
+    console.log("[openIMIS] modulesManager not available, cannot render app");
+    return (
+      <ThemeProvider theme={dynamicTheme}>
+        <LinearProgress className="bootstrap" />
+      </ThemeProvider>
+    );
+  }
+
   const reducers = modulesManager.getContribs("reducers").reduce((acc, r) => {
     acc[r.key] = r.reducer;
     return acc;
