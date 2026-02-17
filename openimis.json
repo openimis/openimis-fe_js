@@ -83,10 +83,6 @@
             "npm": "@openimis/fe-claim_batch@https://github.com/openimis/openimis-fe-claim_batch_js#feature/vite-migration"
         },
         {
-            "name": "AdminModule",
-            "npm": "@openimis/fe-admin@https://github.com/openimis/openimis-fe-admin_js#feature/vite-migration"
-        },
-        {
             "name": "ToolsModule",
             "npm": "@openimis/fe-tools@https://github.com/openimis/openimis-fe-tools_js#feature/vite-migration"
         },
