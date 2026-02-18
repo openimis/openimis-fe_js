@@ -1,4 +1,4 @@
-FROM node:20 AS dev-stage
+FROM node:24 AS dev-stage
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y nano openssl software-properties-common
@@ -30,18 +30,19 @@ ENTRYPOINT ["/bin/bash", "/app/script/entrypoint-dev.sh"]
 
 FROM dev-stage AS base
 USER node
+ARG MODE=production
 ENV GENERATE_SOURCEMAP=true
-ENV NODE_ENV=production
+ENV NODE_ENV=$MODE
 RUN npm config set prefix /home/node/.npm-global
 RUN npm install -g npm@latest
-
-FROM base AS build-stage
-RUN npm run load-config
-RUN npm install  --include=dev --legacy-peer-deps
-RUN npm run build
+RUN npm install -g shelljs yargs
+RUN npm install --legacy-peer-deps --include=dev
+RUN npm run load-config -- -c ./openimis.json
+RUN npm install --legacy-peer-deps --include=dev
+RUN npx vite build --mode $MODE
 
 FROM nginx:latest
-COPY --from=build-stage /app/build/ /usr/share/nginx/html
+COPY --from=build-stage /app/dist/ /usr/share/nginx/html
 COPY --from=build-stage /etc/ssl/private/ /etc/nginx/ssl/live/host
 COPY ./conf /conf
 COPY ./script/entrypoint.sh /script/entrypoint.sh

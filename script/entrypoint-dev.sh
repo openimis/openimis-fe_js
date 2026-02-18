@@ -1,19 +1,15 @@
-#!/bin/bash
 cd /app
 echo "Prepare dev setup"
-
-
-yarn install shelljs
-# Install required global dependencies
-echo "Installing global dependencies"
-# Run the entrypoint-dev.js script
-echo "Running entrypoint-dev.js"
+mkdir ~/.npm-global -p
+rm -rf ~/.npm-global/*
+npm config set prefix ~/.npm-global
+export PATH=~/.npm-global/bin:$PATH
+source ~/.bashrc  # or ~/.zshrc, ~/.bash_profile, etc., depending on your shell
+npm install yargs shelljs
 node ./dev_tools/entrypoint-dev.js -c /app/openimis-dev.json -p /frontend-packages
-
-# Update package.json
 echo "Updating package.json"
-node ./modules-config.js openimis-dev.json
+node ./openimis-config-vite.js -c /app/openimis-dev.json -p /frontend-packages
 echo "Install application"
-yarn install --legacy-peer-deps --include=dev
+npm install  --include=dev
 echo "Application has been updated!, will start now"
-yarn dev
+npm start -- openimis-dev.conf --host

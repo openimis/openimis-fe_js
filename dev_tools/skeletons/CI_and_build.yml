@@ -35,9 +35,9 @@ jobs:
         run: |
           node openimis-config.js openimis.json
       - name: Install dependencies
-        run : yarn install 
+        run : npm install 
       - name: build
-        run : yarn build 
+        run : npm build 
       - uses: actions/upload-artifact@v4
         with:
           name: frontend-node${{ matrix.node-version }}-${{github.run_number}}-${{github.sha}}
