@@ -10,6 +10,6 @@ node ./dev_tools/entrypoint-dev.js -c /app/openimis-dev.json -p /frontend-packag
 echo "Updating package.json"
 node ./openimis-config-vite.js -c /app/openimis-dev.json -p /frontend-packages
 echo "Install application"
-npm install  --include=dev
+npm install  --include=dev --legacy-peer-deps
 echo "Application has been updated!, will start now"
-npm start -- openimis-dev.conf --host
+npm start -- openimis-dev.conf --host -p 3000
