@@ -90,9 +90,10 @@ function parseNpmBranch(npmStr) {
 
 function extractModuleInfo(module, modulesInstallPath, branchOverride) {
   const local = module.npm.match(/^.*file:/)
+  const github = module.npm.match(/github\.com/)
   let modulePath, packageName, repoUrl, branch;
   if(local){
-    modulePath = module.npm.replace(/^.*file:/, '');
+    modulePath = path.join(modulesInstallPath, module.name);
     let pkg;
     try {
       pkg = JSON.parse(fs.readFileSync(path.join(modulePath, "package.json"), "utf-8"));
@@ -111,7 +112,7 @@ function extractModuleInfo(module, modulesInstallPath, branchOverride) {
     branch = parseNpmBranch(module.npm);
     repoUrl = module.npm.replace(/#.+$/,"")
   }
-   
+
   console.log(`Path for ${modulePath}`);
   return {
     name: module.name,
@@ -120,7 +121,8 @@ function extractModuleInfo(module, modulesInstallPath, branchOverride) {
     repoUrl: repoUrl,
     branch: branch,
     packageName:packageName,
-    local: local
+    local: local,
+    github: github
   };
 }
 
@@ -134,68 +136,45 @@ function installAndLinkModules(imisJsonPath, modulesInstallPath, branch) {
   }
 
   const curPath = String(shell.pwd());
-  let imisJSONoutput = imisJSON;
   imisJSON.modules.forEach((module) => {
     let info = extractModuleInfo(module, modulesInstallPath, null);
-    const branch = info.branch
-    if (!shell.test("-d", info.path)) {
-      console.log(`Module directory ${info.path} does not exist. Cloning from ${info.repoUrl}...`);
-      shell.cd(modulesInstallPath);
-      try {
-        shell.exec(`git clone ${info.repoUrl} ${info.path}`, { silent: true });
-        console.log(`Successfully cloned ${info.name}`);
-      } catch (error) {
-        console.error(`Failed to clone ${info.name} from ${info.repoUrl}: ${error.message}`);
-        throw error;
-      }
-    } else {
-      console.log(`Module directory ${info.path} exists.`);
-    }
 
-    shell.cd(info.path);
-    if (branch !== null){
-      try {
-        console.log(`Attempting to checkout and pull ${branch} for ${info.name}...`);
-        shell.exec(`git checkout ${branch}`, { silent: true });
-        shell.exec(`git pull`, { silent: true });
-        console.log(`Successfully checked out and pulled ${branch} for ${info.name}`);
-      } catch (error) {
-        console.warn(`Skipping git checkout/pull for ${info.name} due to local changes or error: ${error.message}`);
-      }
-    }
-    //fs.symlink(path.resolve(__dirname, '../node_modules'),path.join(info.path, 'node_modules' ))
-    
-    prepareModuleForLocalDevelopment(info.path, info.name, info.packageName);
-    const moduleExists = imisJSON.modules.some((m) => m.name.toLowerCase() === info.name.toLowerCase());
-    const npmEntry = `${info.packageName}@file:${info.path}`;
-    if (!moduleExists) {
-      imisJSONoutput.modules.push({
-        name: info.name,
-        npm: npmEntry,
-      });
+    if (info.github) {
+      // Handle GitHub module: skip cloning, let openimis-config-vite.js handle package.json
+      console.log(`GitHub module ${info.name} detected - skipping local setup, will be handled by openimis-config-vite.js`);
     } else {
-      imisJSONoutput.modules = imisJSON.modules.map((m) =>
-        m.name.toLowerCase() === info.name.toLowerCase()
-          ? { ...m, npm: npmEntry }
-          : m
-      );
-    }
-  // imisJSON.modules = imisJSON.modules.filter(
-  //   (obj, pos, arr) =>
-  //     arr.map((mapObj) => mapObj.name.toLowerCase()).indexOf(obj.name.toLowerCase()) === pos
-  // );
+      // Handle local/file modules: clone and prepare
+      const branch = info.branch;
+      if (!shell.test("-d", info.path)) {
+        console.log(`Module directory ${info.path} does not exist. Cloning from ${info.repoUrl}...`);
+        shell.cd(modulesInstallPath);
+        try {
+          shell.exec(`git clone ${info.repoUrl} ${info.path}`, { silent: true });
+          console.log(`Successfully cloned ${info.name}`);
+        } catch (error) {
+          console.error(`Failed to clone ${info.name} from ${info.repoUrl}: ${error.message}`);
+          throw error;
+        }
+      } else {
+        console.log(`Module directory ${info.path} exists.`);
+      }
 
-    shell.cd(curPath);
+      shell.cd(info.path);
+      if (branch !== null){
+        try {
+          console.log(`Attempting to checkout and pull ${branch} for ${info.name}...`);
+          shell.exec(`git checkout ${branch}`, { silent: true });
+          shell.exec(`git pull`, { silent: true });
+          console.log(`Successfully checked out and pulled ${branch} for ${info.name}`);
+        } catch (error) {
+          console.warn(`Skipping git checkout/pull for ${info.name} due to local changes or error: ${error.message}`);
+        }
+      }
+
+      prepareModuleForLocalDevelopment(info.path, info.name, info.packageName);
+      shell.cd(curPath);
+    }
   });
-  try {
-    fs.writeFileSync(imisJsonPath, JSON.stringify(imisJSONoutput, null, 2), {
-      encoding: "utf8",
-      flag: "w",
-    });
-  } catch (error) {
-    console.error(`Error writing openimis.json: ${error.message}`);
-    throw error;
-  }
   //updatePackageInAssembly(imisJSON.modules, path.dirname(imisJsonPath), modulesInstallPath);
   generateViteConfig(imisJSON.modules, modulesInstallPath);
 
@@ -295,8 +274,9 @@ function generateViteConfig(modules, modulesInstallPath) {
     process.exit(1);
   }
 
-  // Generate aliases for local file: modules
+  // Generate aliases for local file: modules (skip GitHub modules)
   const aliases = modules
+    .filter((module) => !module.npm.match(/github\.com/))
     .map((module) => {
       const info = extractModuleInfo(module, modulesInstallPath, null);
       const modulePath = path.resolve(info.path).replace(/\\/g, "/");
@@ -365,7 +345,11 @@ if (require.main === module) {
       alias: 'c',
       description: 'Path to openimis.json',
       type: 'string',
-      default: path.join(__dirname, '..', 'openimis.json'),
+      default: (() => {
+        const devConfig = path.join(__dirname, '..', 'openimis-dev.json');
+        const mainConfig = path.join(__dirname, '..', 'openimis.json');
+        return fs.existsSync(devConfig) ? devConfig : mainConfig;
+      })(),
     })
     .option('path', {
       alias: 'p',
