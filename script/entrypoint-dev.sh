@@ -12,4 +12,4 @@ node ./openimis-config-vite.js -c /app/openimis-dev.json -p /frontend-packages
 echo "Install application"
 npm install  --include=dev --legacy-peer-deps
 echo "Application has been updated!, will start now"
-npm start -- openimis-dev.conf --host -p 3000
+npm start -- openimis-dev.conf --host --port 3000
