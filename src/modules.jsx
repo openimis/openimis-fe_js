@@ -18,7 +18,6 @@ export const packages = [
   "@openimis/fe-payment",
   "@openimis/fe-claim",
   "@openimis/fe-claim_batch",
-  "@openimis/fe-admin",
   "@openimis/fe-tools",
   "@openimis/fe-profile",
   "@openimis/fe-calculation",
@@ -212,17 +211,6 @@ export async function loadModules(cfg = {}) {
   } catch (error) {
     console.error(`❌ Failed to import module "ClaimBatchModule". Error: ${error}`);
     alert(`Failed to load module "ClaimBatchModule". See console for details.`);
-  }
-
-  // 🔄 Dynamically importing AdminModule
-  try {
-    const module = await import("@openimis/fe-admin");
-    loadedModules.push(
-      module.AdminModule(cfg["fe-admin"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "AdminModule". Error: ${error}`);
-    alert(`Failed to load module "AdminModule". See console for details.`);
   }
 
   // 🔄 Dynamically importing ToolsModule
