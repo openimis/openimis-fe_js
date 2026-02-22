@@ -45,7 +45,7 @@
     "shelljs": "^0.8.4",
     "zxcvbn": "^4.4.2",
     "@craco/craco": "^7.1.0",
-    "ajv":"8.17.1",
+    "ajv":"8.18.0",
     "@sentry/react": "^10.17.0"
   },
   "scripts": {
