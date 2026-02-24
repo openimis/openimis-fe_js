@@ -274,32 +274,33 @@ function generateViteConfig(modules, modulesInstallPath) {
     process.exit(1);
   }
 
-  // Generate aliases for local file: modules (skip GitHub modules)
-  const aliases = modules
-    .filter((module) => !module.npm.match(/github\.com/))
-    .map((module) => {
-      const info = extractModuleInfo(module, modulesInstallPath, null);
-      const modulePath = path.resolve(info.path).replace(/\\/g, "/");
-      return `"${info.packageName}": path.resolve('${modulePath}','src'), //DYNAMIC_ALIAS`;
-    })
-    .join(",\n");
-
-  // Split into lines and filter out lines ending with //DYNAMIC_ALIAS
+  // Step 1: Remove all lines containing //DYNAMIC_ALIAS,
   const lines = viteConfigContent.split('\n');
-  const filteredLines = lines.filter(line => !line.trim().endsWith('//DYNAMIC_ALIAS,'));
-  viteConfigContent = filteredLines.join('\n');
+  const cleanedLines = lines.filter(line => !line.includes('//DYNAMIC_ALIAS,'));
+  viteConfigContent = cleanedLines.join('\n');
 
-  // Replace <<DYNAMIC_ALIAS_PLACEHOLDER>> with aliases
-  if (!viteConfigContent.includes("//<<DYNAMIC_ALIAS_PLACEHOLDER>>")) {
-    console.error("Placeholder //<<DYNAMIC_ALIAS_PLACEHOLDER>> not found in vite.config.js.");
+  // Step 2: Find //<<DYNAMIC_ALIAS_PLACEHOLDER>>
+  const placeholder = '//<<DYNAMIC_ALIAS_PLACEHOLDER>>';
+  const placeholderIndex = viteConfigContent.indexOf(placeholder);
+  if (placeholderIndex === -1) {
+    console.error("Placeholder not found in vite.config.js.");
     process.exit(1);
   }
 
-  if (aliases) {
-    viteConfigContent = viteConfigContent.replace(
-      /\/\/<<DYNAMIC_ALIAS_PLACEHOLDER>>/,
-      "//<<DYNAMIC_ALIAS_PLACEHOLDER>>\n" + aliases + ","
-    );
+  // Step 3: Inject new aliases on the line(s) after the placeholder
+  const localModules = modules.filter((module) => !module.npm.match(/github\.com/));
+  if (localModules.length > 0) {
+    const aliases = localModules.map((module) => {
+      const info = extractModuleInfo(module, modulesInstallPath, null);
+      const modulePath = path.resolve(info.path).replace(/\\/g, "/");
+      return `      "${info.packageName}": path.resolve('${modulePath}','src'), //DYNAMIC_ALIAS,`;
+    }).join('\n');
+
+    const endOfPlaceholderLine = viteConfigContent.indexOf('\n', placeholderIndex);
+    viteConfigContent =
+      viteConfigContent.substring(0, endOfPlaceholderLine + 1) +
+      aliases + '\n' +
+      viteConfigContent.substring(endOfPlaceholderLine + 1);
   }
 
   // Write updated vite.config.js
