@@ -157,17 +157,24 @@ function processViteConfig(modules) {
     }).join('\n') + '\n      ';
   }
 
-  // Replace the placeholder with generated aliases
+  // Replace or insert generated aliases after the placeholder
   const placeholder = '//<<DYNAMIC_ALIAS_PLACEHOLDER>>';
   const aliasStart = viteConfig.indexOf(placeholder);
   if (aliasStart !== -1) {
     const aliasEndMarker = '//DYNAMIC_ALIAS,';
     const aliasEnd = viteConfig.lastIndexOf(aliasEndMarker);
     if (aliasEnd !== -1) {
+      // Replace existing aliases
       const endOfLine = viteConfig.indexOf('\n', aliasEnd);
       const beforePlaceholder = viteConfig.substring(0, aliasStart + placeholder.length);
       const afterAliases = viteConfig.substring(endOfLine + 1);
-      viteConfig = beforePlaceholder + '\n' + aliases + afterAliases;
+      viteConfig = beforePlaceholder + '\n' + aliases + '\n      ' + aliasEndMarker + afterAliases;
+    } else {
+      // Insert new aliases
+      const beforePlaceholder = viteConfig.substring(0, aliasStart + placeholder.length);
+      const afterPlaceholder = viteConfig.substring(aliasStart + placeholder.length);
+      const endMarker = '\n      //DYNAMIC_ALIAS,';
+      viteConfig = beforePlaceholder + '\n' + aliases + endMarker + afterPlaceholder;
     }
   }
 
@@ -271,7 +278,7 @@ function main(config, moduleRootPath) {
       version,
       name,
       npmNew,
-      logicalName: logicalName || npm.match(/([^/]*)\/([^@]*).*/)[2],
+      logicalName: logicalName || (packageName.includes('/') ? packageName.split('/')[1] : npm.match(/([^/]*)\/([^@]*).*/)[2]),
       localPath: modulePath,
     });
   }
