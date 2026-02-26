@@ -334,4 +334,3 @@ if (require.main === module) {
 
   main(argv.config, argv.path);
 }
-

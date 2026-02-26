@@ -32,7 +32,7 @@ ENV NODE_ENV=development
 USER node
 ENTRYPOINT ["/bin/bash", "/app/script/entrypoint-dev.sh"]
 
-FROM dev-stage AS base
+FROM dev-stage AS build-stage
 USER node
 ARG MODE=production
 ENV GENERATE_SOURCEMAP=true

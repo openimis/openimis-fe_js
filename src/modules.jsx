@@ -31,8 +31,7 @@ export const packages = [
   "@openimis/fe-language_fr",
   "@openimis/fe-claim_sampling",
   "@openimis/fe-deduplication",
-  "@openimis/fe-payroll",
-  "@openimis/fe-biometric-verification"
+  "@openimis/fe-payroll"
 ];
 
 export async function loadModules(cfg = {}) {
@@ -366,17 +365,6 @@ export async function loadModules(cfg = {}) {
   } catch (error) {
     console.error(`❌ Failed to import module "PayrollModule". Error: ${error}`);
     alert(`Failed to load module "PayrollModule". See console for details.`);
-  }
-
-  // 🔄 Dynamically importing BiometricVerificationModule
-  try {
-    const module = await import("@openimis/fe-biometric-verification");
-    loadedModules.push(
-      module.BiometricVerificationModule(cfg["fe-biometric-verification"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "BiometricVerificationModule". Error: ${error}`);
-    alert(`Failed to load module "BiometricVerificationModule". See console for details.`);
   }
 
   return loadedModules;

@@ -68,7 +68,6 @@ export default defineConfig(({ mode }) => ({
     ],
     alias: {
       //<<DYNAMIC_ALIAS_PLACEHOLDER>>
-      
             "react": path.resolve(__dirname, "./node_modules/react"),
       "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
             "react/jsx-runtime": path.resolve(__dirname, "./node_modules/react/jsx-runtime"),
