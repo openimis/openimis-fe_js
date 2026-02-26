@@ -138,42 +138,46 @@ export async function loadModules(cfg = {}) {
 
 function processViteConfig(modules) {
   console.log("Processing Vite config...");
-  let viteConfig;
+  let viteConfigContent;
   try {
-    viteConfig = fs.readFileSync("./vite.config.js", "utf-8");
+    viteConfigContent = fs.readFileSync("./vite.config.js", "utf-8");
   } catch (error) {
     console.error(`Error reading vite.config.js: ${error.message}`);
     return;
   }
 
-  // Generate dynamic aliases for local modules
-  const localModules = modules.filter(module => module.localPath !== null);
-  let aliases = "";
-  if (localModules.length > 0) {
-    aliases = localModules.map(module => {
-      const moduleName = module.packageName;
-      const modulePath = module.localPath.replace(/\\/g, '\\\\');
-      return `"${moduleName}": path.resolve('${modulePath}','src'), //DYNAMIC_ALIAS,`;
-    }).join('\n') + '\n      ';
+  // Step 1: Remove all lines containing //DYNAMIC_ALIAS,
+  const lines = viteConfigContent.split('\n');
+  const cleanedLines = lines.filter(line => !line.includes('//DYNAMIC_ALIAS,'));
+  viteConfigContent = cleanedLines.join('\n');
+
+  // Step 2: Find //<<DYNAMIC_ALIAS_PLACEHOLDER>>
+  const placeholder = '//<<DYNAMIC_ALIAS_PLACEHOLDER>>';
+  const placeholderIndex = viteConfigContent.indexOf(placeholder);
+  if (placeholderIndex === -1) {
+    console.error("Placeholder not found in vite.config.js.");
+    process.exit(1);
   }
 
-  // Replace the placeholder with generated aliases
-  const placeholder = '//<<DYNAMIC_ALIAS_PLACEHOLDER>>';
-  const aliasStart = viteConfig.indexOf(placeholder);
-  if (aliasStart !== -1) {
-    const aliasEndMarker = '//DYNAMIC_ALIAS,';
-    const aliasEnd = viteConfig.lastIndexOf(aliasEndMarker);
-    if (aliasEnd !== -1) {
-      const endOfLine = viteConfig.indexOf('\n', aliasEnd);
-      const beforePlaceholder = viteConfig.substring(0, aliasStart + placeholder.length);
-      const afterAliases = viteConfig.substring(endOfLine + 1);
-      viteConfig = beforePlaceholder + '\n' + aliases + afterAliases;
-    }
+  // Step 3: Inject new aliases on the line(s) after the placeholder
+  const localModules = modules.filter(module => module.localPath !== null);
+  if (localModules.length > 0) {
+    const aliases = localModules.map(module => {
+      const moduleName = module.packageName;
+      const modulePath = module.localPath.replace(/\\/g, '\\\\');
+      return `      "${moduleName}": path.resolve('${modulePath}','src'), //DYNAMIC_ALIAS,`;
+    }).join('\n');
+
+    const endOfPlaceholderLine = viteConfigContent.indexOf('\n', placeholderIndex);
+    viteConfigContent =
+      viteConfigContent.substring(0, endOfPlaceholderLine + 1) +
+      aliases + '\n' +
+      viteConfigContent.substring(endOfPlaceholderLine + 1);
   }
 
   // Write back the updated vite config
   try {
-    fs.writeFileSync("./vite.config.js", viteConfig, "utf-8");
+    fs.writeFileSync("./vite.config.js", viteConfigContent, "utf-8");
     console.log("Updated vite.config.js with dynamic aliases");
   } catch (error) {
     console.error(`Error writing vite.config.js: ${error.message}`);
@@ -271,7 +275,7 @@ function main(config, moduleRootPath) {
       version,
       name,
       npmNew,
-      logicalName: logicalName || npm.match(/([^/]*)\/([^@]*).*/)[2],
+      logicalName: logicalName || (packageName.includes('/') ? packageName.split('/')[1] : npm.match(/([^/]*)\/([^@]*).*/)[2]),
       localPath: modulePath,
     });
   }
