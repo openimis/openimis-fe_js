@@ -88,7 +88,8 @@
     "@openimis/fe-language_fr": "file:/frontend-packages/LanguageFrModule",
     "@openimis/fe-claim_sampling": "file:/frontend-packages/ClaimSamplingModule",
     "@openimis/fe-deduplication": "file:/frontend-packages/DeduplicationModule",
-    "@openimis/fe-payroll": "file:/frontend-packages/PayrollModule"
+    "@openimis/fe-payroll": "file:/frontend-packages/PayrollModule",
+    "@openimis/fe-biometric-verification": "file:/frontend-packages/openimis-fe-biometric_verification_js"
   },
   "scripts": {
     "start": "vite",
