@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const yargs = require("yargs/yargs")(process.argv.slice(2));
+const yargs = require("yargs")(process.argv.slice(2));
 
 function extractNpmPackageName(packageJsonPath) {
   try {
@@ -112,13 +112,12 @@ export async function loadModules(cfg = {}) {
   const loadedModules = [];
   ${modules
     .map(({ packageName, name, logicalName, localPath }) => {
-      const importPath = localPath !== null
-        ? localPath
-        : packageName;
+      // Always use package name - Vite will resolve through aliases
+      const importPath = packageName;
       return `
   // 🔄 Dynamically importing ${name}
   try {
-    const module = await import("${packageName}");
+    const module = await import("${importPath}");
     loadedModules.push(
       module.${name ?? "default"}(cfg["${logicalName}"] || {})
     );
@@ -153,7 +152,17 @@ function processViteConfig(modules) {
     aliases = localModules.map(module => {
       const moduleName = module.packageName;
       const modulePath = module.localPath.replace(/\\/g, '\\\\');
-      return `"${moduleName}": path.resolve('${modulePath}','src'), //DYNAMIC_ALIAS,`;
+      // Point directly to src/index.jsx to avoid loading compiled dist files
+      // Check if index.jsx or index.js exists
+      const srcIndexJsx = `${module.localPath}/src/index.jsx`;
+      const srcIndexJs = `${module.localPath}/src/index.js`;
+      let srcPath = 'src/index.jsx'; // default
+      if (fs.existsSync(srcIndexJs) && !fs.existsSync(srcIndexJsx)) {
+        srcPath = 'src/index.js';
+      }
+      // Convert absolute path to relative path from __dirname
+      const relativeModulePath = modulePath.startsWith('/') ? modulePath.slice(1) : modulePath;
+      return `"${moduleName}": path.resolve(__dirname, '${relativeModulePath}', '${srcPath}'), //DYNAMIC_ALIAS,`;
     }).join('\n') + '\n      ';
   }
 
@@ -331,3 +340,4 @@ if (require.main === module) {
 
   main(argv.config, argv.path);
 }
+

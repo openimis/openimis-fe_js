@@ -1,4 +1,4 @@
-import { loadModules, packages } from "./modules";
+import { loadModules, packages } from "./modules.jsx";
 import { memoize } from "lodash";
 import pkg from "../package.json";
 import { ensureArray } from "@openimis/fe-core";

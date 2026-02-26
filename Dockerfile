@@ -21,6 +21,10 @@ RUN mkdir /app
 WORKDIR /app
 COPY ./ /app
 RUN chown node:node /app -R
+
+# Create /frontend-packages directory with proper permissions
+RUN mkdir -p /frontend-packages && chown node:node /frontend-packages
+
 # Set environment variables
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
