@@ -68,7 +68,7 @@ export default defineConfig(({ mode }) => ({
     ],
     alias: {
       //<<DYNAMIC_ALIAS_PLACEHOLDER>>
-            "react": path.resolve(__dirname, "./node_modules/react"),
+      
       "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
             "react/jsx-runtime": path.resolve(__dirname, "./node_modules/react/jsx-runtime"),
             "react/jsx-dev-runtime": path.resolve(__dirname, "./node_modules/react/jsx-dev-runtime"),
@@ -201,7 +201,7 @@ export default defineConfig(({ mode }) => ({
     },
     commonjsOptions: {
       requireReturnsDefault: "auto",
-      include: [/node_modules/],
+      include: [/node_modules\/(?!@openimis)/],
       transformMixedEsModules: true,
     },
   },
