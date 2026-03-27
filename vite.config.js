@@ -62,7 +62,6 @@ export default defineConfig(({ mode }) => ({
       "react-to-print",
       "@material-table/core",
       "@mui/styles",
-      "@mui/lab",
       "@openimis/fe-core",
       "@sentry/react",
     ],
@@ -129,7 +128,6 @@ export default defineConfig(({ mode }) => ({
       "redux": path.resolve(__dirname, "./node_modules/redux"),
       "@material-table/core": path.resolve(__dirname, "./node_modules/@material-table/core"),
       "@mui/styles": path.resolve(__dirname, "./node_modules/@mui/styles"),
-      "@mui/lab": path.resolve(__dirname, "./node_modules/@mui/lab"),
     },
     // preserveSymlinks :false
   },
@@ -179,7 +177,6 @@ export default defineConfig(({ mode }) => ({
       "@mui/styled-engine",
       "@material-table/core",
       "@mui/styles",
-      "@mui/lab",
       "@sentry/react",
     ],
     needsInterop: ["@mui/utils", "@mui/utils/deepmerge"],
