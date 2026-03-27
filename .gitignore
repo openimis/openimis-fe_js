@@ -11,5 +11,7 @@ src/locales.js
 yarn.lock
 .env
 dist
-
+install.lock
+openimis-dev.json
 .package-lock.json
+.DS_Store

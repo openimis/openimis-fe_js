@@ -21,6 +21,10 @@ RUN mkdir /app
 WORKDIR /app
 COPY ./ /app
 RUN chown node:node /app -R
+
+# Create /frontend-packages directory with proper permissions
+RUN mkdir -p /frontend-packages && chown node:node /frontend-packages
+
 # Set environment variables
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
@@ -53,6 +57,7 @@ ENV DATA_UPLOAD_MAX_MEMORY_SIZE=12582912
 ENV NEW_OPENIMIS_HOST="localhost"
 ENV PUBLIC_URL="front"
 ENV REACT_APP_API_URL="api"
+ENV REACT_APP_SENTRY_DSN=""
 ENV ROOT_MOBILEAPI="rest"
 ENV FORCE_RELOAD=""
 ENV OPENSEARCH_PROXY_ROOT="opensearch"
