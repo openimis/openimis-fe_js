@@ -16,21 +16,21 @@ RUN npm config set prefix /home/node/.npm-global
 RUN mkdir -p  /usr/local/lib/node_modules
 RUN chown node:node  /usr/local/lib/node_modules
 RUN npm config set prefix  /usr/local/lib/node_modules
-# Create and set permissions for /app
-RUN mkdir /app
-WORKDIR /app
-COPY ./ /app
-RUN chown node:node /app -R
 
 # Create /frontend-packages directory with proper permissions
 RUN mkdir -p /frontend-packages && chown node:node /frontend-packages
 
+# Create and set permissions for /openimis-fe_js
+RUN mkdir /openimis-fe_js
+WORKDIR /openimis-fe_js
+COPY ./ /openimis-fe_js
+RUN chown node:node /openimis-fe_js -R
 # Set environment variables
 ARG OPENIMIS_CONF_JSON
 ENV OPENIMIS_CONF_JSON=${OPENIMIS_CONF_JSON}
 ENV NODE_ENV=development
 USER node
-ENTRYPOINT ["/bin/bash", "/app/script/entrypoint-dev.sh"]
+ENTRYPOINT ["/bin/bash", "/openimis-fe_js/script/entrypoint-dev.sh"]
 
 FROM dev-stage AS build-stage
 USER node
@@ -46,7 +46,7 @@ RUN npm install --legacy-peer-deps --include=dev
 RUN npx vite build --mode $MODE
 
 FROM nginx:latest
-COPY --from=build-stage /app/dist/ /usr/share/nginx/html
+COPY --from=build-stage /openimis-fe_js/dist/ /usr/share/nginx/html
 COPY --from=build-stage /etc/ssl/private/ /etc/nginx/ssl/live/host
 COPY ./conf /conf
 COPY ./script/entrypoint.sh /script/entrypoint.sh
