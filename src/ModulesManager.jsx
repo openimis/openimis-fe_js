@@ -89,5 +89,20 @@ class ModulesManager {
       return menuEntries;
     }, []);
   }
+  getRoutePermissionsMap() {
+    return this.modules.reduce((map, module) => {
+      const routes = ensureArray(module['core.Router'] || []);
+      routes.forEach(route => {
+        if (route.path && route.right) {
+          map[route.path] = { right: route.right, icon: route.icon, module: module.logicalName };
+        }
+      });
+      return map;
+    }, {});
+  }
+  getRoutePermission(path) {
+    const map = this.getRoutePermissionsMap();
+    return map[path];
+  }
 }
 export default ModulesManager;
