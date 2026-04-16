@@ -2,7 +2,24 @@
 
 ## Overview
 
-The menu system is contribution-driven, with CoreModule (@openimis/fe-core) providing the base via MainMenuBar.jsx and MainMenuContribution.jsx. Modules contribute top-level via "core.MainMenu" (legacy) or "fe-core.menus" (declarative configs with id, name, icon, position, entries/contributionKey). Backend "fe-core"."menus" overrides organize hierarchy, adding new top-levels if unmatched. Submenus pull from module "{module}.MainMenu" or config "entries", filtered by rights. Rendering uses MUI Accordion/Popper for drawer/appbar variants.
+The menu system is contribution-driven, with CoreModule (@openimis/fe-core) providing the base via MainMenuBar.jsx and MainMenuContribution.jsx. Modules contribute top-level via "fe-core.menus" (declarative configs with id, name, icon, position, entries?, contributionKey?). Backend "fe-core"."menus" overrides organize hierarchy, adding new top-levels if unmatched. Submenus are prepared using prepareMenuEntries, pulling from contributionKey (defaulting to id) or direct entries, filtered by rights and route permissions. Icons are resolved from config or defaults. Rendering uses MUI Accordion/Popper for drawer/appbar variants.
+
+## Current Top-Level Menus
+
+The following top-level menus are currently defined in the system (sorted by position):
+
+1. **insuree.MainMenu** (Client Registry) - Icon: AssignmentInd
+2. **claim.MainMenu** (Claims) - Icon: ScreenShare
+3. **admin.MainMenu** (Admin) - Icon: LocationCity
+4. **invoice.MainMenu** (Legal & Finance) - Icon: BalanceIcon
+5. **socialProtection.MainMenu** (Social Protection) - Icon: Diversity2Icon
+6. **tasksManagement.MainMenu** (Tasks Management) - Icon: Assignment
+7. **OpenSearch.MainMenu** (Open Search Reports) - Icon: DashboardIcon
+8. **profile.MainMenu** (Profile) - Icon: AccountCircle
+9. **tools.MainMenu** (Tools) - Icon: Settings
+10. **grievance.MainMenu** (Grievance) - Icon: (dynamic)
+
+Note: Positions may be overridden via backend configuration. Icons are Material-UI icons.
 
 ## Flow
 
@@ -11,25 +28,21 @@ The menu system is contribution-driven, with CoreModule (@openimis/fe-core) prov
 2. **Module Load**: loadModules initializes modules; contributions collected (e.g., ProfileModule adds "profile.MainMenu" subitems, "core.MainMenu" legacy top-level).
 
 3. **Top-Level Gathering (MainMenuBar.jsx getMenus)**:
-   - Collects module "fe-core.menus" (declarative top-level configs: {id, name, icon, position, entries?, contributionKey?}).
-   - Merges with backend "fe-core"."menus" via mergeMenuConfigs: backend overrides existing (e.g., position/name), adds new top-levels if id not in modules.
-   - Defaults contributionKey to id for all configs (backend/module); override if specified.
-   - Sorts by position (default 99 if missing; stable for duplicates).
-   - For each config:
-     - Entries = config.entries || getContribs(config.contributionKey) (e.g., "individual.MainMenu").
-     - Fallback: If no contribs, generates entries from "submenus" array (derives route/text/rights/icons; no rights filter unless submenu.rights specified).
-     - Filters by rights (entry.filter(rights) or route rights; generated entries pass if no explicit rights).
-     - Converts icon strings to components (Icons[iconName]; defaults to "Adjust" with console.warn if invalid/missing).
-     - If empty after filter, skips render.
-   - Backward compat: Adds legacy "core.MainMenu" components if no matching declarative id.
-   - Renders <MainMenuContribution> for each, with isInitiallyOpen for active menu.
+   - Fetch backendMenuConfigs from modulesManager.getConf("fe-core", "menus", []); fallback to modulesManager.getMenuEntries() if empty.
+   - For each config, set contributionKey to id if not specified; warn if no entries or contributionKey.
+   - Sort configs by position (default 99).
+   - For each config, prepare filteredEntries using prepareMenuEntries(modulesManager, config.id, rights, intl, history, menuVariant), which pulls sub-entries from contributionKey or direct entries, filters by rights/route.
+   - Skip if no filteredEntries.
+   - Resolve icon using GetIconComponent(config.icon).
+   - Detect active menu for initial open state.
+   - Render MainMenuContribution components with props.
 
 4. **Submenu Merging (MainMenuContribution.jsx fetchSubmenuConfig)**:
-   - If backend menus present: Maps submenu positions/icons from backend to all module entries (getMenuEntries()), filters by matched id/position, uniques by id, sorts (default 99 for positions).
-   - Fallback: If no backend match, uses direct config.entries or contributionKey pulls.
-   - If backend empty, uses module entries directly (uniqued/sorted by default position).
+   - If backend menus present: Map submenu positions/icons from backend to allEntries (getMenuEntries()), filter by matched id/position, unique by id, sort by position.
+   - If no matches, check for direct entries in backend config, filter by rights.
+   - Fallback: If backend empty, use module entries directly, unique/sort.
    - Icons: Backend overrides module; string to component, defaults to "Adjust" with console.warn if invalid/missing.
-   - Filters rights again; empty = no render.
+   - Filter rights again; empty = no render.
 
 5. **Rendering**:
    - MainMenuBar injects into AppBar/Drawer via Contributions("core.MainMenu" or custom key).
@@ -41,49 +54,77 @@ The menu system is contribution-driven, with CoreModule (@openimis/fe-core) prov
    - Console.warn for missing/invalid icons, empty menus, invalid modulesManager/entries/rights.
    - Permissions hide as feature (no render if !rights match).
 
+## Menu Building Process Diagram
+
+```mermaid
+flowchart TD
+    A[Config Load: GraphQL fetches moduleConfigurations] --> B[Module Load: loadModules initializes modules]
+    B --> C[getMenus: Fetch backend configs or fallback to menuEntries]
+    C --> D[Set contributionKey to id if missing]
+    D --> E[Sort by position]
+    E --> F[For each config: prepareMenuEntries]
+    F --> G[Filter by rights/route, resolve icons]
+    G --> H[Skip empty, render MainMenuContribution]
+    H --> I[fetchSubmenuConfig: Merge backend submenus with allEntries]
+    I --> J[Filter/unique/sort subentries]
+    J --> K[Render AppBar (Popper) or Drawer (Accordion)]
+```
+
 ## Key Components
 
-- **MainMenuBar.jsx**: Top-level merger/renderer; getMenus/mergeMenuConfigs handle declarative + legacy.
-- **MainMenuContribution.jsx**: Per-menu renderer; fetchSubmenuConfig merges submenus, appBarMenu/drawerMenu for variants.
+- **MainMenuBar.jsx**: Top-level merger/renderer; getMenus fetches configs, sets defaults, sorts, prepares entries, resolves icons, renders MainMenuContribution. Uses useMemo for optimization.
+- **MainMenuContribution.jsx**: Per-menu renderer; fetchSubmenuConfig merges backend overrides with module entries, uniques/sorts/filters. appBarMenu uses Popper/MenuList, drawerMenu uses Accordion/List. State manages expanded/anchor.
+- **prepareMenuEntries (menuUtils.jsx)**: Pulls sub-entries from contributionKey or direct entries, filters by rights/route.
 - **Contributions**: Injects MainMenuBar into layout (e.g., <Contributions contributionKey="core.MainMenu" /> in AppBar).
 
-## Potential Issues (Updated with Code Insights)
+## Potential Issues
 
-- **New Top-Level Creation**: Backend adds unmatched ids, but requires "entries" array or contributionKey (now defaults to id) for submenus; without, filteredEntries empty → no render. Your JSON has submenus by id/position, but no "entries" or key—mismatch causes skip.
-- **Position Defaults**: Code uses 99, not 0; duplicates sort stably (no block). Customize in merge if needed.
-- **Icon Defaults**: "Adjust" if invalid/missing; console.warn added.
-- **Permission Hiding**: Feature—subentries filter if !rights; top-level shows if any sub visible.
-- **Malformed Menus**: Console.error for non-arrays; fallback to modules.
-- **Id Mismatches**: Backend submenus map to allEntries by id; if no match (e.g., "individual.groups" not in any module.MainMenu), empty.
-- **Empty Backend**: Falls to module "fe-core.menus" or legacy; if none, no menus.
-- **Legacy Skip**: getMenuEntries skips "core.MainMenu", but MainMenuBar includes unmatched legacy—your JSON overrides may hide them if ids conflict.
-- **No Submenu for New Menus**: Backend top-level without contributionKey/entries = empty render.
+- **ContributionKey Defaulting**: If not specified, contributionKey defaults to id; console.warn if neither entries nor contributionKey.
+- **Empty Menus**: If prepareMenuEntries returns no filteredEntries after rights/route filtering, menu is skipped.
+- **Backend Submenu Mapping**: Submenus in backend config map to allEntries by id; if no match, submenu is not included.
+- **Direct Entries for New Menus**: For custom top-levels, use "entries" array; submenus are for overrides.
+- **Icon Resolution**: Invalid/missing icons default to "Adjust" with console.warn.
+- **Rights Filtering**: Applied in prepareMenuEntries (by rights/route) and fetchSubmenuConfig (by rights).
+- **Malformed Backend Configs**: Must be array, else console.error and fallback to module configs.
+- **Legacy Components**: MainMenuBar renders both declarative MainMenuContribution and legacy components.
+- **Position Sorting**: Defaults to 99; stable sort for duplicates.
 
-Your JSON structure is close but needs ids set to contribution keys (e.g., "ClientRegistryMainMenu" → "individual.MainMenu"), remove "contributionKey" field. This explains no show: submenus defined by id but not pulled/matched.
+### Recommended JSON Configuration
 
-### Recommended JSON Update (Minimal, with Overrides)
+Configure backend menus via solution-builder. Set top-level id to the contributionKey (defaults to id if not specified). Include submenus for overrides on position/icon/rights. Position defaults to 99.
 
-Update via solution-builder to set top-level ids to contribution keys, include rights/icons for overrides, position defaults to 99 if missing. Example for ClientRegistryMainMenu:
+Example for overriding Client Registry menu:
 
 ```json
 {
   "position": 1,
-  "id": "individual.MainMenu",  // Now serves as contributionKey to pull submenus
+  "id": "insuree.MainMenu",  // Serves as contributionKey to pull submenus
   "name": "Client Registry",
-  "icon": "GroupsIcon",
-  "description": "Client Registry menu",
+  "icon": "AssignmentInd",
   "submenus": [  // Overrides for position/icon/rights
     {
-      "position": 4,
-      "id": "individual.groups",
-      "icon": "GroupIcon",
-      "rights": ["individual.groups"]  // Override module rights
+      "position": 1,
+      "id": "insuree.familiesOrGroups",
+      "icon": "People",
+      "rights": [101001]
+    },
+    {
+      "position": 2,
+      "id": "insuree.addFamilyOrGroup",
+      "icon": "GroupAdd",
+      "rights": [101002]
+    },
+    {
+      "position": 3,
+      "id": "insuree.insurees",
+      "icon": "Person",
+      "rights": [101101]
     }
     // ... other submenus
   ]
 }
 ```
 
-For new/unmatched top-level (e.g., custom), add "entries": [{id, route, text, icon, rights}] array.
+For new custom top-level menus, add "entries": [{id, route, text, icon, rights}] array.
 
-This will create/render new menus, merge submenus, apply overrides. Regenerate backend, restart frontend.
+This merges with module configs, applies overrides, and renders menus. Regenerate backend config and restart frontend.
