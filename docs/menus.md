@@ -72,22 +72,17 @@ flowchart TD
 
 ## Key Components
 
-- **MainMenuBar.jsx**: Top-level merger/renderer; getMenus fetches configs, sets defaults, sorts, prepares entries, resolves icons, renders MainMenuContribution. Uses useMemo for optimization.
+- **MainMenuBar.jsx**: Top-level merger/renderer; getMenus fetches configs, sets defaults, sorts, prepares entries, resolves icons, renders MainMenuContribution. Uses useMemo for optimization. 
+    possible customisation of the bar menu text, icon_text or icon 
+      @/../frontend-packages/CoreModule/src/components/MainMenuBar.jsx
+    ```
+      const mainMenuVariant = "icon_text"
+
+    ```
 - **MainMenuContribution.jsx**: Per-menu renderer; fetchSubmenuConfig merges backend overrides with module entries, uniques/sorts/filters. appBarMenu uses Popper/MenuList, drawerMenu uses Accordion/List. State manages expanded/anchor.
 - **prepareMenuEntries (menuUtils.jsx)**: Pulls sub-entries from contributionKey or direct entries, filters by rights/route.
 - **Contributions**: Injects MainMenuBar into layout (e.g., <Contributions contributionKey="core.MainMenu" /> in AppBar).
 
-## Potential Issues
-
-- **ContributionKey Defaulting**: If not specified, contributionKey defaults to id; console.warn if neither entries nor contributionKey.
-- **Empty Menus**: If prepareMenuEntries returns no filteredEntries after rights/route filtering, menu is skipped.
-- **Backend Submenu Mapping**: Submenus in backend config map to allEntries by id; if no match, submenu is not included.
-- **Direct Entries for New Menus**: For custom top-levels, use "entries" array; submenus are for overrides.
-- **Icon Resolution**: Invalid/missing icons default to "Adjust" with console.warn.
-- **Rights Filtering**: Applied in prepareMenuEntries (by rights/route) and fetchSubmenuConfig (by rights).
-- **Malformed Backend Configs**: Must be array, else console.error and fallback to module configs.
-- **Legacy Components**: MainMenuBar renders both declarative MainMenuContribution and legacy components.
-- **Position Sorting**: Defaults to 99; stable sort for duplicates.
 
 ### Recommended JSON Configuration
 

@@ -17,16 +17,8 @@ body {
   flex-grow: 1;
 }
 
-/* Material Icons Font */
-@font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: url('./fonts/material-icons/MaterialIcons-Regular.woff2') format('woff2');
-}
-
-.material-icons {
-  font-family: 'Material Icons';
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
@@ -40,4 +32,5 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
