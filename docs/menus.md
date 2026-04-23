@@ -2,7 +2,7 @@
 
 ## Overview
 
-The menu system is contribution-driven, with CoreModule (@openimis/fe-core) providing the base via MainMenuBar.jsx and MainMenuContribution.jsx. Modules contribute top-level via "fe-core.menus" (declarative configs with id, name, icon, position, entries?, contributionKey?). Backend "fe-core"."menus" overrides organize hierarchy, adding new top-levels if unmatched. Submenus are prepared using prepareMenuEntries, pulling from contributionKey (defaulting to id) or direct entries, filtered by rights and route permissions. Icons are resolved from config or defaults. Rendering uses MUI Accordion/Popper for drawer/appbar variants.
+The menu system is contribution-driven, with CoreModule (@openimis/fe-core) providing the base via MainMenuBar.jsx and MainMenuContribution.jsx. Modules contribute top-level via "fe-core.menus" (declarative configs with id, name, icon, position, entries?, contributionKey?). Backend "fe-core"."menus" overrides organize hierarchy, adding new top-levels if unmatched. Submenus are prepared using prepareMenuEntries, pulling from contributionKey (defaulting to id) or direct entries, filtered by rights and route permissions. Icons are resolved from config or defaults (see [Icons Guide](../frontend/docs/icons.md) for details). Rendering uses MUI Accordion/Popper for drawer/appbar variants.
 
 ## Current Top-Level Menus
 
@@ -123,3 +123,27 @@ Example for overriding Client Registry menu:
 For new custom top-level menus, add "entries": [{id, route, text, icon, rights}] array.
 
 This merges with module configs, applies overrides, and renders menus. Regenerate backend config and restart frontend.
+
+## AppBar Contributions
+
+In addition to menus, the AppBar supports contribution-driven components for custom UI elements like search inputs and icon buttons.
+
+### Current AppBar Contribution Keys
+
+- **core.AppBar**: Used for components rendered in the AppBar's middle section (e.g., search inputs). Contributions are arrays of React components. Example: Enquiry component from InsureeModule.
+
+- **core.AppBarIcons**: New contribution key for clickable icon buttons next to the search input. Contributions are arrays of AppBarIconButton components, each with {icon, route, text} props. Icons use GetIconComponent, routes navigate via history.push, text is translated via formatMessage for hover tooltips. Example: Home and People icons from InsureeModule.
+
+### Usage
+
+Modules can contribute to these keys in their index.jsx:
+
+```javascript
+"core.AppBar": [Enquiry],
+"core.AppBarIcons": [
+  { icon: "Home", route: "/", text: "core.appName" },
+  { icon: "People", route: "/insuree/families", text: "insuree.menu.familiesOrGroups" },
+],
+```
+
+These are rendered in RequireAuth.jsx as Contributions, placing icons adjacent to the search input for quick navigation.
