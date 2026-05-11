@@ -81,23 +81,24 @@ function installAndLinkModules(imisJsonPath, modulesInstallPath) {
 
   imisJSON.modules.forEach((module) => {
     let info = extractModuleInfo(module);
-    const branch = info.branch || 'develop';
-    if (!shell.test("-d", info.path)) {
-      console.log(`Module directory ${info.path} does not exist. Cloning from ${info.repoUrl}...`);
+    const modulePath = path.isAbsolute(info.path) 
+      ? info.path 
+      : path.resolve(modulesInstallPath, info.path);
+    
+    if (!shell.test("-d", modulePath)) {
+      console.log(`Module directory ${modulePath} does not exist. Cloning from ${info.repoUrl}...`);
       shell.cd(modulesInstallPath);
       try {
-        shell.exec(`git clone ${info.repoUrl} ${info.path}`, { silent: true });
+        shell.exec(`git clone ${info.repoUrl} ${modulePath}`, { silent: true });
         console.log(`Successfully cloned ${info.name}`);
       } catch (error) {
         console.error(`Failed to clone ${info.name} from ${info.repoUrl}: ${error.message}`);
         throw error;
       }
     } else {
-      console.log(`Module directory ${info.path} exists.`);
+      console.log(`Module directory ${modulePath} exists.`);
     }
 
-    shell.cd(info.path);
-    const modulePath = path.join(curPath, info.path);
     prepareModuleForLocalDevelopment(modulePath, info.name, info.packageName, path.dirname(imisJsonPath));
     shell.cd(curPath);
   });
@@ -193,12 +194,14 @@ function updatePackageInAssembly(modules, basePath, modulesInstallPath) {
 
   modules.forEach((module) => {
     let info = extractModuleInfo(module);
-    if (packageJSON.dependencies[info.packageName] !== `file:${info.path}`) {
-      console.log(`Updating ${info.name} in package.json to use local path: file:${info.path}`);
+    const localModulePath = `file:${path.isAbsolute(info.path) ? info.path : path.resolve(modulesInstallPath, info.path)}`;
+      
+    if (packageJSON.dependencies[info.packageName] !== localModulePath) {
+      console.log(`Updating ${info.name} in package.json to use local path: ${localModulePath}`);
       shell.exec(`yarn remove ${info.packageName}`, { silent: true });
-      packageJSON.dependencies[info.packageName] = `file:${info.path}`;
+      packageJSON.dependencies[info.packageName] = localModulePath;
     } else {
-      console.log(`${info.packageName} already linked to file:${info.path} in package.json`);
+      console.log(`${info.packageName} already linked to ${localModulePath} in package.json`);
     }
 
     if (isModuleLinkedLocally(info.packageName, basePath)) {

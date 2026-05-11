@@ -92,12 +92,32 @@ function main() {
   const modules = [];
   for (const module of config.modules) {
     const { npm, name, logicalName } = module;
-    // Find version number
-    const moduleName = npm.substring(0, npm.lastIndexOf("@"));
-    if (npm.lastIndexOf("@") <= 0) {
-      throw new Error(`  Module ${moduleName} has no version set.`);
+    let moduleName;
+    let version;
+    let defaultLogicalName;
+
+    if(/^(file:|link:)/.test(npm)) {
+      //Retrieve the module name from the package.json of the local module
+      const localPath = npm.replace(/^(file:|link:)/, "");
+      const targetPkgPath = `${localPath}/package.json`;
+      if (!fs.existsSync(targetPkgPath)) {
+        throw new Error(`Local module path "${localPath}" does not contain a package.json file.`);
+      }
+      const targetPkg = JSON.parse(fs.readFileSync(targetPkgPath, "utf-8"));
+      moduleName = targetPkg.name;
+
+      // Keep the local path as version
+      version = npm;
+    } else {
+      const versionIndex = npm.lastIndexOf("@");
+      moduleName = npm.substring(0, versionIndex);
+      if(versionIndex <= 0) {
+        throw new Error(` Module ${moduleName} does not have a valid version specified.`);
+      }
+      version = npm.substring(versionIndex + 1);
+      defaultLogicalName = npm.match(/([^/]*)\/([^@]*).*/)[2];
     }
-    const version = npm.substring(npm.lastIndexOf("@") + 1);
+
     console.log(`  added "${moduleName}": ${version}`);
     pkg.dependencies[moduleName] = version;
     modules.push({
@@ -105,7 +125,7 @@ function main() {
       version,
       name,
       npm,
-      logicalName: logicalName || npm.match(/([^/]*)\/([^@]*).*/)[2],
+      logicalName: logicalName || defaultLogicalName,
     });
   }
   processModules(modules);
