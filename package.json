@@ -1,6 +1,6 @@
 {
   "name": "@openimis/fe",
-  "version": "25.10",
+  "version": "26.04",
   "license": "AGPL-3.0-only",
   "proxies": {
     "opensearch": {
