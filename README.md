@@ -456,3 +456,6 @@ webpackConfig.output.publicPath = '/front/';
 * Make sure the backend server is running and accessible from your frontend environment.
 * Use Docker network names like `http://backend:8000` when both frontend and backend are running in Docker.
 * Set `PUBLIC_URL=/front` if needed to ensure assets load correctly.
+
+### Using Sentry with GlitchTip
+* set your sentry/glitchtip dsn in the .env file to capture errors and exceptions in your React app

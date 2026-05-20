@@ -1,5 +1,6 @@
 import "react-app-polyfill/ie11";
 import "react-app-polyfill/stable";
+import * as Sentry from "@sentry/react";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { IntlProvider } from "react-intl";
@@ -19,6 +20,14 @@ import messages_ref from "./translations/ref.json";
 import "./index.css";
 import "./rc-cascader.css";
 
+Sentry.init({ 
+  dsn: process.env.REACT_APP_SENTRY_DSN,
+  debug: false,
+  integrations: [
+    Sentry.browserTracingIntegration(),
+  ],
+  tracesSampleRate: 1.0,
+});
 
 const loadConfiguration = async () => {
   const response = await fetch(`${baseApiUrl}/graphql`, {
@@ -27,6 +36,7 @@ const loadConfiguration = async () => {
     body: JSON.stringify({ "query": "{ moduleConfigurations { module, config, controls{ field, usage } } }" }),
   });
   if (!response.ok) {
+    Sentry.captureException(new Error(`${response.status} ${response.statusText}`));
     throw response;
   } else {
     const { data } = await response.json();
@@ -49,24 +59,27 @@ const AppContainer = () => {
 
   useEffect(() => {
     loadConfiguration().then(
-      (config) =>
+      (config) => {
         setAppState({
           error: null,
           isLoading: false,
           config,
-        }),
-      (error) =>
+        });
+      },
+      (error) => {
+        Sentry.captureException(new Error("Failed to load configuration"));
         setAppState({
           error,
           isLoading: false,
-        }),
+        });
+      }
     );
-  }, []);
+  }, []);  
 
   const themeColor = appState?.config?.["fe-core"]?.theme;
   const dynamicTheme = createAppTheme(themeColor || {});
   const logo = getConfiguredLogo(appState.config);
-  const disableTextLogo = appState?.config?.["fe-core"]?.logo?.disableTextLogo || false
+  const disableTextLogo = appState?.config?.["fe-core"]?.logo?.disableTextLogo || false;
 
   if (appState.isLoading) {
     return (
@@ -116,5 +129,14 @@ const AppContainer = () => {
   }
 };
 
-ReactDOM.render(<AppContainer />, document.getElementById("root"));
+ReactDOM.render(
+  <Sentry.ErrorBoundary
+    fallback={<FatalError error={{ code: 500, message: "An unexpected error occurred" }} />}
+    showDialog
+  >
+    <AppContainer />
+  </Sentry.ErrorBoundary>,
+  document.getElementById("root")
+);
+
 serviceWorker.register();

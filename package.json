@@ -1,12 +1,12 @@
 {
   "name": "@openimis/fe",
-  "version": "25.04+",
+  "version": "26.04",
   "license": "AGPL-3.0-only",
   "proxies": {
     "opensearch": {
       "base": "/opensearch",
       "target": "http://opensearch:5410"
-    },    
+    },
     "api": {
       "base": "/api",
       "target": "http://backend:8000"
@@ -45,7 +45,8 @@
     "shelljs": "^0.8.4",
     "zxcvbn": "^4.4.2",
     "@craco/craco": "^7.1.0",
-    "ajv":"8.17.1"
+    "ajv":"8.17.1",
+    "@sentry/react": "^10.17.0"
   },
   "scripts": {
     "start": "craco start",

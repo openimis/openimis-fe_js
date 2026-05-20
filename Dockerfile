@@ -28,12 +28,14 @@ ENV NODE_ENV=development
 USER node
 ENTRYPOINT ["/bin/bash", "/app/script/entrypoint-dev.sh"]
 
-FROM dev-stage AS build-stage
+FROM dev-stage AS base
 USER node
 ENV GENERATE_SOURCEMAP=true
 ENV NODE_ENV=production
 RUN npm config set prefix /home/node/.npm-global
 RUN npm install -g npm@latest
+
+FROM base AS build-stage
 RUN npm run load-config
 RUN npm install  --include=dev --legacy-peer-deps
 RUN npm run build
@@ -50,6 +52,7 @@ ENV DATA_UPLOAD_MAX_MEMORY_SIZE=12582912
 ENV NEW_OPENIMIS_HOST="localhost"
 ENV PUBLIC_URL="front"
 ENV REACT_APP_API_URL="api"
+ENV REACT_APP_SENTRY_DSN=""
 ENV ROOT_MOBILEAPI="rest"
 ENV FORCE_RELOAD=""
 ENV OPENSEARCH_PROXY_ROOT="opensearch"
