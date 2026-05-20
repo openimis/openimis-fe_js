@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => ({
     react({
       jsxRuntime: 'automatic',
       jsxImportSource: '@emotion/react',
+      include: /.(jsx|js|ts|tsx)$/, 
     }),
     svgr(),
     envCompatible(),
@@ -208,6 +209,9 @@ export default defineConfig(({ mode }) => ({
     ],
     needsInterop: ["@mui/utils", "@mui/utils/deepmerge"],
     force: true,
+    esbuildOptions: {
+      loader: { ".js": "jsx" },
+    },
   },
   build: {
     outDir: "dist",

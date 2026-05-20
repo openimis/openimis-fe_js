@@ -4,7 +4,7 @@
 
 The menu system is contribution-driven, with CoreModule (@openimis/fe-core) providing the base via MainMenuBar.jsx and MainMenuContribution.jsx. Modules contribute top-level via "fe-core.menus" (declarative configs with id, name, icon, position, entries?, contributionKey?). Backend "fe-core"."menus" overrides organize hierarchy, adding new top-levels if unmatched. Submenus are prepared using prepareMenuEntries, pulling from contributionKey (defaulting to id) or direct entries, filtered by rights and route permissions. Icons are resolved from config or defaults (see [Icons Guide](../frontend/docs/icons.md) for details). Rendering uses MUI Accordion/Popper for drawer/appbar variants.
 
-## Current Top-Level Menus
+## Current Top-Level Menus (04/2026)
 
 The following top-level menus are currently defined in the system (sorted by position):
 
@@ -19,7 +19,7 @@ The following top-level menus are currently defined in the system (sorted by pos
 9. **tools.MainMenu** (Tools) - Icon: Settings
 10. **grievance.MainMenu** (Grievance) - Icon: (dynamic)
 
-Note: Positions may be overridden via backend configuration. Icons are Material-UI icons.
+Note: Positions may be overridden via django fe-core configuration (exposed:true, frontend). Icons are Material-UI icons.
 
 ## Flow
 
@@ -29,10 +29,10 @@ Note: Positions may be overridden via backend configuration. Icons are Material-
 
 3. **Top-Level Gathering (MainMenuBar.jsx getMenus)**:
    - Fetch backendMenuConfigs from modulesManager.getConf("fe-core", "menus", []); fallback to modulesManager.getMenuEntries() if empty.
-   - For each config, set contributionKey to id if not specified; warn if no entries or contributionKey.
+   - For each config, set contributionKey to id if not specified; 
    - Sort configs by position (default 99).
    - For each config, prepare filteredEntries using prepareMenuEntries(modulesManager, config.id, rights, intl, history, menuVariant), which pulls sub-entries from contributionKey or direct entries, filters by rights/route.
-   - Skip if no filteredEntries.
+   - hide if no filteredEntries.
    - Resolve icon using GetIconComponent(config.icon).
    - Detect active menu for initial open state.
    - Render MainMenuContribution components with props.
@@ -145,5 +145,10 @@ Modules can contribute to these keys in their index.jsx:
   { icon: "People", route: "/insuree/families", text: "insuree.menu.familiesOrGroups" },
 ],
 ```
-
+```json
+"core.AppBarIcons": [
+  { "icon": "Home", "route": "/", "text": "core.appName" },
+  { "icon": "People", "route": "/insuree/families", "text": "insuree.menu.familiesOrGroups" },
+],
+```
 These are rendered in RequireAuth.jsx as Contributions, placing icons adjacent to the search input for quick navigation.
