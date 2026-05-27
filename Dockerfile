@@ -41,7 +41,7 @@ RUN npm config set prefix /home/node/.npm-global
 RUN npm install -g npm@latest
 RUN npm install -g shelljs yargs
 RUN npm install --legacy-peer-deps --include=dev
-RUN npm run load-config -- -c ./openimis.json
+RUN node ./openimis-config-vite.js -c ./openimis.json
 RUN npm install --legacy-peer-deps --include=dev
 RUN npx vite build --mode $MODE
 
