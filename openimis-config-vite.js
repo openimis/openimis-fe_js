@@ -104,14 +104,19 @@ function processModules(modules, modulesInstallPath) {
   const staticImports = [];
   const dynamicBlocks = [];
 
-  modules.forEach(({ packageName, name, logicalName, localPath }) => {
+  modules.forEach(({ packageName, name, logicalName }) => {
     if (packageName === "@openimis/fe-core") {
       staticImports.push(`import { ${name} } from "${packageName}";`);
       dynamicBlocks.push(`
-  // Static import for ${name} (core module)
-  loadedModules.push(
-    ${name}(cfg["${logicalName}"] || {})
-  );
+  // 🔄 Statically imported ${name}
+  try {
+    loadedModules.push(
+      ${name}(cfg["${logicalName}"] || {})
+    );
+  } catch (error) {
+    console.error(\`❌ Failed to initialize module "${name}". Error: \${error}\`);
+    alert(\`Failed to load module "${name}". See console for details.\`);
+  }
 `);
     } else {
       dynamicBlocks.push(`
