@@ -39,14 +39,14 @@ export const packages = [
 
 export async function loadModules(cfg = {}) {
   const loadedModules = [];
-
+  
   // 🔄 Statically imported CoreModule
   try {
     loadedModules.push(
       CoreModule(cfg["fe-core"] || {})
     );
   } catch (error) {
-    console.error(`❌ Failed to import module "CoreModule". Error: ${error}`);
+    console.error(`❌ Failed to initialize module "CoreModule". Error: ${error}`);
     alert(`Failed to load module "CoreModule". See console for details.`);
   }
 
@@ -368,7 +368,6 @@ export async function loadModules(cfg = {}) {
     console.error(`❌ Failed to import module "PayrollModule". Error: ${error}`);
     alert(`Failed to load module "PayrollModule". See console for details.`);
   }
-
 
   // 🔄 Dynamically importing FormBuilderModule
   try {

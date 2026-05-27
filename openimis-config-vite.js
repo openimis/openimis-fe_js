@@ -122,7 +122,7 @@ function processModules(modules, modulesInstallPath) {
       dynamicBlocks.push(`
   // 🔄 Dynamically importing ${name}
   try {
-    const module = await import("${localPath}");
+    const module = await import("${packageName}");
     loadedModules.push(
       module.${name ?? "default"}(cfg["${logicalName}"] || {})
     );
@@ -172,8 +172,8 @@ function processViteConfig(modules) {
   const placeholder = '//<<DYNAMIC_ALIAS_PLACEHOLDER>>';
   const placeholderIndex = viteConfigContent.indexOf(placeholder);
   if (placeholderIndex === -1) {
-    console.error("Placeholder not found in vite.config.js.");
-    process.exit(1);
+    console.warn("Placeholder //<<DYNAMIC_ALIAS_PLACEHOLDER>> not found in vite.config.js. Skipping dynamic alias injection. Module resolution may fail for git/npm module specs if aliases are required.");
+    return;
   }
 
   // Step 3: Inject new aliases on the line(s) after the placeholder
@@ -195,7 +195,7 @@ function processViteConfig(modules) {
   // Write back the updated vite config
   try {
     fs.writeFileSync("./vite.config.js", viteConfigContent, "utf-8");
-    console.log("Updated vite.config.js with dynamic aliases");
+    console.log("Updated vite.config.js with dynamic aliases for configured modules");
   } catch (error) {
     console.error(`Error writing vite.config.js: ${error.message}`);
   }
@@ -345,7 +345,7 @@ if (require.main === module) {
       .help()
       .alias('help', 'h')
       .argv;
-    if (process.env.OPENIMIS_CONF !== 'undefiend' && argv.config === null){
+    if (process.env.OPENIMIS_CONF !== 'undefined' && argv.config === null){
       argv.config = process.env.OPENIMIS_CONF
     }
     console.log(`Config path: ${argv.config}, Modules path: ${argv.path}`);
