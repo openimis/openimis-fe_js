@@ -42,6 +42,8 @@
   "month.12": "December",
   "validation.minValue": "{value} under allowed {min}",
   "validation.maxValue": "{value} above allowed {max}",
+  "Any": "Any",
+  "Task": "Task",
   "addTooltip": "Create new",
   "saveTooltip": "Save changes",
   "resetFilterTooltip": "Reset filters",

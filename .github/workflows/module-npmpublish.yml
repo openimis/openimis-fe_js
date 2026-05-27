@@ -67,10 +67,19 @@ jobs:
 
       - name: Publish package
         run: |
+          ACCESS_FLAG=""
+          TAG_FLAG=""
+      
+          if [ -n "${{ inputs.access }}" ]; then
+            ACCESS_FLAG="--access ${{ inputs.access }}"
+          fi
+      
           if [ -n "${{ inputs.tag }}" ]; then
             npm publish --tag ${{ inputs.tag }} --access ${{ inputs.access }} --no-git-tag-version
           else
             npm publish --access ${{ inputs.access }} --no-git-tag-version
           fi
+          echo "yarn publish $ACCESS_FLAG $TAG_FLAG --no-git-tag-version"
+          yarn publish $ACCESS_FLAG $TAG_FLAG --no-git-tag-version
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

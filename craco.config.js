@@ -9,6 +9,9 @@ module.exports = {
       // Inject environment variables explicitly
       webpackConfig.plugins.push(
         new webpack.DefinePlugin({
+          "process.env.REACT_APP_SENTRY_DSN": JSON.stringify(
+            process.env.REACT_APP_SENTRY_DSN || ""
+          ),
           "process.env.REACT_APP_API_URL": JSON.stringify(
             process.env.REACT_APP_API_URL || "/api"
           ),
@@ -23,6 +26,17 @@ module.exports = {
           ),
         })
       );
+
+      webpackConfig.ignoreWarnings = [
+        {
+          module: /@formatjs\/fast-memoize/,
+          message: /Failed to parse source map/,
+        },
+        {
+          module: /react-double-scrollbar/,
+          message: /Failed to parse source map/,
+        },
+      ];
 
       return webpackConfig;
     },

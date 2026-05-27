@@ -1,4 +1,4 @@
-import { loadModules, packages } from "./modules";
+import { loadModules, packages } from "./modules.jsx";
 import { memoize } from "lodash";
 import pkg from "../package.json";
 import { ensureArray } from "@openimis/fe-core";
@@ -79,15 +79,44 @@ class ModulesManager {
     return moduleCfg[key] !== undefined ? moduleCfg[key] : defaultValue;
   }
   getMenuEntries() {
-    return this.modules.reduce((menuEntries, module) => {
+    let menus = {}
+    this.modules.forEach((module) => {
       const mainMenuKeys = Object.keys(module).filter(
-        (key) => key.includes(".MainMenu") && key !== "core.MainMenu"
+        (key) => key.includes(".MainMenu")
       );
       mainMenuKeys.forEach((key) => {
-        menuEntries.push(...ensureArray(module[key]));
-      });
-      return menuEntries;
+        if(key == "core.MainMenu"){
+          module[key].forEach( (menu ) => {
+          const mKey =  menu?.contributionKey || menu?.id || menu?.name;
+          menus[mKey] = {
+            name: menu?.name || menus[mKey]?.name,
+            id: menu?.id || menus[mKey]?.id,
+            contributionKey: menu?.contributionKey || menus[mKey]?.contributionKey,
+            text: menu?.text || menus[mKey]?.text,
+            icon: menu?.icon || menus[mKey]?.icon,
+            entries: [...ensureArray(menus[mKey]?.entries), ...ensureArray(menu?.submenus), ...ensureArray(menu?.entries)],
+          }}
+        )
+        }else{
+          menus[key] = menus[key] || { "id": key, entries:[]};
+          menus[key]["entries"].push(...ensureArray(module[key]))
+        }
+        });
     }, []);
+    return Object.values(menus);
   }
+
+  getRoutes() {
+    return this.modules.reduce((map, module) => {
+      const routes = ensureArray(module['core.Router'] || []);
+      routes.forEach(route => {
+          const rid =route.id || route.path
+          map[route.path] = route;
+          map[route.id || route.path] = route; 
+      });
+      return map;
+    }, {});
+  }
+
 }
 export default ModulesManager;

@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => ({
     react({
       jsxRuntime: 'automatic',
       jsxImportSource: '@emotion/react',
+      include: /.(jsx|js|ts|tsx)$/, 
     }),
     svgr(),
     envCompatible(),
@@ -41,7 +42,6 @@ export default defineConfig(({ mode }) => ({
       "@emotion/styled",
       "@emotion/cache",
       "@mui/material",
-      "@mui/icons-material",
       "@mui/x-date-pickers",
       "@mui/x-data-grid",
       "@mui/system",
@@ -62,12 +62,41 @@ export default defineConfig(({ mode }) => ({
       "react-to-print",
       "@material-table/core",
       "@mui/styles",
-      "@mui/lab",
       "@openimis/fe-core",
       "@sentry/react",
     ],
     alias: {
       //<<DYNAMIC_ALIAS_PLACEHOLDER>>
+      "@openimis/fe-core": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/CoreModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-individual": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/IndividualModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-social_protection": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/SocialProtectionModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-opensearch_reports": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/OpenSearchReportsModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-home": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/HomeModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-location": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/LocationModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-insuree": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/InsureeModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-medical": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/MedicalModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-medical_pricelist": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/MedicalPriceListModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-product": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/ProductModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-policy": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/PolicyModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-payer": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/PayerModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-contribution": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/ContributionModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-payment": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/PaymentModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-claim": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/ClaimModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-claim_batch": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/ClaimBatchModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-tools": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/ToolsModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-profile": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/ProfileModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-calculation": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/CalculationModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-policyholder": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/PolicyHolderModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-contribution_plan": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/ContributionPlanModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-payment_cycle": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/PaymentCycleModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-contract": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/ContractModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-tasks_management": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/TasksManagementModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-invoice": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/InvoiceModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-grievance_social_protection": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/GrievanceSocialProtectionModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-language_fr": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/LanguageFrModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-claim_sampling": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/ClaimSamplingModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-deduplication": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/DeduplicationModule','src'), //DYNAMIC_ALIAS,
+      "@openimis/fe-payroll": path.resolve('/mnt/data/Development/openimis-dev-tools/frontend-packages/PayrollModule','src'), //DYNAMIC_ALIAS,
       
       "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
             "react/jsx-runtime": path.resolve(__dirname, "./node_modules/react/jsx-runtime"),
@@ -77,7 +106,6 @@ export default defineConfig(({ mode }) => ({
       "react-redux": path.resolve(__dirname, "./node_modules/react-redux"),
       "@mui/material": path.resolve(__dirname, "./node_modules/@mui/material/esm"),
       "@mui/material/styles": path.resolve(__dirname, "./node_modules/@mui/material/styles"),
-      "@mui/icons-material": path.resolve(__dirname, "./node_modules/@mui/icons-material/esm"),
       "@mui/system": path.resolve(__dirname, "./node_modules/@mui/system/esm"),
       "@mui/x-data-grid": path.resolve(__dirname, "./node_modules/@mui/x-data-grid"),
       "@mui/x-date-pickers": path.resolve(__dirname, "./node_modules/@mui/x-date-pickers"),
@@ -129,7 +157,6 @@ export default defineConfig(({ mode }) => ({
       "redux": path.resolve(__dirname, "./node_modules/redux"),
       "@material-table/core": path.resolve(__dirname, "./node_modules/@material-table/core"),
       "@mui/styles": path.resolve(__dirname, "./node_modules/@mui/styles"),
-      "@mui/lab": path.resolve(__dirname, "./node_modules/@mui/lab"),
     },
     // preserveSymlinks :false
   },
@@ -141,7 +168,7 @@ export default defineConfig(({ mode }) => ({
     historyApiFallback: true,
     proxy: {
       "/api": {
-        target: "http://backend:8000",
+        target: "http://localhost:8000",
         changeOrigin: true,
       },
       "/opensearch": {
@@ -170,7 +197,6 @@ export default defineConfig(({ mode }) => ({
       "@emotion/react",
       "@emotion/styled",
       "@mui/material",
-      "@mui/icons-material",
       "@mui/x-data-grid",
       "@mui/x-date-pickers",
       "@mui/system",
@@ -179,11 +205,13 @@ export default defineConfig(({ mode }) => ({
       "@mui/styled-engine",
       "@material-table/core",
       "@mui/styles",
-      "@mui/lab",
       "@sentry/react",
     ],
     needsInterop: ["@mui/utils", "@mui/utils/deepmerge"],
     force: true,
+    esbuildOptions: {
+      loader: { ".js": "jsx" },
+    },
   },
   build: {
     outDir: "dist",
@@ -192,12 +220,19 @@ export default defineConfig(({ mode }) => ({
     minify: mode === 'production',
     rollupOptions: {
       maxParallelFileOps: 1,
-      output: {
-        manualChunks: {
-          vendor: ["react", "react-dom", "react-redux", "redux"],
-          materialui: ["@mui/material", "@mui/icons-material", "@mui/x-date-pickers"],
-        },
-      },
+       output: {
+         manualChunks: (id) => {
+           if (["react", "@mui/material"].some(dep => id.includes(dep))) {
+             return 'framework';
+           }
+           if (["react-dom", "react-redux", "redux"].some(dep => id.includes(dep))) {
+             return 'fm-addin';
+           }
+           if (id.includes('CoreModule')) {
+             return 'core';
+           }
+         },
+       },
     },
     commonjsOptions: {
       requireReturnsDefault: "auto",

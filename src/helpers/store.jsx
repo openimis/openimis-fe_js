@@ -1,22 +1,18 @@
-import { thunk } from "redux-thunk";
-import { createStore, applyMiddleware, compose, combineReducers } from "redux";
-import { loadState } from "./localStorage";
-import { apiMiddleware } from "redux-api-middleware";
+// src/helpers/store.jsx
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { apiMiddleware } from 'redux-api-middleware';
+import { loadState, saveState } from './localStorage';
 
 const persistedState = loadState();
 
-const composeEnhancers =
-  process.env.NODE_ENV === "development" && typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-      })
-    : compose;
-
-const store = (reducers, middlewares = []) =>
-  createStore(
-    combineReducers({ ...reducers }),
-    persistedState,
-    composeEnhancers(applyMiddleware(thunk, apiMiddleware, ...middlewares)),
-  );
+const store = (reducers = {}, extraMiddlewares = []) => {
+  return configureStore({
+    reducer: combineReducers(reducers),
+    preloadedState: persistedState,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(apiMiddleware, ...extraMiddlewares),
+    devTools: process.env.NODE_ENV === 'development',
+  });
+};
 
 export default store;

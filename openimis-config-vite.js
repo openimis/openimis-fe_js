@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const yargs = require("yargs/yargs")(process.argv.slice(2));
+const yargs = require("yargs")(process.argv.slice(2));
 
 function extractNpmPackageName(packageJsonPath) {
   try {
@@ -117,7 +117,7 @@ function processModules(modules, modulesInstallPath) {
       dynamicBlocks.push(`
   // 🔄 Dynamically importing ${name}
   try {
-    const module = await import("${packageName}");
+    const module = await import("${localPath}");
     loadedModules.push(
       module.${name ?? "default"}(cfg["${logicalName}"] || {})
     );
