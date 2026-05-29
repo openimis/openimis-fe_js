@@ -37,6 +37,11 @@ USER node
 ARG MODE=production
 ENV GENERATE_SOURCEMAP=true
 ENV NODE_ENV=$MODE
+# NPM reliability settings
+RUN npm config set fetch-timeout 600000 && \
+    npm config set fetch-retry-mintimeout 30000 && \
+    npm config set fetch-retry-maxtimeout 120000 && \
+    npm config set maxsockets 4
 RUN npm config set prefix /home/node/.npm-global
 RUN npm install -g npm@latest
 RUN npm install -g shelljs yargs
