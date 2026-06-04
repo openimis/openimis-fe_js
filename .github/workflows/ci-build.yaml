@@ -21,6 +21,7 @@ jobs:
       - name: Check package.json
         run: |
             npm install -g npm@latest yargs
+            npm install -D yargs
             npm run check-package
 
       - name: Prepare openIMIS Dependencies
