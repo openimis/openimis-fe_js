@@ -20,7 +20,7 @@ jobs:
 
       - name: Check package.json
         run: |
-            npm install -g npm@latest
+            npm install -g npm@latest yargs
             npm run check-package
 
       - name: Prepare openIMIS Dependencies
