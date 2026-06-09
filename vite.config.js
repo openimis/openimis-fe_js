@@ -42,6 +42,7 @@ export default defineConfig(({ mode }) => ({
       "@emotion/styled",
       "@emotion/cache",
       "@mui/material",
+      "@mui/icons-material",
       "@mui/x-date-pickers",
       "@mui/x-data-grid",
       "@mui/system",
