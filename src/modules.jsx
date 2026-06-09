@@ -33,8 +33,7 @@ export const packages = [
   "@openimis/fe-language_fr",
   "@openimis/fe-claim_sampling",
   "@openimis/fe-deduplication",
-  "@openimis/fe-payroll",
-  "@openimis/fe-form-builder"
+  "@openimis/fe-payroll"
 ];
 
 export async function loadModules(cfg = {}) {
@@ -367,17 +366,6 @@ export async function loadModules(cfg = {}) {
   } catch (error) {
     console.error(`❌ Failed to import module "PayrollModule". Error: ${error}`);
     alert(`Failed to load module "PayrollModule". See console for details.`);
-  }
-
-  // 🔄 Dynamically importing FormBuilderModule
-  try {
-    const module = await import("@openimis/fe-form-builder");
-    loadedModules.push(
-      module.FormBuilderModule(cfg["fe-form-builder"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "FormBuilderModule". Error: ${error}`);
-    alert(`Failed to load module "FormBuilderModule". See console for details.`);
   }
 
   return loadedModules;
