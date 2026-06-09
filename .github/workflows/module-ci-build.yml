@@ -62,6 +62,17 @@ jobs:
           fetch-depth: 0
           path: './current-module'
 
+      - name: Install current module's devDeps
+        working-directory: ./current-module
+        run: |
+          # Install the module's own devDeps (notably vite) so its
+          # `prepare: vite build` works when the host installs it as a
+          # `file:` dep later. --ignore-scripts here prevents prepare from
+          # running prematurely (vite isn't on PATH yet at this point);
+          # the explicit host install at "Install dependencies" below will
+          # trigger prepare with vite available.
+          npm install --legacy-peer-deps --ignore-scripts
+
       - name: Update the configuration
         working-directory: ./openimis-fe
         run: |
