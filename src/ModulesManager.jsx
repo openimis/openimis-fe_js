@@ -79,30 +79,37 @@ class ModulesManager {
     return moduleCfg[key] !== undefined ? moduleCfg[key] : defaultValue;
   }
   getMenuEntries() {
-    let menus = {}
+    // Emits parent menu configs in the same shape as the backend's
+    // moduleConfiguration menus: { id, name, icon, submenus, contributionKey }.
+    // - Modules contributing via "core.MainMenu" supply { id, text, icon }
+    //   parent definitions; we map their `text` (i18n key) onto `name`.
+    // - Modules contributing children via keys like "socialProtection.MainMenu"
+    //   get folded into the matching parent's `submenus`.
+    let menus = {};
     this.modules.forEach((module) => {
-      const mainMenuKeys = Object.keys(module).filter(
-        (key) => key.includes(".MainMenu")
-      );
+      const mainMenuKeys = Object.keys(module).filter((key) => key.includes(".MainMenu"));
       mainMenuKeys.forEach((key) => {
-        if(key == "core.MainMenu"){
-          module[key].forEach( (menu ) => {
-          const mKey =  menu?.contributionKey || menu?.id || menu?.name;
-          menus[mKey] = {
-            name: menu?.name || menus[mKey]?.name,
-            id: menu?.id || menus[mKey]?.id,
-            contributionKey: menu?.contributionKey || menus[mKey]?.contributionKey,
-            text: menu?.text || menus[mKey]?.text,
-            icon: menu?.icon || menus[mKey]?.icon,
-            entries: [...ensureArray(menus[mKey]?.entries), ...ensureArray(menu?.submenus), ...ensureArray(menu?.entries)],
-          }}
-        )
-        }else{
-          menus[key] = menus[key] || { "id": key, entries:[]};
-          menus[key]["entries"].push(...ensureArray(module[key]))
+        if (key === "core.MainMenu") {
+          module[key].forEach((menu) => {
+            const mKey = menu?.contributionKey || menu?.id || menu?.name;
+            menus[mKey] = {
+              id: menu?.id || menus[mKey]?.id,
+              contributionKey: menu?.contributionKey || menus[mKey]?.contributionKey,
+              name: menu?.text || menus[mKey]?.name,
+              icon: menu?.icon || menus[mKey]?.icon,
+              submenus: [
+                ...ensureArray(menus[mKey]?.submenus),
+                ...ensureArray(menu?.submenus),
+                ...ensureArray(menu?.entries),
+              ],
+            };
+          });
+        } else {
+          menus[key] = menus[key] || { id: key, submenus: [] };
+          menus[key].submenus.push(...ensureArray(module[key]));
         }
-        });
-    }, []);
+      });
+    });
     return Object.values(menus);
   }
 
