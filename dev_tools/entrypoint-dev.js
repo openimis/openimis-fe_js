@@ -2,8 +2,11 @@ const fs = require("fs");
 const shell = require("shelljs");
 const path = require("path");
 const {
-  parseNpmBranch,
   extractModuleInfo,
+  loadConfig,
+  validateConfig,
+  isDryRun,
+  safeWriteJson,
 } = require("./utils");
 
 function extractNpmPackageName(packageJsonPath) {
@@ -32,61 +35,82 @@ function isModuleLinkedLocally(npmPackageName, basePath) {
   }
 }
 
-function installAndLinkModules(imisJsonPath, modulesInstallPath) {
-  let imisJSON;
-  try {
-    imisJSON = JSON.parse(fs.readFileSync(imisJsonPath, "utf8"));
-  } catch (error) {
-    console.error(`Error reading openimis.json at ${imisJsonPath}: ${error.message}`);
-    throw error;
-  }
+function installAndLinkModules(imisJsonPath, modulesInstallPath, options = {}) {
+  const imisJSON = loadConfig([imisJsonPath], process.cwd());
+  validateConfig(imisJSON);
   const curPath = String(shell.pwd());
 
   imisJSON.modules.forEach((module) => {
     let info = extractModuleInfo(module);
-    const branch = info.branch || 'develop';
     if (!shell.test("-d", info.path)) {
       console.log(`Module directory ${info.path} does not exist. Cloning from ${info.repoUrl}...`);
-      shell.cd(modulesInstallPath);
-      try {
-        shell.exec(`git clone ${info.repoUrl} ${info.path}`, { silent: true });
-        console.log(`Successfully cloned ${info.name}`);
-      } catch (error) {
-        console.error(`Failed to clone ${info.name} from ${info.repoUrl}: ${error.message}`);
-        throw error;
+      if (options.dryRun) {
+        console.log(`[dry-run] would clone ${info.repoUrl} into ${info.path}`);
+      } else {
+        shell.cd(modulesInstallPath);
+        try {
+          shell.exec(`git clone ${info.repoUrl} ${info.path}`, { silent: true });
+          console.log(`Successfully cloned ${info.name}`);
+        } catch (error) {
+          console.error(`Failed to clone ${info.name} from ${info.repoUrl}: ${error.message}`);
+          throw error;
+        }
       }
     } else {
       console.log(`Module directory ${info.path} exists.`);
     }
 
-    shell.cd(info.path);
+    if (!options.dryRun) {
+      shell.cd(info.path);
+    }
     const modulePath = path.join(curPath, info.path);
-    prepareModuleForLocalDevelopment(modulePath, info.name, info.packageName, path.dirname(imisJsonPath));
-    shell.cd(curPath);
+    prepareModuleForLocalDevelopment(modulePath, info.name, info.packageName, path.dirname(imisJsonPath), options);
+    if (!options.dryRun) {
+      shell.cd(curPath);
+    }
   });
 
-  updatePackageInAssembly(imisJSON.modules, path.dirname(imisJsonPath), modulesInstallPath);
+  updatePackageInAssembly(imisJSON.modules, path.dirname(imisJsonPath), modulesInstallPath, options);
 }
 
-function prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageName, basePath) {
-  shell.cd(modulePath);
+function prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageName, basePath, options = {}) {
+  if (!options.dryRun) {
+    shell.cd(modulePath);
+  }
   console.log(`Preparing ${moduleName} for local development...`);
 
   if (isModuleLinkedGlobally(npmPackageName)) {
     console.log(`${npmPackageName} is already globally linked, skipping npm unlink.`);
   } else {
     console.log(`Unlinking ${npmPackageName} if previously linked...`);
-    shell.exec(`yarn unlink ${npmPackageName}`, { silent: true });
+    if (options.dryRun) {
+      console.log(`[dry-run] would run: yarn unlink ${npmPackageName}`);
+    } else {
+      shell.exec(`yarn unlink ${npmPackageName}`, { silent: true });
+    }
   }
 
-  shell.exec("yarn install --legacy-peer-deps --include dev");
+  if (options.dryRun) {
+    console.log("[dry-run] would run: yarn install --legacy-peer-deps --include dev");
+  } else {
+    shell.exec("yarn install --legacy-peer-deps --include dev");
+  }
   // shell.exec("yarn run build"); // Commented out to avoid premature builds
 
   if (isModuleLinkedGlobally(npmPackageName)) {
     console.log(`${npmPackageName} is already globally linked, skipping npm link.`);
   } else {
     console.log(`Linking ${npmPackageName} globally...`);
-    shell.exec("yarn link", { silent: true });
+    if (options.dryRun) {
+      console.log("[dry-run] would run: yarn link");
+    } else {
+      shell.exec("yarn link", { silent: true });
+    }
+  }
+
+  if (options.dryRun) {
+    updateModuleInAssembly(null, modulePath, moduleName, npmPackageName, basePath, options);
+    return;
   }
 
   const modulePackageJson = path.join("package.json");
@@ -98,10 +122,10 @@ function prepareModuleForLocalDevelopment(modulePath, moduleName, npmPackageName
     throw error;
   }
 
-  updateModuleInAssembly(packageVersion, modulePath, moduleName, npmPackageName, basePath);
+  updateModuleInAssembly(packageVersion, modulePath, moduleName, npmPackageName, basePath, options);
 }
 
-function updateModuleInAssembly(packageVersion, modulePath, moduleName, npmPackageName, basePath) {
+function updateModuleInAssembly(packageVersion, modulePath, moduleName, npmPackageName, basePath, options = {}) {
   const imisJsonPath = path.join(basePath, "openimis.json");
   let imisJSON;
 
@@ -132,18 +156,14 @@ function updateModuleInAssembly(packageVersion, modulePath, moduleName, npmPacka
   );
 
   try {
-    fs.writeFileSync(imisJsonPath, JSON.stringify(imisJSON, null, 2), {
-      encoding: "utf8",
-      flag: "w",
-    });
+    safeWriteJson(imisJsonPath, imisJSON, options);
     console.log(`Updated openimis.json for ${moduleName}`);
   } catch (error) {
     console.error(`Error writing openimis.json: ${error.message}`);
-    
   }
 }
 
-function updatePackageInAssembly(modules, basePath, modulesInstallPath) {
+function updatePackageInAssembly(modules, basePath, modulesInstallPath, options = {}) {
   const packageJsonPath = path.join(basePath, "package.json");
   let packageJSON;
 
@@ -158,7 +178,11 @@ function updatePackageInAssembly(modules, basePath, modulesInstallPath) {
     let info = extractModuleInfo(module);
     if (packageJSON.dependencies[info.packageName] !== `file:${info.path}`) {
       console.log(`Updating ${info.name} in package.json to use local path: file:${info.path}`);
-      shell.exec(`yarn remove ${info.packageName}`, { silent: true });
+      if (options.dryRun) {
+        console.log(`[dry-run] would run: yarn remove ${info.packageName}`);
+      } else {
+        shell.exec(`yarn remove ${info.packageName}`, { silent: true });
+      }
       packageJSON.dependencies[info.packageName] = `file:${info.path}`;
     } else {
       console.log(`${info.packageName} already linked to file:${info.path} in package.json`);
@@ -168,15 +192,16 @@ function updatePackageInAssembly(modules, basePath, modulesInstallPath) {
       console.log(`${info.packageName} is already linked locally, skipping npm link.`);
     } else {
       console.log(`Linking ${info.packageName} in main project...`);
-      shell.exec(`yarn link "${info.packageName}"`, { silent: true });
+      if (options.dryRun) {
+        console.log(`[dry-run] would run: yarn link "${info.packageName}"`);
+      } else {
+        shell.exec(`yarn link "${info.packageName}"`, { silent: true });
+      }
     }
   });
 
   try {
-    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJSON, null, 2), {
-      encoding: "utf8",
-      flag: "w",
-    });
+    safeWriteJson(packageJsonPath, packageJSON, options);
     console.log("Updated package.json with local module paths");
   } catch (error) {
     console.error(`Error writing package.json: ${error.message}`);
@@ -188,7 +213,8 @@ function parseArgs() {
   const args = process.argv.slice(2);
   const parsed = {
     config: path.join(__dirname, "..", "openimis.json"),
-    path: "../frontend-packages"
+    path: "../frontend-packages",
+    dryRun: false,
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -202,18 +228,20 @@ function parseArgs() {
         parsed.path = args[i + 1];
         i++;
       }
+    } else if (args[i] === "--dry-run") {
+      parsed.dryRun = true;
     }
   }
 
-  console.log(`dev entrypoint, p: ${parsed.path}, c: ${parsed.config}`);
+  console.log(`dev entrypoint, p: ${parsed.path}, c: ${parsed.config}, dryRun: ${parsed.dryRun}`);
   return parsed;
 }
 
 function main() {
-  const { config, path: modulesPath } = parseArgs();
+  const { config, path: modulesPath, dryRun } = parseArgs();
   const imisJsonPath = path.resolve(config);
   const modulesInstallPath = path.resolve(modulesPath);
-  installAndLinkModules(imisJsonPath, modulesInstallPath);
+  installAndLinkModules(imisJsonPath, modulesInstallPath, { dryRun });
 }
 
 if (require.main === module) {

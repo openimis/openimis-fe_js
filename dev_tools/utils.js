@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 /**
  * Read and parse a JSON file synchronously.
@@ -22,9 +23,10 @@ function readJson(filePath) {
  * @throws {Error} If no configuration file is found
  */
 function loadConfig(args = [], cwd = process.cwd()) {
-  if (args && args.length > 0) {
-    const configPath = path.resolve(cwd, args[0]);
-    console.log(`  load configuration from '${args[0]}'`);
+  const filteredArgs = (args || []).filter((arg) => arg !== "--dry-run");
+  if (filteredArgs.length > 0) {
+    const configPath = path.resolve(cwd, filteredArgs[0]);
+    console.log(`  load configuration from '${filteredArgs[0]}'`);
     return readJson(configPath);
   }
 
@@ -50,7 +52,11 @@ function loadConfig(args = [], cwd = process.cwd()) {
  * @param {string} filePath - Path to the file to write
  * @param {string} content - Content to write to file
  */
-function writeFile(filePath, content) {
+function writeFile(filePath, content, options = {}) {
+  if (options.dryRun) {
+    console.log(`[dry-run] would write file: ${filePath}`);
+    return;
+  }
   fs.writeFileSync(filePath, content, { encoding: "utf8", flag: "w" });
 }
 
@@ -61,7 +67,7 @@ function writeFile(filePath, content) {
  * @param {object} config - Configuration object containing locales array
  * @param {string} outputPath - Path where locales.js should be written (default: ./src/locales.js)
  */
-function processLocales(config, outputPath = "./src/locales.js") {
+function processLocales(config, outputPath = "./src/locales.js", options = {}) {
   const locales = Array.isArray(config.locales) ? config.locales : [];
 
   const localeByLang = locales.reduce((lcs, lc) => {
@@ -85,7 +91,7 @@ function processLocales(config, outputPath = "./src/locales.js") {
     `export default ${JSON.stringify(localeByLang)}`,
   ].join("\n");
 
-  writeFile(outputPath, content);
+  writeFile(outputPath, content, options);
 }
 
 /**
@@ -95,7 +101,7 @@ function processLocales(config, outputPath = "./src/locales.js") {
  * @param {object[]} modules - Array of module objects with moduleName, name, logicalName properties
  * @param {string} outputPath - Path where modules.js should be written (default: ./src/modules.js)
  */
-function generateModulesJs(modules, outputPath = "./src/modules.js") {
+function generateModulesJs(modules, outputPath = "./src/modules.js", options = {}) {
   const content = `
 export const packages = [
   ${modules.map(({ moduleName }) => `"${moduleName}"`).join(",\n  ")}
@@ -119,7 +125,7 @@ ${modules
 }
 `;
 
-  writeFile(outputPath, content.trimStart());
+  writeFile(outputPath, content.trimStart(), options);
 }
 
 /**
@@ -154,13 +160,38 @@ function getNpmVersion(npmSpec) {
     return null;
   }
 
-  if (npmSpec.startsWith("file:")) {
+  const spec = npmSpec.trim();
+  if (!spec) return null;
+
+  if (
+    spec.startsWith("file:") ||
+    spec.startsWith("git+") ||
+    spec.startsWith("git://") ||
+    spec.startsWith("ssh://") ||
+    spec.startsWith("http://") ||
+    spec.startsWith("https://") ||
+    spec.startsWith("workspace:") ||
+    spec.startsWith("link:")
+  ) {
     return null;
   }
 
-  const at = npmSpec.lastIndexOf("@");
-  if (at > 0) {
-    return npmSpec.substring(at + 1);
+  if (spec.includes("#")) {
+    return null;
+  }
+
+  if (spec.startsWith("@")) {
+    const match = spec.match(/^@[^/]+\/[^@]+@(.+)$/);
+    return match ? match[1] : null;
+  }
+
+  const plainMatch = spec.match(/^[^@]+@(.+)$/);
+  if (plainMatch) {
+    return plainMatch[1];
+  }
+
+  if (/^[~^<>=*]/.test(spec) || /^\d/.test(spec)) {
+    return spec;
   }
 
   return null;
@@ -257,8 +288,10 @@ function parseNpmBranch(npmStr) {
     return null;
   }
 
-  const branchMatch = npmStr.match(/#(.+)$/);
-  return branchMatch ? branchMatch[1] : null;
+  const hashIndex = npmStr.indexOf("#");
+  if (hashIndex === -1) return null;
+  const branch = npmStr.slice(hashIndex + 1).trim();
+  return branch || null;
 }
 
 /**
@@ -269,6 +302,9 @@ function parseNpmBranch(npmStr) {
  * @returns {object} Module info object with name, npm, path, gitName, repoUrl, branch, packageName
  */
 function extractModuleInfo(module) {
+  if (!module || typeof module !== "object") {
+    throw new Error("Invalid module entry: expected object");
+  }
   const modulePath = getLocalPathFromNpmSpec(module.npm) || module.name;
 
   return {
@@ -282,6 +318,99 @@ function extractModuleInfo(module) {
   };
 }
 
+function validateConfig(config) {
+  const errors = [];
+  if (!config || typeof config !== "object" || Array.isArray(config)) {
+    throw new Error("Invalid config: expected a JSON object");
+  }
+
+  if (!Array.isArray(config.modules)) {
+    errors.push("config.modules must be an array");
+  } else {
+    config.modules.forEach((mod, idx) => {
+      if (!mod || typeof mod !== "object") {
+        errors.push(`config.modules[${idx}] must be an object`);
+        return;
+      }
+      if (!mod.name || typeof mod.name !== "string") {
+        errors.push(`config.modules[${idx}].name must be a non-empty string`);
+      }
+      if (!mod.npm || typeof mod.npm !== "string") {
+        errors.push(`config.modules[${idx}].npm must be a non-empty string`);
+      }
+      if (mod.logicalName && typeof mod.logicalName !== "string") {
+        errors.push(`config.modules[${idx}].logicalName must be a string when provided`);
+      }
+    });
+  }
+
+  if (config.locales !== undefined) {
+    if (!Array.isArray(config.locales)) {
+      errors.push("config.locales must be an array when provided");
+    } else {
+      config.locales.forEach((lc, idx) => {
+        if (!lc || typeof lc !== "object") {
+          errors.push(`config.locales[${idx}] must be an object`);
+          return;
+        }
+        if (!lc.intl || typeof lc.intl !== "string") {
+          errors.push(`config.locales[${idx}].intl must be a non-empty string`);
+        }
+        if (lc.languages && !Array.isArray(lc.languages)) {
+          errors.push(`config.locales[${idx}].languages must be an array when provided`);
+        }
+      });
+    }
+  }
+
+  if (errors.length) {
+    throw new Error(`Configuration validation failed:\n- ${errors.join("\n- ")}`);
+  }
+
+  return true;
+}
+
+function isDryRun(args = []) {
+  return (args || []).includes("--dry-run");
+}
+
+function safeWriteJson(filePath, value, options = {}) {
+  if (options.dryRun) {
+    console.log(`[dry-run] would write JSON file: ${filePath}`);
+    return;
+  }
+
+  const dir = path.dirname(filePath);
+  const base = path.basename(filePath);
+  const stamp = `${Date.now()}-${crypto.randomBytes(4).toString("hex")}`;
+  const tempPath = path.join(dir, `.${base}.${stamp}.tmp`);
+  const backupPath = path.join(dir, `.${base}.${stamp}.bak`);
+
+  const payload = JSON.stringify(value, null, 2);
+
+  try {
+    if (fs.existsSync(filePath)) {
+      fs.copyFileSync(filePath, backupPath);
+    }
+
+    fs.writeFileSync(tempPath, payload, { encoding: "utf8", flag: "w" });
+    fs.renameSync(tempPath, filePath);
+
+    if (fs.existsSync(backupPath)) {
+      fs.unlinkSync(backupPath);
+    }
+  } catch (error) {
+    if (fs.existsSync(tempPath)) {
+      try { fs.unlinkSync(tempPath); } catch (_) {}
+    }
+    if (fs.existsSync(backupPath)) {
+      try { fs.copyFileSync(backupPath, filePath); } catch (_) {}
+      try { fs.unlinkSync(backupPath); } catch (_) {}
+    }
+    throw error;
+  }
+}
+
 module.exports = {
   loadConfig,
   processLocales,
@@ -293,4 +422,7 @@ module.exports = {
   parseNpmGitRepoName,
   parseNpmBranch,
   extractModuleInfo,
+  validateConfig,
+  isDryRun,
+  safeWriteJson,
 };

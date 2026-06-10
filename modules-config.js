@@ -1,4 +1,3 @@
-const fs = require("fs");
 const pkg = require("./package.json");
 const {
   loadConfig,
@@ -7,6 +6,9 @@ const {
   parseNpmPackageName,
   getNpmVersion,
   getModuleLogicalName,
+  validateConfig,
+  isDryRun,
+  safeWriteJson,
 } = require("./dev_tools/utils");
 
 function main() {
@@ -24,12 +26,16 @@ function main() {
     }
   }
 
+  const args = process.argv.slice(2);
+  const dryRun = isDryRun(args);
+
   // Get openIMIS configuration from args
   console.log("Load configuration");
-  const config = loadConfig(process.argv.slice(2));
+  const config = loadConfig(args);
+  validateConfig(config);
 
   console.log("Process Locales");
-  processLocales(config);
+  processLocales(config, "./src/locales.js", { dryRun });
 
   console.log("Process Modules");
   const modules = [];
@@ -50,10 +56,10 @@ function main() {
       logicalName: getModuleLogicalName(module),
     });
   }
-  generateModulesJs(modules);
+  generateModulesJs(modules, "./src/modules.js", { dryRun });
 
   console.log("Save package.json");
-  fs.writeFileSync("./package.json", JSON.stringify(pkg, null, 2), { encoding: "utf-8", flag: "w" });
+  safeWriteJson("./package.json", pkg, { dryRun });
 }
 
 main();
