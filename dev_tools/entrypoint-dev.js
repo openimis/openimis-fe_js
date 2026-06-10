@@ -5,19 +5,8 @@ const {
   extractModuleInfo,
   loadConfig,
   validateConfig,
-  isDryRun,
   safeWriteJson,
 } = require("./utils");
-
-function extractNpmPackageName(packageJsonPath) {
-  try {
-    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
-    return packageJson.name || null;
-  } catch (error) {
-    console.error(`Error reading package.json at ${packageJsonPath}: ${error.message}`);
-    return null;
-  }
-}
 
 function isModuleLinkedGlobally(npmPackageName) {
   const result = shell.exec(`yarn ls -g --link ${npmPackageName}`, { silent: true });
