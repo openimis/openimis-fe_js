@@ -1,56 +1,19 @@
 const fs = require("fs");
 const shell = require("shelljs");
 const path = require("path");
+const {
+  parseNpmBranch,
+  extractModuleInfo,
+} = require("./utils");
 
 function extractNpmPackageName(packageJsonPath) {
   try {
-    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
     return packageJson.name || null;
   } catch (error) {
     console.error(`Error reading package.json at ${packageJsonPath}: ${error.message}`);
     return null;
   }
-}
-
-function parseNpm(npmStr) {
-  const gitMatch = npmStr.match(/github\.com\/(.+)\.git/);
-  if (gitMatch) {
-    return gitMatch[1];
-  }
-  const npmMatch = npmStr.match(/@openimis\/(.+)@/);
-  if (npmMatch) {
-    return `openimis/openimis-${npmMatch[1]}_js`;
-  }
-  return null;
-}
-
-function parseNpmName(module) {
-  const npmMatch = module.npm.match(/(@openimis\/.+)@?/);
-  if (npmMatch) {
-    return npmMatch[1];
-  }
-  return "@openimis/fe-" + module.name.replace("Module", "").toLowerCase();
-}
-
-function parseNpmBranch(npmStr) {
-  const gitMatch = npmStr.match(/github\.com\.+#(.+)/);
-  if (gitMatch) {
-    return gitMatch[1];
-  }
-  return null;
-}
-
-function extractModuleInfo(module) {
-  const modulePath = module.npm.match(/^file:/) ? module.npm.replace(/^file:/, '') : module.name;
-  return {
-    "name": module.name,
-    "npm": module.npm,
-    "path": modulePath,
-    "gitName": parseNpm(module.npm),
-    "repoUrl": `https://github.com/openimis/${module.name}.git`,
-    "branch": parseNpmBranch(module.npm),
-    "packageName": parseNpmName(module)
-  };
 }
 
 function isModuleLinkedGlobally(npmPackageName) {
