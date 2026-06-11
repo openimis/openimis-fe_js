@@ -51,6 +51,15 @@ const createAppTheme = (colorOverrides = {}) => {
           },
         },
       },
+      MuiTextField: {
+        defaultProps: { variant: "standard" },
+      },
+      MuiSelect: {
+        defaultProps: { variant: "standard" },
+      },
+      MuiFormControl: {
+        defaultProps: { variant: "standard" },
+      },
     },
     palette: {
       primary: { main: primaryColor },
@@ -140,7 +149,7 @@ const createAppTheme = (colorOverrides = {}) => {
         margin: 0,
       },
       body: {
-        marginTop: 10,
+        marginBottom: 10,
         backgroundColor: backgroundColor,
       },
       item: {
