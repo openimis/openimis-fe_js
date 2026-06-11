@@ -388,6 +388,21 @@ function safeWriteJson(filePath, value, options = {}) {
 
   const payload = JSON.stringify(value, null, 2);
 
+  const cleanupTemp = () => {
+    if (fs.existsSync(tempPath)) {
+      fs.unlinkSync(tempPath);
+    }
+  };
+
+  const restoreBackup = () => {
+    if (!fs.existsSync(backupPath)) {
+      return;
+    }
+
+    fs.copyFileSync(backupPath, filePath);
+    fs.unlinkSync(backupPath);
+  };
+
   try {
     if (fs.existsSync(filePath)) {
       fs.copyFileSync(filePath, backupPath);
@@ -400,13 +415,8 @@ function safeWriteJson(filePath, value, options = {}) {
       fs.unlinkSync(backupPath);
     }
   } catch (error) {
-    if (fs.existsSync(tempPath)) {
-      try { fs.unlinkSync(tempPath); } catch (_) {}
-    }
-    if (fs.existsSync(backupPath)) {
-      try { fs.copyFileSync(backupPath, filePath); } catch (_) {}
-      try { fs.unlinkSync(backupPath); } catch (_) {}
-    }
+    cleanupTemp();
+    restoreBackup();
     throw error;
   }
 }
