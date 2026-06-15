@@ -365,14 +365,13 @@ if (require.main === module) {
       default: '../frontend-packages',
     })
     .option('host', {
-      alias: 'h',
+      alias: 'H',
       description: 'Expose Vite server to network',
       type: 'boolean',
       default: false,
     })
     .help()
     .alias('help', 'h')
-    .argv;
 
   console.log(`dev entrypoint, p: ${argv.path}, c: ${argv.config}, host: ${argv.host}`);
   main(argv.config, argv.path);
