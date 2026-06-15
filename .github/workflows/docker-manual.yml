@@ -1,9 +1,17 @@
 name: create manual docker image 
 on:
   workflow_dispatch:
-    inputs:   
+    inputs:
       tag:
         required: true
+      build_mode:
+        description: 'Build mode (prod for minified, dev for unminified)'
+        required: false
+        default: 'prod'
+        type: choice
+        options:
+        - prod
+        - dev
       file_url:
         description: 'url (CURL compatible) of your custom openIMIS.json'
         required: false
@@ -22,7 +30,14 @@ jobs:
       if: ${{ inputs.file_url != '' }}
       run: |
           curl -o ./openimis.json ${{ inputs.file_url }}
+    - name: Set build mode
+      run: |
+        if [ "${{ github.event.inputs.build_mode }}" = "dev" ]; then
+          echo "MODE=development" >> $GITHUB_ENV
+        else
+          echo "MODE=production" >> $GITHUB_ENV
+        fi
     - name: Build the openimis frontend Docker image
       run: |
-         docker build . --tag ghcr.io/openimis/openimis-fe:${{ github.event.inputs.tag }}
+         docker build . --no-cache --build-arg MODE=$MODE --tag ghcr.io/openimis/openimis-fe:${{ github.event.inputs.tag }}
          docker push ghcr.io/openimis/openimis-fe:${{ github.event.inputs.tag }}

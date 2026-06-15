@@ -1,11 +1,11 @@
-import { createTheme } from "@material-ui/core/styles";
-import { alpha } from "@material-ui/core/styles/colorManipulator";
+import { createTheme } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 
 const defaultColors = {
   primaryColor: "#006273",
   errorColor: "#801a00",
   whiteColor: "#fff",
-  fontColor: "#006273",
+  fontColor: "#003d4a",
   backgroundColor: "#dbeef0",
   headerColor: "#b7d4d8",
   greyColor: "grey",
@@ -30,14 +30,35 @@ const createAppTheme = (colorOverrides = {}) => {
     toggledButtonColor,
     lockedBackgroundPattern,
   } = { ...defaultColors, ...colorOverrides };
-  return createTheme({
-    overrides: {
+
+  const themeOptions = {
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+      },
+    },
+    components: {
       MuiTableRow: {
-        root: {
-          "&$selected": {
-            backgroundColor: selectedTableRowColor,
+        styleOverrides: {
+          root: {
+            '&.Mui-selected': {
+              backgroundColor: selectedTableRowColor,
+            },
           },
         },
+      },
+      MuiTextField: {
+        defaultProps: { variant: "standard" },
+      },
+      MuiSelect: {
+        defaultProps: { variant: "standard" },
+      },
+      MuiFormControl: {
+        defaultProps: { variant: "standard" },
       },
     },
     palette: {
@@ -53,16 +74,20 @@ const createAppTheme = (colorOverrides = {}) => {
       toggledButton: toggledButtonColor,
     },
     typography: {
-      useNextVariants: true,
       fontFamily: ["Rubik", "Roboto", '"Helvetica Neue"', "sans-serif"].join(","),
       fontSize: 14,
       fontWeightRegular: 300,
       fontWeightMedium: 400,
+      h6: {
+        fontSize: 20,
+        fontWeight: 300,
+      },
+    
       title: {
         fontSize: 20,
         fontWeight: 300,
       },
-      label: {
+      body2: {
         color: greyColor,
       },
     },
@@ -71,27 +96,27 @@ const createAppTheme = (colorOverrides = {}) => {
         width: 500,
       },
       close: {
-        width: 80,
+        width: 70,
       },
       itemDetail: {
         marginLeft: 8,
       },
       iconSize: 24,
     },
-    menu: {
-      variant: "AppBar",
-      drawer: {
-        width: 300,
+         menu: {
+       variant: "AppBar", 
+       drawer: {
+         width: "300px", // Must be string for CSS calc() in RequireAuth
         fontSize: 16,
         fontWeight: 400,
         backgroundColor: primaryColor,
+        textColor: whiteColor,
       },
       appBar: {
-        fontSize: 16,
+        fontSize: 15,
       },
     },
     page: {
-      padding: 16,
       locked: {
         background: lockedBackgroundPattern,
       },
@@ -104,25 +129,27 @@ const createAppTheme = (colorOverrides = {}) => {
       header: {
         color: primaryColor,
         backgroundColor: headerColor,
+        padding: 16,
       },
       message: {
         backgroundColor: headerColor,
       },
       title: {
-        padding: 10,
-        fontSize: 24,
+        padding: 16,
+        fontSize: 20,
+        fontWeight: 500,
         color: primaryColor,
         backgroundColor: headerColor,
       },
       action: {
-        padding: 5,
+        padding: 8,
       },
       divider: {
         padding: 0,
         margin: 0,
       },
       body: {
-        marginTop: 10,
+        marginBottom: 10,
         backgroundColor: backgroundColor,
       },
       item: {
@@ -131,7 +158,7 @@ const createAppTheme = (colorOverrides = {}) => {
     },
     table: {
       title: {
-        padding: 10,
+        padding: 16,
         fontWeight: 500,
         color: primaryColor,
         backgroundColor: headerColor,
@@ -140,14 +167,17 @@ const createAppTheme = (colorOverrides = {}) => {
         color: primaryColor,
       },
       headerAction: {
-        padding: 5,
+        padding: 8,
       },
       row: {
         color: primaryColor,
-        align: "center",
-        "&:hover": {
-          background: hoveredTableRowColor + " !important",
+        textAlign: "center",
+        '&:hover': {
+          background: hoveredTableRowColor,
         },
+      },
+      container: {
+        backgroundColor: backgroundColor,
       },
       cell: {
         padding: 5,
@@ -159,7 +189,7 @@ const createAppTheme = (colorOverrides = {}) => {
       highlightedRow: {},
       highlightedCell: {
         fontWeight: 500,
-        align: "center",
+        textAlign: "center",
       },
       secondaryHighlightedRow: {
         backgroundColor: "#cbedf2",
@@ -168,12 +198,12 @@ const createAppTheme = (colorOverrides = {}) => {
       highlightedAltRow: {},
       highlightedAltCell: {
         fontStyle: "italic",
-        align: "center",
+        textAlign: "center",
       },
       disabledRow: {},
       disabledCell: {
         color: greyColor,
-        align: "center",
+        textAlign: "center",
       },
       footer: {
         color: primaryColor,
@@ -194,7 +224,7 @@ const createAppTheme = (colorOverrides = {}) => {
       },
       header: {
         color: primaryColor,
-        align: "center",
+        textAlign: "center",
       },
     },
     dialog: {
@@ -209,7 +239,7 @@ const createAppTheme = (colorOverrides = {}) => {
         backgroundColor: primaryColor,
         color: whiteColor,
         fontWeight: "bold",
-        "&:hover": {
+        '&:hover': {
           backgroundColor: alpha(primaryColor, 0.5),
           color: primaryColor,
         },
@@ -247,7 +277,29 @@ const createAppTheme = (colorOverrides = {}) => {
         justifyContent: "flex-end",
       },
     },
-  });
+   };
+
+  let theme = createTheme(themeOptions);
+
+  theme.jrnlDrawer = themeOptions.jrnlDrawer;
+  theme.menu = themeOptions.menu;
+  theme.page = themeOptions.page;
+  theme.paper = themeOptions.paper;
+  theme.table = themeOptions.table;
+  theme.form = themeOptions.form;
+  theme.formTable = themeOptions.formTable;
+  theme.dialog = themeOptions.dialog;
+  theme.tooltipContainer = themeOptions.tooltipContainer;
+  theme.flexTooltip = themeOptions.flexTooltip;
+  theme.fab = themeOptions.fab;
+  theme.fakeInput = themeOptions.fakeInput;
+  theme.bigAvatar = themeOptions.bigAvatar;
+  theme.buttonContainer = themeOptions.buttonContainer;
+  if (!theme.typography.title) {
+    theme.typography.title = themeOptions.typography.title;
+  }
+
+  return theme;
 };
 
 export default createAppTheme;

@@ -1,0 +1,42 @@
+name: Publish Node.js Package
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      node_version:
+        description: 'Node version to use'
+        required: true
+        default: '20'
+      registry_url:
+        description: 'NPM registry URL'
+        required: true
+        default: 'https://registry.npmjs.org/'
+      scope:
+        description: 'Scope for npm package'
+        required: false
+        default: 'openimis'
+      access:
+        description: 'Access level for npm package'
+        required: false
+        default: 'public'
+      tag:
+        required: false
+        description: 'Optional tag for the published package (e.g., latest, beta)'
+
+jobs:
+  call-npm-publish-workflow:
+    uses: openimis/openimis-fe_js/.github/workflows/module-npmpublish.yml@develop
+    with:
+      registry_url: 'https://registry.npmjs.org/'
+      tag:  ${{ github.event.inputs.tag }}
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  call-gpr-publish-workflow:
+    uses: openimis/openimis-fe_js/.github/workflows/module-npmpublish.yml@develop
+    with:
+      registry_url: 'https://npm.pkg.github.com/'
+      tag:  ${{ github.event.inputs.tag }}
+    secrets:
+      NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}

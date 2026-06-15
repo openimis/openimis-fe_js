@@ -63,7 +63,7 @@ jobs:
           jq --arg a "$TAG_NAME" '.version = $a' package.json > temp.json && mv temp.json package.json
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
       - name: Publish package
         run: |
@@ -75,7 +75,9 @@ jobs:
           fi
       
           if [ -n "${{ inputs.tag }}" ]; then
-            TAG_FLAG="--tag ${{ inputs.tag }}"
+            npm publish --tag ${{ inputs.tag }} --access ${{ inputs.access }} --no-git-tag-version
+          else
+            npm publish --access ${{ inputs.access }} --no-git-tag-version
           fi
           echo "yarn publish $ACCESS_FLAG $TAG_FLAG --no-git-tag-version"
           yarn publish $ACCESS_FLAG $TAG_FLAG --no-git-tag-version
