@@ -82,6 +82,13 @@ const createAppTheme = (colorOverrides = {}) => {
         color: greyColor,
       },
     },
+    layout: {
+      // Symmetric horizontal inset at every width: min(percent of viewport, maxPx cap)
+      contentPaddingX: { percent: 2.5, maxPx: 12 },
+      contentPaddingTop: { xs: 2, md: 4 },
+      // Below this breakpoint: hamburger + overlay drawer; above: inline AppBar menu
+      menuDrawerBreakpoint: "lg",
+    },
     jrnlDrawer: {
       open: {
         width: 500,
@@ -92,7 +99,7 @@ const createAppTheme = (colorOverrides = {}) => {
       itemDetail: {
         marginLeft: 8,
       },
-      iconSize: 24,
+      iconSize: 32,
     },
          menu: {
        variant: "AppBar", 
@@ -272,6 +279,7 @@ const createAppTheme = (colorOverrides = {}) => {
 
   let theme = createTheme(themeOptions);
 
+  theme.layout = themeOptions.layout;
   theme.jrnlDrawer = themeOptions.jrnlDrawer;
   theme.menu = themeOptions.menu;
   theme.page = themeOptions.page;
