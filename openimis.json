@@ -20,7 +20,7 @@
     "modules": [
         {
             "name": "CoreModule",
-            "npm": "@openimis/fe-core@https://github.com/openimis/openimis-fe-core_js#feature/vite-migration"
+            "npm": "@openimis/fe-core@https://github.com/openimis/openimis-fe-core_js#develop"
         },
         {
             "name": "IndividualModule",
@@ -28,7 +28,7 @@
         },
         {
             "name": "SocialProtectionModule",
-            "npm": "@openimis/fe-social_protection@https://github.com/openimis/openimis-fe-social_protection_js#feature/vite-migration"
+            "npm": "@openimis/fe-social_protection@https://github.com/openimis/openimis-fe-social_protection_js#develop"
         },
         {
             "name": "OpenSearchReportsModule",
@@ -120,7 +120,7 @@
         },
         {
             "name": "GrievanceSocialProtectionModule",
-            "npm": "@openimis/fe-grievance_social_protection@https://github.com/openimis/openimis-fe-grievance_social_protection_js#feature/vite-migration"
+            "npm": "@openimis/fe-grievance_social_protection@https://github.com/openimis/openimis-fe-grievance_social_protection_js#develop"
         },
         {
             "name": "LanguageFrModule",
