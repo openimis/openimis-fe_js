@@ -1,6 +1,8 @@
 html,
 #root {
   height: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {
@@ -8,6 +10,8 @@ body {
   padding: 0;
   font-family: sans-serif;
   height: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
   background: #f2f2f2;
   line-height: 1.5;
   color: #006273;

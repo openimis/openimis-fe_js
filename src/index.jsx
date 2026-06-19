@@ -14,7 +14,17 @@ import store from "./helpers/store";
 import LocalesManager from "./LocalesManager";
 import ModulesManager from "./ModulesManager";
 import ModulesManagerProvider from "./ModulesManagerProvider";
-import { App, FatalError, baseApiUrl, apiHeaders } from "@openimis/fe-core";
+import {
+  App,
+  FatalError,
+  baseApiUrl,
+  apiHeaders,
+  isSessionError,
+  isUnauthenticatedRoute,
+  clearExpiredSession,
+  redirectToLogin,
+  handleBootLogout,
+} from "@openimis/fe-core";
 import getConfiguredLogo from "./helpers/logo";
 import messages_ref from "./translations/ref.json";
 import "./index.css";
@@ -23,14 +33,52 @@ import "./rc-cascader.css";
 const loadConfiguration = async () => {
   const response = await fetch(`${baseApiUrl}/graphql`, {
     method: "post",
+    credentials: "omit",
     headers: apiHeaders(),
     body: JSON.stringify({
       query: `{ moduleConfigurations { module, config, controls { field, usage } } }`,
     }),
   });
-  if (!response.ok) throw response;
-  const { data } = await response.json();
-  console.log(data);
+
+  let payload;
+  try {
+    payload = await response.json();
+  } catch (error) {
+    if (isSessionError(response.status)) {
+      await clearExpiredSession();
+      if (!isUnauthenticatedRoute()) {
+        await redirectToLogin();
+        return new Promise(() => {});
+      }
+    }
+    if (!response.ok) {
+      throw response;
+    }
+    throw error;
+  }
+
+  const { data, errors = [] } = payload;
+
+  if (isSessionError(response.status, errors)) {
+    await clearExpiredSession();
+    if (!isUnauthenticatedRoute()) {
+      await redirectToLogin();
+      return new Promise(() => {});
+    }
+  }
+
+  if (!response.ok) {
+    throw response;
+  }
+
+  if (errors.length > 0) {
+    throw new Error(errors.map((error) => error.message).join("; "));
+  }
+
+  if (!data?.moduleConfigurations) {
+    throw new Error("Failed to load module configurations");
+  }
+
   const out = data.moduleConfigurations.reduce((acc, c) => {
     try {
       acc[c.module] = { controls: c.controls, ...JSON.parse(c.config) };
@@ -41,6 +89,8 @@ const loadConfiguration = async () => {
   }, {});
   return out;
 };
+
+const bootLogoutPending = handleBootLogout();
 
 const AppContainer = () => {
   const [appState, setAppState] = React.useState({
@@ -80,7 +130,7 @@ const AppContainer = () => {
   const logo = getConfiguredLogo(appState.config);
   const disableTextLogo = appState?.config?.["fe-core"]?.logo?.disableTextLogo || false;
 
-  if (appState.isLoading) {
+  if (bootLogoutPending || appState.isLoading) {
     console.log("[openIMIS] App is loading...");
     return (
       <ThemeProvider theme={dynamicTheme}>
