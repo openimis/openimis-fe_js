@@ -95,10 +95,12 @@ class ModulesManager {
             menus[mKey] = {
               id: menu?.id || menus[mKey]?.id,
               contributionKey: menu?.contributionKey || menus[mKey]?.contributionKey,
-              name: menu?.text || menus[mKey]?.name,
+              name: menu?.name || menus[mKey]?.name,
+              text: menu?.text || menus[mKey]?.text,
               icon: menu?.icon || menus[mKey]?.icon,
               submenus: [
                 ...ensureArray(menus[mKey]?.submenus),
+                ...ensureArray(menus[mKey]?.entries),
                 ...ensureArray(menu?.submenus),
                 ...ensureArray(menu?.entries),
               ],
