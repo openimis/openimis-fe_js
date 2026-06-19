@@ -2,7 +2,7 @@
 
 ## Overview
 
-The menu system is contribution-driven, with CoreModule (@openimis/fe-core) providing the base via MainMenuBar.jsx and MainMenuContribution.jsx. Modules contribute top-level via "fe-core.menus" (declarative configs with id, name, icon, position, entries?, contributionKey?). Backend "fe-core"."menus" overrides organize hierarchy, adding new top-levels if unmatched. Submenus are prepared using prepareMenuEntries, pulling from contributionKey (defaulting to id) or direct entries, filtered by rights and route permissions. Icons are resolved from config or defaults (see [Icons Guide](../frontend/docs/icons.md) for details). Rendering uses MUI Accordion/Popper for drawer/appbar variants.
+The menu system is contribution-driven, with CoreModule (@openimis/fe-core) providing the base via MainMenuBar.jsx and MainMenuContribution.jsx. Modules contribute top-level via "fe-core.menus" (declarative configs with id, text, icon, position, entries?, contributionKey?). Backend "fe-core"."menus" overrides organize hierarchy, adding new top-levels if unmatched. Submenus are prepared using prepareMenuEntries, pulling from contributionKey (defaulting to id) or direct entries, filtered by rights and route permissions. Icons are resolved from config or defaults (see [Icons Guide](../frontend/docs/icons.md) for details). Rendering uses MUI Accordion/Popper for drawer/appbar variants.
 
 ## Current Top-Level Menus (04/2026)
 
@@ -94,14 +94,15 @@ Example for overriding Client Registry menu:
 {
   "position": 1,
   "id": "insuree.MainMenu",  // Serves as contributionKey to pull submenus
-  "name": "Client Registry",
+  "text": "Client Registry",
   "icon": "AssignmentInd",
   "submenus": [  // Overrides for position/icon/rights
     {
       "position": 1,
       "id": "insuree.familiesOrGroups",
       "icon": "People",
-      "rights": [101001]
+      "rights": [101001],
+      "text": "family or Group", 
     },
     {
       "position": 2,
