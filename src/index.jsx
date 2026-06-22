@@ -125,8 +125,9 @@ const AppContainer = () => {
     initialize();
   }, []);
 
-  const themeColor = appState?.config?.["fe-core"]?.theme;
-  const dynamicTheme = createAppTheme(themeColor || {});
+  const feCoreConfig = appState?.config?.["fe-core"] || {};
+  const themeColor = feCoreConfig.theme;
+  const dynamicTheme = createAppTheme(themeColor || {}, feCoreConfig);
   const logo = getConfiguredLogo(appState.config);
   const disableTextLogo = appState?.config?.["fe-core"]?.logo?.disableTextLogo || false;
 

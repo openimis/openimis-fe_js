@@ -386,6 +386,25 @@ To override the default theme colors, provide a `theme` object under the `fe-cor
 
 **Note:** If `theme` is not provided, the default openIMIS theme will be used instead.
 
+#### Input Variant Configuration (`Input.variant`)
+
+You can globally change the style of all form inputs (TextField, Select, DatePicker, Autocomplete, etc.) by setting the variant under the `fe-core` configuration:
+
+```json
+{
+  "Input": {
+    "variant": "standard"
+  }
+}
+```
+
+Supported values:
+- `"standard"` — underlined style (default)
+- `"outlined"` — bordered box style
+- `"filled"` — filled box style
+
+The configuration is read at application start and falls back to `"standard"` when not provided. It affects both the MUI theme defaults and the shared input components from CoreModule.
+
 ---
 
 #### 🖼️ Logo Configuration (`logo`)
