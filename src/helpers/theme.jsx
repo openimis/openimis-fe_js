@@ -31,7 +31,7 @@ const createAppTheme = (colorOverrides = {}, feCoreConfig = {}) => {
     lockedBackgroundPattern,
   } = { ...defaultColors, ...colorOverrides };
 
-  const configuredVariant = feCoreConfig?.Input?.variant ?? feCoreConfig?.inputVariant;
+  const configuredVariant = feCoreConfig?.Input?.variant ;
   const normalizedVariant = typeof configuredVariant === "string" ? configuredVariant.toLowerCase() : undefined;
   const inputVariant = ["standard", "outlined", "filled"].includes(normalizedVariant) ? normalizedVariant : "standard";
 
