@@ -36,7 +36,6 @@ ENV NODE_ENV=production
 ARG CACHEBUST=claimguard
 RUN echo "cache bust: ${CACHEBUST}"
 RUN npm config set prefix /home/node/.npm-global
-RUN npm install -g npm@latest
 RUN npm run load-config
 RUN npm install  --include=dev --legacy-peer-deps
 RUN npm run build
