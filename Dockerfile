@@ -19,7 +19,8 @@ RUN npm config set prefix  /usr/local/lib/node_modules
 # Create and set permissions for /app
 RUN mkdir /app
 WORKDIR /app
-COPY ./ /app
+COPY openimis-fe_js/ /app/
+COPY openimis-fe-claimguard_js/ /openimis-fe-claimguard_js/
 RUN chown node:node /app -R
 # Set environment variables
 ARG OPENIMIS_CONF_JSON
@@ -41,8 +42,8 @@ RUN npm run build
 FROM nginx:latest
 COPY --from=build-stage /app/build/ /usr/share/nginx/html
 COPY --from=build-stage /etc/ssl/private/ /etc/nginx/ssl/live/host
-COPY ./conf /conf
-COPY ./script/entrypoint.sh /script/entrypoint.sh
+COPY openimis-fe_js/conf /conf
+COPY openimis-fe_js/script/entrypoint.sh /script/entrypoint.sh
 RUN openssl dhparam -out /etc/nginx/dhparam.pem 2048
 RUN chmod a+x /script/entrypoint.sh
 WORKDIR /script
