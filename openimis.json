@@ -79,6 +79,10 @@
       "npm": "@openimis/fe-claim@>=v1.9.0"
     },
     {
+      "name": "ClaimGuardModule",
+      "npm": "@openimis/fe-claimguard@file:../openimis-fe-claimguard_js"
+    },
+    {
       "name": "ClaimBatchModule",
       "npm": "@openimis/fe-claim_batch@>=v1.6.0"
     },
