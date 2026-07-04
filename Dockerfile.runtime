@@ -1,0 +1,28 @@
+# Lightweight image: serve a pre-built openIMIS frontend (built on the host).
+# Run from repo parent: docker build -f openimis-fe_js/Dockerfile.runtime -t openimis-fe:claimguard .
+
+FROM nginx:latest
+
+RUN mkdir -p /etc/nginx/ssl/live/host \
+    && openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+        -keyout /etc/nginx/ssl/live/host/privkey.pem \
+        -out /etc/nginx/ssl/live/host/fullchain.pem \
+        -subj "/C=DE/ST=_/L=_/O=_/OU=_/CN=localhost"
+
+COPY openimis-fe_js/build/ /usr/share/nginx/html
+COPY openimis-fe_js/conf /conf
+COPY openimis-fe_js/script/entrypoint.sh /script/entrypoint.sh
+RUN sed -i 's/\r$//' /script/entrypoint.sh \
+    && openssl dhparam -out /etc/nginx/dhparam.pem 2048 \
+    && chmod a+x /script/entrypoint.sh
+
+WORKDIR /script
+ENV DATA_UPLOAD_MAX_MEMORY_SIZE=12582912
+ENV NEW_OPENIMIS_HOST="localhost"
+ENV PUBLIC_URL="front"
+ENV REACT_APP_API_URL="api"
+ENV ROOT_MOBILEAPI="rest"
+ENV FORCE_RELOAD=""
+ENV OPENSEARCH_PROXY_ROOT="opensearch"
+ENTRYPOINT ["/bin/bash", "/script/entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
