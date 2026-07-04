@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => ({
     react({
       jsxRuntime: 'automatic',
       jsxImportSource: '@emotion/react',
-      include: /.(jsx|js|ts|tsx)$/, 
+      include: /\.(jsx|js|ts|tsx)$/, 
     }),
     svgr(),
     envCompatible(),
@@ -68,11 +68,13 @@ export default defineConfig(({ mode }) => ({
       "@reduxjs/toolkit",
     ],
     alias: {
-      //<<DYNAMIC_ALIAS_PLACEHOLDER>>
+      // 🚀 BYPASS MISSING DIST BUNDLES BY POINTING STRAIGHT TO SOURCE FILES
+      "@openimis/fe-core": path.resolve(__dirname, "./node_modules/@openimis/fe-core/src/index.jsx"),
+      "@openimis": path.resolve(__dirname, "./node_modules/@openimis"),
       
       "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
-            "react/jsx-runtime": path.resolve(__dirname, "./node_modules/react/jsx-runtime"),
-            "react/jsx-dev-runtime": path.resolve(__dirname, "./node_modules/react/jsx-dev-runtime"),
+      "react/jsx-runtime": path.resolve(__dirname, "./node_modules/react/jsx-runtime"),
+      "react/jsx-dev-runtime": path.resolve(__dirname, "./node_modules/react/jsx-dev-runtime"),
       "lodash": path.resolve(__dirname, "./node_modules/lodash"),
       "lodash-uuid": path.resolve(__dirname, "./node_modules/lodash-uuid"),
       "react-redux": path.resolve(__dirname, "./node_modules/react-redux"),
@@ -131,7 +133,6 @@ export default defineConfig(({ mode }) => ({
       "@material-table/core": path.resolve(__dirname, "./node_modules/@material-table/core"),
       "@mui/styles": path.resolve(__dirname, "./node_modules/@mui/styles"),
     },
-    // preserveSymlinks :false
   },
   server: {
     port: 3000,
@@ -145,9 +146,9 @@ export default defineConfig(({ mode }) => ({
         changeOrigin: true,
       },
       "/opensearch": {
-      target: "http://opensearch:5410",
-      changeOrigin: true,
-    }
+        target: "http://opensearch:5410",
+        changeOrigin: true,
+      }
     },
   },
   optimizeDeps: {
