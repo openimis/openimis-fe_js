@@ -103,6 +103,10 @@ jobs:
         working-directory: ./openimis-fe
         run: rm -rf node_modules
 
+      - name: Install shelljs & yargs
+        working-directory: ./openimis-fe
+        run: npm install shelljs yargs --legacy-peer-deps
+
       - name: Prepare openIMIS Dependencies
         working-directory: ./openimis-fe
         run: |
