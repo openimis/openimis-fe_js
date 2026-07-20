@@ -7,8 +7,6 @@ on:
         required: false
         type: string
         default: 'develop'
-        
-  workflow_dispatch:
 
 jobs:
   build_frontend:
