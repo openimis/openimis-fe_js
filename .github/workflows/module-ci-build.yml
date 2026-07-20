@@ -99,11 +99,12 @@ jobs:
           # install without openimis modules
           npm install --include=dev --legacy-peer-deps
 
-      # - name: Prepare openIMIS Dependencies
-      #   working-directory: ./openimis-fe
-      #   run: |
-      #     cp openimis.json openimis-dev.json
-      #     node openimis-config-vite.js -c openimis-dev.json
+      - name: Prepare openIMIS Dependencies
+        working-directory: ./openimis-fe
+        run: |
+          cp openimis.json openimis-dev.json
+          node dev_tools/entrypoint-dev.js -c openimis-dev.json
+          node openimis-config-vite.js -c openimis-dev.json
 
       - name: Install dependencies
         working-directory: ./openimis-fe
