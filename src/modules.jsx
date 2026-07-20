@@ -5,9 +5,6 @@ import { CoreModule } from "@openimis/fe-core";
 
 export const packages = [
   "@openimis/fe-core",
-  "@openimis/fe-individual",
-  "@openimis/fe-social_protection",
-  "@openimis/fe-opensearch_reports",
   "@openimis/fe-home",
   "@openimis/fe-location",
   "@openimis/fe-insuree",
@@ -19,21 +16,12 @@ export const packages = [
   "@openimis/fe-contribution",
   "@openimis/fe-payment",
   "@openimis/fe-claim",
-  "@openimis/fe-claim_batch",
   "@openimis/fe-tools",
-  "@openimis/fe-profile",
   "@openimis/fe-calculation",
   "@openimis/fe-policyholder",
   "@openimis/fe-contribution_plan",
-  "@openimis/fe-payment_cycle",
-  "@openimis/fe-contract",
-  "@openimis/fe-tasks_management",
   "@openimis/fe-invoice",
-  "@openimis/fe-grievance_social_protection",
-  "@openimis/fe-language_fr",
-  "@openimis/fe-claim_sampling",
-  "@openimis/fe-deduplication",
-  "@openimis/fe-payroll"
+  "@openimis/fe-language_fr"
 ];
 
 export async function loadModules(cfg = {}) {
@@ -47,39 +35,6 @@ export async function loadModules(cfg = {}) {
   } catch (error) {
     console.error(`❌ Failed to initialize module "CoreModule". Error: ${error}`);
     alert(`Failed to load module "CoreModule". See console for details.`);
-  }
-
-  // 🔄 Dynamically importing IndividualModule
-  try {
-    const module = await import("@openimis/fe-individual");
-    loadedModules.push(
-      module.IndividualModule(cfg["fe-individual"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "IndividualModule". Error: ${error}`);
-    alert(`Failed to load module "IndividualModule". See console for details.`);
-  }
-
-  // 🔄 Dynamically importing SocialProtectionModule
-  try {
-    const module = await import("@openimis/fe-social_protection");
-    loadedModules.push(
-      module.SocialProtectionModule(cfg["fe-social_protection"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "SocialProtectionModule". Error: ${error}`);
-    alert(`Failed to load module "SocialProtectionModule". See console for details.`);
-  }
-
-  // 🔄 Dynamically importing OpenSearchReportsModule
-  try {
-    const module = await import("@openimis/fe-opensearch_reports");
-    loadedModules.push(
-      module.OpenSearchReportsModule(cfg["fe-opensearch_reports"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "OpenSearchReportsModule". Error: ${error}`);
-    alert(`Failed to load module "OpenSearchReportsModule". See console for details.`);
   }
 
   // 🔄 Dynamically importing HomeModule
@@ -203,17 +158,6 @@ export async function loadModules(cfg = {}) {
     alert(`Failed to load module "ClaimModule". See console for details.`);
   }
 
-  // 🔄 Dynamically importing ClaimBatchModule
-  try {
-    const module = await import("@openimis/fe-claim_batch");
-    loadedModules.push(
-      module.ClaimBatchModule(cfg["fe-claim_batch"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "ClaimBatchModule". Error: ${error}`);
-    alert(`Failed to load module "ClaimBatchModule". See console for details.`);
-  }
-
   // 🔄 Dynamically importing ToolsModule
   try {
     const module = await import("@openimis/fe-tools");
@@ -223,17 +167,6 @@ export async function loadModules(cfg = {}) {
   } catch (error) {
     console.error(`❌ Failed to import module "ToolsModule". Error: ${error}`);
     alert(`Failed to load module "ToolsModule". See console for details.`);
-  }
-
-  // 🔄 Dynamically importing ProfileModule
-  try {
-    const module = await import("@openimis/fe-profile");
-    loadedModules.push(
-      module.ProfileModule(cfg["fe-profile"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "ProfileModule". Error: ${error}`);
-    alert(`Failed to load module "ProfileModule". See console for details.`);
   }
 
   // 🔄 Dynamically importing CalculationModule
@@ -269,39 +202,6 @@ export async function loadModules(cfg = {}) {
     alert(`Failed to load module "ContributionPlanModule". See console for details.`);
   }
 
-  // 🔄 Dynamically importing PaymentCycleModule
-  try {
-    const module = await import("@openimis/fe-payment_cycle");
-    loadedModules.push(
-      module.PaymentCycleModule(cfg["fe-payment_cycle"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "PaymentCycleModule". Error: ${error}`);
-    alert(`Failed to load module "PaymentCycleModule". See console for details.`);
-  }
-
-  // 🔄 Dynamically importing ContractModule
-  try {
-    const module = await import("@openimis/fe-contract");
-    loadedModules.push(
-      module.ContractModule(cfg["fe-contract"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "ContractModule". Error: ${error}`);
-    alert(`Failed to load module "ContractModule". See console for details.`);
-  }
-
-  // 🔄 Dynamically importing TasksManagementModule
-  try {
-    const module = await import("@openimis/fe-tasks_management");
-    loadedModules.push(
-      module.TasksManagementModule(cfg["fe-tasks_management"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "TasksManagementModule". Error: ${error}`);
-    alert(`Failed to load module "TasksManagementModule". See console for details.`);
-  }
-
   // 🔄 Dynamically importing InvoiceModule
   try {
     const module = await import("@openimis/fe-invoice");
@@ -313,17 +213,6 @@ export async function loadModules(cfg = {}) {
     alert(`Failed to load module "InvoiceModule". See console for details.`);
   }
 
-  // 🔄 Dynamically importing GrievanceSocialProtectionModule
-  try {
-    const module = await import("@openimis/fe-grievance_social_protection");
-    loadedModules.push(
-      module.GrievanceSocialProtectionModule(cfg["fe-grievance_social_protection"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "GrievanceSocialProtectionModule". Error: ${error}`);
-    alert(`Failed to load module "GrievanceSocialProtectionModule". See console for details.`);
-  }
-
   // 🔄 Dynamically importing LanguageFrModule
   try {
     const module = await import("@openimis/fe-language_fr");
@@ -333,39 +222,6 @@ export async function loadModules(cfg = {}) {
   } catch (error) {
     console.error(`❌ Failed to import module "LanguageFrModule". Error: ${error}`);
     alert(`Failed to load module "LanguageFrModule". See console for details.`);
-  }
-
-  // 🔄 Dynamically importing ClaimSamplingModule
-  try {
-    const module = await import("@openimis/fe-claim_sampling");
-    loadedModules.push(
-      module.ClaimSamplingModule(cfg["fe-claim_sampling"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "ClaimSamplingModule". Error: ${error}`);
-    alert(`Failed to load module "ClaimSamplingModule". See console for details.`);
-  }
-
-  // 🔄 Dynamically importing DeduplicationModule
-  try {
-    const module = await import("@openimis/fe-deduplication");
-    loadedModules.push(
-      module.DeduplicationModule(cfg["fe-deduplication"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "DeduplicationModule". Error: ${error}`);
-    alert(`Failed to load module "DeduplicationModule". See console for details.`);
-  }
-
-  // 🔄 Dynamically importing PayrollModule
-  try {
-    const module = await import("@openimis/fe-payroll");
-    loadedModules.push(
-      module.PayrollModule(cfg["fe-payroll"] || {})
-    );
-  } catch (error) {
-    console.error(`❌ Failed to import module "PayrollModule". Error: ${error}`);
-    alert(`Failed to load module "PayrollModule". See console for details.`);
   }
 
   return loadedModules;

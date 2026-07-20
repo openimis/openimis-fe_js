@@ -99,10 +99,26 @@ jobs:
           # install without openimis modules
           npm install --include=dev --legacy-peer-deps
 
+      - name: Remove cached node_modules
+        working-directory: ./openimis-fe
+        run: rm -rf node_modules
+
       - name: Prepare openIMIS Dependencies
         working-directory: ./openimis-fe
         run: |
           cp openimis.json openimis-dev.json
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CURRENT_BRANCH="${{ github.head_ref }}"
+          else
+            CURRENT_BRANCH="${{ github.ref_name }}"
+          fi
+
+          echo "claimModule current branch: $CURRENT_BRANCH"
+
+          jq --arg branch "$CURRENT_BRANCH" \
+            '(.modules[] | select(.name == "ClaimModule") | .npm) = "@openimis/fe-claim@https://github.com/openimis/openimis-fe-claim_js#\($branch)"' \
+            openimis-dev.json > tmp.json && mv tmp.json openimis-dev.json
+
           node openimis-config-vite.js -c openimis-dev.json -p ../frontend-packages/
 
       - name: Install dependencies
