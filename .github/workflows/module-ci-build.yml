@@ -101,7 +101,9 @@ jobs:
 
       - name: Prepare openIMIS Dependencies
         working-directory: ./openimis-fe
-        run: node openimis-config-vite.js -c openimis.json -p ../frontend-packages/
+        run: |
+          cp openimis.json openimis-dev.json
+          node openimis-config-vite.js -c openimis-dev.json -p ../frontend-packages/
 
       - name: Install dependencies
         working-directory: ./openimis-fe
