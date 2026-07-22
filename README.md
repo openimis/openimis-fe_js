@@ -24,21 +24,65 @@ Another important point is NOT TO HAVE in backend db table user_Core (managed by
 This issue is related to the link between userCore and tblUser tables.</td></tr></table>
 
 - clone this repo (creates the `openimis-fe_js` directory)
-- install node (node V16.x)
-- install yarn
-- within `openimis-fe_js` directory
-  - generate the openIMIS modules dependencies and locales (from openimis.json config): `yarn load-config` or `yarn load-config openimis.json`
-  - install openIMIS technical dependencies: `yarn install`
+- install node (node V20.x - 14)
+- 
+- within `openimis-fe_js` directory (below `../frontend-packages/` is the location where the modules will be downloaded)
+  - install shelljs and yargs `npm i shelljs yargs`
+  - copy `openimis.json` to `openimis-dev.json` and make your changes (modules, branches)
+  - download and install all modules with a git address locally `node dev_tools/entrypoint-dev.js -c openimis-dev.json -p ../frontend-packages/', it also update vite.config.js
+  - load module in package and create modules.jsx: `node openimis-config-vite.js -c openimis-dev.json -p ../frontend-packages/`
+  - install openIMIS technical dependencies: `npm install`
   - start openIMIS frontend (in development mode): `yarn start`
+
+### To start working in openIMIS frontend (Vite) as a (module) developer in a Dockerized environment:
+
+- clone the repositories:
+  - openimis-dist_dkr
+  - openimis-fe_js (next to openimis-dist_dkr)
+- update .env in openimis-dist_dkr:
+  - add required host backend to the HOSTS variable (HOSTS=demo.openimis.org,localhost,localhost:3000,backend)
+
+- update compose.base.yml in openimis-dist_dkr:
+  - use frontend dev build:
+    ```
+      build:
+        context: ../openimis-fe_js
+        target: dev-stage
+    ```
+  - bind port 3000 of the frontend container to the host
+    ```
+      ports:
+        - "3000:3000"
+    ```
+  - mount frontend source code e.g. for InsureeModule:
+    ```
+      volumes:
+        - ../openimis-fe_js:/openimis-fe_js
+        - /openimis-fe-insuree_js/src/:/frontend-packages/InsureeModule/src
+    ```
+  - inside the openimis-dist_dkr directory, start the Docker stack:
+    ```
+    docker compose up -d or docker compose up --build frontend
+    ```
+  - the frontend development setup is automatically executed by openimis-fe_js/scripts/entrypoint-dev.sh
+
+- Vite runs inside the frontend container with hot reload enabled
+
+- working on a module:
+
+  - clone the module locally
+  - mount the files you want to override as a volume
+  - do not overwrite existing node_modules of the module in the container
+  - if you mounted the entire module, make sure you did 'npm install' or 'yarn install' in the module directory
 
 ### To start working in openIMIS as a (module) for production with git / shh / urls for dependencies:
 
 - within `openimis-fe_js` directory
 
-  - generate the openIMIS modules dependencies and locales (from openimis.json config): `yarn load-config` or `yarn load-config openimis.json`
-  - clean yarn cache in case local directory / git /link are used: `yarn cache clean`
-  - install openIMIS technical dependencies: `yarn install`
-  - build openIMIS frontend (in development mode): `yarn build`
+  - generate the openIMIS modules dependencies and locales (from openimis.json config): `npm run load-config` or `npm run load-config -- openimis.json`
+  - clean yarn cache in case local directory / git /link are used: `npm cache clean`
+  - install openIMIS technical dependencies: `npm install`
+  - build openIMIS frontend (in development mode): `npm build`
   - copy the build folder on the webserver
 
 #### using npm
@@ -456,3 +500,6 @@ webpackConfig.output.publicPath = '/front/';
 * Make sure the backend server is running and accessible from your frontend environment.
 * Use Docker network names like `http://backend:8000` when both frontend and backend are running in Docker.
 * Set `PUBLIC_URL=/front` if needed to ensure assets load correctly.
+
+### Using Sentry with GlitchTip
+* set your sentry/glitchtip dsn in the .env file to capture errors and exceptions in your React app

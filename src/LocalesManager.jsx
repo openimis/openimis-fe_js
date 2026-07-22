@@ -1,4 +1,4 @@
-import { fileNamesByLang } from "./locales";
+import { fileNamesByLang } from "./locales.jsx";
 
 class LocalesManager {
   getLocale(lang) {
