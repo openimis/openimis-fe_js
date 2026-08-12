@@ -334,7 +334,7 @@ if (require.main === module) {
         alias: 'c',
         description: 'Path to openimis.json',
         type: 'string',
-        default: path.join(__dirname, '..', 'openimis.json'),
+        default: path.join(process.cwd(), 'openimis.json'),
       })
       .option('path', {
         alias: 'p',
