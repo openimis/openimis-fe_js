@@ -5,23 +5,30 @@ import { CoreModule } from "@openimis/fe-core";
 
 export const packages = [
   "@openimis/fe-core",
+  "@openimis/fe-individual",
+  "@openimis/fe-social_protection",
+  "@openimis/fe-opensearch_reports",
   "@openimis/fe-home",
   "@openimis/fe-location",
   "@openimis/fe-insuree",
-  "@openimis/fe-medical",
-  "@openimis/fe-medical_pricelist",
-  "@openimis/fe-product",
-  "@openimis/fe-policy",
-  "@openimis/fe-payer",
   "@openimis/fe-contribution",
   "@openimis/fe-payment",
   "@openimis/fe-claim",
+  "@openimis/fe-claim_batch",
   "@openimis/fe-tools",
+  "@openimis/fe-profile",
   "@openimis/fe-calculation",
   "@openimis/fe-policyholder",
   "@openimis/fe-contribution_plan",
+  "@openimis/fe-payment_cycle",
+  "@openimis/fe-contract",
+  "@openimis/fe-tasks_management",
   "@openimis/fe-invoice",
-  "@openimis/fe-language_fr"
+  "@openimis/fe-grievance_social_protection",
+  "@openimis/fe-language_fr",
+  "@openimis/fe-claim_sampling",
+  "@openimis/fe-deduplication",
+  "@openimis/fe-payroll"
 ];
 
 export async function loadModules(cfg = {}) {
