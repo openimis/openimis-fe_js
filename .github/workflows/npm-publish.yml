@@ -8,7 +8,7 @@ on:
       node_version:
         description: 'Node version to use'
         required: true
-        default: '20'
+        default: '24'
       registry_url:
         description: 'NPM registry URL'
         required: true

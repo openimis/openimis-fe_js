@@ -12,7 +12,7 @@ on:
         description: 'Node version to use'
         required: true
         type: string
-        default: '20'
+        default: '24'
       scope:
         description: 'Scope for npm package (e.g., openimis for @openimis/*)'
         required: false
