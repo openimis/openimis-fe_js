@@ -2,37 +2,42 @@ const fs = require("fs");
 const path = require("path");
 const yargs = require("yargs")(process.argv.slice(2));
 
-// Use absolute paths based on the current working directory
-const PROJECT_ROOT = process.cwd();
-const PACKAGE_JSON_PATH = path.join(PROJECT_ROOT, "package.json");
-const PACKAGE_LOCK_PATH = path.join(PROJECT_ROOT, "package-lock.json");
-const VITE_CONFIG_PATH = path.join(PROJECT_ROOT, "vite.config.js");
-const SRC_DIR = path.join(PROJECT_ROOT, "src");
-
-function ensureDirectoryExists(dirPath) {
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
-  }
-}
-
 function extractNpmPackageName(packageJsonPath) {
   try {
-    if (!fs.existsSync(packageJsonPath)) return null;
-    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
     return packageJson.name || null;
   } catch (error) {
-    console.error(`⚠️ Error reading package.json at ${packageJsonPath}: ${error.message}`);
+    console.error(`Error reading package.json at ${packageJsonPath}: ${error.message}`);
     return null;
   }
 }
 
+function parseNpm(npmStr) {
+  const gitMatch = npmStr.match(/github\.com\/(.+)\.git/);
+  if (gitMatch) {
+    return gitMatch[1];
+  }
+  const npmMatch = npmStr.match(/@openimis\/(.+)@/);
+  if (npmMatch) {
+    return `openimis/openimis-${npmMatch[1]}_js`;
+  }
+  return null; // Fallback if no match
+}
+
 function parseNpmName(module) {
-  if (!module || !module.npm) return null;
   const npmMatch = module.npm.match(/(@?[^@]+)(?:@.+)$/);
   if (npmMatch) {
     return npmMatch[1];
   }
-  return "@openimis/fe-" + (module.name || "").replace("Module", "").toLowerCase();
+  return "@openimis/fe-" + module.name.replace("Module", "").toLowerCase(); // Fallback if no match
+}
+
+function parseNpmBranch(npmStr) {
+  const gitMatch = npmStr.match(/.+#(.+)/);
+  if (gitMatch) {
+    return gitMatch[1];
+  }
+  return null; // Fallback if no match
 }
 
 function removeFromPackageLock(removedPackages) {
@@ -42,64 +47,59 @@ function removeFromPackageLock(removedPackages) {
   }
 
   try {
-    if (!fs.existsSync(PACKAGE_LOCK_PATH)) {
+    if (!fs.existsSync("./package-lock.json")) {
       console.log("No package-lock.json file found");
       return;
     }
 
     console.log("Removing package-lock.json to force clean regeneration...");
-    fs.unlinkSync(PACKAGE_LOCK_PATH);
-    console.log("✅ package-lock.json deleted - npm will regenerate it cleanly");
+    fs.unlinkSync("./package-lock.json");
+    console.log("package-lock.json deleted - npm will regenerate it cleanly");
+
   } catch (error) {
-    console.error(`⚠️ Error removing package-lock.json: ${error.message}`);
+    console.error(`Error removing package-lock.json: ${error.message}`);
+    // Don't exit on error, as this is not critical
   }
 }
 
+
+
 function processLocales(config) {
   console.log("Processing locales...");
-  ensureDirectoryExists(SRC_DIR);
-  
-  const localeByLang = config.locales.reduce((lcs, lc) => {
-    (lc.languages || []).forEach((lg) => (lcs[lg] = lc.intl));
+  const locales = fs.createWriteStream("./src/locales.jsx");
+  let localeByLang = config.locales.reduce((lcs, lc) => {
+    lc.languages.forEach((lg) => (lcs[lg] = lc.intl));
     return lcs;
   }, {});
-  
-  const filesByLang = config.locales.reduce((fls, lc) => {
-    (lc.languages || []).forEach((lg) => (fls[lg] = lc.fileNames));
+  let filesByLang = config.locales.reduce((fls, lc) => {
+    lc.languages.forEach((lg) => (fls[lg] = lc.fileNames));
     return fls;
   }, {});
-
-  const content = [
-    `export const locales = ${JSON.stringify(config.locales.map((lc) => lc.intl))};`,
-    `export const fileNamesByLang = ${JSON.stringify(filesByLang)};`,
-    `/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */`,
-    `export default ${JSON.stringify(localeByLang)};`
-  ].join("\n");
-
-  fs.writeFileSync(path.join(SRC_DIR, "locales.jsx"), content, "utf8");
-  console.log("✅ Generated src/locales.jsx");
+  locales.write(`export const locales = ${JSON.stringify(config.locales.map((lc) => lc.intl))}\n`);
+  locales.write(`export const fileNamesByLang = ${JSON.stringify(filesByLang)}\n`);
+  locales.write(`/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */\n`);
+  locales.write(`export default ${JSON.stringify(localeByLang)}\n`);
+  locales.end();
+  console.log("Generated src/locales.jsx");
 }
 
 function getConfig(configPath) {
   console.log(`Loading configuration from '${configPath}'`);
-  
-  if (process.env.OPENIMIS_CONF_JSON) {
+  if (process.env.OPENIMIS_CONF_JSON !== undefined && process.env.OPENIMIS_CONF_JSON !== '') {
     console.log("Falling back to OPENIMIS_CONF_JSON environment variable");
     return JSON.parse(process.env.OPENIMIS_CONF_JSON);
-  } 
-  
-  if (fs.existsSync(configPath)) {
+  } else if (fs.existsSync(configPath)) {
     return JSON.parse(fs.readFileSync(configPath, "utf-8"));
-  } 
-  
-  throw new Error(
-    `No configuration file found at '${configPath}'. Please provide a valid path or set OPENIMIS_CONF_JSON or OPENIMIS_CONF environment variable.`
-  );
+  } else  {
+    throw new Error(
+      `No configuration file found at '${configPath}'. Please provide a valid path or set OPENIMIS_CONF_JSON  or OPENIMIS_CONF environment variable.`
+    );
+  }
 }
 
-function processModules(modules) {
+function processModules(modules, modulesInstallPath) {
   console.log("Processing modules...");
-  ensureDirectoryExists(SRC_DIR);
+  const stream = fs.createWriteStream("./src/modules.jsx");
 
   const staticImports = [];
   const dynamicBlocks = [];
@@ -114,7 +114,7 @@ function processModules(modules) {
       ${name}(cfg["${logicalName}"] || {})
     );
   } catch (error) {
-    console.error(\`❌ Failed to initialize module "${name}". Error: \`, error);
+    console.error(\`❌ Failed to initialize module "${name}". Error: \${error}\`);
     alert(\`Failed to load module "${name}". See console for details.\`);
   }
 `);
@@ -127,14 +127,14 @@ function processModules(modules) {
       module.${name ?? "default"}(cfg["${logicalName}"] || {})
     );
   } catch (error) {
-    console.error(\`❌ Failed to import module "${name}". Error: \`, error);
+    console.error(\`❌ Failed to import module "${name}". Error: \${error}\`);
     alert(\`Failed to load module "${name}". See console for details.\`);
   }
 `);
     }
   });
 
-  const content = `
+  stream.write(`
 // Auto-generated by openimis-config-vite.js
 // Updated for Vite with local file dependencies
 ${staticImports.join('\n')}
@@ -148,40 +148,41 @@ export async function loadModules(cfg = {}) {
   ${dynamicBlocks.join('')}
   return loadedModules;
 }
-`;
-
-  fs.writeFileSync(path.join(SRC_DIR, "modules.jsx"), content.trim() + "\n", "utf8");
-  console.log("✅ Generated src/modules.jsx");
+`);
+  stream.end();
+  console.log("Generated src/modules.jsx");
 }
 
 function processViteConfig(modules) {
   console.log("Processing Vite config...");
-  
-  if (!fs.existsSync(VITE_CONFIG_PATH)) {
-    console.warn(`⚠️ vite.config.js not found at ${VITE_CONFIG_PATH}. Skipping.`);
+  let viteConfigContent;
+  try {
+    viteConfigContent = fs.readFileSync("./vite.config.js", "utf-8");
+  } catch (error) {
+    console.error(`Error reading vite.config.js: ${error.message}`);
     return;
   }
 
-  let viteConfigContent = fs.readFileSync(VITE_CONFIG_PATH, "utf-8");
-
-  // Step 1: Remove old dynamic aliases
+  // Step 1: Remove all lines containing //DYNAMIC_ALIAS,
   const lines = viteConfigContent.split('\n');
-  viteConfigContent = lines.filter(line => !line.includes('//DYNAMIC_ALIAS,')).join('\n');
+  const cleanedLines = lines.filter(line => !line.includes('//DYNAMIC_ALIAS,'));
+  viteConfigContent = cleanedLines.join('\n');
 
-  // Step 2: Inject new aliases
+  // Step 2: Find //<<DYNAMIC_ALIAS_PLACEHOLDER>>
   const placeholder = '//<<DYNAMIC_ALIAS_PLACEHOLDER>>';
   const placeholderIndex = viteConfigContent.indexOf(placeholder);
-  
   if (placeholderIndex === -1) {
-    console.warn("⚠️ Placeholder //<<DYNAMIC_ALIAS_PLACEHOLDER>> not found in vite.config.js. Aliases not injected.");
+    console.warn("Placeholder //<<DYNAMIC_ALIAS_PLACEHOLDER>> not found in vite.config.js. Skipping dynamic alias injection. Module resolution may fail for git/npm module specs if aliases are required.");
     return;
   }
 
+  // Step 3: Inject new aliases on the line(s) after the placeholder
   const localModules = modules.filter(module => module.localPath !== null);
   if (localModules.length > 0) {
     const aliases = localModules.map(module => {
+      const moduleName = module.packageName;
       const modulePath = module.localPath.replace(/\\/g, '\\\\');
-      return `      "${module.packageName}": path.resolve('${modulePath}','src'), //DYNAMIC_ALIAS,`;
+      return `      "${moduleName}": path.resolve('${modulePath}','src'), //DYNAMIC_ALIAS,`;
     }).join('\n');
 
     const endOfPlaceholderLine = viteConfigContent.indexOf('\n', placeholderIndex);
@@ -191,130 +192,163 @@ function processViteConfig(modules) {
       viteConfigContent.substring(endOfPlaceholderLine + 1);
   }
 
-  fs.writeFileSync(VITE_CONFIG_PATH, viteConfigContent, "utf-8");
-  console.log("✅ Updated vite.config.js with dynamic aliases");
+  // Write back the updated vite config
+  try {
+    fs.writeFileSync("./vite.config.js", viteConfigContent, "utf-8");
+    console.log("Updated vite.config.js with dynamic aliases for configured modules");
+  } catch (error) {
+    console.error(`Error writing vite.config.js: ${error.message}`);
+  }
 }
 
-function main(configPath) {
+function main(config, moduleRootPath) {
+  // Parse command-line arguments
+  // Load package.json
   let pkg;
   try {
-    pkg = JSON.parse(fs.readFileSync(PACKAGE_JSON_PATH, "utf-8"));
+    pkg = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
   } catch (error) {
-    console.error(`❌ Error reading package.json: ${error.message}`);
+    console.error(`Error reading package.json: ${error.message}`);
     process.exit(1);
   }
 
-  console.log("Cleaning old @openimis dependencies from package.json...");
+  // Remove existing @openimis dependencies from package.json
+  console.log("Removing @openimis dependencies from package.json...");
   const removedPackages = [];
-  pkg.dependencies = pkg.dependencies || {};
-  
-  for (const key of Object.keys(pkg.dependencies)) {
+  for (const key in pkg.dependencies) {
     if (key.startsWith("@openimis/")) {
+      console.log(`Removed ${key} from package.json`);
       removedPackages.push(key);
       delete pkg.dependencies[key];
     }
   }
 
-  let config;
+  // Load configuration
   try {
-    config = getConfig(configPath);
+    config = getConfig(config);
   } catch (error) {
-    console.error(`❌ Failed to load configuration: ${error.message}`);
+    console.error(`Failed to load configuration: ${error.message}`);
     process.exit(1);
   }
 
-  processLocales(config);
+  // Process locales
+  try {
+    processLocales(config);
+  } catch (error) {
+    console.error(`Failed to process locales: ${error.message}`);
+    process.exit(1);
+  }
 
+  // Process modules
   const modules = [];
-  for (const module of config.modules || []) {
+  const modulesInstallPath = path.resolve(moduleRootPath);
+  for (const module of config.modules) {
     const { npm, name, logicalName } = module;
-    const isLocal = npm.includes("file:");
+    const local = npm.includes("file:");
     const isGitHub = npm.includes("https://github.com/");
+    let packageName, version, modulePath, npmNew;
     
-    let packageName = parseNpmName(module);
-    let version = null;
-    let modulePath = null;
-    let npmNew = npm;
-    
-    if (isLocal) {
-      modulePath = path.resolve(npm.replace(/^.*file:/, ''));
+    if (local) {
+      modulePath = npm.replace(/^.*file:/, '');
       console.log(`Working with local module: ${modulePath}`);
-      
-      const pkgModulePath = path.join(modulePath, "package.json");
-      if (fs.existsSync(pkgModulePath)) {
-        const pkgModule = JSON.parse(fs.readFileSync(pkgModulePath, "utf-8"));
-        packageName = pkgModule.name || packageName;
+      let pkgModule;
+      try {
+        pkgModule = JSON.parse(fs.readFileSync(path.join(modulePath, "package.json"), "utf-8"));
+      } catch (error) {
+        console.error(`Error reading package.json: ${error.message}`);
+        process.exit(1);
+      } finally {
+        packageName = pkgModule.name;
         version = pkgModule.version;
-      } else {
-        console.warn(`⚠️ Warning: package.json missing in local module path: ${modulePath}`);
+        npmNew = 'file:' + modulePath;
       }
-      npmNew = 'file:' + modulePath;
     } else if (isGitHub) {
+      // Handle GitHub URLs: @openimis/fe-core@https://github.com/...
+      // Extract package name (part before @https://)
       const atHttpsIndex = npm.indexOf("@https://");
       if (atHttpsIndex !== -1) {
         packageName = npm.substring(0, atHttpsIndex);
-        npmNew = npm.substring(atHttpsIndex + 1);
+        npmNew = npm.substring(atHttpsIndex + 1); // Get URL without leading @
       } else {
+        // Fallback: try to parse as @package@github:...
+        packageName = parseNpmName(module);
         npmNew = npm.substring(npm.indexOf("https://"));
       }
       version = "github";
+      modulePath = null;
       console.log(`GitHub module: ${packageName} -> ${npmNew}`);
     } else {
+      // Standard npm package: @openimis/fe-core@1.0.0
+      packageName = parseNpmName(module);
       version = npm.substring(npm.lastIndexOf("@") + 1);
+      modulePath = null;
+      npmNew = npm;
     }
 
-    if (!packageName) {
-      console.warn(`⚠️ Could not determine package name for module: ${name}`);
-      continue;
-    }
-
+    console.log(`Added "${packageName}": ${npm}`);
     pkg.dependencies[packageName] = npmNew;
     modules.push({
       packageName,
       version,
       name,
       npmNew,
-      logicalName: logicalName || (packageName.includes('/') ? packageName.split('/')[1] : "default"),
+      logicalName: logicalName || (packageName.includes('/') ? packageName.split('/')[1] : npm.match(/([^/]*)\/([^@]*).*/)[2]),
       localPath: modulePath,
     });
   }
 
-  processModules(modules);
-  processViteConfig(modules);
-
   try {
-    console.log("Saving package.json...");
-    fs.writeFileSync(PACKAGE_JSON_PATH, JSON.stringify(pkg, null, 2), "utf-8");
-    console.log("✅ package.json updated successfully");
+    processModules(modules, modulesInstallPath);
   } catch (error) {
-    console.error(`❌ Error saving package.json: ${error.message}`);
+    console.error(`Failed to process modules: ${error.message}`);
     process.exit(1);
   }
 
+  // Process Vite config
+  try {
+    processViteConfig(modules);
+  } catch (error) {
+    console.error(`Failed to process Vite config: ${error.message}`);
+    process.exit(1);
+  }
+
+  // Save package.json
+  try {
+    console.log("Saving package.json...");
+    fs.writeFileSync("./package.json", JSON.stringify(pkg, null, 2), {
+      encoding: "utf-8",
+      flag: "w",
+    });
+  } catch (error) {
+    console.error(`Error saving package.json: ${error.message}`);
+    process.exit(1);
+  }
+
+  // Remove packages from package-lock.json
   removeFromPackageLock(removedPackages);
-  console.log("🚀 openimis-config-vite.js completed successfully.");
 }
 
 if (require.main === module) {
-  const argv = yargs
-    .option('config', {
-      alias: 'c',
-      description: 'Path to openimis.json',
-      type: 'string',
-      default: path.join(PROJECT_ROOT, '..', 'openimis.json'),
-    })
-    .help()
-    .alias('help', 'h')
-    .argv;
-  
-  // Safely check environment variables and override if the default was untouched
-  let finalConfigPath = argv.config;
-  const isDefaultConfig = argv.config === path.join(PROJECT_ROOT, '..', 'openimis.json');
-  
-  if (process.env.OPENIMIS_CONF && isDefaultConfig) {
-    finalConfigPath = process.env.OPENIMIS_CONF;
-  }
+    const argv = yargs
+      .option('config', {
+        alias: 'c',
+        description: 'Path to openimis.json',
+        type: 'string',
+        default: path.join(__dirname, '..', 'openimis.json'),
+      })
+      .option('path', {
+        alias: 'p',
+        description: 'Path to modules installation directory',
+        type: 'string',
+        default: '../frontend-packages',
+      })    
+      .help()
+      .alias('help', 'h')
+      .argv;
+    if (process.env.OPENIMIS_CONF !== 'undefined' && argv.config === null){
+      argv.config = process.env.OPENIMIS_CONF
+    }
+    console.log(`Config path: ${argv.config}, Modules path: ${argv.path}`);
 
-  console.log(`Config path resolved to: ${finalConfigPath}`);
-  main(finalConfigPath);
+  main(argv.config, argv.path);
 }
