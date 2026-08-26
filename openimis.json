@@ -137,6 +137,10 @@
         {
             "name": "PayrollModule",
             "npm": "@openimis/fe-payroll@https://github.com/openimis/openimis-fe-payroll_js#develop"
+        },
+        {
+            "name": "LedgerModule",
+            "npm": "@openimis/fe-ledger@https://github.com/openimis/openimis-fe-ledger_js#develop"
         }
     ]
 }
