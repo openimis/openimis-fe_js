@@ -32,8 +32,8 @@ FROM dev-stage AS build-stage
 USER node
 ENV GENERATE_SOURCEMAP=true
 ENV NODE_ENV=production
-RUN npm config set prefix /home/node/.npm-global
-RUN npm install -g npm@latest
+# Use the npm bundled with node:20 (10.8.2). npm@latest now requires node >=22
+# and react-scripts/craco below is not validated on node 22+.
 RUN npm run load-config
 RUN npm install  --include=dev --legacy-peer-deps
 RUN npm run build
