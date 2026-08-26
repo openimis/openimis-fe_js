@@ -1,4 +1,4 @@
-FROM node:20 AS dev-stage
+FROM node:22 AS dev-stage
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y nano openssl software-properties-common
