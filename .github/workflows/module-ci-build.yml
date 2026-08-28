@@ -86,7 +86,24 @@ jobs:
           sudo apt-get install jq
           PACKAGE_NAME=$(jq -r '.name' ../current-module/package.json)
           echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
-          export MODULE_NAME=$(grep -oP 'export\s+(?:const)?\s+\K\w+Module(?=\s+=)' ../current-module/src/index.js)
+          # 28 of 30 modules ship src/index.jsx, not src/index.js. An unresolved name
+          # used to append a nameless module and fail much later; fail here instead.
+          MODULE_ENTRY=""
+          for candidate in index.jsx index.js; do
+            if [ -f "../current-module/src/$candidate" ]; then
+              MODULE_ENTRY="../current-module/src/$candidate"
+              break
+            fi
+          done
+          if [ -z "$MODULE_ENTRY" ]; then
+            echo "::error::No src/index.jsx or src/index.js in the module"
+            exit 1
+          fi
+          export MODULE_NAME=$(grep -oP 'export\s+(?:const\s+)?\K\w+Module(?=\s*=)' "$MODULE_ENTRY" | head -1)
+          if [ -z "$MODULE_NAME" ]; then
+            echo "::error::Could not derive the module name from $MODULE_ENTRY"
+            exit 1
+          fi
           echo "MODULE_NAME=$MODULE_NAME" >> $GITHUB_ENV
           
           # Add or replace MODULE_NAME module in openimis.json (local version)
@@ -101,15 +118,30 @@ jobs:
 
       - name: Prepare openIMIS Dependencies
         working-directory: ./openimis-fe
+        # No entrypoint-dev.js here: it is the local-dev bootstrap, and it clones
+        # every module into ../frontend-packages, which does not exist on a runner.
         run: |
           cp openimis.json openimis-dev.json
-          node dev_tools/entrypoint-dev.js -c openimis-dev.json
           node openimis-config-vite.js -c openimis-dev.json
 
       - name: Install dependencies
         working-directory: ./openimis-fe
-        run: npm install --include=dev --legacy-peer-deps
+        # npm 11 refuses git dependencies without this; every module here is a git URL.
+        run: npm install --allow-git=all --include=dev --legacy-peer-deps
 
       - name: Build
         working-directory: ./openimis-fe
         run: npm run build
+
+      - name: Unit tests
+        working-directory: ./openimis-fe
+        # openimis.json points this module at ../current-module, so its tests run too.
+        if: success() || failure()
+        run: npm run test:coverage
+
+      - name: Upload coverage
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: ./openimis-fe/coverage/
