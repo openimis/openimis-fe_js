@@ -16,7 +16,7 @@ const defaultColors = {
     "repeating-linear-gradient(45deg, #D3D3D3 1px, #D3D3D3 1px, #fff 10px, #fff 10px)",
 };
 
-const createAppTheme = (colorOverrides = {}) => {
+const createAppTheme = (colorOverrides = {}, feCoreConfig = {}) => {
   const {
     primaryColor,
     errorColor,
@@ -30,6 +30,10 @@ const createAppTheme = (colorOverrides = {}) => {
     toggledButtonColor,
     lockedBackgroundPattern,
   } = { ...defaultColors, ...colorOverrides };
+
+  const configuredVariant = feCoreConfig?.Input?.variant ;
+  const normalizedVariant = typeof configuredVariant === "string" ? configuredVariant.toLowerCase() : undefined;
+  const inputVariant = ["standard", "outlined", "filled"].includes(normalizedVariant) ? normalizedVariant : "standard";
 
   const themeOptions = {
     breakpoints: {
@@ -52,13 +56,34 @@ const createAppTheme = (colorOverrides = {}) => {
         },
       },
       MuiTextField: {
-        defaultProps: { variant: "standard" },
+        defaultProps: { variant: inputVariant },
       },
       MuiSelect: {
-        defaultProps: { variant: "standard" },
+        defaultProps: { variant: inputVariant },
       },
       MuiFormControl: {
-        defaultProps: { variant: "standard" },
+        defaultProps: { variant: inputVariant },
+      },
+      MuiDatePicker: {
+        defaultProps: {
+          slotProps: {
+            textField: { variant: inputVariant },
+          },
+        },
+      },
+      MuiTimePicker: {
+        defaultProps: {
+          slotProps: {
+            textField: { variant: inputVariant },
+          },
+        },
+      },
+      MuiDateTimePicker: {
+        defaultProps: {
+          slotProps: {
+            textField: { variant: inputVariant },
+          },
+        },
       },
     },
     palette: {
