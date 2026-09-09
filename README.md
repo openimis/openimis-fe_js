@@ -211,7 +211,7 @@ Note: This image only provides the openimis frontend server. The full openIMIS d
 - this command allows to add files to execute CI on every PR and allows to publish to npm.
 - if `.github/workflows` doesn't exist in particular module, this directories are created while running this command
 - files to be added through that command based on provided templates:
-  - CI_and_build.yml
+  - ci-build.yaml
   - npmpublish.yml
 - those files are saved in `.github/workflows`
 

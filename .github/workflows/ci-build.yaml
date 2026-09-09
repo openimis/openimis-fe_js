@@ -34,9 +34,71 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Unit tests
+        if: success() || failure()
+        run: npm run test:coverage
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: frontend-${{ github.event_name == 'push' && github.ref_name || github.run_number }}-${{ github.sha }}
-          path: ./build/*
+          # Vite writes to dist/; ./build/* matched nothing.
+          path: ./dist/*
 
+      - name: Upload coverage
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: ./coverage/
+
+  shared_harness:
+    name: Module tests against this assembly
+    runs-on: ubuntu-latest
+    # The build job runs no module tests: stock openimis.json has no `file:` entries,
+    # so no module projects are generated. Two modules are enough to catch a change
+    # here or in fe-core's harness that would break all 30.
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: './openimis-fe'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Clone the sample modules
+        env:
+          TARGET_BRANCH: ${{ github.base_ref || github.ref_name }}
+        run: |
+          for repo in openimis-fe-core_js openimis-fe-individual_js; do
+            git clone --depth=1 --branch="$TARGET_BRANCH" "https://github.com/openimis/$repo.git" "./$repo" \
+              || git clone --depth=1 --branch=develop "https://github.com/openimis/$repo.git" "./$repo"
+            # Their own devDeps, so the `prepare: vite build` of the file: install
+            # below has vite on PATH; --ignore-scripts defers it until then.
+            (cd "./$repo" && npm install --legacy-peer-deps --ignore-scripts)
+          done
+
+      - name: Point the manifest at the clones
+        working-directory: ./openimis-fe
+        run: |
+          for repo in openimis-fe-core_js openimis-fe-individual_js; do
+            name=$(jq -r '.name' "../$repo/package.json")
+            jq --arg npm "$name@file:../$repo" \
+               --arg pkg "$name" \
+               '(.modules[] | select(.npm | startswith($pkg + "@")) | .npm) = $npm' \
+               openimis.json > temp.json && mv temp.json openimis.json
+          done
+          jq '.modules[].npm' openimis.json | grep file:
+
+      - name: Install dependencies
+        working-directory: ./openimis-fe
+        run: |
+          npm install -D yargs --legacy-peer-deps
+          npm run check-package
+          npm run load-config
+          npm install --allow-git=all --include=dev --legacy-peer-deps
+
+      - name: Module unit tests
+        working-directory: ./openimis-fe
+        run: npm run test:coverage

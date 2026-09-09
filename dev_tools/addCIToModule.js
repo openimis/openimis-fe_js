@@ -43,15 +43,15 @@ function addFileToGithubWorflow(moduleDirectory){
 
 
 function copySkeletonCIFiles(modulePath, githubFolders){
-    if (!fs.existsSync(path.join(modulePath.stdout, path.join(githubFolders, 'CI_and_build.yml')))) {
-        let skeletonFile = path.join(__dirname, path.join('skeletons', 'CI_and_build.yml'));
-        fs.copyFile(skeletonFile, path.join(modulePath.stdout, path.join(githubFolders, 'CI_and_build.yml')), (err) => {
+    if (!fs.existsSync(path.join(modulePath.stdout, path.join(githubFolders, 'ci-build.yaml')))) {
+        let skeletonFile = path.join(__dirname, path.join('skeletons', 'ci-build.yaml'));
+        fs.copyFile(skeletonFile, path.join(modulePath.stdout, path.join(githubFolders, 'ci-build.yaml')), (err) => {
             if (err) throw err;
-            console.log('CI_and_build.yml was copied!');
+            console.log('ci-build.yaml was copied!');
         });
     }
     else{
-        console.log('CI_and_build.yml already exists!');
+        console.log('ci-build.yaml already exists!');
     }
     
     

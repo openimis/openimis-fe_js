@@ -372,6 +372,7 @@ if (require.main === module) {
     })
     .help()
     .alias('help', 'h')
+    .argv;
 
   console.log(`dev entrypoint, p: ${argv.path}, c: ${argv.config}, host: ${argv.host}`);
   main(argv.config, argv.path);
