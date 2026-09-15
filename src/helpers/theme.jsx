@@ -35,6 +35,11 @@ const createAppTheme = (colorOverrides = {}, feCoreConfig = {}) => {
   const normalizedVariant = typeof configuredVariant === "string" ? configuredVariant.toLowerCase() : undefined;
   const inputVariant = ["standard", "outlined", "filled"].includes(normalizedVariant) ? normalizedVariant : "standard";
 
+  // Which main menu a wide screen gets: "AppBar" (top bar) or "Drawer" (left sidebar). Narrow
+  // screens ignore it and always take the hamburger + overlay drawer. `menuLeft` is the deprecated
+  // boolean this replaced; fe-core validates the value it gets here.
+  const menuVariant = feCoreConfig?.menu?.variant ?? (feCoreConfig?.menuLeft ? "Drawer" : "AppBar");
+
   const themeOptions = {
     breakpoints: {
       values: {
@@ -135,10 +140,10 @@ const createAppTheme = (colorOverrides = {}, feCoreConfig = {}) => {
       },
       iconSize: 32,
     },
-         menu: {
-       variant: "AppBar", 
-       drawer: {
-         width: "300px", // Must be string for CSS calc() in RequireAuth
+    menu: {
+      variant: menuVariant,
+      drawer: {
+        width: "300px", // Must be string for CSS calc() in RequireAuth
         fontSize: 16,
         fontWeight: 400,
         backgroundColor: primaryColor,

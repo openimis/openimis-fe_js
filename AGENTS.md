@@ -67,6 +67,7 @@ Follow patterns in `../frontend-packages/CoreModule/` (menus, reducers, translat
 - Source in `src/`; built output in `dist/` for published packages.
 - Translations in `src/translations/<lang>.json`.
 - Use `@openimis/fe-core` helpers for menus, formatting, GraphQL calls, and layout.
+- An input or picker's "no value" is `null`/`undefined`, never `""` — `SelectInput` JSON-encodes its value, so an empty string reaches MUI as the literal `""`, matches no option, and triggers an out-of-range warning on every render.
 
 ### Linking a module for local work
 
@@ -95,14 +96,25 @@ Base ESLint config is in `frontend/package.json` (`eslint:recommended`, `plugin:
 
 ## Testing
 
-The assembly includes **Vitest** as a dev dependency. Module-level tests are not as standardized as backend Django tests; check each module for its own test setup.
+**Vitest** runs from the assembly only — modules carry no runner of their own. `vitest.config.js` builds one project per test target: the assembly itself, plus every module declared in `openimis.json` / `openimis-dev.json` with an `@file:` spec. A module linked only through a `node_modules` symlink is **not** picked up, so link it in the manifest before expecting its tests to run.
 
 ```bash
 cd frontend
-npx vitest        # when tests exist
+npm test                    # vitest run, all projects
+npx vitest                  # watch mode
+npx vitest run SelectInput  # filter by path fragment
 ```
 
-For UI changes, manual verification via `npm run start` against a running backend is the primary workflow.
+Projects are rooted at the assembly, not the module: react, MUI and redux are peerDependencies with a single copy here. `test/setup.js` registers jest-dom and per-test `cleanup`; mocks are cleared and restored between tests.
+
+Conventions for tests in any module:
+
+- Colocate `<Subject>.test.{js,jsx}` next to the subject, one file per subject — do not test a second component in a file named after another.
+- Render components through `@openimis/fe-core/testing` (`renderWithProviders`, `makeStore`, `mockModulesManager`), which wraps theme, store, intl, router and the modules manager. That subpath is aliased in the Vitest config and must never be imported from production code.
+- Prefer plain static imports; top-level `await import()` is only needed when a `vi.mock` has to be registered first.
+- Mark known-broken behaviour with `it.fails` and a comment rather than deleting the test.
+
+`passWithNoTests` is on, so targeting a module without tests does not fail CI. For UI changes, manual verification via `npm run start` against a running backend remains the primary workflow.
 
 ## Documentation
 

@@ -1,0 +1,13 @@
+# Copy to .github/workflows/ci-build.yaml as-is. The steps live in the reusable
+# workflow in openimis-fe_js, so fixes land there once and apply to every module.
+name: CI Build
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    uses: openimis/openimis-fe_js/.github/workflows/module-ci-build.yml@develop
+    with:
+      branchName: ${{ github.head_ref || github.ref_name }}
