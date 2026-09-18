@@ -103,6 +103,7 @@ export default defineConfig(({ mode }) => ({
       "react-intl": path.resolve(__dirname, "./node_modules/react-intl"),
       "lodash/debounce": path.resolve(__dirname, "./node_modules/lodash.debounce"),
       "zxcvbn": path.resolve(__dirname, "./node_modules/zxcvbn"),
+      "qrcode.react": path.resolve(__dirname, "./node_modules/qrcode.react"),
       "react-router": path.resolve(__dirname, "./node_modules/react-router"),
       "react-router-dom": path.resolve(__dirname, "./node_modules/react-router-dom"),
       "react-helmet": path.resolve(__dirname, "./node_modules/react-helmet"),
