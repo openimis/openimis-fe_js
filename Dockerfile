@@ -66,8 +66,10 @@ ENV REACT_APP_SENTRY_DSN=""
 ENV ROOT_MOBILEAPI="rest"
 ENV FORCE_RELOAD=""
 ENV OPENSEARCH_PROXY_ROOT="opensearch"
-# Needed even when empty: envsubst leaves unset vars literal, and nginx then
-# fails to start with 'unknown "opensearch_basic_token" variable'.
+# Not referenced by this image's own conf any more. Kept because a deployment
+# may mount an older conf/nginx that still is: envsubst would leave the
+# variable literal and nginx would fail with 'unknown "opensearch_basic_token"
+# variable'. Do not remove without checking the mounted configurations.
 ENV OPENSEARCH_BASIC_TOKEN=""
 ENTRYPOINT ["/bin/bash", "/script/entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
