@@ -12,27 +12,20 @@ const SETUP_FILE = path.resolve(ASSEMBLY_ROOT, "test/setup.js");
 // Kept in a separate file: the openIMIS generators rewrite vite.config.js.
 const viteResolve = viteConfig({ mode: "test", command: "serve" }).resolve;
 
-// A `file:` fe-core gets an alias to its src/ from load-config, so the subpath
-// rides along; one installed from git or npm does not, which is CI's case.
-function coreTestingPath() {
-  const candidates = [
-    ...localModules()
-      .filter(({ name }) => name === "fe-core")
-      .map(({ root }) => root),
-    path.resolve(ASSEMBLY_ROOT, "node_modules/@openimis/fe-core"),
-  ];
-  return candidates.map((root) => path.join(root, "src/testing")).find((dir) => fs.existsSync(dir));
-}
-
-const CORE_TESTING = coreTestingPath();
+// load-config aliases a file: fe-core to its src/; give a git install (CI) the same
+// alias so deep imports like @openimis/fe-core/helpers/api resolve.
+const INSTALLED_CORE_SRC = path.resolve(ASSEMBLY_ROOT, "node_modules/@openimis/fe-core/src");
+const coreAlias =
+  !viteResolve.alias?.["@openimis/fe-core"] && fs.existsSync(INSTALLED_CORE_SRC)
+    ? { "@openimis/fe-core": INSTALLED_CORE_SRC }
+    : {};
 
 // Test libs live only in the assembly's node_modules; a module test file cannot
 // reach them by directory walk, so resolve them from the root like react et al.
 const sharedResolve = {
   ...viteResolve,
   alias: {
-    // Vite matches string aliases by prefix, so this must precede the fe-core one.
-    ...(CORE_TESTING ? { "@openimis/fe-core/testing": CORE_TESTING } : {}),
+    ...coreAlias,
     ...viteResolve.alias,
   },
   dedupe: [
