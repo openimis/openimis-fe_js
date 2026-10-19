@@ -1,7 +1,7 @@
 {
   "name": "openimis-fe-module-lint",
   "private": true,
-  "description": "Correctness lint run against every frontend module by .github/workflows/module-lint.yml",
+  "description": "Correctness lint run against every frontend module by the lint job of .github/workflows/module-ci-build.yml",
   "type": "module",
   "scripts": {
     "lint": "eslint -c eslint.config.mjs --no-config-lookup"

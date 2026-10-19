@@ -1,6 +1,6 @@
 // Correctness lint for openIMIS frontend modules - the frontend's flake8 F-codes.
 //
-// Run by .github/workflows/module-lint.yml against a module's src/, ignoring the
+// Run by the `lint` job of .github/workflows/module-ci-build.yml against a module's src/, ignoring the
 // module's own config. Each module may keep its own style config (airbnb etc.)
 // for local use; this one is deliberately narrow so that it can block CI:
 //

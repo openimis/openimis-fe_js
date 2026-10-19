@@ -16,4 +16,6 @@ openimis-dev.json
 .package-lock.json
 .DS_Store
 package-lock.json
+# The lint job runs `npm ci`, which needs this lockfile.
+!lint/package-lock.json
 coverage
