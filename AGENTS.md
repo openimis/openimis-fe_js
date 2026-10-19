@@ -144,7 +144,7 @@ Conventions for tests in any module:
 - Colocate `<Subject>.test.{js,jsx}` next to the subject, one file per subject — do not test a second component in a file named after another.
 - Render components through `@openimis/fe-core/testing` (`renderWithProviders`, `makeStore`, `mockModulesManager`), which wraps theme, store, intl, router and the modules manager. That subpath is aliased in the Vitest config and must never be imported from production code.
 - Prefer plain static imports; top-level `await import()` is only needed when a `vi.mock` has to be registered first.
-- Mark known-broken behaviour with `it.fails` and a comment rather than deleting the test. An `it.fails` that starts passing is reported as a **failure**, so the change that fixes the behaviour must flip it to `it` in the same commit. Stale `it.fails` tests are what kept fe-core's own suite failing on `release/26.10`.
+- Mark known-broken behaviour with `it.fails` and a comment rather than deleting the test. An `it.fails` that starts passing is reported as a **failure**, so the change that fixes the behaviour must flip it to `it` in the same commit. Two of the four tests failing in fe-core's suite on `release/26.10` were exactly this.
 
 ### Fixing a bug: the test comes first
 
