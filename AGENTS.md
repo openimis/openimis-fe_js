@@ -91,7 +91,24 @@ Individual modules typically expose their own `npm run format` (e.g. `prettier s
 
 ### ESLint
 
-Base ESLint config is in `frontend/package.json` (`eslint:recommended`, `plugin:react/recommended`). Modules should not introduce lint errors in `src/`.
+**Run the correctness lint after every change to a module**, before committing:
+
+```bash
+cd frontend/lint && npm ci                       # once
+cd frontend-packages/<Module>                    # run from the module, not from lint/
+../../frontend/lint/node_modules/.bin/eslint -c ../../frontend/lint/eslint.config.mjs --no-config-lookup src
+```
+
+`lint/eslint.config.mjs` is the frontend's equivalent of flake8's `F` codes: narrow on purpose, and the same for every module, whatever the module's own ESLint config says.
+
+- **error**: the code is wrong when it runs. That covers a name used but never declared, a relative import that resolves to nothing or names something the target does not export, and a `case` that can never match. A green `npm run build` proves none of this: Vite leaves these names alone and the page throws `ReferenceError` only when the line runs.
+- **warn**: unused variables, duplicate imports, missing `key`, hook misuse. Reported, not blocking.
+
+Do not leave an error behind, including in files you did not otherwise touch but did edit.
+
+CI runs the same check: `module-ci-build.yml` has a `lint` job, so every module PR gets the findings as annotations. It is report-only while the `lintBlocking` input defaults to `false`, and becomes blocking once that default is flipped.
+
+Base ESLint config is in `frontend/package.json` (`eslint:recommended`, `plugin:react/recommended`). That is the editor's style config, not the CI check above.
 
 ## Testing
 
