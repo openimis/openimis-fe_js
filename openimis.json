@@ -139,8 +139,8 @@
             "npm": "@openimis/fe-payroll@https://github.com/openimis/openimis-fe-payroll_js.git#release/26.10"
         },
         {
-            "name": "HomeMessagesModule",
-            "npm": "@openimis/fe-home-messages@https://github.com/openimis/openimis-fe-home-messages_js.git#release/26.10"
+            "name": "NoticeModule",
+            "npm": "@openimis/fe-notice@https://github.com/openimis/openimis-fe-notice_js.git#release/26.10"
         }
     ]
 }
