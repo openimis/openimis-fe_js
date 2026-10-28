@@ -7,6 +7,12 @@ on:
         required: false
         type: string
         default: 'develop'
+      lintBlocking:
+        # Report-only while modules still carry errors the lint finds; flip the
+        # default to true once every calling module is clean.
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   build_frontend:
@@ -145,3 +151,66 @@ jobs:
         with:
           name: coverage
           path: ./openimis-fe/coverage/
+
+  lint:
+    name: ESLint (correctness)
+    # Its own job so a lint finding never hides the build or test results.
+    runs-on: ubuntu-latest
+    steps:
+      # setup-node registers the eslint-stylish problem matcher, so each finding
+      # becomes an annotation on the PR diff.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Pull the lint config from openIMIS Frontend
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
+          REF_NAME: ${{ github.ref_name }}
+        # Same branch resolution as build_frontend, so lint and build use one fe_js.
+        run: |
+          if [ "$EVENT_NAME" == "pull_request" ]; then
+            SOURCE_BRANCH="${PR_HEAD_REF:-develop}"
+            TARGET_BRANCH="${PR_BASE_REF:-develop}"
+          else
+            SOURCE_BRANCH="${REF_NAME:-develop}"
+            TARGET_BRANCH="develop"
+          fi
+          for BRANCH in "$SOURCE_BRANCH" "$TARGET_BRANCH" develop; do
+            if git ls-remote --heads https://github.com/openimis/openimis-fe_js.git "$BRANCH" | grep -qF "refs/heads/$BRANCH"; then
+              echo "Lint config from openimis-fe_js@$BRANCH"
+              git clone --depth=1 --filter=blob:none --sparse --branch="$BRANCH" \
+                https://github.com/openimis/openimis-fe_js.git ./openimis-fe
+              git -C ./openimis-fe sparse-checkout set lint
+              break
+            fi
+          done
+          if [ ! -f ./openimis-fe/lint/eslint.config.mjs ]; then
+            echo "::warning::No lint/ in the resolved openimis-fe_js branch; lint skipped"
+          fi
+
+      - name: Copy Current branch
+        uses: actions/checkout@v4
+        with:
+          path: './current-module'
+
+      - name: Install linter
+        if: hashFiles('openimis-fe/lint/eslint.config.mjs') != ''
+        working-directory: ./openimis-fe/lint
+        run: npm ci --no-audit --no-fund
+
+      - name: Run ESLint
+        if: hashFiles('openimis-fe/lint/eslint.config.mjs') != ''
+        working-directory: ./current-module
+        env:
+          BLOCKING: ${{ inputs.lintBlocking }}
+        run: |
+          if ../openimis-fe/lint/node_modules/.bin/eslint -c ../openimis-fe/lint/eslint.config.mjs --no-config-lookup src; then
+            exit 0
+          fi
+          if [ "$BLOCKING" == "true" ]; then
+            exit 1
+          fi
+          echo "::warning::ESLint found errors (annotated above). Report-only for now: lintBlocking is false."

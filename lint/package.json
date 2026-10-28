@@ -1,0 +1,17 @@
+{
+  "name": "openimis-fe-module-lint",
+  "private": true,
+  "description": "Correctness lint run against every frontend module by the lint job of .github/workflows/module-ci-build.yml",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint -c eslint.config.mjs --no-config-lookup"
+  },
+  "devDependencies": {
+    "eslint": "9.39.5",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "16.5.0"
+  }
+}
