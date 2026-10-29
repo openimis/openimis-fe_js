@@ -1,5 +1,11 @@
 name: Publish Node.js Package to Registry
 
+# npmjs.org: trusted publishing (OIDC), no token. The calling job must grant
+# `id-token: write`, and each package's trusted publisher on npmjs.com must name
+# the caller's workflow file (npmpublish.yml in the module repo), not this file.
+# GitHub Packages: still a token, the caller's GITHUB_TOKEN passed as NPM_TOKEN,
+# with `packages: write` and without `id-token: write`.
+
 on:
   workflow_call:
     inputs:
@@ -29,8 +35,8 @@ on:
         type: string
     secrets:
       NPM_TOKEN:
-        description: 'NPM authentication token'
-        required: true
+        description: 'Registry token, only for registries without trusted publishing (GitHub Packages)'
+        required: false
 
 jobs:
   publish:
@@ -48,7 +54,11 @@ jobs:
           registry-url: ${{ inputs.registry_url }}
           scope: ${{ inputs.scope }}
 
+      - name: Upgrade npm (trusted publishing needs npm >= 11.5.1)
+        run: npm install -g npm@11
+
       - name: Update version with TAG
+        id: version
         run: |
           TAG_NAME="${{ inputs.tag }}"
           if [ -z "$TAG_NAME" ]; then
@@ -59,18 +69,35 @@ jobs:
               TAG_NAME=$(git tag --sort=-version:refname | head -n 1)
             fi
           fi
-          echo "tag to use $TAG_NAME"
-          jq --arg a "$TAG_NAME" '.version = $a' package.json > temp.json && mv temp.json package.json
+          VERSION="${TAG_NAME#v}"
+          echo "tag to use $TAG_NAME, version $VERSION"
+          # provenance is rejected unless repository.url matches the repo that builds the package
+          jq --arg v "$VERSION" --arg r "git+https://github.com/${{ github.repository }}.git" \
+            '.version = $v | .repository = {type: "git", url: $r}' package.json > temp.json && mv temp.json package.json
+          echo "name=$(jq -r .name package.json)" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Check if this version is already published
+        id: published
+        run: |
+          if npm view "${{ steps.version.outputs.name }}@${{ steps.version.outputs.version }}" version --registry "${{ inputs.registry_url }}" 2>/dev/null | grep -q .; then
+            echo "already published on ${{ inputs.registry_url }}, skipping"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install dependencies
+        if: steps.published.outputs.exists != 'true'
         run: npm install
 
       - name: Publish package
+        if: steps.published.outputs.exists != 'true'
         run: |
           if [ -n "${{ inputs.tag }}" ]; then
-            npm publish --tag ${{ inputs.tag }} --access ${{ inputs.access }} --no-git-tag-version
+            npm publish --tag ${{ inputs.tag }} --access ${{ inputs.access }}
           else
-            npm publish --access ${{ inputs.access }} --no-git-tag-version
+            npm publish --access ${{ inputs.access }}
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
