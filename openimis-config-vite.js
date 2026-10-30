@@ -282,7 +282,8 @@ function main(config, moduleRootPath) {
       packageName = parseNpmName(module);
       version = npm.substring(npm.lastIndexOf("@") + 1);
       modulePath = null;
-      npmNew = npm;
+      // package.json takes the version range only: the full "@scope/name@range" is read as a local path
+      npmNew = version;
     }
 
     console.log(`Added "${packageName}": ${npm}`);
