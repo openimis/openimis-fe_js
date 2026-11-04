@@ -213,7 +213,6 @@ export default defineConfig(({ mode }) => ({
        },
     },
     commonjsOptions: {
-      requireReturnsDefault: "auto",
       include: [/node_modules\/(?!@openimis)/],
       transformMixedEsModules: true,
     },
