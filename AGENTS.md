@@ -67,6 +67,7 @@ Follow patterns in `../frontend-packages/CoreModule/` (menus, reducers, translat
 - Source in `src/`; built output in `dist/` for published packages.
 - Translations in `src/translations/<lang>.json`.
 - Use `@openimis/fe-core` helpers for menus, formatting, GraphQL calls, and layout.
+- An input or picker's "no value" is `null`/`undefined`, never `""` — `SelectInput` JSON-encodes its value, so an empty string reaches MUI as the literal `""`, matches no option, and triggers an out-of-range warning on every render.
 
 ### Linking a module for local work
 
@@ -112,14 +113,49 @@ Base ESLint config is in `frontend/package.json` (`eslint:recommended`, `plugin:
 
 ## Testing
 
-The assembly includes **Vitest** as a dev dependency. Module-level tests are not as standardized as backend Django tests; check each module for its own test setup.
+**Vitest** runs from the assembly only — modules carry no runner of their own. `vitest.config.js` builds one project per test target: the assembly itself, plus every module declared in `openimis.json` / `openimis-dev.json` with an `@file:` spec. A module linked only through a `node_modules` symlink is **not** picked up, so link it in the manifest before expecting its tests to run.
 
 ```bash
 cd frontend
-npx vitest        # when tests exist
+npm test                    # vitest run, all projects
+npx vitest                  # watch mode
+npx vitest run SelectInput  # filter by path fragment
+npx vitest run --project fe-claim   # one module: the package name without @openimis/
 ```
 
-For UI changes, manual verification via `npm run start` against a running backend is the primary workflow.
+**Check that your module's tests actually ran.** If `npm test` lists only the `assembly` project, no module is declared with `@file:`: the `vite.config.js` aliases written by the dev setup do not count, and the run passes without testing any module. To test a module checkout or worktree that is not declared that way, use a throwaway config that reuses the assembly's project setup:
+
+```js
+// /tmp/vitest.module.mjs - run: npx vitest run -c /tmp/vitest.module.mjs --root .
+import base from "<abs path>/frontend/vitest.config.js";
+const p = base.test.projects[0];
+export default { ...base, test: { ...base.test, projects: [{ ...p,
+  server: { fs: { allow: ["/"] } },
+  test: { ...p.test, name: "module", include: ["<abs module path>/src/**/*.test.{js,jsx}"], dir: "/" },
+}] } };
+```
+
+Run the tests of every module you change after each change, together with the correctness lint above.
+
+Projects are rooted at the assembly, not the module: react, MUI and redux are peerDependencies with a single copy here. `test/setup.js` registers jest-dom and per-test `cleanup`; mocks are cleared and restored between tests.
+
+Conventions for tests in any module:
+
+- Colocate `<Subject>.test.{js,jsx}` next to the subject, one file per subject — do not test a second component in a file named after another.
+- Render components through `@openimis/fe-core/testing` (`renderWithProviders`, `makeStore`, `mockModulesManager`), which wraps theme, store, intl, router and the modules manager. That subpath is aliased in the Vitest config and must never be imported from production code.
+- Prefer plain static imports; top-level `await import()` is only needed when a `vi.mock` has to be registered first.
+- Mark known-broken behaviour with `it.fails` and a comment rather than deleting the test. An `it.fails` that starts passing is reported as a **failure**, so the change that fixes the behaviour must flip it to `it` in the same commit. Two of the four tests failing in fe-core's suite on `release/26.10` were exactly this.
+
+### Fixing a bug: the test comes first
+
+1. **Capture the wrong behaviour** in a test before touching the code: it asserts the *correct* behaviour and fails for the reason the bug report describes, not because of a typo or a missing mock. Run it and read why it fails.
+2. **That test is the definition of done.** Fix the code until it passes, without editing the test. Then run the module's whole suite and the lint.
+3. **Do not change what the test asserts in order to make it pass.** If the fix shows the expected behaviour itself was wrong, that is a functional decision: stop and raise it with the user or the reviewer, and do not adjust the test silently. The same applies to an existing test that a change breaks: find out whether the test or the change is wrong before editing either.
+4. Changes that only touch the harness, such as test data shape, a missing provider or a mock, are fine. Say so in the PR.
+
+When the behaviour cannot be reached from a unit test (a full page needing a backend, for example), say so in the PR and list the manual check instead.
+
+`passWithNoTests` is on, so targeting a module without tests does not fail CI. For UI changes, manual verification via `npm run start` against a running backend remains the primary workflow.
 
 ## Documentation
 
