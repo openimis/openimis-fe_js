@@ -12,29 +12,36 @@ const SETUP_FILE = path.resolve(ASSEMBLY_ROOT, "test/setup.js");
 // Kept in a separate file: the openIMIS generators rewrite vite.config.js.
 const viteResolve = viteConfig({ mode: "test", command: "serve" }).resolve;
 
-// A `file:` fe-core gets an alias to its src/ from load-config, so the subpath
-// rides along; one installed from git or npm does not, which is CI's case.
-function coreTestingPath() {
+// fe-core has no `exports` map and keeps its sources under src/, so a subpath such
+// as `@openimis/fe-core/helpers/api` resolves against the package root and fails,
+// whether fe-core is a `file:` checkout or installed from git or npm (CI's case).
+// Tests use these subpaths to reach `testing` and to import a defining module
+// directly, because the fe-core barrel imports itself.
+function coreSrcPath() {
   const candidates = [
     ...localModules()
       .filter(({ name }) => name === "fe-core")
       .map(({ root }) => root),
     path.resolve(ASSEMBLY_ROOT, "node_modules/@openimis/fe-core"),
   ];
-  return candidates.map((root) => path.join(root, "src/testing")).find((dir) => fs.existsSync(dir));
+  return candidates.map((root) => path.join(root, "src")).find((dir) => fs.existsSync(path.join(dir, "testing")));
 }
 
-const CORE_TESTING = coreTestingPath();
+const CORE_SRC = coreSrcPath();
+
+const aliasEntries = (alias = {}) =>
+  Array.isArray(alias) ? alias : Object.entries(alias).map(([find, replacement]) => ({ find, replacement }));
 
 // Test libs live only in the assembly's node_modules; a module test file cannot
 // reach them by directory walk, so resolve them from the root like react et al.
 const sharedResolve = {
   ...viteResolve,
-  alias: {
-    // Vite matches string aliases by prefix, so this must precede the fe-core one.
-    ...(CORE_TESTING ? { "@openimis/fe-core/testing": CORE_TESTING } : {}),
-    ...viteResolve.alias,
-  },
+  alias: [
+    // Subpaths only: the bare `@openimis/fe-core` keeps resolving to the package
+    // entry. It must precede the generated aliases, which match by prefix.
+    ...(CORE_SRC ? [{ find: /^@openimis\/fe-core\/(?!dist\/)(.+)$/, replacement: `${CORE_SRC}/$1` }] : []),
+    ...aliasEntries(viteResolve.alias),
+  ],
   dedupe: [
     ...viteResolve.dedupe,
     "@testing-library/react",
