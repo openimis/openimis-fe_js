@@ -42,6 +42,7 @@
     "moment": "^2.25.3",
     "nepali-date-converter": "^1.0.1",
     "prop-types": "^15.7.2",
+    "qrcode.react": "^4.2.0",
     "rc-cascader": "^3.34.0",
     "react": "^18.2.0",
     "react-app-polyfill": "^3.0.0",
