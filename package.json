@@ -104,8 +104,5 @@
     "vite-plugin-svgr": "^4.2.0",
     "vitest": "^4.1.10",
     "yargs": "^18.0.0"
-  },
-  "overrides": {
-    "esbuild": "0.23.0"
   }
 }
