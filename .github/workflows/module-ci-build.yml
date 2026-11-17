@@ -13,6 +13,17 @@ on:
         required: false
         type: boolean
         default: false
+      i18nBlocking:
+        # Report-only, like lintBlocking: a key used in src/ but missing from
+        # src/translations/en.json fails the job only once this is true.
+        required: false
+        type: boolean
+        default: false
+    secrets:
+      LOKALISE_APIKEY:
+        # Optional read-only Lokalise token; without it (or on a fork PR) the
+        # Lokalise part of the i18n job is skipped with a warning.
+        required: false
 
 jobs:
   build_frontend:
@@ -214,3 +225,66 @@ jobs:
             exit 1
           fi
           echo "::warning::ESLint found errors (annotated above). Report-only for now: lintBlocking is false."
+
+  i18n:
+    name: Translations (en.json)
+    # Its own job, like lint: a translation finding never hides the build or test results.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Pull the i18n check from openIMIS Frontend
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
+          REF_NAME: ${{ github.ref_name }}
+        # Same branch resolution as the lint job. src/translations holds the keys
+        # the assembly provides to every module (ref.json).
+        run: |
+          if [ "$EVENT_NAME" == "pull_request" ]; then
+            SOURCE_BRANCH="${PR_HEAD_REF:-develop}"
+            TARGET_BRANCH="${PR_BASE_REF:-develop}"
+          else
+            SOURCE_BRANCH="${REF_NAME:-develop}"
+            TARGET_BRANCH="develop"
+          fi
+          for BRANCH in "$SOURCE_BRANCH" "$TARGET_BRANCH" develop; do
+            if git ls-remote --heads https://github.com/openimis/openimis-fe_js.git "$BRANCH" | grep -qF "refs/heads/$BRANCH"; then
+              echo "i18n check from openimis-fe_js@$BRANCH"
+              git clone --depth=1 --filter=blob:none --sparse --branch="$BRANCH" \
+                https://github.com/openimis/openimis-fe_js.git ./openimis-fe
+              git -C ./openimis-fe sparse-checkout set lint src/translations
+              break
+            fi
+          done
+          if [ ! -f ./openimis-fe/lint/i18n-check.mjs ]; then
+            echo "::warning::No lint/i18n-check.mjs in the resolved openimis-fe_js branch; translation check skipped"
+          fi
+
+      - name: Copy Current branch
+        uses: actions/checkout@v4
+        with:
+          path: './current-module'
+
+      - name: Install the check's dependencies
+        if: hashFiles('openimis-fe/lint/i18n-check.mjs') != ''
+        working-directory: ./openimis-fe/lint
+        run: npm ci --no-audit --no-fund
+
+      - name: Check translations
+        if: hashFiles('openimis-fe/lint/i18n-check.mjs') != ''
+        working-directory: ./current-module
+        env:
+          BLOCKING: ${{ inputs.i18nBlocking }}
+          LOKALISE_APIKEY: ${{ secrets.LOKALISE_APIKEY }}
+        run: |
+          if node ../openimis-fe/lint/i18n-check.mjs --strict; then
+            exit 0
+          fi
+          if [ "$BLOCKING" == "true" ]; then
+            exit 1
+          fi
+          echo "::warning::Translation keys are missing from en.json (annotated above). Report-only for now: i18nBlocking is false."

@@ -111,6 +111,30 @@ CI runs the same check: `module-ci-build.yml` has a `lint` job, so every module 
 
 Base ESLint config is in `frontend/package.json` (`eslint:recommended`, `plugin:react/recommended`). That is the editor's style config, not the CI check above.
 
+### Translations
+
+Check a module's translation keys with the same tooling (it needs the `npm ci` in `lint/` above):
+
+```bash
+cd frontend-packages/<Module>
+node ../../frontend/lint/i18n-check.mjs            # add --verbose to list computed ids and possibly unused keys
+```
+
+It resolves keys the way fe-core does (`formatMessage(intl, module, id)`, `formatMessageWithValues`,
+`<FormattedMessage module id>` and the `label` of inputs and pickers given a `module`: `${module}.${id}`, then the
+bare `id`, then the assembly's `src/translations/ref.json`) and reports:
+
+- **error**: a static key used in `src/` that `src/translations/en.json` lacks. A module that nests its `en.json` must
+  `flatten` it (package `flat`) where it contributes the translations; otherwise every nested key counts as missing.
+- **warning**: an empty English text, a nested object nobody flattens, and, when `LOKALISE_APIKEY` is set, an `en.json`
+  key not yet in the Lokalise frontend project.
+- **notice**: ids it cannot check (computed, or a module passed as a variable) and possibly unused keys. Keys of
+  other modules (`formatMessage(intl, "core", …)`) are not checked: their `en.json` is not available.
+
+CI runs it as the `i18n` job of `module-ci-build.yml`, report-only while the `i18nBlocking` input defaults to `false`.
+The Lokalise part needs the optional `LOKALISE_APIKEY` secret (a read-only token is enough) passed by the calling
+workflow, for example `secrets: inherit`; without it the job only warns.
+
 ## Testing
 
 **Vitest** runs from the assembly only — modules carry no runner of their own. `vitest.config.js` builds one project per test target: the assembly itself, plus every module declared in `openimis.json` / `openimis-dev.json` with an `@file:` spec. A module linked only through a `node_modules` symlink is **not** picked up, so link it in the manifest before expecting its tests to run.
