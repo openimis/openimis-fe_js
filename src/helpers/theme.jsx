@@ -287,7 +287,9 @@ const createAppTheme = (colorOverrides = {}, feCoreConfig = {}) => {
       position: "fixed",
       bottom: 15,
       right: 8,
-      zIndex: 2000,
+      // Above the drawers (MUI 1200), below dialogs (1300): a page's floating buttons
+      // must never cover a dialog's own actions (OP-3306).
+      zIndex: 1250,
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-end",
@@ -299,7 +301,9 @@ const createAppTheme = (colorOverrides = {}, feCoreConfig = {}) => {
       position: "fixed",
       bottom: 20,
       right: 8,
-      zIndex: 2000,
+      // Above the drawers (MUI 1200), below dialogs (1300): a page's floating buttons
+      // must never cover a dialog's own actions (OP-3306).
+      zIndex: 1250,
     },
     fakeInput: {},
     bigAvatar: {
