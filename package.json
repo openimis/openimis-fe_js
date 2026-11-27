@@ -1,6 +1,6 @@
 {
   "name": "@openimis/fe",
-  "version": "26.10",
+  "version": "26.10.1",
   "license": "AGPL-3.0-only",
   "proxies": {
     "api": {
